@@ -31,10 +31,11 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pyyaml
+          pip install supabase
           # Install the package with core dependencies first
           pip install -e .
 
-      - name: Run get_premium_fans_generator.py
+      - name: Run get_premium_fans generator
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
