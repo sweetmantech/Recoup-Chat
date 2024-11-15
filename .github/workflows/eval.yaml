@@ -34,9 +34,17 @@ jobs:
           # Install the package with core dependencies first
           pip install -e .
 
+      - name: Run get_premium_fans_generator.py
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          echo "Running get_premium_fans registry data generator"
+          python evals/scripts/get_premium_fans_generator.py
+
       - name: Run Recoup Evals
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          echo "Processing recoup"
-          oaieval gpt-3.5-turbo recoup
+          echo "Processing get_premium_fans"
+          oaieval gpt-3.5-turbo get_premium_fans
