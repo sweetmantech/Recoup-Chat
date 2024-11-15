@@ -3,8 +3,8 @@ import os
 import string
 from supabase import create_client
 
-supabase_url = os.environ.get("NEXT_PUBLIC_SUPABASE_URL")
-supabase_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+supabase_url = os.environ.get("SUPABSE_URL")
+supabase_key = os.environ.get("SUPABASE_KEY")
 supabase = create_client(supabase_url, supabase_key)
 
 CURRENT_DIR = os.path.dirname(__file__)
