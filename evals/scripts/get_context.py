@@ -24,8 +24,8 @@ def get_context(artist_id, email):
         "audioBooks": limit_collection(campaign.get("audio_books", [])),
         "episodes": limit_collection(campaign.get("episodes", [])),
         "shows": limit_collection(campaign.get("shows", [])),
-        "premiumCount": premium_count,
-        "freeCount": free_count,
+        "premiumFansCount": premium_count,
+        "freeFansCount": free_count,
         "totalFansCount": len(campaign.get("fans", [])),
         "fans": limit_collection(campaign.get('fans', []), 100)
     }
