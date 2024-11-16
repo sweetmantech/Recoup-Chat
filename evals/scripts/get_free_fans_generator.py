@@ -52,7 +52,7 @@ for artist_id, email in mock_data:
             f"Question: How many fans have a free Spotify account??\n\n"
             f"{instruction_str}"
         ),
-        "ideal": str(context['free_spotify_fans_count'])
+        "ideal": str(context['free_fans_count'])
     }
 
     registry_data += json.dumps(content) + "\n"
