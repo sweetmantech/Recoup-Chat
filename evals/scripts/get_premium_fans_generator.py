@@ -9,6 +9,11 @@ supabase = create_client(supabase_url, supabase_key)
 CURRENT_DIR = os.path.dirname(__file__)
 REGISTRY_PATH = os.path.join(CURRENT_DIR, "../registry")
 
+def limit_collection(collection, limit=20):
+    if collection is None:
+        return []
+    return collection[:limit]
+
 def get_premium_fans(artist_id, email):
     response = supabase.rpc('get_campaign', {'artistid': artist_id, 'email': email, 'clientid': ''}).execute()
     if response.data:
@@ -18,7 +23,22 @@ def get_premium_fans(artist_id, email):
 
 def get_context(artist_id, email):
     response = supabase.rpc('get_campaign', {'artistid': artist_id, 'email': email, 'clientid': ''}).execute()
-    return response.data
+    campaign = response.data
+    premium_count = len([fan for fan in campaign.get("fans", []) if fan.get("product") == "premium"])
+    free_count = len([fan for fan in campaign.get("fans", []) if fan.get("product") == "free"])
+   
+    return {
+        "tracks": limit_collection(campaign.get("tracks", [])),
+        "artists": limit_collection(campaign.get("artists", [])),
+        "playlists": limit_collection(campaign.get("playlists", [])),
+        "albums": limit_collection(campaign.get("albums", [])),
+        "audioBooks": limit_collection(campaign.get("audio_books", [])),
+        "episodes": limit_collection(campaign.get("episodes", [])),
+        "shows": limit_collection(campaign.get("shows", [])),
+        "premiumCount": premium_count,
+        "freeCount": free_count,
+        "totalFansCount": len(campaign.get("fans", [])),
+    }
 
 YAML = """
 get_premium_fans:
@@ -58,22 +78,10 @@ for artist_id, email in mock_data:
         context_str = "No context available."
     content = {
         "input": f"Context: {context_str}\n"
-                  "Question: What is the total number of fans with a premium Spotify account?\n\n"
-                  "1. Due to Apple's policy, do not collect Apple Music emails. No recommendations or insights are needed.\n"
-                  "For example: 'Due to Apple's policy, we do not collect Apple Music emails.'\n"
-                  "2. The guidelines below outline responses based on question type:\n"
-                  "- Count Queries: Respond with only the number, NOTHING ELSE.\n"
-                  "- Artists, Albums, Episodes, Playlists, Audio Books, Tracks, Shows: Provide only relevant information.\n"
-                  "- Country Distribution Fans: Format as [country name]: [fan count] with <li> tags.\n"
-                  "- Listening Habits (4 Sentences):\n"
-                  "    a. Overview: Summarize listening trends, including genres, artists, content types, countries, cities, and segments.\n"
-                  "    b. Content Breakdown: Highlight popular items and standout artists.\n"
-                  "    c. Engagement Metrics: Report key statistics and identify top performers.\n"
-                  "3. Recommendations (2-3 Sentences):\n"
-                  "   Provide actionable strategies to improve engagement.\n"
-                  "4. Trends and Insights (2-3 Sentences):\n"
-                  "   Identify emerging trends or insights from the data and compare to broader industry trends, if relevant.\n\n"
-                  "Ensure your answer is data-driven, insightful, and provides clear value for understanding and acting on the fan base's behavior.",
+            "Question: What is the total number of fans with a premium Spotify account?\n\n"
+            "Specific Focus:"
+            "- Count Queries: Respond with only the number, NOTHING ELSE.\n"
+            "Ensure your answer is data-driven, insightful, and provides clear value for understanding and acting on the fan base's behavior.",
         "ideal": str(premium_fans_count)
     }
 
