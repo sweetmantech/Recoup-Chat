@@ -43,9 +43,16 @@ jobs:
           echo "Running get_premium_fans registry data generator"
           python evals/scripts/get_premium_fans_generator.py
 
-      - name: Run Recoup Evals
+      - name: Run get_premium_fans eval
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           echo "Processing get_premium_fans"
           oaieval gpt-3.5-turbo get_premium_fans
+
+      - name: Run Recoup Evals
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          echo "Processing recoup"
+          oaieval gpt-3.5-turbo recoup
