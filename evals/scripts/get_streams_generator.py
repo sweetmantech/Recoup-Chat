@@ -35,13 +35,12 @@ mock_data = [
 registry_data = ""
 
 for artist_id, email in mock_data:
-    url = f"https://localhost:5000/api/get_campaign_general_info?email={email}&artistId={artist_id}"
+    url = f"https://recoup-chat-git-tech322-getstreams-recoupable-ad724970.vercel.app/api/get_campaign_general_info?email={email}&artistId={artist_id}"
     response = requests.get(url)
     context = response.json()
     print(context)
-    context_str = json.dumps(context.data)
-    if context:
-        context_str = json.dumps(context)
+    if context.data:
+        context_str = context.data
     else:
         context_str = "No context available."
     content = {

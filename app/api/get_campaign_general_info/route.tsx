@@ -6,7 +6,7 @@ export async function GET(req: NextRequest) {
   const artistId = req.nextUrl.searchParams.get("artistId");
 
   try {
-    const context = getChatContext(email as string, artistId as string);
+    const context = await getChatContext(email as string, artistId as string);
     return Response.json({
       success: true,
       data: context
