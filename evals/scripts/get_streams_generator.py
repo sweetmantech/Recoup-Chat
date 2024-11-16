@@ -40,7 +40,6 @@ for artist_id, email in mock_data:
     response = requests.get(url)
     context = response.json()
     streams_count = get_streams_count(email, artist_id)
-    print(context)
     if context['data']:
         context_str = context['data']
     else:
