@@ -52,7 +52,7 @@ for artist_id, email in mock_data:
             f"Question: How many unique fans have participated in this campaign?\n\n"
             f"{instruction_str}"
         ),
-        "ideal": str(context['total_unique_fans_count'])
+        "ideal": str(context['total_unique_campaign_fans_count'])
     }
 
     registry_data += json.dumps(content) + "\n"
