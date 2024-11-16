@@ -43,12 +43,12 @@ jobs:
           echo "Running get_premium_fans registry data generator"
           python evals/scripts/get_premium_fans_generator.py
 
-      - name: Get list of new YAML files in evals/registry/evals
+      - name: Get list of all YAML files in evals/registry/evals
         id: get_files
         run: |
           # Use environment files to store the output
-          git diff --name-only --diff-filter=A ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep '^evals/registry/evals/.*\.yaml$' | xargs > new_files
-          echo "new_files=$(cat new_files)" >> $GITHUB_ENV
+          find evals/registry/evals -name "*.yaml" > all_files
+          echo "all_files=$(cat all_files)" >> $GITHUB_ENV
 
       - name: Run oaieval command for each new YAML file
         env:
