@@ -16,6 +16,10 @@ def get_premium_fans(artist_id, email):
         return len(premium_fans)
     return 0
 
+def get_context(artist_id, email):
+    response = supabase.rpc('get_campaign', {'artistid': artist_id, 'email': email, 'clientid': ''}).execute()
+    return response.data
+
 YAML = """
 get_premium_fans:
   id: get_premium_fans.dev.v0
@@ -46,23 +50,30 @@ registry_data = ""
 
 for artist_id, email in mock_data:
     premium_fans_count = get_premium_fans(artist_id, email)
-
+    context = get_context(artist_id, email)
+    context_str = json.dumps(context)
+    if context:
+        context_str = json.dumps(context)
+    else:
+        context_str = "No context available."
     content = {
-        "input": [
-            {
-                "role": "system",
-                "content": "Based on provided params you should get number of premium fans from supabase fans table. You should first context related to params from supabase. And then you should calculate premium fans count."
-            },
-            {
-                "role": "user",
-                "content": f"""
-                    Question: What is the total number of fans with a premium Spotify account?
-                    Params:
-                    - ArtistId: {artist_id}
-                    - Email: {email}
-                """
-            }
-        ],
+        "input": f"Context: {context_str}\n"
+                  "Question: What is the total number of fans with a premium Spotify account?\n\n"
+                  "1. Due to Apple's policy, do not collect Apple Music emails. No recommendations or insights are needed.\n"
+                  "For example: 'Due to Apple's policy, we do not collect Apple Music emails.'\n"
+                  "2. The guidelines below outline responses based on question type:\n"
+                  "- Count Queries: Respond with only the number, NOTHING ELSE.\n"
+                  "- Artists, Albums, Episodes, Playlists, Audio Books, Tracks, Shows: Provide only relevant information.\n"
+                  "- Country Distribution Fans: Format as [country name]: [fan count] with <li> tags.\n"
+                  "- Listening Habits (4 Sentences):\n"
+                  "    a. Overview: Summarize listening trends, including genres, artists, content types, countries, cities, and segments.\n"
+                  "    b. Content Breakdown: Highlight popular items and standout artists.\n"
+                  "    c. Engagement Metrics: Report key statistics and identify top performers.\n"
+                  "3. Recommendations (2-3 Sentences):\n"
+                  "   Provide actionable strategies to improve engagement.\n"
+                  "4. Trends and Insights (2-3 Sentences):\n"
+                  "   Identify emerging trends or insights from the data and compare to broader industry trends, if relevant.\n\n"
+                  "Ensure your answer is data-driven, insightful, and provides clear value for understanding and acting on the fan base's behavior.",
         "ideal": str(premium_fans_count)
     }
 
