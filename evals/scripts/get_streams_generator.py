@@ -35,7 +35,7 @@ mock_data = [
 registry_data = ""
 
 for artist_id, email in mock_data:
-    url = f"/api/get_campaign_general_info?email={email}&artistId={artist_id}"
+    url = f"https://localhost:5000/api/get_campaign_general_info?email={email}&artistId={artist_id}"
     response = requests.get(url)
     context = response.json()
     print(context)
