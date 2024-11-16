@@ -48,7 +48,7 @@ for artist_id, email in mock_data:
         "input": (
             f"\n"
             f"Context: {context_str}\n\n"
-            f"Question: What is the total number of fans with a premium Spotify account?\n\n"
+            f"Question: What is the number of total streams generated from the campaign?\n\n"
         ),
         "ideal": streams_count
     }
