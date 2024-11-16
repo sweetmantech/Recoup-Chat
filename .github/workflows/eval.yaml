@@ -46,15 +46,20 @@ jobs:
       - name: Get list of all YAML files in evals/registry/evals
         id: get_files
         run: |
-          # Use environment files to store the output
-          find evals/registry/evals -name "*.yaml" > all_files
-          echo "all_files=$(cat all_files)" >> $GITHUB_ENV
+          all_files=$(find evals/registry/evals -name "*.yaml")
+
+          if [ -n "$all_files" ]; then
+            # Replace newlines with commas to store in GitHub environment variable
+            echo "all_files=${all_files//[$'\n']/,}" >> $GITHUB_ENV
+          else
+            echo "all_files=" >> $GITHUB_ENV 
+          fi
 
       - name: Run oaieval command for each new YAML file
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          files="${{ env.new_files }}"
+          files="${{ env.all_files }}"
           if [ -n "$files" ]; then
             for file in $files; do
               echo "Processing $file"
