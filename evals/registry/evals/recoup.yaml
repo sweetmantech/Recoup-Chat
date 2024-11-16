@@ -2,7 +2,6 @@ recoup:
   id: recoup.dev.v0
   description: Evaluates the model's ability to analyze music streaming and fan engagement data, including metrics like premium vs free subscribers, playlist engagement, artist performance, and listener behavior across different streaming platforms.
   metrics: [accuracy]
-
 recoup.dev.v0:
   class: evals.elsuite.modelgraded.classify:ModelBasedClassify
   args:
