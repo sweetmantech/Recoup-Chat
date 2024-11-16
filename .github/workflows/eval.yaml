@@ -35,7 +35,7 @@ jobs:
           pip install -e .
 
       - name: Run generator files
-        echo "Running all generator files in evals/scripts"
+        echo "Running all generator files"
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
