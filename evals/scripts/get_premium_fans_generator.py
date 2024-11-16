@@ -1,44 +1,16 @@
 import json
 import os
 import string
-from supabase import create_client
+from get_context import get_context
+from get_instruction import get_instruction
 
-supabase_url = os.environ.get("SUPABASE_URL")
-supabase_key = os.environ.get("SUPABASE_KEY")
-supabase = create_client(supabase_url, supabase_key)
 CURRENT_DIR = os.path.dirname(__file__)
 REGISTRY_PATH = os.path.join(CURRENT_DIR, "../registry")
 
-def limit_collection(collection, limit=20):
-    if collection is None:
-        return []
-    return collection[:limit]
-
 def get_premium_fans(artist_id, email):
-    response = supabase.rpc('get_campaign', {'artistid': artist_id, 'email': email, 'clientid': ''}).execute()
-    if response.data:
-        premium_fans = [fan for fan in response.data['fans'] if fan['product'] == 'premium']
-        return len(premium_fans)
-    return 0
-
-def get_context(artist_id, email):
-    response = supabase.rpc('get_campaign', {'artistid': artist_id, 'email': email, 'clientid': ''}).execute()
-    campaign = response.data
-    premium_count = len([fan for fan in campaign.get("fans", []) if fan.get("product") == "premium"])
-    free_count = len([fan for fan in campaign.get("fans", []) if fan.get("product") == "free"])
-   
-    return {
-        "tracks": limit_collection(campaign.get("tracks", [])),
-        "artists": limit_collection(campaign.get("artists", [])),
-        "playlists": limit_collection(campaign.get("playlists", [])),
-        "albums": limit_collection(campaign.get("albums", [])),
-        "audioBooks": limit_collection(campaign.get("audio_books", [])),
-        "episodes": limit_collection(campaign.get("episodes", [])),
-        "shows": limit_collection(campaign.get("shows", [])),
-        "premiumCount": premium_count,
-        "freeCount": free_count,
-        "totalFansCount": len(campaign.get("fans", [])),
-    }
+    context = get_context(artist_id, email)
+    premium_fans = [fan for fan in context['fans'] if fan['product'] == 'premium']
+    return len(premium_fans)
 
 YAML = """
 get_premium_fans:
@@ -72,16 +44,20 @@ for artist_id, email in mock_data:
     premium_fans_count = get_premium_fans(artist_id, email)
     context = get_context(artist_id, email)
     context_str = json.dumps(context)
+    instruction = get_instruction()
+    instruction_str = json.dumps(instruction)
+
     if context:
         context_str = json.dumps(context)
     else:
         context_str = "No context available."
     content = {
-        "input": f"Context: {context_str}\n"
-            "Question: What is the total number of fans with a premium Spotify account?\n\n"
-            "Specific Focus:"
-            "- Count Queries: Respond with only the number, NOTHING ELSE.\n"
-            "Ensure your answer is data-driven, insightful, and provides clear value for understanding and acting on the fan base's behavior.",
+        "input": (
+            f"\n"
+            f"Context: {context_str}\n"
+            f"Question: What is the total number of fans with a premium Spotify account?\n\n"
+            f"{instruction_str}"
+        ),
         "ideal": str(premium_fans_count)
     }
 
