@@ -37,7 +37,7 @@ jobs:
 
       - name: Run get_premium_fans generator
         env:
-          SUPABSE_URL: ${{ secrets.SUPABSE_URL }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
         run: |
           echo "Running get_premium_fans registry data generator"
