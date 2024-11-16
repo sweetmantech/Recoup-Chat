@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
     const context = await getChatContext(email as string, artistId as string);
     return Response.json({
       success: true,
-      data: context
+      data: context,
     });
   } catch (error) {
     console.error(error);
