@@ -2,6 +2,7 @@ import json
 import os
 import string
 import requests
+from get_streams_count import get_streams_count
 
 CURRENT_DIR = os.path.dirname(__file__)
 REGISTRY_PATH = os.path.join(CURRENT_DIR, "../registry")
@@ -35,22 +36,22 @@ mock_data = [
 registry_data = ""
 
 for artist_id, email in mock_data:
-    url = f"https://recoup-chat-git-tech322-getstreams-recoupable-ad724970.vercel.app/api/get_campaign_general_info?email={email}&artistId={artist_id}"
+    url = f"https://recoup-chat-git-tech322-campaigngene-c13432-recoupable-ad724970.vercel.app/api/get_campaign_general_info?email={email}&artistId={artist_id}"
     response = requests.get(url)
     context = response.json()
+    streams_count = get_streams_count(email, artist_id)
     print(context)
-    if context.data:
-        context_str = context.data
+    if context['data']:
+        context_str = context['data']
     else:
         context_str = "No context available."
     content = {
         "input": (
             f"\n"
-            f"Context: {context_str}\n"
+            f"Context: {context_str}\n\n"
             f"Question: What is the total number of fans with a premium Spotify account?\n\n"
-            f"{instruction_str}"
         ),
-        "ideal": str(context['premium_fans_count'])
+        "ideal": streams_count
     }
 
     registry_data += json.dumps(content) + "\n"
