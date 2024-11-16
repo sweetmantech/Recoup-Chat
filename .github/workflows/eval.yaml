@@ -45,16 +45,12 @@ jobs:
       - name: Get list of all YAML files in evals/registry/evals
         id: get_files
         run: |
-          # Find all YAML files and store them in a variable
           all_files=$(find evals/registry/evals -name "*.yaml")
 
-          # Check if any files were found
           if [ -n "$all_files" ]; then
-            # Replace newlines with commas to store in GitHub environment variable
-            # The below line joins the filenames into a single comma-separated string
             echo "all_files=${all_files//$'\n'/,}" >> $GITHUB_ENV
           else
-            echo "all_files=" >> $GITHUB_ENV  # Set to empty if no files are found
+            echo "all_files=" >> $GITHUB_ENV
           fi
 
       - name: Run oaieval command for each YAML file
@@ -64,7 +60,6 @@ jobs:
           files="${{ env.all_files }}"
 
           if [ -n "$files" ]; then
-            # Convert comma-separated string into an array
             IFS=',' read -r -a file_array <<< "$files"
             for file in "${file_array[@]}"; do
               echo "Processing $file"
