@@ -7,11 +7,6 @@ from get_instruction import get_instruction
 CURRENT_DIR = os.path.dirname(__file__)
 REGISTRY_PATH = os.path.join(CURRENT_DIR, "../registry")
 
-def get_premium_fans(artist_id, email):
-    context = get_context(artist_id, email)
-    premium_fans = [fan for fan in context['fans'] if fan['product'] == 'premium']
-    return len(premium_fans)
-
 YAML = """
 get_premium_fans:
   id: get_premium_fans.dev.v0
@@ -41,7 +36,6 @@ mock_data = [
 registry_data = ""
 
 for artist_id, email in mock_data:
-    premium_fans_count = get_premium_fans(artist_id, email)
     context = get_context(artist_id, email)
     context_str = json.dumps(context)
     instruction = get_instruction()
@@ -58,7 +52,7 @@ for artist_id, email in mock_data:
             f"Question: What is the total number of fans with a premium Spotify account?\n\n"
             f"{instruction_str}"
         ),
-        "ideal": str(premium_fans_count)
+        "ideal": str(context['premiumCount'])
     }
 
     registry_data += json.dumps(content) + "\n"
