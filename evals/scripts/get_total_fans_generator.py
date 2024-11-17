@@ -3,30 +3,9 @@ import os
 import string
 from get_context import get_context
 from get_instruction import get_instruction
+from create_yaml_data import create_yaml, create_data
 
-CURRENT_DIR = os.path.dirname(__file__)
-REGISTRY_PATH = os.path.join(CURRENT_DIR, "../registry")
-
-YAML = """
-get_total_unique_fans:
-  id: get_total_unique_fans.dev.v0
-  description: Evaluates the model's ability to analyze music streaming and fan engagement data, including metrics like premium vs free subscribers, playlist engagement, artist performance, and listener behavior across different streaming platforms.
-  metrics: [accuracy]
-get_total_unique_fans.dev.v0:
-  class: evals.elsuite.modelgraded.classify:ModelBasedClassify
-  args:
-    samples_jsonl: get_total_unique_fans/samples.jsonl
-    eval_type: cot_classify
-    modelgraded_spec: closedqa
-    modelgraded_spec_args:
-      criteria: "correctness: The answer should be numerically correct and include appropriate units (if applicable). The solution should match exactly with the reference answer."
-""".strip()
-
-yaml_file = os.path.join(REGISTRY_PATH, "evals/get_total_unique_fans.yaml")
-with open(yaml_file, "w") as yf:
-    yf.write(YAML)
-    
-data_dir = os.path.join(REGISTRY_PATH, "data/get_total_unique_fans")
+create_yaml("get_total_unique_fans")    
 
 mock_data = [
     ('a4c897f5-02cb-43d3-b971-948c85537785', 'sidney@syncstream.ai'),
@@ -57,7 +36,4 @@ for artist_id, email in mock_data:
 
     registry_data += json.dumps(content) + "\n"
 
-file_name = os.path.join(data_dir, f"samples.jsonl")
-
-with open(file_name, "w") as f:
-    f.write(registry_data)
+create_data('get_total_unique_fans', registry_data)
