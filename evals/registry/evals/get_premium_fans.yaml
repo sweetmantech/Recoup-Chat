@@ -1,11 +1,11 @@
-recoup:
-  id: recoup.dev.v0
+get_premium_fans:
+  id: get_premium_fans.dev.v0
   description: Evaluates the model's ability to analyze music streaming and fan engagement data, including metrics like premium vs free subscribers, playlist engagement, artist performance, and listener behavior across different streaming platforms.
   metrics: [accuracy]
-recoup.dev.v0:
+get_premium_fans.dev.v0:
   class: evals.elsuite.modelgraded.classify:ModelBasedClassify
   args:
-    samples_jsonl: recoup/samples.jsonl
+    samples_jsonl: get_premium_fans/samples.jsonl
     eval_type: cot_classify
     modelgraded_spec: closedqa
     modelgraded_spec_args:
