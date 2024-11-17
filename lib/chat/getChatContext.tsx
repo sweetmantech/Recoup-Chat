@@ -65,13 +65,14 @@ const getChatContext = async (email: string, artistId: string) => {
 
   return {
     context: context.join("\n"),
-    recentScore,
-    topScore,
-    usersInPast7,
     followersCount,
     startedFansCount,
+    recentScore,
+    scoresInPast24,
+    topScore,
     mostPlayedFan,
     streamsCount,
+    usersInPast7,
   };
 };
 
