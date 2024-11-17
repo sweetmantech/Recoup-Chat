@@ -63,7 +63,16 @@ const getChatContext = async (email: string, artistId: string) => {
     `\n9. Count of people scored in the past 24hrs: ${scoresInPast24}`,
   );
 
-  return context.join("\n");
+  return {
+    context: context.join("\n"),
+    recentScore,
+    topScore,
+    usersInPast7,
+    followersCount,
+    startedFansCount,
+    mostPlayedFan,
+    streamsCount,
+  };
 };
 
 export default getChatContext;
