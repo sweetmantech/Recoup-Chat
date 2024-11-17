@@ -8,25 +8,25 @@ CURRENT_DIR = os.path.dirname(__file__)
 REGISTRY_PATH = os.path.join(CURRENT_DIR, "../registry")
 
 YAML = """
-get_premium_fans:
-  id: get_premium_fans.dev.v0
+get_free_fans:
+  id: get_free_fans.dev.v0
   description: Evaluates the model's ability to analyze music streaming and fan engagement data, including metrics like premium vs free subscribers, playlist engagement, artist performance, and listener behavior across different streaming platforms.
   metrics: [accuracy]
-get_premium_fans.dev.v0:
+get_free_fans.dev.v0:
   class: evals.elsuite.modelgraded.classify:ModelBasedClassify
   args:
-    samples_jsonl: get_premium_fans/samples.jsonl
+    samples_jsonl: get_free_fans/samples.jsonl
     eval_type: cot_classify
     modelgraded_spec: closedqa
     modelgraded_spec_args:
       criteria: "correctness: The answer should be numerically correct and include appropriate units (if applicable). The solution should match exactly with the reference answer."
 """.strip()
 
-yaml_file = os.path.join(REGISTRY_PATH, "evals/get_premium_fans.yaml")
+yaml_file = os.path.join(REGISTRY_PATH, "evals/get_free_fans.yaml")
 with open(yaml_file, "w") as yf:
     yf.write(YAML)
     
-data_dir = os.path.join(REGISTRY_PATH, "data/get_premium_fans")
+data_dir = os.path.join(REGISTRY_PATH, "data/get_free_fans")
 
 mock_data = [
     ('a4c897f5-02cb-43d3-b971-948c85537785', 'sidney@syncstream.ai'),
@@ -49,10 +49,10 @@ for artist_id, email in mock_data:
         "input": (
             f"\n"
             f"Context: {context_str}\n"
-            f"Question: What is the total number of fans with a premium Spotify account?\n\n"
+            f"Question: How many fans have a free Spotify account??\n\n"
             f"{instruction_str}"
         ),
-        "ideal": str(context['premium_fans_count'])
+        "ideal": str(context['free_fans_count'])
     }
 
     registry_data += json.dumps(content) + "\n"
