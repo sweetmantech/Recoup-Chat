@@ -29,5 +29,11 @@ evals_questions_ideals = [
         "ideal": "artists",
         "eval_name": "get_top_five_artist",
         "criteria": "Artists of the answer should accurately be included in the artist list in the reference answer."
+    },
+    {
+        "question": "What are the top five playlists among users?",
+        "ideal": "playlists",
+        "eval_name": "get_top_five_playlists",
+        "criteria": "Playlists of the answer should accurately be included in the playlists of the reference answer."
     }
 ]
