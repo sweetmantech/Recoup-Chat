@@ -8,7 +8,7 @@ mock_data = [
     ('a4c897f5-02cb-43d3-b971-948c85537785', 'sweetmantech@gmail.com'),
 ]
 
-def create_campaign_registry_data(ideal_key, question):
+def create_campaign_registry_data(ideal_key_or_value, question):
     registry_data = ""
 
     for artist_id, email in mock_data:
@@ -21,6 +21,8 @@ def create_campaign_registry_data(ideal_key, question):
         else:
             context_str = "No context available."
 
+        ideal_value = context.get(ideal_key_or_value, ideal_key_or_value)
+
         content = {
             "input": (
                 f"\n"
@@ -28,7 +30,7 @@ def create_campaign_registry_data(ideal_key, question):
                 f"Question: {question}\n\n"
                 f"{instruction_str}"
             ),
-            "ideal": str(context[ideal_key]),
+            "ideal": str(ideal_value),
         }
         
         registry_data += json.dumps(content) + "\n"
