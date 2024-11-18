@@ -51,7 +51,7 @@ evals_questions_ideals = [
         "criteria": 'The actual answer should be formatted as ideal value format.'
     },
     {
-        "question": "evals/registry/data/recoup/samples.jsonl",
+        "question": "How many fans logged in with Spotify to participate in this campaign?",
         "ideal": "spotify_fans_count",
         "eval_name": "get_spotify_fans_count",
         "criteria": count_query_criteria
