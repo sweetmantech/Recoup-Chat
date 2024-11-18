@@ -128,7 +128,7 @@ def send_slack_message(result: dict[str, Any], question) -> None:
         
         # Format the message
         message_blocks = []
-        message_text = "Evaluation Results: {question}\n"
+        message_text = f"Evaluation Results: {question}\n"
         for key, value in result.items():
             message_text += f"• *{key}*: {value}\n"
             
