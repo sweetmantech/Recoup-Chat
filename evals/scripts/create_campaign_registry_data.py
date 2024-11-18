@@ -2,11 +2,7 @@ import json
 import string
 from get_context import get_context
 from get_instruction import get_instruction
-
-mock_data = [
-    ('a4c897f5-02cb-43d3-b971-948c85537785', 'sidney@syncstream.ai'),
-    ('a4c897f5-02cb-43d3-b971-948c85537785', 'sweetmantech@gmail.com'),
-]
+from mock_data import mock_data
 
 def create_campaign_registry_data(ideal_key_or_value, question):
     registry_data = ""

@@ -1,14 +1,6 @@
-import json
-import os
-import string
 from create_yaml_data import create_yaml, create_data
 from create_general_campaign_registry_data import create_general_campaign_registry_data
-
-CURRENT_DIR = os.path.dirname(__file__)
-FILE_PATH = os.path.join(CURRENT_DIR, "evals_questions_ideals/general_campaign_evals_questions_ideals.json")  # Adjust the path as needed
-
-with open(FILE_PATH, 'r') as file:
-    evals_questions_ideals = json.load(file) 
+from general_campaign_evals_questions_ideals import evals_questions_ideals
 
 for item in evals_questions_ideals:
     question = item["question"]
