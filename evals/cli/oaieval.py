@@ -126,12 +126,15 @@ def send_slack_message(result: dict[str, Any], question) -> None:
     try:
         client = WebClient(token=os.environ.get("SLACK_BOT_TOKEN"))
         
-        # Format the message
         message_blocks = []
-        message_text = f"Evaluation Results: {question}\n"
+        message_text = f"Evaluation Results: `{question}`\n"
         for key, value in result.items():
-            message_text += f"• *{key}*: {value}\n"
-            
+            message_text += f"• *{key}*: {value}"
+            if key == "score":
+                message_text += " ✅\n" if value == "1.0" else " ❌\n"
+            else:
+                message_text += "\n"
+
         response = client.chat_postMessage(
             channel=os.environ.get("SLACK_CHANNEL_ID", ""),
             text=message_text,
