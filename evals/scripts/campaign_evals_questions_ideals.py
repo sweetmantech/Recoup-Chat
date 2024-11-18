@@ -46,7 +46,7 @@ evals_questions_ideals = [
     },
     {
         "question": "What is the country distribution of fans?",
-        "ideal": "format: [country_name]: [fans_count] example: US: 123",
+        "ideal": "format: [country_name]: [fans_count], example: US: 123",
         "eval_name": "get_country_distribution",
         "criteria": 'The actual answer should be formatted as ideal value format.'
     }
