@@ -43,5 +43,11 @@ evals_questions_ideals = [
         "ideal": "playlists_count",
         "eval_name": "get_playlists_count",
         "criteria": count_query_criteria
+    },
+    {
+        "question": "What are the top three genres that fans listen to outside of hip hop?",
+        "ideal": "genres",
+        "eval_name": "get_top_genres",
+        "criteria": sub_set_criteria
     }
 ]
