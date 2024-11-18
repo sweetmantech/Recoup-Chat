@@ -1,7 +1,7 @@
 evals_questions_ideals = [
     {
         "eval_name": "get_streams_count",
-        "question": "What is the email count for users with an Apple Music account?",
+        "question": "How many times has the average fan streamed the campaign song?",
         "ideal": "streamsCount",
         "criteria": "The answer should accurately reflect the total streams generated, match exactly with the reference data."
     },
