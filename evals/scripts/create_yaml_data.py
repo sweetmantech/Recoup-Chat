@@ -24,7 +24,7 @@ def create_yaml(yaml_name, criteria, question):
     modelgraded_spec: closedqa
     modelgraded_spec_args:
       criteria: "correctness: {criteria}"
-      question: {question}
+      prompt: {question}
         """.strip())
 
 def create_data(data_name, data_content):
