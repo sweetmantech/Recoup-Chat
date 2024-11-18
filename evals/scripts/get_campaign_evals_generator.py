@@ -4,7 +4,7 @@ from create_yaml_data import create_yaml, create_data
 from create_campaign_registry_data import create_campaign_registry_data
 
 CURRENT_DIR = os.path.dirname(__file__)
-FILE_PATH = os.path.join(CURRENT_DIR, "evals_questions_ideals/campaign_evals_questions_ideals.json")  # Adjust the path as needed
+FILE_PATH = os.path.join(CURRENT_DIR, "evals_questions_ideals/campaign_evals_questions_ideals.json")
 
 with open(FILE_PATH, 'r') as file:
     evals_questions_ideals = json.load(file) 
