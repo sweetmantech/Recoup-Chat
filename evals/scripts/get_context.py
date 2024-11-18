@@ -19,7 +19,7 @@ def get_context(artist_id, email):
     return {
         "tracks": limit_collection(campaign.get("tracks", [])),
         "artists": limit_collection(campaign.get("artists", [])),
-        "playlists": limit_collection(campaign.get("playlists", [])),
+        "playlists": limit_collection(campaign.get("playlist", [])),
         "albums": limit_collection(campaign.get("albums", [])),
         "audioBooks": limit_collection(campaign.get("audio_books", [])),
         "episodes": limit_collection(campaign.get("episodes", [])),
@@ -27,5 +27,6 @@ def get_context(artist_id, email):
         "premium_fans_count": premium_count,
         "free_fans_count": free_count,
         "total_unique_fans_count": len(campaign.get("fans", [])),
-        "fans": limit_collection(campaign.get('fans', []), 100)
+        "fans": limit_collection(campaign.get('fans', []), 100),
+        "playlists_count": len(campaign.get('playlists', []))
     }

@@ -35,5 +35,11 @@ evals_questions_ideals = [
         "ideal": "playlists",
         "eval_name": "get_top_five_playlists",
         "criteria": "Playlists of the answer should accurately be included in the playlists of the reference answer."
+    },
+    {
+        "question": "How many total playlists are fans engaging with?",
+        "ideal": "playlists_count",
+        "eval_name": "get_playlists_count",
+        "criteria": count_query_criteria
     }
 ]
