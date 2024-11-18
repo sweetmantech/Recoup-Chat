@@ -28,5 +28,11 @@
         "ideal": "artists",
         "eval_name": "get_top_five_artist",
         "criteria": "The answer should accurately reflect the first five names in the artist list in the reference answer"
+    },
+    {
+        "question": "What are the top five playlists among users?",
+        "ideal": "playlists",
+        "eval_name": "get_top_five_playlists",
+        "criteria": "The answer should accurately reflect the first five names in the playlists in the reference answer"
     }
 ]
