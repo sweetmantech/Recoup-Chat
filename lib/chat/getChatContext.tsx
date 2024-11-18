@@ -72,8 +72,8 @@ const getChatContext = async (email: string, artistId: string) => {
     topScore,
     mostPlayedFan,
     streamsCount,
-    usersInPast7
-  }
+    usersInPast7,
+  };
 };
 
 export default getChatContext;
