@@ -130,10 +130,8 @@ def send_slack_message(result: dict[str, Any], question) -> None:
         message_text = f"Evaluation Results: `{question}`\n"
         for key, value in result.items():
             message_text += f"• *{key}*: {value}"
-            print(value)
-            print(type(value))
             if key == "score":
-                message_text += " ✅\n" if value == "1.0" else " ❌\n"
+                message_text += " ✅\n" if value == 1.0 else " ❌\n"
             else:
                 message_text += "\n"
 
