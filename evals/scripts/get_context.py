@@ -28,5 +28,5 @@ def get_context(artist_id, email):
         "free_fans_count": free_count,
         "total_unique_fans_count": len(campaign.get("fans", [])),
         "fans": limit_collection(campaign.get('fans', []), 100),
-        "playlists_count": len(campaign.get('playlists', []))
+        "playlists_count": len(campaign.get('playlist', []))
     }
