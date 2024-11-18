@@ -12,6 +12,9 @@ def create_campaign_registry_data(ideal_key_or_value, question):
         instruction = get_instruction()
         instruction_str = json.dumps(instruction)
 
+        print("----------------- START -----------------\n")
+        print(context['playlists'])
+        print("----------------- END -----------------\n")
         if context:
             context_str = json.dumps(context)
         else:
