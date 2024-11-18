@@ -1,4 +1,6 @@
 count_query_criteria = "The answer should be numerically correct and include appropriate units (if applicable). The solution should match exactly with the reference answer."
+sub_set_criteria = "The actual answer should be a subset of the reference answer, items can include emoji unicode values."
+
 evals_questions_ideals = [
     {
         "question": "What is the email count for users with an Apple Music account?",
@@ -28,13 +30,13 @@ evals_questions_ideals = [
         "question": "What are the top five artists that fans are listening to on aggregate?",
         "ideal": "artists",
         "eval_name": "get_top_five_artist",
-        "criteria": "Artists of the answer should accurately be included in the artist list in the reference answer."
+        "criteria": sub_set_criteria
     },
     {
         "question": "What are the top five playlists among users?",
         "ideal": "playlists",
         "eval_name": "get_top_five_playlists",
-        "criteria": "The actual answer should be a subset of the reference answer, playlist name can include emoji unicode values."
+        "criteria": sub_set_criteria
     },
     {
         "question": "How many total playlists are fans engaging with?",
