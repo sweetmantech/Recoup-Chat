@@ -49,5 +49,11 @@ evals_questions_ideals = [
         "ideal": "format: [country_name]: [fans_count], example: US: 123",
         "eval_name": "get_country_distribution",
         "criteria": 'The actual answer should be formatted in the ideal value format.'
+    },
+    {
+        "question": "How many fans logged in with Spotify to participate in this campaign?",
+        "ideal": "spotify_fans_count",
+        "eval_name": "get_spotify_fans_count",
+        "criteria": count_query_criteria
     }
 ]
