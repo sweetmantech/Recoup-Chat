@@ -3,7 +3,7 @@ import os
 from create_yaml_data import create_yaml, create_data
 from create_campaign_registry_data import create_campaign_registry_data
 
-create_yaml("get_premium_fans")   
+create_yaml("get_premium_fans", "The answer should be numerically correct and include appropriate units (if applicable). The solution should match exactly with the reference answer.")   
 
 registry_data = create_campaign_registry_data("premium_fans_count", "What is the total number of fans with a premium Spotify account?")
 

@@ -3,7 +3,7 @@ import os
 CURRENT_DIR = os.path.dirname(__file__)
 REGISTRY_PATH = os.path.join(CURRENT_DIR, "../registry")
 
-def create_yaml(yaml_name):
+def create_yaml(yaml_name, criteria):
     yaml_file_path = os.path.join(REGISTRY_PATH, f"evals/{yaml_name}.yaml")  # Use yaml_name here
     data_dir = os.path.join(REGISTRY_PATH, f"data/{yaml_name}")  # Use yaml_name here
 
@@ -23,7 +23,7 @@ def create_yaml(yaml_name):
     eval_type: cot_classify
     modelgraded_spec: closedqa
     modelgraded_spec_args:
-      criteria: "correctness: The answer should be numerically correct and include appropriate units (if applicable). The solution should match exactly with the reference answer."
+      criteria: "correctness: {criteria}"
         """.strip())
 
 def create_data(data_name, data_content):
