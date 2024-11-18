@@ -3,17 +3,13 @@ import string
 import requests
 from get_context import get_context
 from get_instruction import get_instruction
-
-mock_data = [
-    ('a4c897f5-02cb-43d3-b971-948c85537785', 'sidney@syncstream.ai'),
-    ('a4c897f5-02cb-43d3-b971-948c85537785', 'sweetmantech@gmail.com'),
-]
+from mock_data import mock_data
 
 def create_general_campaign_registry_data(ideal_key_or_value, question):
     registry_data = ""
 
     for artist_id, email in mock_data:
-        url = f"https://recoup-chat-git-tech322-campaigngene-c13432-recoupable-ad724970.vercel.app/api/get_campaign_general_info?email={email}&artistId={artist_id}"
+        url = f"https://chat.recoupable.com/api/get_campaign_general_info?email={email}&artistId={artist_id}"
         response = requests.get(url)
         data = response.json()
         if data['data']['context']:
