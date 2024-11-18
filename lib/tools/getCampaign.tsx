@@ -62,7 +62,7 @@ const getCampaign = (question: string, email: string, artistId: string) =>
         context: {
           tracks: limitCollection(campaign?.tracks || []),
           artists: limitCollection(campaign?.artists || []),
-          playlists: limitCollection(campaign?.playlists || []),
+          playlists: limitCollection(campaign?.playlist || []),
           albums: limitCollection(campaign?.albums || []),
           audioBooks: limitCollection(campaign?.audio_books || []),
           episodes: limitCollection(campaign?.episodes || []),

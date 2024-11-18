@@ -13,6 +13,7 @@ def create_campaign_registry_data(ideal_key_or_value, question):
 
     for artist_id, email in mock_data:
         context = get_context(artist_id, email)
+        print(context['playlists'])
         instruction = get_instruction()
         instruction_str = json.dumps(instruction)
 
