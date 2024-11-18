@@ -49,5 +49,11 @@ evals_questions_ideals = [
         "ideal": "format: [country_name]: [fans_count], example: US: 123",
         "eval_name": "get_country_distribution",
         "criteria": 'The actual answer should be formatted as ideal value format.'
+    },
+    {
+        "question": "evals/registry/data/recoup/samples.jsonl",
+        "ideal": "spotify_fans_count",
+        "eval_name": "get_spotify_fans_count",
+        "criteria": count_query_criteria
     }
 ]
