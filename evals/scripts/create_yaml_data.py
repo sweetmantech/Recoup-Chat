@@ -14,7 +14,6 @@ def create_yaml(yaml_name, criteria, question):
         yf.write(f"""
 {yaml_name}:
   id: {yaml_name}.dev.v0
-  question: {question}
   description: Evaluates the model's ability to analyze music streaming and fan engagement data, including metrics like premium vs free subscribers, playlist engagement, artist performance, and listener behavior across different streaming platforms.
   metrics: [accuracy]
 {yaml_name}.dev.v0:
@@ -25,6 +24,7 @@ def create_yaml(yaml_name, criteria, question):
     modelgraded_spec: closedqa
     modelgraded_spec_args:
       criteria: "correctness: {criteria}"
+      question: {question}
         """.strip())
 
 def create_data(data_name, data_content):
