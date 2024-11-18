@@ -45,6 +45,13 @@ evals_questions_ideals = [
         "criteria": count_query_criteria
     },
     {
+        "question": "What are the top three genres that fans listen to outside of hip hop?",
+        "ideal": "genres",
+        "eval_name": "get_top_genres",
+        "criteria": sub_set_criteria
+       
+    },
+    {
         "question": "What is the country distribution of fans?",
         "ideal": "format: [country_name]: [fans_count], example: US: 123",
         "eval_name": "get_country_distribution",

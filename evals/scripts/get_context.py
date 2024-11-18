@@ -11,7 +11,7 @@ def limit_collection(collection, limit=20):
     return collection[:limit]
 
 def get_context(artist_id, email):
-    response = supabase.rpc('get_campaign', {'artistid': artist_id, 'email': email, 'clientid': ''}).execute()
+    response = supabase.rpc('get_campaign', {'artistid': artist_id, 'email': email, 'campaignid': ''}).execute()
     campaign = response.data
     premium_count = len([fan for fan in campaign.get("fans", []) if fan.get("product") == "premium"])
     free_count = len([fan for fan in campaign.get("fans", []) if fan.get("product") == "free"])
@@ -24,6 +24,7 @@ def get_context(artist_id, email):
         "audioBooks": limit_collection(campaign.get("audio_books", [])),
         "episodes": limit_collection(campaign.get("episodes", [])),
         "shows": limit_collection(campaign.get("shows", [])),
+        "genres": limit_collection(campaign.get("genres", [])),
         "premium_fans_count": premium_count,
         "free_fans_count": free_count,
         "spotify_fans_count": premium_count + free_count,
