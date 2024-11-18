@@ -1,4 +1,4 @@
-[
+evals_questions_ideals = [
     {
         "eval_name": "get_streams_count",
         "question": "What is the email count for users with an Apple Music account?",
