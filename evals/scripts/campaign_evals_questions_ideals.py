@@ -43,5 +43,11 @@ evals_questions_ideals = [
         "ideal": "playlists_count",
         "eval_name": "get_playlists_count",
         "criteria": count_query_criteria
+    },
+    {
+        "question": "What is the country distribution of fans?",
+        "ideal": "format: [country_name]: [fans_count], example: US: 123",
+        "eval_name": "get_country_distribution",
+        "criteria": 'The actual answer should be formatted in the ideal value format.'
     }
 ]
