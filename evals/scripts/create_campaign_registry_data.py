@@ -22,6 +22,7 @@ def create_campaign_registry_data(ideal_key_or_value, question):
             context_str = "No context available."
 
         ideal_value = context.get(ideal_key_or_value, ideal_key_or_value)
+        ideal_value_str = json.dumps(ideal_value) if isinstance(ideal_value, (dict, list)) else ideal_value
 
         content = {
             "input": (
@@ -30,7 +31,7 @@ def create_campaign_registry_data(ideal_key_or_value, question):
                 f"Question: {question}\n\n"
                 f"{instruction_str}"
             ),
-            "ideal": str(ideal_value),
+            "ideal": ideal_value_str,
         }
         
         registry_data += json.dumps(content) + "\n"

@@ -13,7 +13,8 @@ for item in evals_questions_ideals:
     question = item["question"]
     ideal = item["ideal"]
     eval_name = item["eval_name"]
+    criteria = item["criteria"]
 
-    create_yaml(eval_name, "The answer should be numerically correct and include appropriate units (if applicable). The solution should match exactly with the reference answer.")
+    create_yaml(eval_name, criteria)
     registry_data = create_campaign_registry_data(ideal, question)
     create_data(eval_name, registry_data)
