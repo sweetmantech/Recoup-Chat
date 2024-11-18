@@ -3,7 +3,7 @@ import os
 CURRENT_DIR = os.path.dirname(__file__)
 REGISTRY_PATH = os.path.join(CURRENT_DIR, "../registry")
 
-def create_yaml(yaml_name, criteria):
+def create_yaml(yaml_name, criteria, question):
     yaml_file_path = os.path.join(REGISTRY_PATH, f"evals/{yaml_name}.yaml")  # Use yaml_name here
     data_dir = os.path.join(REGISTRY_PATH, f"data/{yaml_name}")  # Use yaml_name here
 

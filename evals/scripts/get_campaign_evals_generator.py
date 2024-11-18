@@ -8,6 +8,6 @@ for item in evals_questions_ideals:
     eval_name = item["eval_name"]
     criteria = item["criteria"]
 
-    create_yaml(eval_name, criteria)
+    create_yaml(eval_name, criteria, question)
     registry_data = create_campaign_registry_data(ideal, question)
     create_data(eval_name, registry_data)
