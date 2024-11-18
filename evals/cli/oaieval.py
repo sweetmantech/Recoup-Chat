@@ -121,17 +121,20 @@ class OaiEvalArguments(argparse.Namespace):
     dry_run_logging: bool
 
 
-def send_slack_message(result: dict[str, Any]) -> None:
+def send_slack_message(result: dict[str, Any], label) -> None:
     """Send evaluation results to Slack."""
     try:
         client = WebClient(token=os.environ.get("SLACK_BOT_TOKEN"))
         
-        # Format the message
         message_blocks = []
-        message_text = "Evaluation Results:\n"
+        message_text = f"Evaluation Results: `{label}`\n"
         for key, value in result.items():
-            message_text += f"• *{key}*: {value}\n"
-            
+            message_text += f"• *{key}*: {value}"
+            if key == "score":
+                message_text += " ✅\n" if value == 1.0 else " ❌\n"
+            else:
+                message_text += "\n"
+
         response = client.chat_postMessage(
             channel=os.environ.get("SLACK_CHANNEL_ID", ""),
             text=message_text,
@@ -275,7 +278,7 @@ def run(args: OaiEvalArguments, registry: Optional[Registry] = None) -> str:
         logger.info(f"{key}: {value}")
     
     # Send results to Slack
-    send_slack_message(result)
+    send_slack_message(result, eval_spec.args['modelgraded_spec_args']['label'])
     
     return run_spec.run_id
 
