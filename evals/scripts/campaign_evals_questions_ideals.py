@@ -1,12 +1,12 @@
 count_query_criteria = "The answer should be numerically correct and include appropriate units (if applicable). The solution should match exactly with the reference answer."
-sub_set_criteria = "The actual answer should be a subset of the reference answer, items can include emoji unicode values."
+sub_set_criteria = "The actual answer should be a subset of the reference answer, answers can include emoji unicode values."
 
 evals_questions_ideals = [
     {
         "question": "What is the email count for users with an Apple Music account?",
         "ideal": "Due to Apple's policy, we do not collect Apple Music emails.",
         "eval_name": "get_email_count_of_apple",
-        "criteria": count_query_criteria
+        "criteria": "The main points explained in the reference answer and actual one should be the equal."
     },
     {
         "question": "What is the total number of fans with a premium Spotify account?",
