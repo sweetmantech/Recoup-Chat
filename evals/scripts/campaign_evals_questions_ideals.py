@@ -6,7 +6,7 @@ evals_questions_ideals = [
         "question": "What is the email count for users with an Apple Music account?",
         "ideal": "Due to Apple's policy, we do not collect Apple Music emails.",
         "eval_name": "get_email_count_of_apple",
-        "criteria": "The main points explained in the reference answer and actual one should be the equal."
+        "criteria": "The main points explained in the reference answer and the actual answer should be the same."
     },
     {
         "question": "What is the total number of fans with a premium Spotify account?",
