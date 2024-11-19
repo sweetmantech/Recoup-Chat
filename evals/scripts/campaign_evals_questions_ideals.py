@@ -47,7 +47,7 @@ evals_questions_ideals = [
         "question": "What are the top three genres that fans listen to outside of hip hop?",
         "ideal": "genres",
         "eval_name": "get_top_genres",
-        "criteria": "The answer is the list of genres names like reference answer."
+        "criteria": subset_criteria
        
     },
     {
