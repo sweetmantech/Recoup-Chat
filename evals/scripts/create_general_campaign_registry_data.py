@@ -11,10 +11,13 @@ def create_general_campaign_registry_data(ideal_key_or_value, question):
         url = f"https://recoup-chat-git-tech322-responseslack-recoupable-ad724970.vercel.app/api/get_campaign_general_info?email={email}&artistId={artist_id}"
         response = requests.get(url)
         data = response.json()
-        if data['data']['base_context']:
-            context_str = data['data']['base_context']
+        instruction = get_instruction()
+
+        if data['data']:
+            context_str = json.dumps(data['data'])
         else:
             context_str = "No context available."
+
         ideal_value = data['data'].get(ideal_key_or_value, ideal_key_or_value)
         ideal_value_str = json.dumps(ideal_value) if isinstance(ideal_value, (dict, list)) else ideal_value
 
@@ -23,7 +26,7 @@ def create_general_campaign_registry_data(ideal_key_or_value, question):
                 f"\n"
                 f"Context: {context_str}\n\n"
                 f"Question: ${question}\n\n"
-                f"Instruction: Provide only the correct answer without any explanations."
+                f"{instruction['get_general_campaign']}"
             ),
             "ideal": ideal_value_str
         }

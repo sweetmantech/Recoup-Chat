@@ -9,6 +9,7 @@ import getArtistAnalysis from "../tools/getArtistAnalysis";
 import createCampaign from "../tools/createCampaign";
 import getCampaigns from "../tools/getCampaigns";
 import updateArtistInfo from "../tools/updateArtistInfo";
+import { INSTRUCTION } from "../chat/const";
 
 export function createChatMessagesService() {
   return new ChatMessagesService();
@@ -42,7 +43,9 @@ Please use this information to provide accurate and relevant responses and don't
     try {
       const data = await getChatContext(email, artistId);
 
-      return data.context;
+      const context = JSON.stringify(data);
+      const instruction = `Context: ${context}\n\n${INSTRUCTION}`;
+      return instruction;
     } catch (error) {
       console.error("Error reading or parsing JSON files:", error);
       return "{}";
