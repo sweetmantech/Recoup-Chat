@@ -1,5 +1,5 @@
 {
-"get_campaign": {
+  "get_campaign": {
     "policy": "Due to Apple's policy, you must not collect Apple Music emails. If you receive questions related to Apple Music emails, reply 'Due to Apple's policy, we do not collect Apple Music emails.'",
     "guidelines": {
       "count_queries": "Just provide the number, no other information. First check if you can use spotify_fans_count, playlists_count, premium_fans_count, free_fans_count, or total_unique_fans_count.",
