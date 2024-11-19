@@ -13,5 +13,6 @@
       }
     }
   },
-  "additional_instruction": "1. Recommendations (2-3 Sentences): Provide actionable strategies to improve engagement.\n\n2. Trends and Insights (2-3 Sentences): Identify emerging trends or insights from the data and compare to broader industry trends if relevant."
+  "additional_instruction": "1. Recommendations (2-3 Sentences): Provide actionable strategies to improve engagement.\n\n2. Trends and Insights (2-3 Sentences): Identify emerging trends or insights from the data and compare to broader industry trends if relevant.",
+  "get_general_campaign": "The guidelines below outline responses based on question type:\n\n- Count Queries: Just provide the number, no other information. First check if you can use \"average_streamed_count.\"\n- Fan & Score Queries: Provide answer with fan name & score points."
 }
