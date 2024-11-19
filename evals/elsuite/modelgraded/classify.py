@@ -90,8 +90,6 @@ class ModelBasedClassify(evals.Eval):
             match_fn=self.match_fn,
             format_kwargs={**completions, **test_sample, **self.modelgraded_spec_args},
         )
-        print("ZIAD HERE")
-        print(info)
         metrics.update(dict(choice=choice, score=info["score"]))
 
         # run metaeval if requested
