@@ -54,7 +54,7 @@ evals_questions_ideals = [
         "question": "What is the country distribution of fans?",
         "ideal": "Example: \n• US:\n\t 121",
         "eval_name": "get_country_distribution",
-        "criteria": "The answer should list of elements including country name, fans count like ideal value"
+        "criteria": format_match_criteria
     },
     {
         "question": "How many fans logged in with Spotify to participate in this campaign?",
@@ -66,6 +66,6 @@ evals_questions_ideals = [
         "question": "What is the breakdown of Spotify premium versus free users by country?",
         "ideal": "Example: \n• US\n\t• Premium: 12\n\t• Free: 11",
         "eval_name": "get_breakdown_premium_vs_free",
-        "criteria": "The answer should list of elements including country name, premium count and free count like ideal value"
+        "criteria": format_match_criteria
     }
 ]

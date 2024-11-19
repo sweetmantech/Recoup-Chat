@@ -9,7 +9,8 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: "TikTok Account Analysis | Recoup",
-  description: "Get instant insights about any TikTok account's performance and content",
+  description:
+    "Get instant insights about any TikTok account's performance and content",
 };
 
 export default function TikTokAccountAnalysisFunnel() {
@@ -17,7 +18,8 @@ export default function TikTokAccountAnalysisFunnel() {
     <div className="grow h-screen flex">
       <main className="flex-1 flex items-center justify-center">
         <div className="w-full px-4 sm:px-6 text-center">
-          <h1 className={`
+          <h1
+            className={`
             ${plusJakartaSans.className}
             text-[32px]
             sm:text-3xl 
@@ -30,10 +32,12 @@ export default function TikTokAccountAnalysisFunnel() {
             max-w-[700px]
             mx-auto
             px-2
-          `}>
+          `}
+          >
             Analyze Your TikTok Account in Seconds.
           </h1>
-          <p className="
+          <p
+            className="
             text-gray-400 
             text-lg 
             sm:text-xl 
@@ -45,9 +49,11 @@ export default function TikTokAccountAnalysisFunnel() {
             sm:px-2
             leading-relaxed
             sm:leading-normal
-          ">
+          "
+          >
             <span className="sm:hidden">
-              See what works, why it works,<br />
+              See what works, why it works,
+              <br />
               and how to make it better.
             </span>
             <span className="hidden sm:block">
