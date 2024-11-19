@@ -15,7 +15,6 @@ const getChatContext = async (email: string, artistId: string) => {
   const context = [];
   const client = getSupabaseServerAdminClient();
   const scores: SCORE_EVENT[] = await getUsersScore();
-  context.push(INSTRUCTION);
 
   let scoreContext = `\n1. Scores of fan ( please calculate a count for each username to indicate the number of times each player has played the game.) \n`;
   scores.map((score: SCORE_EVENT) => {
@@ -64,7 +63,8 @@ const getChatContext = async (email: string, artistId: string) => {
   );
 
   return {
-    context: context.join("\n"),
+    context: [INSTRUCTION, ...context].join(","),
+    base_context: context.join(","),
     followersCount,
     startedFansCount,
     recentScore,
