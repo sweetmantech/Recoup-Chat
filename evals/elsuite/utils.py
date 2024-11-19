@@ -190,6 +190,5 @@ class PromptFn:
             n=(1 if self.n_samples is None else self.n_samples),
             **self.completion_kwargs,
         )
-        print(result)
         sampled = result.get_completions()[0]
         return sampled, prompt
