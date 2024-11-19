@@ -1,28 +1,12 @@
-def extract_between_markers(text, start_marker, end_marker):
-    """
-    Extracts text between the specified start and end markers in a multiline string.
+def extract_between_markers(text):
+    begin_marker = '[BEGIN SUBMISSION]'
+    end_marker = '[END SUBMISSION]'
 
-    :param text: The input multiline text from which to extract
-    :param start_marker: The string that indicates where to start extracting
-    :param end_marker: The string that indicates where to stop extracting
-    :return: The string containing all lines between the two markers
-    """
-    lines = text.split('\n')
+    begin_index = input_text.find(begin_marker)
+    end_index = input_text.find(end_marker)
 
-    extracted_lines = []
-    
-    inside_section = False
+    if begin_index == -1 or end_index == -1 or begin_index >= end_index:
+        return None
 
-    for line in lines:
-        if line.startswith(start_marker):
-            inside_section = True
-            continue
-        
-        if line.startswith(end_marker):
-            inside_section = False
-            break
-
-        if inside_section:
-            extracted_lines.append(line)
-
-    return '\n'.join(extracted_lines).strip()
+    content = input_text[begin_index + len(begin_marker):end_index].strip()
+    return content

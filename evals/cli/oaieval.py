@@ -130,7 +130,8 @@ def send_slack_message(result: dict[str, Any], label) -> None:
         message_text = f"Evaluation Results: `{label}`\n"
         for key, value in result.items():
             if key == "score":
-                message_text += "• score ✅\n" if value == 1.0 else " ❌\n"
+                message_text += f"• *{key}*: {value}"
+                message_text += " ✅\n" if value == 1.0 else " ❌\n"
             if "answer" in key:
                 answer = extract_between_markers(value[0], '[SUBMISSION]:', '1.')
                 message_text += f"• answer: {answer} {'✅' if 'Y' in key else '❌'}\n"
