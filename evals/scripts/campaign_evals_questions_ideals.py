@@ -1,4 +1,4 @@
-from criteria import count_query_criteria, sub_set_criteria
+from criteria import count_query_criteria, sub_set_criteria, format_match_criteria
 
 evals_questions_ideals = [
     {
@@ -54,12 +54,18 @@ evals_questions_ideals = [
         "question": "What is the country distribution of fans?",
         "ideal": "format: [country_name]: [fans_count], example: US: 123",
         "eval_name": "get_country_distribution",
-        "criteria": 'The actual answer should be formatted in the ideal value format.'
+        "criteria": format_match_criteria
     },
     {
         "question": "How many fans logged in with Spotify to participate in this campaign?",
         "ideal": "spotify_fans_count",
         "eval_name": "get_spotify_fans_count",
         "criteria": count_query_criteria
+    },
+    {
+        "question": "What is the breakdown of Spotify premium versus free users by country?",
+        "ideal": "format: [country name]: • premium [premium fans count], • free [free fan count], example: US: • premium 12 • free 11",
+        "eval_name": "get_breakdown_premium_vs_free",
+        "criteria": format_match_criteria
     }
 ]
