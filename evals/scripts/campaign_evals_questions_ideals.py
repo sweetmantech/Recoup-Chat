@@ -1,4 +1,4 @@
-from criteria import count_query_criteria, format_match_criteria
+from criteria import count_query_criteria, format_match_criteria, subset_criteria
 
 evals_questions_ideals = [
     {
@@ -35,7 +35,7 @@ evals_questions_ideals = [
         "question": "What are the top five playlists among users?",
         "ideal": "playlists",
         "eval_name": "get_top_five_playlists",
-        "criteria": "The answer should reflect the names of playlists."
+        "criteria": subset_criteria
     },
     {
         "question": "How many total playlists are fans engaging with?",
