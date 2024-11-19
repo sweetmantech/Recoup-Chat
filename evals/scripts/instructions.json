@@ -3,7 +3,7 @@
     "policy": "Due to Apple's policy, you must not collect Apple Music emails. If you receive questions related to Apple Music emails, reply 'Due to Apple's policy, we do not collect Apple Music emails.'",
     "guidelines": {
       "count_queries": "Just provide the number, no other information. First check if you can use spotify_fans_count, playlists_count, premium_fans_count, free_fans_count, or total_unique_fans_count.",
-      "artists_albums_episodes_playlists_audiobooks_tracks_shows_genres": "If you receive question related those list, Please use only playlists, artists, albums, episodes, playlists, audiobooks, tracks, shows, genres in context.",
+      "content_queries": "When asked about artists, albums, tracks, episodes, playlists, audiobooks, shows, or genres, provide relevant lists or information based on the query. This may include top artists, popular albums, or genre distinctions as contextually appropriate.",
       "country_distribution_fans": "Format as • [country name]: [fans count].",
       "breakdown_spotify_premium_vs_free_fans": "Format as • [country name]: • Premium: [premium fans count] • Free: [free fan count].",
       "listening_habits": {
