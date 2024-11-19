@@ -73,5 +73,11 @@ evals_questions_ideals = [
         "ideal": "episodes",
         "eval_name": "get_top_podcasts",
         "criteria": subset_criteria
+    },
+    {
+        "question": "What are the most common podcast genres among fans?",
+        "ideal": "episodes",
+        "eval_name": "get_common_podcasts",
+        "criteria": subset_criteria
     }
 ]
