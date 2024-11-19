@@ -117,13 +117,15 @@ class ModelBasedClassify(evals.Eval):
         record_metrics.update({f"counts/{k}": v for k, v in counts_choices.items()})
 
         for metric in all_sample_metrics:
+        if isinstance(metric, list):
             for m in metric:
-                if isinstance(m, dict) and m.get('choice') == 'Y':
-                    record_metrics[f"answer/Y"] = m["sampled"]
+                if isinstance(m, dict):
+                    choice = m.get('choice')
+                    if choice in {'Y', 'N'}:
+                        record_metrics[f"answer/{answer_counter}/{choice}"] = m["sampled"]
+            
+            answer_counter += 1
         
-        if 'answer/Y' in record_metrics:
-            record_metrics[f"answer/Y"] = record_metrics[f"answer/Y"][-1]
-
         scores = [m["score"] for m in all_sample_metrics if m["score"] is not None]
         if scores:
             record_metrics["score"] = sum(scores) / len(scores)
