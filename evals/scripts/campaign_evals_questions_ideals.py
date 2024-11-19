@@ -1,4 +1,4 @@
-from criteria import count_query_criteria, sub_set_criteria, format_match_criteria
+from criteria import count_query_criteria, format_match_criteria
 
 evals_questions_ideals = [
     {
@@ -29,13 +29,13 @@ evals_questions_ideals = [
         "question": "What are the top five artists that fans are listening to on aggregate?",
         "ideal": "artists",
         "eval_name": "get_top_five_artist",
-        "criteria": sub_set_criteria
+        "criteria": "The answer is the list of artist names like reference answer"
     },
     {
         "question": "What are the top five playlists among users?",
         "ideal": "playlists",
         "eval_name": "get_top_five_playlists",
-        "criteria": sub_set_criteria
+        "criteria": "The answer is the list of playlists item names like reference answer"
     },
     {
         "question": "How many total playlists are fans engaging with?",
@@ -47,7 +47,7 @@ evals_questions_ideals = [
         "question": "What are the top three genres that fans listen to outside of hip hop?",
         "ideal": "genres",
         "eval_name": "get_top_genres",
-        "criteria": sub_set_criteria
+        "criteria": "The answer is the list of genres names like reference answer."
        
     },
     {
