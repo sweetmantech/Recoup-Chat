@@ -11,7 +11,7 @@ closedqa:
     ***
     [END DATA]
     Does the submission meet the criterion?
-    Criterion Answer Format:
+    Guideline for Criterion Evaluation:
       - IMPORTANT: IT IS CRUCIAL THAT THIS LINE IS INCLUDED ABSOLUTELY WITH YOUR REASONING - REPEAT THE SUBMISSION SENTENCE in the format [BEGIN SUBMISSION]: ....submission text.... [END SUBMISSION]
       - Then write out in a step-by-step manner your reasoning about the criterion to be sure that your conclusion is correct. 
       - At the end, print only the single character "Y" or "N" (without quotes or punctuation) on its own line corresponding to the correct answer. 
