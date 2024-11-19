@@ -16,24 +16,12 @@ closedqa:
       3. At the end, print only the single character "Y" or "N" (without quotes or punctuation) on its own line corresponding to the correct answer. 
       4. Finally, repeat just the letter again by itself on a new line.
 
-    ///////////////////////////// BEGIN REPLY FORMAT EXAMPLE //////////////////////////////
+    Below is your reply format:
       [BEGIN SUBMISSION]: 
-        Some of the top podcasts that fans are listening to include
-          • The Joe Rogan Experience
-          • Crime Junki"
-          • The Daily by The New York Times
-          • Stuff You Should Know
-          • Serial
-          • My Favorite Murder
-          • The Michelle Obama Podcast
+        ...completion text....
       [END SUBMISSION]
-      1. The submission lists the top podcasts that fans are listening to.
-      2. The submission matches exactly with the reference answer provided.
-      3. The submission is numerically correct and does not require units.
-      4. Therefore, the submission meets the criterion.\n\nY\nY
-    ///////////////////////////// END BEGIN REPLY FORMAT EXAMPLE //////////////////////////////
-    
-    Does the submission meet the criterion?
+      ...reasoning... 
+
   eval_type: cot_classify
   choice_scores:
     "Y": 1.0
