@@ -1,6 +1,6 @@
 closedqa:
   prompt: |-
-    You are assessing a submitted answer on a given task based on a criterion. Here is the data:
+    Here is the data:
     [BEGIN DATA]
     ***
     [Task]: {input}
@@ -10,14 +10,13 @@ closedqa:
     [Criterion]: {criteria}
     ***
     [END DATA]
-    Does the submission meet the criterion?
-    Guideline for Criterion Evaluation:
-      - IMPORTANT: IT IS CRUCIAL THAT THIS LINE IS INCLUDED ABSOLUTELY WITH YOUR REASONING - REPEAT THE SUBMISSION SENTENCE in the format [BEGIN SUBMISSION]: ....submission text.... [END SUBMISSION]
-      - Then write out in a step-by-step manner your reasoning about the criterion to be sure that your conclusion is correct. 
-      - At the end, print only the single character "Y" or "N" (without quotes or punctuation) on its own line corresponding to the correct answer. 
-      - Finally, repeat just the letter again by itself on a new line.
+    You should provide answer as followed below instruction step while evaluating the submission:
+      1. IMPORTANT: IT IS CRUCIAL THAT THIS LINE IS INCLUDED ABSOLUTELY WITH YOUR REASONING - REPEAT THE SUBMISSION SENTENCE in the format [BEGIN SUBMISSION]: ....submission text.... [END SUBMISSION]
+      2. Then write out in a step-by-step manner your reasoning about the criterion to be sure that your conclusion is correct. 
+      3. At the end, print only the single character "Y" or "N" (without quotes or punctuation) on its own line corresponding to the correct answer. 
+      4. Finally, repeat just the letter again by itself on a new line.
 
-    ///////////////////////////// BEGIN CRITERION FORMAT EXAMPLE //////////////////////////////
+    ///////////////////////////// BEGIN REPLY FORMAT EXAMPLE //////////////////////////////
       [BEGIN SUBMISSION]: 
         Some of the top podcasts that fans are listening to include
           • The Joe Rogan Experience
@@ -29,13 +28,12 @@ closedqa:
           • The Michelle Obama Podcast
       [END SUBMISSION]
       1. The submission lists the top podcasts that fans are listening to.
-      2. The submission includes 10 podcasts in total.
-      3. The submission matches exactly with the reference answer provided.
-      4. The submission is numerically correct and does not require units.
-      5. Each podcast listed in the submission is correctly spelled and matches the reference answer.
-      Therefore, the submission meets the criterion.\n\nY\nY
-    ///////////////////////////// END CRITERION FORMAT EXAMPLE //////////////////////////////
-
+      2. The submission matches exactly with the reference answer provided.
+      3. The submission is numerically correct and does not require units.
+      4. Therefore, the submission meets the criterion.\n\nY\nY
+    ///////////////////////////// END BEGIN REPLY FORMAT EXAMPLE //////////////////////////////
+    
+    Does the submission meet the criterion?
   eval_type: cot_classify
   choice_scores:
     "Y": 1.0
