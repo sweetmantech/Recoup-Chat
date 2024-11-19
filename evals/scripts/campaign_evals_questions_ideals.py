@@ -71,7 +71,7 @@ evals_questions_ideals = [
     {
         "question": "What are the top podcasts fans are listening to?",
         "ideal": "episodes",
-        "eval_name": "get_breakdown_premium_vs_free",
+        "eval_name": "get_top_podcasts",
         "criteria": subset_criteria
     }
 ]
