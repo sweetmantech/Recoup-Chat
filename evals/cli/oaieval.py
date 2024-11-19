@@ -133,8 +133,9 @@ def send_slack_message(result: dict[str, Any], label) -> None:
         yes_answer_count = 0
         for key, value in result.items():
             if "answer" in key:
-                print(value[0].content)
-                answer = extract_between_markers(value[0].content)
+                print(value[0]['content'])
+                answer = extract_between_markers(value[0]['content'])
+                print(answer)
                 if label != "Recoup Chat Benchmarks":
                     message_content += f"• {answer}\n {'`correct`' if 'Y' in key else '`incorrect`'}\n"
                 if "Y" in key:
