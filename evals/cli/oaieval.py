@@ -133,7 +133,7 @@ def send_slack_message(result: dict[str, Any], label) -> None:
                 message_text += f"• *{key}*: {value}"
                 message_text += " ✅\n" if value == 1.0 else " ❌\n"
             if "answer" in key:
-                answer = extract_between_markers(value[0], '[SUBMISSION]:', '1.')
+                answer = extract_between_markers(value[0])
                 message_text += f"• {answer} {'✅' if 'Y' in key else '❌'}\n"
         
         response = client.chat_postMessage(
