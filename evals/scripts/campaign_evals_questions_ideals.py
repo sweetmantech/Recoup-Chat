@@ -52,9 +52,9 @@ evals_questions_ideals = [
     },
     {
         "question": "What is the country distribution of fans?",
-        "ideal": "format: [country_name]: [fans_count], example: US: 123",
+        "ideal": "Example: \n• US\n\t• 121",
         "eval_name": "get_country_distribution",
-        "criteria": format_match_criteria
+        "criteria": "The answer should list of elements including country name, fans count like ideal value"
     },
     {
         "question": "How many fans logged in with Spotify to participate in this campaign?",
