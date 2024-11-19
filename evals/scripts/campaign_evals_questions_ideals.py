@@ -52,7 +52,7 @@ evals_questions_ideals = [
     },
     {
         "question": "What is the country distribution of fans?",
-        "ideal": "Example: \n• US\n\t• 121",
+        "ideal": "Example: \n• US:\n\t 121",
         "eval_name": "get_country_distribution",
         "criteria": "The answer should list of elements including country name, fans count like ideal value"
     },
