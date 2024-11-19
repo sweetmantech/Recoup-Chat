@@ -16,6 +16,26 @@ closedqa:
       - Then write out in a step-by-step manner your reasoning about the criterion to be sure that your conclusion is correct. 
       - At the end, print only the single character "Y" or "N" (without quotes or punctuation) on its own line corresponding to the correct answer. 
       - Finally, repeat just the letter again by itself on a new line.
+
+    ///////////////////////////// BEGIN CRITERION FORMAT EXAMPLE //////////////////////////////
+      [BEGIN SUBMISSION]: 
+        Some of the top podcasts that fans are listening to include
+          • The Joe Rogan Experience
+          • Crime Junki"
+          • The Daily by The New York Times
+          • Stuff You Should Know
+          • Serial
+          • My Favorite Murder
+          • The Michelle Obama Podcast
+      [END SUBMISSION]
+      1. The submission lists the top podcasts that fans are listening to.
+      2. The submission includes 10 podcasts in total.
+      3. The submission matches exactly with the reference answer provided.
+      4. The submission is numerically correct and does not require units.
+      5. Each podcast listed in the submission is correctly spelled and matches the reference answer.
+      Therefore, the submission meets the criterion.\n\nY\nY
+    ///////////////////////////// END CRITERION FORMAT EXAMPLE //////////////////////////////
+
   eval_type: cot_classify
   choice_scores:
     "Y": 1.0
