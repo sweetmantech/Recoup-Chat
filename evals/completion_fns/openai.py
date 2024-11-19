@@ -121,8 +121,6 @@ class OpenAICompletionFn(CompletionFn):
             prompt=openai_create_prompt,
             **{**kwargs, **self.extra_options},
         )
-        print("ZIAD OKAY HERE")
-        print(result)
         result = OpenAICompletionResult(raw_data=result, prompt=openai_create_prompt)
         record_sampling(
             prompt=result.prompt,
