@@ -3,6 +3,7 @@ import string
 import requests
 from get_context import get_context
 from mock_data import mock_data
+from get_instruction import get_instruction
 
 def create_general_campaign_registry_data(ideal_key_or_value, question):
     registry_data = ""
