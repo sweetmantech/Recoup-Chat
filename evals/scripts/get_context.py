@@ -1,5 +1,6 @@
 import os
 from supabase import create_client
+from get_fans_listening_top_songs import get_fans_listening_top_songs
 
 supabase_url = os.environ.get("SUPABASE_URL")
 supabase_key = os.environ.get("SUPABASE_KEY")
@@ -15,7 +16,8 @@ def get_context(artist_id, email):
     campaign = response.data
     premium_count = len([fan for fan in campaign.get("fans", []) if fan.get("product") == "premium"])
     free_count = len([fan for fan in campaign.get("fans", []) if fan.get("product") == "free"])
-   
+    fans_listening_top_songs_info = get_fans_listening_top_songs(artist_id, email)
+
     return {
         "tracks": limit_collection(campaign.get("tracks", [])),
         "artists": limit_collection(campaign.get("artists", [])),
@@ -30,5 +32,6 @@ def get_context(artist_id, email):
         "spotify_fans_count": premium_count + free_count,
         "total_unique_fans_count": len(campaign.get("fans", [])),
         "fans": limit_collection(campaign.get('fans', []), 100),
-        "playlists_count": len(campaign.get('playlist', []))
+        "playlists_count": len(campaign.get('playlist', [])),
+        "top_song_listening_fans_count": fans_listening_top_songs_info.get("top_song_listening_fans_count", 0)
     }
