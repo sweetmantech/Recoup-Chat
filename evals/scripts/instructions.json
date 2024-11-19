@@ -1,5 +1,18 @@
 {
-    "get_campaign": "1. Due to Apple's policy, you must not collect Apple Music emails. In such cases, you are required to respond with exactly: \"Due to Apple's policy, we do not collect Apple Music emails.\" Ensure that this response is given unconditionally whenever asked about collecting Apple Music emails.\"\n\n2. The guidelines below outline responses based on question type:\n\n- Count Queries: Just provide the number, no other information. First check if you can use \"spotify_fans_count\" \"playlists_count\", \"premium_fans_count,\" \"free_fans_count\", or \"total_unique_fans_count.\" \n- Artists, Albums, Episodes, Playlists, Audio Books, Tracks, Shows, Genres: Provide only relevant information.\n- Country Distribution Fans: Format as [country name]: [fan count] with <li> tags.\n- Listening Habits (4 Sentences):\n  a. Overview: Summarize listening trends, including genres, artists, content types, countries, cities, and segments.\n  b. Content Breakdown: Highlight popular items and standout artists.\n  c. Engagement Metrics: Report key statistics and identify top performers.\n\n",
-    "get_general_campaign": "The guidelines below outline responses based on question type:\n\n- Count Queries: Just provide the number, no other information. First check if you can use \"average_streamed_count\" .\" \n- Fan & Score Queries: Provide answer with fan name & score points.",
-    "additional_instruction": "1. Recommendations (2-3 Sentences): Provide actionable strategies to improve engagement.\n\n2. Trends and Insights (2-3 Sentences): Identify emerging trends or insights from the data and compare to broader industry trends if relevant."
+  "get_campaign": {
+    "policy": "Due to Apple's policy, you must not collect Apple Music emails. If you receive questions specifically related to the collection of Apple Music emails, reply 'Due to Apple's policy, we do not collect Apple Music emails.' Follow this guidance strictly when the inquiry is regarding email collection.",
+    "guidelines": {
+      "count_queries": "Only provide the number when specifically asked for a numeric count of fans, playlists, or similar. Use the available metrics: spotify_fans_count, playlists_count, premium_fans_count, free_fans_count, or total_unique_fans_count only in numeric count requests. Do NOT trigger this for any requests asking for lists or detailed information.",
+      "content_queries": "When asked about artists, albums, tracks, episodes, playlists, audiobooks, shows, or genres, provide relevant lists or information based on the query. This may include top artists, popular albums, or genre distinctions as contextually appropriate.",
+      "country_distribution_fans": "Format as • [country name]: [fans count].",
+      "breakdown_spotify_premium_vs_free_fans": "Format as • [country name]: • Premium: [premium fans count] • Free: [free fan count].",
+      "listening_habits": {
+        "overview": "Summarize listening trends, including genres, artists, content types, countries, cities, and segments.",
+        "content_breakdown": "Highlight popular items and standout artists.",
+        "engagement_metrics": "Report key statistics and identify top performers."
+      }
+    }
+  },
+  "additional_instruction": "1. Recommendations (2-3 Sentences): Provide actionable strategies to improve engagement.\n\n2. Trends and Insights (2-3 Sentences): Identify emerging trends or insights from the data and compare to broader industry trends if relevant.",
+  "get_general_campaign": "The guidelines below outline responses based on question type:\n\n- Count Queries: Just provide the number, no other information. First check if you can use \"average_streamed_count.\"\n- Fan & Score Queries: Provide answer with fan name & score points."
 }

@@ -11,14 +11,14 @@ const TikTokAccountInput = () => {
 
   const handleAnalyze = async () => {
     if (!username || isLoading) return;
-    
+
     try {
       setIsLoading(true);
-      
+
       // First fetch TikTok trends
       const response = await fetch(`/api/trends?handle=${username}`);
       const data = await response.json();
-      
+
       if (!data.success) {
         throw new Error(data.message);
       }
@@ -28,17 +28,19 @@ const TikTokAccountInput = () => {
         id: uuidV4(),
         content: `Analyze @${username}`,
         role: "user",
-        tool_calls: [{
-          id: uuidV4(),
-          type: "function",
-          function: {
-            name: "getArtistAnalysis",
-            arguments: JSON.stringify({
-              user_name: username,
-              trends: data.trends
-            })
-          }
-        }]
+        tool_calls: [
+          {
+            id: uuidV4(),
+            type: "function",
+            function: {
+              name: "getArtistAnalysis",
+              arguments: JSON.stringify({
+                user_name: username,
+                trends: data.trends,
+              }),
+            },
+          },
+        ],
       });
     } catch (error) {
       console.error("Analysis failed:", error);
@@ -49,7 +51,8 @@ const TikTokAccountInput = () => {
 
   return (
     <div className="flex flex-col items-center justify-center gap-4 px-4">
-      <div className="
+      <div
+        className="
         relative 
         w-[340px] 
         sm:w-full 
@@ -64,7 +67,8 @@ const TikTokAccountInput = () => {
         focus-within:to-white/[0.03]
         transition-all
         duration-200
-      ">
+      "
+      >
         <input
           type="text"
           placeholder="@username"
@@ -84,7 +88,7 @@ const TikTokAccountInput = () => {
             z-10
           "
         />
-        <button 
+        <button
           onClick={handleAnalyze}
           disabled={!username || isLoading}
           className="
@@ -112,28 +116,30 @@ const TikTokAccountInput = () => {
             disabled:cursor-not-allowed
           "
         >
-          {isLoading ? 'Analyzing...' : (
+          {isLoading ? (
+            "Analyzing..."
+          ) : (
             <>
               Try For Free
-              <svg 
-                width="15" 
-                height="15" 
-                viewBox="0 0 24 24" 
-                fill="none" 
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
                 className="translate-y-[0.5px]"
               >
-                <path 
-                  d="M7 17L17 7" 
-                  stroke="currentColor" 
+                <path
+                  d="M7 17L17 7"
+                  stroke="currentColor"
                   strokeWidth="2"
-                  strokeLinecap="round" 
+                  strokeLinecap="round"
                   strokeLinejoin="round"
                 />
-                <path 
-                  d="M7 7H17V17" 
-                  stroke="currentColor" 
+                <path
+                  d="M7 7H17V17"
+                  stroke="currentColor"
                   strokeWidth="2"
-                  strokeLinecap="round" 
+                  strokeLinecap="round"
                   strokeLinejoin="round"
                 />
               </svg>
