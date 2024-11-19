@@ -23,6 +23,7 @@ def create_general_campaign_registry_data(ideal_key_or_value, question):
                 f"\n"
                 f"Context: {context_str}\n\n"
                 f"Question: ${question}\n\n"
+                f"Instruction: Provide only the correct answer without any explanations."
             ),
             "ideal": ideal_value_str
         }

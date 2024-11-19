@@ -33,7 +33,7 @@ const getChatContext = async (email: string, artistId: string) => {
   context.push(`\n3. Most played fan: ${mostPlayedFan}`);
 
   const streamsCount = await getStreamsCount(client, email, artistId);
-  context.push(`\n4. Streams Count: ${streamsCount}`);
+  context.push(`\n4. Average Streams Count: ${streamsCount}`);
 
   const usersInPast7 = await getSpotifyFansPast7(
     client,
