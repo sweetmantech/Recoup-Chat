@@ -130,12 +130,11 @@ def send_slack_message(result: dict[str, Any], label) -> None:
         print(result)        
         message_text = f"Evaluation Results: `{label}`\n"
         for key, value in result.items():
-            message_text += f"• *{key}*: {value}"
             if key == "score":
-                message_text += " ✅\n" if value == 1.0 else " ❌\n"
+                message_text += "• score ✅\n" if value == 1.0 else " ❌\n"
             if "answer" in key:
-                result = extract_between_markers(value, '1.', '2.')
-                message_text += f"{result} {'✅' if 'Y' in key else '❌'}\n" if 'Y' in key or 'N' in key else ""
+                answer = extract_between_markers(value, '[SUBMISSION]:', '1.')
+                message_text += f"• answer: {answer} {'✅' if 'Y' in key else '❌'}\n" if 'Y' in key or 'N' in key else ""
 
         response = client.chat_postMessage(
             channel=os.environ.get("SLACK_CHANNEL_ID", ""),
