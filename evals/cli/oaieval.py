@@ -18,7 +18,7 @@ import os
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 import ssl
-from fns.extract_between_markers import extract_between_markers
+from evals.fns.extract_between_markers import extract_between_markers
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
