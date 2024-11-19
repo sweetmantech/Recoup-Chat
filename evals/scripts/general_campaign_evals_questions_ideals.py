@@ -1,4 +1,4 @@
-from criteria import count_query_criteria, sub_set_criteria
+from criteria import count_query_criteria
 
 evals_questions_ideals = [
     {
