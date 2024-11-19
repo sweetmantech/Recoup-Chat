@@ -67,5 +67,11 @@ evals_questions_ideals = [
         "ideal": "Example: \n• US\n\t• Premium: 12\n\t• Free: 11",
         "eval_name": "get_breakdown_premium_vs_free",
         "criteria": format_match_criteria
+    },
+    {
+        "question": "What are the top podcasts fans are listening to?",
+        "ideal": "episodes",
+        "eval_name": "get_top_podcasts",
+        "criteria": subset_criteria
     }
 ]
