@@ -125,7 +125,8 @@ def send_slack_message(result: dict[str, Any], label) -> None:
     """Send evaluation results to Slack."""
     try:
         client = WebClient(token=os.environ.get("SLACK_BOT_TOKEN"))
-        
+
+        print(result)        
         message_blocks = []
         message_text = f"Evaluation Results: `{label}`\n"
         for key, value in result.items():
