@@ -111,16 +111,15 @@ class ModelBasedClassify(evals.Eval):
         if not all_sample_metrics:
             return record_metrics
 
-        print(all_sample_metrics)
-        # record the counts
+        # Record the counts of choices
         choices = [m["choice"] for m in all_sample_metrics]
-        counts = dict(Counter(choices))
-        record_metrics.update({f"counts/{k}": v for k, v in counts.items()})
+        counts_choices = dict(Counter(choices))
+        record_metrics.update({f"counts/{k}": v for k, v in counts_choices.items()})
 
-        # record the sampled
+        # Record the sampled data
         sampled = [m["sampled"] for m in all_sample_metrics]
-        counts = dict(Counter(sampled))
-        record_metrics.update({f"answer": v for k, v in counts.items()})
+        counts_sampled = dict(Counter(sampled))
+        record_metrics.update({f"answer/{k}": v for k, v in counts_sampled.items()})  # Added prefix "answer/"
 
         # record the scores
         scores = [m["score"] for m in all_sample_metrics if m["score"] is not None]
