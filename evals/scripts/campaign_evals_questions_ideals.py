@@ -29,7 +29,7 @@ evals_questions_ideals = [
         "question": "What are the top five artists that fans are listening to on aggregate?",
         "ideal": "artists",
         "eval_name": "get_top_five_artist",
-        "criteria": "The answer is the list of artist names like reference answer"
+        "criteria": sub_set_criteria
     },
     {
         "question": "What are the top five playlists among users?",
