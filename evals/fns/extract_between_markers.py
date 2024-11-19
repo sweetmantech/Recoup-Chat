@@ -1,5 +1,7 @@
+from remove_html_tags import remove_html_tags
+
 def extract_between_markers(text):
-    begin_marker = '[BEGIN SUBMISSION]'
+    begin_marker = '[BEGIN SUBMISSION]:'
     end_marker = '[END SUBMISSION]'
 
     begin_index = text.find(begin_marker)
@@ -9,4 +11,4 @@ def extract_between_markers(text):
         return None
 
     content = text[begin_index + len(begin_marker):end_index].strip()
-    return content
+    return remove_html_tags(content)
