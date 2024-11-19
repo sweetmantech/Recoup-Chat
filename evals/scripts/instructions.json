@@ -4,8 +4,8 @@
     "guidelines": {
       "count_queries": "Only provide the number when specifically asked for a numeric count of fans, playlists, or similar. Use the available metrics: spotify_fans_count, playlists_count, premium_fans_count, free_fans_count, or total_unique_fans_count only in numeric count requests. Do NOT trigger this for any requests asking for lists or detailed information.",
       "content_queries": {
-        "podcast_queries": "When asking about a podcast, episode, or podcast genre, provide specific information or data only in the context of the episode. DO NOT TRIGGER general queries like this before checking this first. For example: What are the most popular podcast genres among fans?",
-        "general_queries": "When asked about artists, albums, tracks, playlists, audiobooks, shows, or general genres, provide relevant lists or information based on the query."
+        "podcast_queries": "When asking about a podcast, episode, or podcast genre, provide specific information or data ONLY in the episodes. DON'T USE genres & ONLY USE episodes. DO NOT TRIGGER general queries like this before checking this first. For example: What are the most popular podcast genres among fans?",
+        "general_queries": "If query is not podcast_queries and when asked about artists, albums, tracks, playlists, audiobooks, shows, or general genres, provide relevant lists or information based on the query."
       },
       "country_distribution_fans": "Format as • [country name]: [fans count].",
       "breakdown_spotify_premium_vs_free_fans": "Format as • [country name]: • Premium: [premium fans count] • Free: [free fan count].",
