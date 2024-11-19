@@ -64,8 +64,8 @@ evals_questions_ideals = [
     },
     {
         "question": "What is the breakdown of Spotify premium versus free users by country?",
-        "ideal": "format: [country name]: • premium [premium fans count], • free [free fan count], example: US: • premium 12 • free 11",
+        "ideal": "Example: \n• US\n\t• Premium: 12\n\t• Free: 11",
         "eval_name": "get_breakdown_premium_vs_free",
-        "criteria": format_match_criteria
+        "criteria": "The answer should list of elements including country name, premium count and free count like ideal value"
     }
 ]
