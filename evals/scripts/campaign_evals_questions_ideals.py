@@ -67,11 +67,5 @@ evals_questions_ideals = [
         "ideal": "Example: \n• US\n\t• Premium: 12\n\t• Free: 11",
         "eval_name": "get_breakdown_premium_vs_free",
         "criteria": "The answer should list of elements including country name, premium count and free count like ideal value"
-    },
-    {
-        "question": "What are the top podcasts fans are listening to?",
-        "ideal": "episodes",
-        "eval_name": "get_breakdown_premium_vs_free",
-        "criteria": ""
     }
 ]
