@@ -35,7 +35,7 @@ evals_questions_ideals = [
         "question": "What are the top five playlists among users?",
         "ideal": "playlists",
         "eval_name": "get_top_five_playlists",
-        "criteria": "The answer is the playlists like reference answer. Playlist name can also consist only of emoji."
+        "criteria": "The answer is the list like reference answer."
     },
     {
         "question": "How many total playlists are fans engaging with?",
