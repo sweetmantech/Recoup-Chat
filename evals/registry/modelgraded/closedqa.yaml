@@ -5,7 +5,7 @@ closedqa:
     ***
     [Task]: {input}
     ***
-    [Submission]: {completion}
+    [BEGIN SUBMISSION]: {completion} :[END SUBMISSION]
     ***
     [Criterion]: {criteria}
     ***
