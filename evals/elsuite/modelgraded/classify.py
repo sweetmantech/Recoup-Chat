@@ -90,8 +90,8 @@ class ModelBasedClassify(evals.Eval):
             match_fn=self.match_fn,
             format_kwargs={**completions, **test_sample, **self.modelgraded_spec_args},
         )
-        print(info)
         metrics.update(dict(choice=choice, score=info["score"]))
+        metrics.update(dict(choice=choice, score=info["sampled"]))
 
         # run metaeval if requested
         if self.metaeval:
@@ -112,6 +112,7 @@ class ModelBasedClassify(evals.Eval):
         if not all_sample_metrics:
             return record_metrics
 
+        print(all_sample_metrics)
         # record the counts
         choices = [m["choice"] for m in all_sample_metrics]
         counts = dict(Counter(choices))
