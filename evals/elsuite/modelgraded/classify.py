@@ -118,7 +118,7 @@ class ModelBasedClassify(evals.Eval):
 
         for metric in all_sample_metrics:
             for m in metric:
-                if m['choice'] == 'Y':
+                if isinstance(m, dict) and m.get('choice') == 'Y':
                     record_metrics[f"answer/Y"] = m["sampled"]
         
         if 'answer/Y' in record_metrics:
