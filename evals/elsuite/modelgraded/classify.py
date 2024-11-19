@@ -116,6 +116,7 @@ class ModelBasedClassify(evals.Eval):
         counts_choices = dict(Counter(choices))
         record_metrics.update({f"counts/{k}": v for k, v in counts_choices.items()})
 
+        answer_counter = 1
         for metric in all_sample_metrics:
             if isinstance(metric, list):
                 for m in metric:
