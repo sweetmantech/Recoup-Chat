@@ -22,13 +22,9 @@ def create_campaign_registry_data(ideal_key_or_value, question):
         content = {
             "input": (
                 f"\n"
-                f"****"
-                f"[Instruction]:"
+                f"Context: {context_str}\n"
+                f"Question: {question}\n\n"
                 f"{instruction['get_campaign']}"
-                f"****"
-                f"[PROVIDED DATA]: {context_str}\n"
-                f"****"
-                f"[QUESTION]: {question}\n\n"
             ),
             "ideal": ideal_value_str,
         }
