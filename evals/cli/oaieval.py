@@ -18,6 +18,7 @@ import os
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 import ssl
+from fns.extract_between_markers import extract_between_markers
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -133,6 +134,9 @@ def send_slack_message(result: dict[str, Any], label) -> None:
             message_text += f"• *{key}*: {value}"
             if key == "score":
                 message_text += " ✅\n" if value == 1.0 else " ❌\n"
+            if "answer" in key:
+                result = extract_between_markers(value, '1.', '2.')
+                message_text += f"{result} {'✅' if 'Y' in key else '❌'}\n" if 'Y' in key or 'N' in key else ""
             else:
                 message_text += "\n"
 
