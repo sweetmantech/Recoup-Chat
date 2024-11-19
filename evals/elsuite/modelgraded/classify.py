@@ -90,8 +90,7 @@ class ModelBasedClassify(evals.Eval):
             match_fn=self.match_fn,
             format_kwargs={**completions, **test_sample, **self.modelgraded_spec_args},
         )
-        metrics.update(dict(choice=choice, score=info["score"]))
-        metrics.update(dict(choice=choice, score=info["sampled"]))
+        metrics.update(dict(choice=choice, score=info["score"], sampled=info["sampled"]))
 
         # run metaeval if requested
         if self.metaeval:
