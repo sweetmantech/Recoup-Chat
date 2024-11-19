@@ -1,4 +1,4 @@
-from remove_html_tags import remove_html_tags
+from evals.fns.remove_html_tags import remove_html_tags
 
 def extract_between_markers(text):
     begin_marker = '[BEGIN SUBMISSION]:'
