@@ -117,7 +117,7 @@ class ModelBasedClassify(evals.Eval):
         record_metrics.update({f"counts/{k}": v for k, v in counts_choices.items()})
 
         answer_counter = 1
-        for metric in all_sample_metrics:
+        for m in all_sample_metrics:
             record_metrics[f"answer/{answer_counter}/{m.get('choice', 'N')}"] = m["sampled"]
                 
             answer_counter += 1
