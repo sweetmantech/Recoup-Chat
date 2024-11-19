@@ -18,6 +18,7 @@ import os
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 import ssl
+from evals.fns.extract_between_markers import extract_between_markers
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -125,25 +126,32 @@ def send_slack_message(result: dict[str, Any], label) -> None:
     """Send evaluation results to Slack."""
     try:
         client = WebClient(token=os.environ.get("SLACK_BOT_TOKEN"))
-        
-        message_blocks = []
-        message_text = f"Evaluation Results: `{label}`\n"
+
+        formatted_message = f"`{label}` "
+        message_content = ""
+        total_prompt_count = 0
+        yes_prompt_count = 0
         for key, value in result.items():
-            message_text += f"• *{key}*: {value}"
-            if key == "score":
-                message_text += " ✅\n" if value == 1.0 else " ❌\n"
-            else:
-                message_text += "\n"
+            if "prompt" in key:
+                answer = extract_between_markers(value[0]['content'])
+                if label != "Recoup Chat Benchmarks":
+                    message_content += f"• {answer}\n {'`correct`' if 'Y' in key else '`incorrect`'}\n"
+                if "Y" in key:
+                    yes_prompt_count += 1
+                total_prompt_count += 1
+
+        formatted_message += f"({yes_prompt_count}/{total_prompt_count}) {'✅' if total_prompt_count == yes_prompt_count else '❌'}\n"
+        formatted_message += f"{message_content}\n"
 
         response = client.chat_postMessage(
             channel=os.environ.get("SLACK_CHANNEL_ID", ""),
-            text=message_text,
+            text=formatted_message,
             blocks=[
                 {
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        "text": message_text
+                        "text": formatted_message
                     }
                 }
             ]

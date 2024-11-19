@@ -10,7 +10,6 @@ def create_campaign_registry_data(ideal_key_or_value, question):
     for artist_id, email in mock_data:
         context = get_context(artist_id, email)
         instruction = get_instruction()
-        instruction_str = json.dumps(instruction)
 
         if context:
             context_str = json.dumps(context)
@@ -25,7 +24,7 @@ def create_campaign_registry_data(ideal_key_or_value, question):
                 f"\n"
                 f"Context: {context_str}\n"
                 f"Question: {question}\n\n"
-                f"{instruction_str}"
+                f"{instruction['get_campaign']}"
             ),
             "ideal": ideal_value_str,
         }

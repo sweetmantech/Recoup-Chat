@@ -1,14 +1,16 @@
+from criteria import count_query_criteria, sub_set_criteria
+
 evals_questions_ideals = [
     {
         "eval_name": "get_streams_count",
         "question": "How many times has the average fan streamed the campaign song?",
-        "ideal": "streamsCount",
-        "criteria": "The answer should accurately reflect the total streams generated, match exactly with the reference data."
+        "ideal": "average_streamed_count",
+        "criteria": count_query_criteria
     },
     {
         "eval_name": "get_highest_score_gained_fan",
         "question": "Who achieved the highest game score in this campaign?",
-        "ideal": "topScore",
-        "criteria": "The answer should accurately reflect the username & points of the reference answer."
+        "ideal": "highest_scored_fan",
+        "criteria": "The answer should accurately reflect the name & points of the reference answer."
     }
 ]
