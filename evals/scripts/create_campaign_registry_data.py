@@ -25,7 +25,6 @@ def create_campaign_registry_data(ideal_key_or_value, question):
                 f"****"
                 f"[Instruction]:"
                 f"{instruction['get_campaign']}"
-                f"In addition, {instruction['additional_instruction']}"
                 f"****"
                 f"[PROVIDED DATA]: {context_str}\n"
                 f"****"
