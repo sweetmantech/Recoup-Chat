@@ -116,11 +116,11 @@ class ModelBasedClassify(evals.Eval):
         counts_choices = dict(Counter(choices))
         record_metrics.update({f"counts/{k}": v for k, v in counts_choices.items()})
 
-        answer_counter = 1
+        prompt_counter = 1
         for m in all_sample_metrics:
-            record_metrics[f"answer/{answer_counter}/{m.get('choice', 'N')}"] = m["sampled"]
+            record_metrics[f"prompt/{prompt_counter}/{m.get('choice', 'N')}"] = m["sampled"]
                 
-            answer_counter += 1
+            prompt_counter += 1
         
         scores = [m["score"] for m in all_sample_metrics if m["score"] is not None]
         if scores:
