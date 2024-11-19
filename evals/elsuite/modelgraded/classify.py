@@ -90,7 +90,6 @@ class ModelBasedClassify(evals.Eval):
             match_fn=self.match_fn,
             format_kwargs={**completions, **test_sample, **self.modelgraded_spec_args},
         )
-        print(info)
         metrics.update(dict(choice=choice, score=info["score"], sampled=info["sampled"]))
 
         # run metaeval if requested
@@ -119,7 +118,7 @@ class ModelBasedClassify(evals.Eval):
 
         answer_counter = 1
         for m in all_sample_metrics:
-            record_metrics[f"answer/{answer_counter}/{m.get('choice', 'N')}"] = m["sampled"]
+            record_metrics[f"answer/{answer_counter}/{m.get('choice', 'N')}"] = m["prompt"]
                 
             answer_counter += 1
         

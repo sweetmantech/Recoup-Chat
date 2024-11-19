@@ -1,8 +1,8 @@
 from evals.fns.remove_html_tags import remove_html_tags
 
 def extract_between_markers(text):
-    begin_marker = '[BEGIN SUBMISSION]:'
-    end_marker = '[END SUBMISSION]'
+    begin_marker = '[Submission]:'
+    end_marker = '[Criterion]:'
 
     begin_index = text.find(begin_marker)
     end_index = text.find(end_marker)
