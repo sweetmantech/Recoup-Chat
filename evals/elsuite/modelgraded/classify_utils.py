@@ -146,6 +146,7 @@ def append_answer_prompt(
         prompt += answer_prompt
     else:
         raise ValueError(f"append_type must be 'as_content' or 'as_message', not {append_type}")
+    print(prompt)
     return prompt
 
 
