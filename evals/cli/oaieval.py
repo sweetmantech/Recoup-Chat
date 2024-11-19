@@ -132,9 +132,6 @@ def send_slack_message(result: dict[str, Any], label) -> None:
         total_answer_count = len(result)
         yes_answer_count = 0
         for key, value in result.items():
-            if key == "score":
-                message_content += f"• *{key}*: {value}"
-                message_content += " ✅\n" if value == 1.0 else " ❌\n"
             if "answer" in key:
                 answer = extract_between_markers(value[0])
                 message_content += f"• `{answer}` {'✅' if 'Y' in key else '❌'}\n"
