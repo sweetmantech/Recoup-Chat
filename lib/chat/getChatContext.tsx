@@ -21,7 +21,6 @@ const getChatContext = async (email: string, artistId: string) => {
     score: score.points,
     playedAt: new Date(score.timestamp).toDateString(),
   }));
-
   const highest_scored_fan = getTopScore(scores);
   const most_played_fan = getMostPlayed(scores);
   const average_streamed_count = await getStreamsCount(client, email, artistId);
