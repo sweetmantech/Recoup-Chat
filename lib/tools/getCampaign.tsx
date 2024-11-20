@@ -47,7 +47,7 @@ const getCampaign = (question: string, email: string, artistId: string) =>
       const { data: campaign } = await client.rpc("get_campaign", {
         email,
         artistid: artistId || artistIdByName,
-        clientid: "",
+        campaignid: "",
       });
 
       const premiumCount =
