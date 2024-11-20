@@ -5,8 +5,8 @@ import { CampaignRecord } from "@/types/Artist";
 const getStreamsCount = async (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   client: SupabaseClient<Database, "public", any>,
-  email: string,
   artistId: string,
+  email: string,
 ) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let clientIds = [] as any;

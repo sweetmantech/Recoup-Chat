@@ -23,7 +23,7 @@ const useToolChat = (question?: string, context?: any, toolName?: any) => {
     api: "/api/tool_call",
     body: {
       question,
-      context: toolCallContext,
+      context: toolCallContext?.context,
       toolName,
     },
     onError: console.error,

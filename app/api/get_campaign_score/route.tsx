@@ -1,12 +1,8 @@
-import getChatContext from "@/lib/chat/getChatContext";
-import { NextRequest } from "next/server";
+import getCampaignScore from "@/lib/chat/getCampaignScore";
 
-export async function GET(req: NextRequest) {
-  const email = req.nextUrl.searchParams.get("email");
-  const artistId = req.nextUrl.searchParams.get("artistId");
-
+export async function GET() {
   try {
-    const context = await getChatContext(email as string, artistId as string);
+    const context = await getCampaignScore();
     return Response.json({
       success: true,
       data: context,

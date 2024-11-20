@@ -2,7 +2,7 @@
 const limitCollection = (collection: any, limit?: number) => {
   if (!collection) return [];
 
-  const limitOffset = limit || 30;
+  const limitOffset = limit || 20;
 
   return collection.slice(0, limitOffset);
 };

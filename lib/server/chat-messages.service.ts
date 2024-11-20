@@ -1,15 +1,15 @@
 import "server-only";
 
-import getChatContext from "../chat/getChatContext";
-import { AI_MODEL } from "../consts";
-import getCampaign from "../tools/getCampaign";
+import { AI_MODEL, HTML_RESPONSE_FORMAT_INSTRUCTIONS } from "../consts";
 import createArtist from "../tools/createArtist";
 import getArtists from "../tools/getArtists";
 import getArtistAnalysis from "../tools/getArtistAnalysis";
 import createCampaign from "../tools/createCampaign";
 import getCampaigns from "../tools/getCampaigns";
 import updateArtistInfo from "../tools/updateArtistInfo";
-import { INSTRUCTION } from "../chat/const";
+import getScoreInfo from "../tools/getScoreInfo";
+import getBaseCampaign from "../chat/getBaseCampaign";
+import instructions from "@/evals/scripts/instructions.json";
 
 export function createChatMessagesService() {
   return new ChatMessagesService();
@@ -22,11 +22,15 @@ class ChatMessagesService {
     const context = await this.fetchRelevantContext(email, artistId);
     const tools = this.fetchRelevantTools(question, email, artistId);
 
-    const systemMessage = `You are a helpful assistant
-Here is some relevant data to help you answer:
-${context}
-
-Please use this information to provide accurate and relevant responses and don't mention the data source in your response.`;
+    const systemMessage = `
+*****
+[Context]: ${context}
+*****
+[Question]: ${question}
+*****
+[Instruction]: ${instructions.get_campaign}
+${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
+`;
 
     return {
       maxTokens: 1111,
@@ -41,11 +45,9 @@ Please use this information to provide accurate and relevant responses and don't
     artistId: string,
   ): Promise<string> {
     try {
-      const data = await getChatContext(email, artistId);
-
+      const data = await getBaseCampaign(artistId, email);
       const context = JSON.stringify(data);
-      const instruction = `Context: ${context}\n\n${INSTRUCTION}`;
-      return instruction;
+      return context;
     } catch (error) {
       console.error("Error reading or parsing JSON files:", error);
       return "{}";
@@ -59,7 +61,7 @@ Please use this information to provide accurate and relevant responses and don't
   ) {
     try {
       return {
-        getCampaign: getCampaign(question, email, artistId),
+        getScoreInfo: getScoreInfo(question),
         createArtist: createArtist(question, email),
         getArtists: getArtists(question, email),
         getArtistAnalysis: getArtistAnalysis(question),

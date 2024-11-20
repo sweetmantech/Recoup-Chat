@@ -9,14 +9,14 @@ evals_questions_ideals = [
     },
     {
         "question": "What is the total number of fans with a premium Spotify account?",
-        "ideal": "premium_fans_count",
+        "ideal": "premium_spotify_fans_count",
         "eval_name": "get_premium_fans",
         "criteria": count_query_criteria
     },
     {
         "question": "How many fans have a free Spotify account??",
-        "ideal": "free_fans_count",
-        "eval_name": "get_free_fans",
+        "ideal": "free_spotify_fans_count",
+        "eval_name": "get_free_spotify_fans",
         "criteria": count_query_criteria
     },
     {
@@ -84,6 +84,12 @@ evals_questions_ideals = [
         "question": "How many fans have listened to this artist's top song in the last month?",
         "ideal": "top_song_listening_fans_count",
         "eval_name": "get_fans_listening_top_song",
+        "criteria": count_query_criteria
+    },
+    {
+        "eval_name": "get_streams_count",
+        "question": "How many times has the average fan streamed the campaign song?",
+        "ideal": "average_streamed_count",
         "criteria": count_query_criteria
     }
 ]
