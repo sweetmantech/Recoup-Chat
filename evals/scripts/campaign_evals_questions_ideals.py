@@ -76,8 +76,8 @@ evals_questions_ideals = [
     },
     {
         "question": "What are the most common podcast genres among fans?",
-        "ideal": "episodes",
+        "ideal": "",
         "eval_name": "get_common_podcasts_genres",
-        "criteria": subset_criteria
+        "criteria": "answer should be the list of genre list."
     }
 ]

@@ -14,7 +14,7 @@ def create_campaign_registry_data(ideal_key_or_value, question):
         ideal_value = context.get(ideal_key_or_value, ideal_key_or_value)
         ideal_value_str = json.dumps(ideal_value) if isinstance(ideal_value, (dict, list)) else ideal_value
 
-        if question = "What are the most common podcast genres among fans?":
+        if question == "What are the most common podcast genres among fans?":
             instruction_str = instruction['get_campaign']
             context_str = json.dumps(context)
         else:
