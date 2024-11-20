@@ -16,7 +16,6 @@ const toolSystemMessage = (context: any, question: any, toolName: string) => {
     Context: ${JSON.stringify(context)}
     Question: ${question}
     ${instructions.get_campaign}
-    In addition, ${instructions.additional_instruction}
     ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}`;
 
   return "";
