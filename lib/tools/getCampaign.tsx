@@ -57,6 +57,14 @@ const getCampaign = (question: string, email: string, artistId: string) =>
         campaign?.fans?.filter((fan: FAN_TYPE) => fan.product === "free")
           ?.length || 0;
       const followers = getFollows(client);
+      const episodes_names = campaign?.episodes.map(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (episode: any) => episode.name,
+      );
+      const episodes_descriptions = campaign?.episodes.map(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (episode: any) => episode.description,
+      );
 
       return {
         context: {
@@ -65,7 +73,8 @@ const getCampaign = (question: string, email: string, artistId: string) =>
           playlists: limitCollection(campaign?.playlist || []),
           albums: limitCollection(campaign?.albums || []),
           audioBooks: limitCollection(campaign?.audio_books || []),
-          episodes: limitCollection(campaign?.episodes || []),
+          episodes: limitCollection(episodes_names || []),
+          episodes_descriptions: limitCollection(episodes_descriptions),
           shows: limitCollection(campaign?.shows || []),
           fans: limitCollection(campaign?.fans || [], 1000),
           premiumCount,
