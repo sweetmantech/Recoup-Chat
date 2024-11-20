@@ -79,5 +79,11 @@ evals_questions_ideals = [
         "ideal": "",
         "eval_name": "get_common_podcasts_genres",
         "criteria": "answer should be the list of genre list."
+    },
+    {
+        "question": "How many fans have listened to this artist's top song in the last month?",
+        "ideal": "top_song_listening_fans_count",
+        "eval_name": "get_fans_listening_top_song",
+        "criteria": count_query_criteria
     }
 ]
