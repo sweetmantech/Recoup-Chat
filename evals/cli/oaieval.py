@@ -141,7 +141,6 @@ def send_slack_message(result: dict[str, Any], label) -> None:
                 total_prompt_count += 1
 
         formatted_message += f"({yes_prompt_count}/{total_prompt_count}) {'✅' if total_prompt_count == yes_prompt_count else '❌'}\n"
-        formatted_message += f"{message_content}\n"
 
         response = client.chat_postMessage(
             channel=os.environ.get("SLACK_CHANNEL_ID", ""),
@@ -156,6 +155,15 @@ def send_slack_message(result: dict[str, Any], label) -> None:
                 }
             ]
         )
+
+        thread_ts = response['ts']
+
+        client.chat_postMessage(
+            channel=os.environ.get("SLACK_CHANNEL_ID", ""),
+            text=message_content,
+            thread_ts=thread_ts
+        )
+
         logger.info("Slack message sent successfully")
     except SlackApiError as e:
         logger.error(f"Failed to send Slack message: {e.response['error']}")
