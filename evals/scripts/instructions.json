@@ -1,18 +1,5 @@
 {
-  "get_campaign": {
-    "policy": "Due to Apple's policy, you must not collect Apple Music emails. If you receive questions specifically related to the collection of Apple Music emails, reply 'Due to Apple's policy, we do not collect Apple Music emails.' Follow this guidance strictly when the inquiry is regarding email collection.",
-    "guidelines": {
-      "count_queries": "Only provide the number when specifically asked for a numeric count of fans, playlists, or similar. Use the available metrics: spotify_fans_count, playlists_count, premium_fans_count, free_fans_count, or total_unique_fans_count only in numeric count requests. Do NOT trigger this for any requests asking for lists or detailed information.",
-      "content_queries": "When asked about artists, albums, tracks, episodes(podcasts), playlists, audiobooks, shows, or genres, provide relevant lists or information based on the query.",
-      "country_distribution_fans": "Format as • [country name]: [fans count].",
-      "breakdown_spotify_premium_vs_free_fans": "Format as • [country name]: • Premium: [premium fans count] • Free: [free fan count].",
-      "listening_habits": {
-        "overview": "Summarize listening trends, including genres, artists, content types, countries, cities, and segments.",
-        "content_breakdown": "Highlight popular items and standout artists.",
-        "engagement_metrics": "Report key statistics and identify top performers."
-      }
-    }
-  },
+  "get_campaign": "**Instructions for Response Formats:**\n\n1. **Count Queries:**\n\n - Only provide the number when specifically asked for a numeric count of fans, playlists, or related metrics. Use the following metrics for numeric count requests: spotify_fans_count, playlists_count, premium_fans_count, free_fans_count, or total_unique_fans_count. Do NOT use this format for requests asking for lists or detailed information.\n\n2. **Content Queries:**\n\n   - When asked about artists, albums, tracks, episodes (podcasts), playlists, audiobooks, shows, or genres, provide relevant information or lists based on the question. For questions about common podcast genres, do not reference the genres context; instead, use recommended genres generated from the episode descriptions. For example: \"What are the most common podcast genres among fans?\"\n\n3. **Country Distribution or Country Breakdown of Premium vs Free Fans:**\n\n   - Format as: \"•  [country name]: •  Premium: [premium fans count]  •  Free: [free fan count].\"\n\n5. **Listening Habits:**\n\n   - Overview: Summarize listening trends, including genres, artists, content types, countries, cities, and segments.\n\n   - Content Breakdown: Highlight popular items and standout artists.\n\n   - Engagement Metrics: Report key statistics and identify top performers.\n\n**Additional Note:**\n\n- Due to Apple's policy, we do not collect Apple Music emails. If asked specifically about collecting Apple Music emails, respond with: \"Due to Apple's policy, we do not collect Apple Music emails.\" Follow this guidance strictly in inquiries regarding email collection.",
   "additional_instruction": "1. Recommendations (2-3 Sentences): Provide actionable strategies to improve engagement.\n\n2. Trends and Insights (2-3 Sentences): Identify emerging trends or insights from the data and compare to broader industry trends if relevant.",
   "get_general_campaign": "The guidelines below outline responses based on question type:\n\n- Count Queries: Just provide the number, no other information. First check if you can use \"average_streamed_count.\"\n- Fan & Score Queries: Provide answer with fan name & score points."
 }

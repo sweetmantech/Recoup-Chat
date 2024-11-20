@@ -52,7 +52,7 @@ evals_questions_ideals = [
     },
     {
         "question": "What is the country distribution of fans?",
-        "ideal": "Example: \n• US:\n\t 121",
+        "ideal": "Example: \n• US\n\t• Premium: 12\n\t• Free: 11",
         "eval_name": "get_country_distribution",
         "criteria": format_match_criteria
     },
@@ -73,5 +73,17 @@ evals_questions_ideals = [
         "ideal": "episodes",
         "eval_name": "get_top_podcasts",
         "criteria": subset_criteria
+    },
+    {
+        "question": "What are the most common podcast genres among fans?",
+        "ideal": "",
+        "eval_name": "get_common_podcasts_genres",
+        "criteria": "answer should be the list of genre list."
+    },
+    {
+        "question": "How many fans have listened to this artist's top song in the last month?",
+        "ideal": "top_song_listening_fans_count",
+        "eval_name": "get_fans_listening_top_song",
+        "criteria": count_query_criteria
     }
 ]

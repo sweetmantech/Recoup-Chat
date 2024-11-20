@@ -22,9 +22,12 @@ def create_campaign_registry_data(ideal_key_or_value, question):
         content = {
             "input": (
                 f"\n"
-                f"Context: {context_str}\n"
-                f"Question: {question}\n\n"
-                f"{json.dumps(instruction['get_campaign'])}"
+                f"*****\n"
+                f"[Context]: {context_str}\n"
+                f"*****\n"
+                f"[Question]: {question}\n\n"
+                f"*****\n"
+                f"[Instruction]: {json.dumps(instruction['get_campaign'])}"
             ),
             "ideal": ideal_value_str,
         }
