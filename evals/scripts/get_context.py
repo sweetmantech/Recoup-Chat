@@ -17,6 +17,10 @@ def get_context(artist_id, email):
     premium_count = len([fan for fan in campaign.get("fans", []) if fan.get("product") == "premium"])
     free_count = len([fan for fan in campaign.get("fans", []) if fan.get("product") == "free"])
     fans_listening_top_songs_info = get_fans_listening_top_songs(artist_id, email)
+    
+    total_episodes = campaign.get("episodes", []) 
+    episodes = [episode['name'] for episode in total_episodes]
+    episodes_descriptions = [episode['description'] for episode in total_episodes]
 
     return {
         "tracks": limit_collection(campaign.get("tracks", [])),
@@ -24,9 +28,10 @@ def get_context(artist_id, email):
         "playlists": limit_collection(campaign.get("playlist", [])),
         "albums": limit_collection(campaign.get("albums", [])),
         "audioBooks": limit_collection(campaign.get("audio_books", [])),
-        "episodes": limit_collection(campaign.get("episodes", [])),
+        "episodes": limit_collection(episodes),
+        "episodes_descriptions": limit_collection(episodes_descriptions),
         "shows": limit_collection(campaign.get("shows", [])),
-        "genres": limit_collection(campaign.get("genres", [])),
+        "genres": limit_collection(episodes_descriptions),
         "premium_fans_count": premium_count,
         "free_fans_count": free_count,
         "spotify_fans_count": premium_count + free_count,

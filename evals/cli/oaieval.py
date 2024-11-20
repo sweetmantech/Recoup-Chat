@@ -129,18 +129,18 @@ def send_slack_message(result: dict[str, Any], label) -> None:
 
         formatted_message = f"`{label}` "
         message_content = ""
-        total_answer_count = 0
-        yes_answer_count = 0
+        total_prompt_count = 0
+        yes_prompt_count = 0
         for key, value in result.items():
-            if "answer" in key:
+            if "prompt" in key:
                 answer = extract_between_markers(value[0]['content'])
                 if label != "Recoup Chat Benchmarks":
                     message_content += f"• {answer}\n {'`correct`' if 'Y' in key else '`incorrect`'}\n"
                 if "Y" in key:
-                    yes_answer_count += 1
-                total_answer_count += 1
+                    yes_prompt_count += 1
+                total_prompt_count += 1
 
-        formatted_message += f"({yes_answer_count}/{total_answer_count}) {'✅' if total_answer_count == yes_answer_count else '❌'}\n"
+        formatted_message += f"({yes_prompt_count}/{total_prompt_count}) {'✅' if total_prompt_count == yes_prompt_count else '❌'}\n"
         formatted_message += f"{message_content}\n"
 
         response = client.chat_postMessage(
