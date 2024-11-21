@@ -6,7 +6,7 @@ const getScoreInfo = (question: string) =>
   tool({
     description: `IMPORTANT: Always call this tool for ANY question related to:
     1. Highest Scored Fan
-    2. Fans Score Info
+    2. Score Info
     3. Most Played Fan
     5. Most Recent Played Fan
     Do NOT attempt to answer questions on these topics without consulting this tool first.
