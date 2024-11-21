@@ -1,17 +1,11 @@
-import runTikTokActor from "@/lib/apify/runTikTokActor";
+import getActorStatus from "@/lib/apify/getActorStatus";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const postURLs = req.nextUrl.searchParams.get("postURLs");
-
-  const input = {
-    postURLs: JSON.parse(postURLs as string),
-    commentsPerPost: 100,
-    maxRepliesPerComment: 0,
-  };
+  const defaultDatasetId = req.nextUrl.searchParams.get("defaultDatasetId");
 
   try {
-    const data = await runTikTokActor(input);
+    const data = await getActorStatus(defaultDatasetId as string);
     return Response.json({
       success: true,
       data,
