@@ -8,7 +8,8 @@ from get_instruction import get_instruction
 
 def create_tiktok_vi_comments_registry_data(ideal_key_or_value, question):
     registry_data = ""
-
+    instruction = get_instruction()
+    
     content = {
         "input": (
             f"\n"
