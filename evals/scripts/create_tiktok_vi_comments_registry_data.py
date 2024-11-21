@@ -16,7 +16,7 @@ def create_tiktok_vi_comments_registry_data(ideal_key_or_value, question):
             f"Question: ${question}\n\n"
             f"{instruction['get_tiktok_video_comments']}"
         ),
-        "ideal": ideal_value_str
+        "ideal": "333"
     }
 
     registry_data += json.dumps(content) + "\n"
