@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
     return Response.json({
       success: true,
       data: {
-        comments_video_info: formattedData.commentsInfo,
+        videos: formattedData.videos,
         total_video_comments_count: formattedData.totalComments,
       },
     });
