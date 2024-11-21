@@ -17,3 +17,7 @@
 {"input": "Who has listened to this artist the most (top fan)?", "ideal": "333"}
 {"input": "How many times has the average fan streamed the campaign song?", "ideal": "333"}
 {"input": "What are the most common podcast genres among fans?", "ideal": "333"}
+{"input": "How many comments does this video have?", "ideal": "333"}
+{"input": "Could you show me the comments on this video?", "ideal": "333"}
+{"input": "What are the most liked comments on this video?", "ideal": "333"}
+{"input": "What comments were made during the first week after this video's release?", "ideal": "333"}
