@@ -1,16 +1,21 @@
-import getTikTokContext from "@/lib/apify/getTikTokContext";
-import getTiktokTrends from "@/lib/apify/getTiktokTrends";
+import runTikTokActor from "@/lib/apify/runTikTokActor";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   const handle = req.nextUrl.searchParams.get("handle");
 
+  const profiles = [handle as string];
+  const input = {
+    resultsPerPage: 10,
+    proxyCountryCode: "None",
+    profiles,
+  };
+
   try {
-    const trends = await getTiktokTrends(handle as string);
-    const trendsContext = getTikTokContext(trends);
+    const data = await runTikTokActor(input);
     return Response.json({
       success: true,
-      trends: trendsContext,
+      data,
     });
   } catch (error) {
     console.error(error);
