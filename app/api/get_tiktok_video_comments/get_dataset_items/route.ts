@@ -7,9 +7,14 @@ export async function GET(req: NextRequest) {
 
   try {
     const data = await getDefaultDataset(defaultDatasetId as string);
+    const formattedData = getFormattedCommentsInfo(data);
+
     return Response.json({
       success: true,
-      data: getFormattedCommentsInfo(data),
+      data: {
+        comments_video_info: formattedData.commentsInfo,
+        total_video_comments_count: formattedData.totalComments,
+      },
     });
   } catch (error) {
     console.error(error);
