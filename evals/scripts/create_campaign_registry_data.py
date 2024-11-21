@@ -14,7 +14,11 @@ def create_campaign_registry_data(ideal_key_or_value, question):
         instruction = get_instruction()
 
         if data['data']:
-            context_str = json.dumps(data['data'])
+            context = {
+                **data['data'],
+                "fans": context["fans"][:100]
+            }
+            context_str = json.dumps(context)
         else:
             context_str = "No context available."
 
