@@ -18,7 +18,7 @@ def fetch_default_dataset():
 def fetch_comments(defaultDatasetId):
     response = requests.get(f"{api_endpoint}/api/get_tiktok_video_comments/get_dataset_items?defaultDatasetId={defaultDatasetId}")
     data = response.json()
-    if len(data) > 0:
+    if len(data['data']['comments_video_info']) > 0:
         return data
     else:
         return None
@@ -30,8 +30,8 @@ def create_tiktok_vi_comments_registry_data(ideal_key_or_value, question):
 
     while True:
         data = fetch_comments(defaultDatasetId)
-        if data['data']:
-            context_str = json.dumps(data['data'])
+        if data != None:
+            context_str = json.dumps(data)
         else:
             context_str = "No context available."
         if data is not None:
@@ -39,7 +39,8 @@ def create_tiktok_vi_comments_registry_data(ideal_key_or_value, question):
             break
         time.sleep(2)
 
-    ideal_value = data['data'].get(ideal_key_or_value, ideal_key_or_value)
+    print(data)
+    ideal_value = data.get(ideal_key_or_value, ideal_key_or_value)
     ideal_value_str = json.dumps(ideal_value) if isinstance(ideal_value, (dict, list)) else ideal_value
 
     content = {
