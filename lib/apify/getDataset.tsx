@@ -1,6 +1,6 @@
-const getDefaultDataset = async (defaultDatasetId: string) => {
+const getDataset = async (datasetId: string) => {
   const response = await fetch(
-    `https://api.apify.com/v2/datasets/${defaultDatasetId}/items?token=${process.env.APIFY_TOKEN}`,
+    `https://api.apify.com/v2/datasets/${datasetId}/items?token=${process.env.APIFY_TOKEN}`,
     {
       method: "GET",
       headers: {
@@ -13,4 +13,4 @@ const getDefaultDataset = async (defaultDatasetId: string) => {
   return data;
 };
 
-export default getDefaultDataset;
+export default getDataset;

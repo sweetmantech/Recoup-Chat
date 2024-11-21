@@ -23,7 +23,7 @@ const getFormattedCommentsInfo = (data: Comment[]) => {
       aggregated[videoWebUrl].comments.push({
         comment: text,
         username: uniqueId,
-        created_at: createTime
+        created_at: createTime,
       });
     }
   });
