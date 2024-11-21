@@ -16,7 +16,7 @@ def create_campaign_registry_data(ideal_key_or_value, question):
         if data['data']:
             context = {
                 **data['data'],
-                "fans": context["fans"][:100]
+                "fans": data["data"]["fans"][:100]
             }
             context_str = json.dumps(context)
         else:
