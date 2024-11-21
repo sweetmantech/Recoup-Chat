@@ -1,5 +1,3 @@
-import client from "./client";
-
 const getTiktokVideoComments = async (postURLs: string[]) => {
   try {
     const input = {
@@ -8,12 +6,19 @@ const getTiktokVideoComments = async (postURLs: string[]) => {
       maxRepliesPerComment: 0,
     };
 
-    const run = await client
-      .actor("clockworks/tiktok-comments-scraper")
-      .call(input);
-    const { items } = await client.dataset(run.defaultDatasetId).listItems();
+    const response = await fetch(
+      `https://api.apify.com/v2/acts/clockworks~tiktok-comments-scraper/run-sync-get-dataset-items?token=${process.env.APIFY_TOKEN}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(input),
+      },
+    );
 
-    return items;
+    const data = await response.json();
+    return data;
   } catch (error) {
     console.error(error);
     return [];
