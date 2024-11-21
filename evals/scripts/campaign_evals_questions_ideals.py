@@ -15,8 +15,8 @@ evals_questions_ideals = [
     },
     {
         "question": "How many fans have a free Spotify account??",
-        "ideal": "free_fans_count",
-        "eval_name": "get_free_fans",
+        "ideal": "free_spotify_fans_count",
+        "eval_name": "get_free_spotify_fans",
         "criteria": count_query_criteria
     },
     {

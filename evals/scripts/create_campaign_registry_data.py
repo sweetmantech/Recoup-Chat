@@ -8,7 +8,9 @@ def create_campaign_registry_data(ideal_key_or_value, question):
     registry_data = ""
 
     for artist_id, email in mock_data:
-        context = get_context(artist_id, email)
+        url = f"https://recoup-chat-git-tech322-prod-match-recoupable-ad724970.vercel.app/api/get_campaign?email={email}&artistId={artist_id}"
+        response = requests.get(url)
+        data = response.json()
         instruction = get_instruction()
 
         if context:

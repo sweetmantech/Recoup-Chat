@@ -34,12 +34,12 @@ def get_context(artist_id, email):
         "episodes_descriptions": limit_collection(episodes_descriptions),
         "shows": limit_collection(campaign.get("shows", [])),
         "genres": limit_collection(episodes_descriptions),
-        "premium_fans_count": premium_count,
-        "free_fans_count": free_count,
+        "premium_spotify_fans_count": premium_count,
+        "free_spotify_fans_count": free_count,
         "spotify_fans_count": premium_count + free_count,
         "total_unique_fans_count": len(campaign.get("fans", [])),
-        "fans": limit_collection(campaign.get('fans', []), 100),
         "playlists_count": len(campaign.get('playlist', [])),
         "average_streamed_count": average_streamed_count,
-        "top_song_listening_fans_count": fans_listening_top_songs_info.get("top_song_listening_fans_count", 0)
+        "top_song_listening_fans_count": fans_listening_top_songs_info.get("top_song_listening_fans_count", 0),
+        "fans": limit_collection(campaign.get('fans', []), 100)
     }
