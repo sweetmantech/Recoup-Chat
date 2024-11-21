@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
   try {
     const defaultDatasetId = await runTikTokActor(input);
     while (1) {
-      await new Promise((resolve) => setTimeout(resolve, 6000));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       try {
         const data = await getDefaultDataset(defaultDatasetId);
         const formattedData = getFormattedCommentsInfo(data);
@@ -36,7 +36,3 @@ export async function GET(req: NextRequest) {
     return Response.json({ message }, { status: 400 });
   }
 }
-
-export const dynamic = "force-dynamic";
-export const fetchCache = "force-no-store";
-export const revalidate = 0;
