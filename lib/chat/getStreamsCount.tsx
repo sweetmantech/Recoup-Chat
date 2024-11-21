@@ -11,7 +11,7 @@ const getStreamsCount = async (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let campaignIds = [] as any;
 
-  if (!artistId) {
+  if (artistId) {
     const { data } = await client
       .from("campaigns")
       .select("id")
