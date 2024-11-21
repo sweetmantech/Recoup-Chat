@@ -14,20 +14,26 @@ export async function GET(req: NextRequest) {
   };
 
   try {
-    const defaultDatasetId = await runTikTokActor(input, "clockworks~tiktok-scraper");
-    const timer = setInterval(async () => {
-      const data = await getDefaultDataset(defaultDatasetId as string);
-      const formattedData = getFormattedAccountInfo(data);
-
-      if (formattedData.length) {
-        clearInterval(timer)
-        return Response.json({
-          success: true,
-          data,
-        });
+    const defaultDatasetId = await runTikTokActor(
+      input,
+      "clockworks~tiktok-scraper",
+    );
+    while (1) {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      try {
+        const data = await getDefaultDataset(defaultDatasetId);
+        const formattedData = getFormattedAccountInfo(data);
+        if (formattedData.length > 0) {
+          return Response.json({
+            success: true,
+            data,
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        return Response.json({ success: false, error: "Error fetching data" });
       }
-    }, 2000)
-
+    }
   } catch (error) {
     console.error(error);
     const message = error instanceof Error ? error.message : "failed";

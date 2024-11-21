@@ -13,7 +13,6 @@ const runTikTokActor = async (input: any, actorId: string) => {
     );
 
     const data = await response.json();
-    console.log(data);
     const defaultDatasetId = data.data.defaultDatasetId;
 
     return defaultDatasetId;
