@@ -1,3 +1,4 @@
+import getDefaultDataset from "@/lib/apify/getDefaultDataset";
 import getFormattedCommentsInfo from "@/lib/apify/getFormattedCommentsInfo";
 import { NextRequest } from "next/server";
 
@@ -5,16 +6,7 @@ export async function GET(req: NextRequest) {
   const defaultDatasetId = req.nextUrl.searchParams.get("defaultDatasetId");
 
   try {
-    const response = await fetch(
-      `https://api.apify.com/v2/datasets/${defaultDatasetId}/items?token=${process.env.APIFY_TOKEN}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    );
-    const data = await response.json();
+    const data = await getDefaultDataset(defaultDatasetId as string);
     return Response.json({
       success: true,
       data: getFormattedCommentsInfo(data),
