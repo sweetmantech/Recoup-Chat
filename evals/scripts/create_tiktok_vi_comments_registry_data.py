@@ -15,8 +15,8 @@ def fetch_default_dataset():
 
     return defaultDatasetId
 
-def fetch_comments(defaultDatasetId):
-    response = requests.get(f"{api_endpoint}/api/get_tiktok_video_comments/get_dataset_items?defaultDatasetId={defaultDatasetId}")
+def fetch_comments(datasetId):
+    response = requests.get(f"{api_endpoint}/api/get_tiktok_video_comments/get_dataset_items?datasetId={datasetId}")
     data = response.json()
     if len(data['data']['comments_video_info']) > 0:
         return data['data']

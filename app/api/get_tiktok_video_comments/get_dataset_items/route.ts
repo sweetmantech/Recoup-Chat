@@ -1,18 +1,18 @@
-import getDefaultDataset from "@/lib/apify/getDefaultDataset";
+import getDataset from "@/lib/apify/getDataset";
 import getFormattedCommentsInfo from "@/lib/apify/getFormattedCommentsInfo";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const defaultDatasetId = req.nextUrl.searchParams.get("defaultDatasetId");
+  const datasetId = req.nextUrl.searchParams.get("datasetId");
 
   try {
-    const data = await getDefaultDataset(defaultDatasetId as string);
+    const data = await getDataset(datasetId as string);
     const formattedData = getFormattedCommentsInfo(data);
 
     return Response.json({
       success: true,
       data: {
-        comments_video_info: formattedData.commentsInfo,
+        videos: formattedData.videos,
         total_video_comments_count: formattedData.totalComments,
       },
     });

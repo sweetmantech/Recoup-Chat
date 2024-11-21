@@ -82,14 +82,20 @@ evals_questions_ideals = [
     },
     {
         "question": "How many fans have listened to this artist's top song in the last month?",
-        "ideal": "top_song_listening_fans_count",
+        "ideal": "artist_top_song_fans_listening_count",
         "eval_name": "get_fans_listening_top_song",
         "criteria": count_query_criteria
     },
     {
-        "eval_name": "get_streams_count",
+        "eval_name": "get_average_streams_count",
         "question": "How many times has the average fan streamed the campaign song?",
-        "ideal": "average_streamed_count",
+        "ideal": "average_fan_streamed_count",
+        "criteria": count_query_criteria
+    },
+    {
+        "eval_name": "get_total_streams_count",
+        "question": "What is the number of total streams generated from the campaign?",
+        "ideal": "total_streams_generated_count",
         "criteria": count_query_criteria
     }
 ]
