@@ -1,19 +1,9 @@
 import json
 import string
 import requests
-import urllib.parse
 import time
 from consts import api_endpoint
 from get_instruction import get_instruction
-
-def fetch_default_dataset():
-    encoded_postURLs = urllib.parse.quote("[\"https://www.tiktok.com/@bellapoarch/video/6862153058223197445\"]")
-    url = f"{api_endpoint}/api/get_tiktok_video_comments?postURLs={encoded_postURLs}"
-    response = requests.get(url)
-    data = response.json()
-    defaultDatasetId = data['data']
-
-    return defaultDatasetId
 
 def fetch_comments(datasetId):
     response = requests.get(f"{api_endpoint}/api/get_tiktok_video_comments/get_dataset_items?datasetId={datasetId}")
@@ -25,18 +15,18 @@ def fetch_comments(datasetId):
 
 def create_tiktok_vi_comments_registry_data(ideal_key_or_value, question):
     registry_data = ""
-    defaultDatasetId = fetch_default_dataset()
+    defaultDatasetId = "qYiAiOkrIyVqa97mZ"
     instruction = get_instruction()
 
     while True:
         time.sleep(3)
         data = fetch_comments(defaultDatasetId)
+        print(data)
         if data != None:
             context_str = json.dumps(data)
         else:
             context_str = "No context available."
         if data is not None:
-            
             break
 
     ideal_value = data.get(ideal_key_or_value, ideal_key_or_value)
