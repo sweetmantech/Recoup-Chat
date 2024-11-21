@@ -1,8 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const runTikTokActor = async (input: any) => {
+const runTikTokActor = async (input: any, actorId: string) => {
   try {
     const response = await fetch(
-      `https://api.apify.com/v2/acts/clockworks~tiktok-comments-scraper/runs?token=${process.env.APIFY_TOKEN}`,
+      `https://api.apify.com/v2/acts/${actorId}/runs?token=${process.env.APIFY_TOKEN}`,
       {
         method: "POST",
         headers: {
@@ -18,7 +18,7 @@ const runTikTokActor = async (input: any) => {
     return defaultDatasetId;
   } catch (error) {
     console.error(error);
-    return [];
+    return null;
   }
 };
 

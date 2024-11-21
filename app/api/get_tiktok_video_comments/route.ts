@@ -11,10 +11,13 @@ export async function GET(req: NextRequest) {
   };
 
   try {
-    const defaultDatasetId = await runTikTokActor(input);
+    const data = await runTikTokActor(
+      input,
+      "clockworks~tiktok-comments-scraper",
+    );
     return Response.json({
       success: true,
-      data: defaultDatasetId,
+      data,
     });
   } catch (error) {
     console.error(error);
