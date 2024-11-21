@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
   };
 
   try {
-    const data = await runTikTokActor(input);
+    const data = await runTikTokActor(input, "clockworks~tiktok-scraper");
     return Response.json({
       success: true,
       data,
