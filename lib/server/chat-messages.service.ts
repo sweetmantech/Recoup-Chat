@@ -22,11 +22,14 @@ class ChatMessagesService {
     const context = await this.fetchRelevantContext(email, artistId);
     const tools = this.fetchRelevantTools(question, email, artistId);
 
-    const systemMessage = `You are a helpful assistant
-Here is some relevant data to help you answer:
-${context}
-
-Please use this information to provide accurate and relevant responses and don't mention the data source in your response.`;
+    const systemMessage = `
+*****
+[Context]: ${context}
+*****
+[Question]: ${question}
+*****
+[Instruction]: ${instructions.get_campaign}
+`;
 
     return {
       maxTokens: 1111,
@@ -43,8 +46,7 @@ Please use this information to provide accurate and relevant responses and don't
     try {
       const data = await getBaseCampaign(artistId, email);
       const context = JSON.stringify(data);
-      const instruction = `Context: ${context}\n\n${instructions.get_campaign}`;
-      return instruction;
+      return context;
     } catch (error) {
       console.error("Error reading or parsing JSON files:", error);
       return "{}";
