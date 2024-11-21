@@ -26,7 +26,11 @@ const getBaseCampaign = async (artistId: string, email: string) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (episode: any) => episode.description,
   );
-  const average_streamed_count = await getStreamsCount(client, artistId, email);
+  const { average_count, total_count } = await getStreamsCount(
+    client,
+    artistId,
+    email,
+  );
   const top_song_listening_fans_count = await getTopSongListeningFansCount(
     artistId,
     email,
@@ -47,7 +51,8 @@ const getBaseCampaign = async (artistId: string, email: string) => {
     spotify_fans_count: premiumCount + freeCount,
     total_unique_fans_count: campaign?.fans.length || 0,
     playlists_count: campaign?.playlist?.length || 0,
-    average_streamed_count,
+    total_streams_count: total_count,
+    average_streamed_count: average_count,
     top_song_listening_fans_count,
     fans: limitCollection(campaign?.fans || [], 500),
   };
