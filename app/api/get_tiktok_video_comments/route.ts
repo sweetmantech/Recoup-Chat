@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
   try {
     const defaultDatasetId = await runTikTokActor(input);
     while (1) {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 3000));
       try {
         const data = await getDefaultDataset(defaultDatasetId);
         const formattedData = getFormattedCommentsInfo(data);
