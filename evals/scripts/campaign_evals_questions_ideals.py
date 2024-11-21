@@ -9,7 +9,7 @@ evals_questions_ideals = [
     },
     {
         "question": "What is the total number of fans with a premium Spotify account?",
-        "ideal": "premium_fans_count",
+        "ideal": "premium_spotify_fans_count",
         "eval_name": "get_premium_fans",
         "criteria": count_query_criteria
     },
