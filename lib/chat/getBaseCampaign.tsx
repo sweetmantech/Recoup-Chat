@@ -46,14 +46,14 @@ const getBaseCampaign = async (artistId: string, email: string) => {
     episodes_descriptions: limitCollection(episodes_descriptions),
     shows: limitCollection(campaign?.shows || []),
     genres: limitCollection(campaign?.genres || []),
+    total_streams_genreated_of_campaign_count: total_count,
+    average_fan_streamed_of_campaign_song_count: average_count,
+    artist_top_song_fans_listening_count,
     premium_spotify_fans_count: premiumCount,
     free_spotify_fans_count: freeCount,
     spotify_fans_count: premiumCount + freeCount,
     total_unique_fans_count: campaign?.fans.length || 0,
     playlists_count: campaign?.playlist?.length || 0,
-    total_streams_genreated_of_campaign_count: total_count,
-    average_fan_streamed_count: average_count,
-    artist_top_song_fans_listening_count,
     fans: limitCollection(campaign?.fans || [], 500),
   };
 };
