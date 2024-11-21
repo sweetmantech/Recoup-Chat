@@ -26,7 +26,8 @@ export async function GET(req: NextRequest) {
           data,
         });
       }
-    })
+    }, 2000)
+
   } catch (error) {
     console.error(error);
     const message = error instanceof Error ? error.message : "failed";
