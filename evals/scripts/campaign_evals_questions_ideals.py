@@ -85,5 +85,11 @@ evals_questions_ideals = [
         "ideal": "top_song_listening_fans_count",
         "eval_name": "get_fans_listening_top_song",
         "criteria": count_query_criteria
+    },
+    {
+        "eval_name": "get_streams_count",
+        "question": "How many times has the average fan streamed the campaign song?",
+        "ideal": "average_streamed_count",
+        "criteria": count_query_criteria
     }
 ]

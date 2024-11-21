@@ -1,15 +1,15 @@
 import "server-only";
 
-import getChatContext from "../chat/getChatContext";
 import { AI_MODEL } from "../consts";
-import getCampaign from "../tools/getCampaign";
 import createArtist from "../tools/createArtist";
 import getArtists from "../tools/getArtists";
 import getArtistAnalysis from "../tools/getArtistAnalysis";
 import createCampaign from "../tools/createCampaign";
 import getCampaigns from "../tools/getCampaigns";
 import updateArtistInfo from "../tools/updateArtistInfo";
-import { INSTRUCTION } from "../chat/const";
+import getScoreInfo from "../tools/getScoreInfo";
+import getBaseCampaign from "../chat/getBaseCampaign";
+import instructions from "@/evals/scripts/instructions.json";
 
 export function createChatMessagesService() {
   return new ChatMessagesService();
@@ -41,10 +41,9 @@ Please use this information to provide accurate and relevant responses and don't
     artistId: string,
   ): Promise<string> {
     try {
-      const data = await getChatContext(email, artistId);
-
+      const data = await getBaseCampaign(artistId, email);
       const context = JSON.stringify(data);
-      const instruction = `Context: ${context}\n\n${INSTRUCTION}`;
+      const instruction = `Context: ${context}\n\n${instructions.get_campaign}`;
       return instruction;
     } catch (error) {
       console.error("Error reading or parsing JSON files:", error);
@@ -59,7 +58,7 @@ Please use this information to provide accurate and relevant responses and don't
   ) {
     try {
       return {
-        getCampaign: getCampaign(question, email, artistId),
+        getScoreInfo: getScoreInfo(question),
         createArtist: createArtist(question, email),
         getArtists: getArtists(question, email),
         getArtistAnalysis: getArtistAnalysis(question),
