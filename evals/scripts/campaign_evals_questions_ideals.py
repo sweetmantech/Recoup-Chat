@@ -95,7 +95,7 @@ evals_questions_ideals = [
     {
         "eval_name": "get_total_streams_count",
         "question": "What is the number of total streams generated from the campaign?",
-        "ideal": "total_generated_streams_count",
+        "ideal": "total_streams_genreated_of_campaign_count",
         "criteria": count_query_criteria
     }
 ]

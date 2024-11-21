@@ -51,7 +51,7 @@ const getBaseCampaign = async (artistId: string, email: string) => {
     spotify_fans_count: premiumCount + freeCount,
     total_unique_fans_count: campaign?.fans.length || 0,
     playlists_count: campaign?.playlist?.length || 0,
-    total_generated_streams_count: total_count,
+    total_streams_genreated_of_campaign_count: total_count,
     average_fan_streamed_count: average_count,
     artist_top_song_fans_listening_count,
     fans: limitCollection(campaign?.fans || [], 500),
