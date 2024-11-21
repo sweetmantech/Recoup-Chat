@@ -43,7 +43,7 @@ const useToolCall = (message: Message) => {
       if (isCalled) return;
       setIsCalled(true);
       if (
-        toolName === "getCampaignScore" ||
+        toolName === "getScoreInfo" ||
         (toolName === "getArtistAnalysis" &&
           context.status === ArtistToolResponse.TIKTOK_TRENDS)
       ) {
