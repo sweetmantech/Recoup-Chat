@@ -161,14 +161,7 @@ def send_slack_message(result: dict[str, Any], label) -> None:
         client.chat_postMessage(
             channel=os.environ.get("SLACK_CHANNEL_ID", ""),
             text=message_content,
-            thread_ts=thread_ts,
-            blocks=[
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": message_content
-                }
-            ]
+            thread_ts=thread_ts
         )
 
         logger.info("Slack message sent successfully")
