@@ -1,6 +1,6 @@
 import "server-only";
 
-import { AI_MODEL } from "../consts";
+import { AI_MODEL, HTML_RESPONSE_FORMAT_INSTRUCTIONS } from "../consts";
 import createArtist from "../tools/createArtist";
 import getArtists from "../tools/getArtists";
 import getArtistAnalysis from "../tools/getArtistAnalysis";
@@ -29,6 +29,7 @@ class ChatMessagesService {
 [Question]: ${question}
 *****
 [Instruction]: ${instructions.get_campaign}
+${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
 `;
 
     return {

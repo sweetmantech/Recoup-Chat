@@ -11,7 +11,7 @@ const toolSystemMessage = (context: any, question: any, toolName: string) => {
 
     Reply should be 4 sentences or less with actionable insights that focus on creating new campaigns, such as how many TikTok followers you have, how many likes you have, your music style, how you connect with your audience, especially when it comes to your latest single, and what games you can play while listening to music.
     `;
-  if (toolName === "getCampaignScore")
+  if (toolName === "getScoreInfo")
     return `
     Context: ${JSON.stringify(context)}
     Question: ${question}
