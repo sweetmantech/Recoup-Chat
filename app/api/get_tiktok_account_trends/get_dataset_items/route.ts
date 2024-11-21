@@ -1,4 +1,5 @@
 import getDefaultDataset from "@/lib/apify/getDefaultDataset";
+import getFormattedAccountInfo from "@/lib/apify/getFormattedAccountInfo";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -6,10 +7,10 @@ export async function GET(req: NextRequest) {
 
   try {
     const data = await getDefaultDataset(defaultDatasetId as string);
-
+    const formattedData = getFormattedAccountInfo(data);
     return Response.json({
       success: true,
-      data,
+      data: formattedData?.[0] || null,
     });
   } catch (error) {
     console.error(error);
