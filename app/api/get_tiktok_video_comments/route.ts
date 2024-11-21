@@ -1,5 +1,3 @@
-import getDefaultDataset from "@/lib/apify/getDefaultDataset";
-import getFormattedCommentsInfo from "@/lib/apify/getFormattedCommentsInfo";
 import runTikTokActor from "@/lib/apify/runTikTokActor";
 import { NextRequest } from "next/server";
 
@@ -14,22 +12,10 @@ export async function GET(req: NextRequest) {
 
   try {
     const defaultDatasetId = await runTikTokActor(input);
-    while (1) {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      try {
-        const data = await getDefaultDataset(defaultDatasetId);
-        const formattedData = getFormattedCommentsInfo(data);
-        if (formattedData.commentsInfo.length > 0) {
-          return Response.json({
-            success: true,
-            data: formattedData,
-          });
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        return Response.json({ success: false, error: "Error fetching data" });
-      }
-    }
+    return Response.json({
+      success: true,
+      data: defaultDatasetId,
+    });
   } catch (error) {
     console.error(error);
     const message = error instanceof Error ? error.message : "failed";
