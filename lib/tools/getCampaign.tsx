@@ -10,7 +10,7 @@ const getCampaign = (question: string, email: string, artistId: string) =>
     description: `IMPORTANT: Always call this tool for ANY question related to:
     1. Artists
     2. Albums
-    3. Episodes
+    3. Episodes(Podcast)
     4. Tracks
     5. Audio books
     6. Shows
