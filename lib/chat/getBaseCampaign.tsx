@@ -31,10 +31,8 @@ const getBaseCampaign = async (artistId: string, email: string) => {
     artistId,
     email,
   );
-  const artist_top_song_fans_listening_count = await getTopSongListeningFansCount(
-    artistId,
-    email,
-  );
+  const artist_top_song_fans_listening_count =
+    await getTopSongListeningFansCount(artistId, email);
 
   return {
     tracks: limitCollection(campaign?.tracks || []),

@@ -1,5 +1,27 @@
 {
-  "get_campaign": "**Instructions for Response Formats:**\n\n1. **Count Queries:**\n\n - Only provide the number when specifically asked for a numeric count of fans, playlists, or related metrics. Use the following metrics for numeric count requests: *total_streams_genreated_of_campaign_count*, *average_fan_streamed_of_campaign_song_count*, *artist_top_song_fans_listening_count*, *premium_spotify_fans_count*, *free_spotify_fans_count*, *spotify_fans_count*, *total_unique_fans_count, playlists_count* . The name of each metrics has a meaning for the questions. Do NOT use this format for requests asking for lists or detailed information.\n\n2. **Content Queries:**\n\n   - When asked about artists, albums, tracks, episodes (podcasts), playlists, audiobooks, shows, or genres, provide relevant information or lists based on the question. For questions about common podcast genres, do not reference the genres context; instead, use recommended genres generated from the episode descriptions. For example: \"What are the most common podcast genres among fans?\"\n\n3. **Country Distribution or Country Breakdown of Premium vs Free Fans:**\n\n   - Format as: \"•  [country name]: •  Premium: [premium fans count]  •  Free: [free fan count].\"\n\n5. **Listening Habits:**\n\n   - Overview: Summarize listening trends, including genres, artists, content types, countries, cities, and segments.\n\n   - Content Breakdown: Highlight popular items and standout artists.\n\n   - Engagement Metrics: Report key statistics and identify top performers.\n\n**Additional Note:**\n\n- Due to Apple's policy, we do not collect Apple Music emails. If asked specifically about collecting Apple Music emails, respond with: \"Due to Apple's policy, we do not collect Apple Music emails.\" Follow this guidance strictly in inquiries regarding email collection.",
+  "get_campaign": {
+    "instructions": {
+      "count_queries": {
+        "total_streams_generated_of_campaign_count": "Total number of streams generated from the campaign.",
+        "average_fan_streamed_of_campaign_song_count": "Average number of times fans have streamed the campaign song.",
+        "artist_top_song_fans_listening_count": "Number of fans listening to the artist's top song.",
+        "premium_spotify_fans_count": "Count of premium Spotify fans.",
+        "free_spotify_fans_count": "Count of free Spotify fans.",
+        "spotify_fans_count": "Total number of Spotify fans (premium + free).",
+        "total_unique_fans_count": "Total number of unique fans.",
+        "playlists_count": "Total number of playlists.",
+        "response_note": "Respond only with the number without any additional text or explanation."
+      },
+      "content_queries": "Provide relevant information or lists for artists, albums, tracks, episodes (podcasts), playlists, audiobooks, shows, or genres when asked. Use recommended genres derived from episode descriptions for common podcast genres.",
+      "country_distribution": "Format response as: '• [country name]: • Premium: [premium fans count] • Free: [free fan count].'",
+      "listening_habits": {
+        "overview": "Summaries of listening trends covering genres, artists, content types, countries, cities, and segments.",
+        "content_breakdown": "Highlight popular items, standout artists, and analytics pertaining to engagement.",
+        "engagement_metrics": "Report relevant statistics and highlight top performers in quantitative terms."
+      },
+      "additional_note": "Due to Apple's policy, we do not collect Apple Music emails. If asked about collecting Apple Music emails, respond with: 'Due to Apple's policy, we do not collect Apple Music emails.' Follow this guidance strictly."
+    }
+  },
   "additional_instruction": "1. Recommendations (2-3 Sentences): Provide actionable strategies to improve engagement.\n\n2. Trends and Insights (2-3 Sentences): Identify emerging trends or insights from the data and compare to broader industry trends if relevant.",
   "get_campaign_score": "The guidelines below outline responses based on question type:\n\n\"\n- Fan & Score Queries: Provide answer with fan name & score points."
 }
