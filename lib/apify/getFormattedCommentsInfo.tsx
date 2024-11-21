@@ -1,6 +1,7 @@
 import { Comment } from "@/types/TikTok";
 
 const getFormattedCommentsInfo = (data: Comment[]) => {
+  let totalComments = 0;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const aggregated = {} as any;
   const sorteddata = data.sort(
@@ -19,12 +20,21 @@ const getFormattedCommentsInfo = (data: Comment[]) => {
       };
     }
 
+    if (text) {
+      totalComments++;
+      aggregated[videoWebUrl].comments.push(text);
+    }
     aggregated[videoWebUrl].comments.push(text);
     aggregated[videoWebUrl].usernames.push(uniqueId);
-    aggregated[videoWebUrl].thumbnails.push(avatarThumbnail);
+    if (avatarThumbnail) {
+      aggregated[videoWebUrl].thumbnails.push(avatarThumbnail);
+    }
   });
 
-  return Object.values(aggregated);
+  return {
+    commentsInfo: Object.values(aggregated),
+    totalComments,
+  };
 };
 
 export default getFormattedCommentsInfo;
