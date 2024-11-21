@@ -1,6 +1,7 @@
 import os
 from supabase import create_client
 from get_fans_listening_top_songs import get_fans_listening_top_songs
+from get_streams_count import get_streams_count
 
 supabase_url = os.environ.get("SUPABASE_URL")
 supabase_key = os.environ.get("SUPABASE_KEY")
@@ -21,6 +22,7 @@ def get_context(artist_id, email):
     total_episodes = campaign.get("episodes", []) 
     episodes = [episode['name'] for episode in total_episodes]
     episodes_descriptions = [episode['description'] for episode in total_episodes]
+    average_streamed_count = get_streams_count(artist_id, email)
 
     return {
         "tracks": limit_collection(campaign.get("tracks", [])),
@@ -38,5 +40,6 @@ def get_context(artist_id, email):
         "total_unique_fans_count": len(campaign.get("fans", [])),
         "fans": limit_collection(campaign.get('fans', []), 100),
         "playlists_count": len(campaign.get('playlist', [])),
+        "average_streamed_count": average_streamed_count,
         "top_song_listening_fans_count": fans_listening_top_songs_info.get("top_song_listening_fans_count", 0)
     }
