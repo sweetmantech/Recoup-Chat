@@ -1,6 +1,6 @@
 import json
 import string
-from get_context import get_context
+import requests
 from get_instruction import get_instruction
 from consts import mock_data, api_endpoint
 
