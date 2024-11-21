@@ -2,12 +2,12 @@ import json
 import string
 import requests
 from get_context import get_context
-from mock_data import mock_data
+from consts import api_endpoint
 from get_instruction import get_instruction
 
 def create_score_registry_data(ideal_key_or_value, question):
     registry_data = ""
-    url = f"https://recoup-chat-git-tech322-prod-match-recoupable-ad724970.vercel.app/api/get_campaign_score"
+    url = f"{api_endpoint}/api/get_campaign_score"
     response = requests.get(url)
     data = response.json()
     instruction = get_instruction()
