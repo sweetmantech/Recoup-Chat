@@ -1,7 +1,6 @@
 import json
 import string
 import requests
-from get_context import get_context
 from consts import api_endpoint
 from get_instruction import get_instruction
 
