@@ -31,7 +31,7 @@ const getBaseCampaign = async (artistId: string, email: string) => {
     artistId,
     email,
   );
-  const top_song_listening_fans_count = await getTopSongListeningFansCount(
+  const artist_top_song_fans_listening_count = await getTopSongListeningFansCount(
     artistId,
     email,
   );
@@ -53,9 +53,8 @@ const getBaseCampaign = async (artistId: string, email: string) => {
     playlists_count: campaign?.playlist?.length || 0,
     total_generated_streams_count: total_count,
     average_fan_streamed_count: average_count,
-    top_song_listening_fans_count,
+    artist_top_song_fans_listening_count,
     fans: limitCollection(campaign?.fans || [], 500),
   };
 };
-
 export default getBaseCampaign;
