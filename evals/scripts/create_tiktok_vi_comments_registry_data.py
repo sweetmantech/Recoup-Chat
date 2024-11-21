@@ -18,16 +18,12 @@ def create_tiktok_vi_comments_registry_data(ideal_key_or_value, question):
     defaultDatasetId = "qYiAiOkrIyVqa97mZ"
     instruction = get_instruction()
 
-    while True:
-        time.sleep(3)
-        data = fetch_comments(defaultDatasetId)
-        print(data)
-        if data != None:
-            context_str = json.dumps(data)
-        else:
-            context_str = "No context available."
-        if data is not None:
-            break
+    data = fetch_comments(defaultDatasetId)
+    print(data)
+    if data != None:
+        context_str = json.dumps(data)
+    else:
+        context_str = "No context available."
 
     ideal_value = data.get(ideal_key_or_value, ideal_key_or_value)
     ideal_value_str = json.dumps(ideal_value) if isinstance(ideal_value, (dict, list)) else ideal_value
