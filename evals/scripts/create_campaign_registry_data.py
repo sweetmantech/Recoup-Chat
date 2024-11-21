@@ -18,7 +18,7 @@ def create_campaign_registry_data(ideal_key_or_value, question):
         else:
             context_str = "No context available."
 
-        ideal_value = context.get(ideal_key_or_value, ideal_key_or_value)
+        ideal_value = data['data'].get(ideal_key_or_value, ideal_key_or_value)
         ideal_value_str = json.dumps(ideal_value) if isinstance(ideal_value, (dict, list)) else ideal_value
 
         content = {
