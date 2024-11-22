@@ -19,8 +19,6 @@ const useToolChat = (question?: string, context?: any, toolName?: any) => {
   };
   const [beginCall, setBeginCall] = useState(false);
 
-  console.log(toolCallContext)
-  
   const {
     messages,
     append,
@@ -29,7 +27,7 @@ const useToolChat = (question?: string, context?: any, toolName?: any) => {
     api: "/api/tool_call",
     body: {
       question,
-      context: toolCallContext?.context,
+      context: toolCallContext,
       toolName,
     },
     onError: console.error,
@@ -58,6 +56,8 @@ const useToolChat = (question?: string, context?: any, toolName?: any) => {
         content: question as string,
         role: "user",
       });
+      setTiktokTrends(null);
+      setTiktokVideos(null);
       setBeginCall(false);
     };
     if (!beginCall || !question) return;
