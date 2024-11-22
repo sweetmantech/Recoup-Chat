@@ -7,16 +7,16 @@ const getVideoComments = async (videoUrls: string) => {
 
   while (1) {
     await new Promise((resolve) => setTimeout(resolve, 3000));
-    let response = await fetch(
+    const datasetItemsRes = await fetch(
       `/api/get_tiktok_video_comments/get_dataset_items?datasetId=${datasetId}`,
     );
-    let data = await response.json();
-    const commentsInfo = data.data;
-    response = await fetch(
+    const datasetItems = await datasetItemsRes.json();
+    const commentsInfo = datasetItems.data;
+    const statusRes = await fetch(
       `/api/get_tiktok_video_comments/get_dataset_status?datasetId=${datasetId}`,
     );
-    data = await response.json();
-    const status = data.data;
+    const statusInfo = await statusRes.json();
+    const status = statusInfo.data;
     if (commentsInfo?.videos?.length && status === "SUCCEEDED")
       return commentsInfo;
   }

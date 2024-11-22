@@ -7,8 +7,7 @@ export async function GET(req: NextRequest) {
   try {
     const data = await getActorStatus(datasetId as string);
     return Response.json({
-      success: true,
-      data,
+      ...data,
     });
   } catch (error) {
     console.error(error);
