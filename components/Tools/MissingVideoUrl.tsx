@@ -24,7 +24,7 @@ const MissingVideoUrl = () => {
           type="text"
           onChange={(e) => setVideoUrl(e.target.value)}
           className="!bg-transparent border-gray-700 border-[1px] rounded-md !outline-none px-2 py-1 text-sm"
-          placeholder="Input TikTok username."
+          placeholder="Input TikTok video url."
         />
         <button
           type="button"
