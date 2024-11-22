@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { v4 as uuidV4 } from "uuid";
 import useToolChat from "./useToolChat";
 import { useParams } from "next/navigation";
-import { ArtistToolResponse } from "@/types/Tool";
 import getToolCallMessage from "@/lib/getToolCallMessage";
 import useToolCallParams from "./useToolCallParams";
 import getVideoComments from "@/lib/getVideoComments";
@@ -81,6 +80,8 @@ const useToolCall = (message: Message) => {
     fans,
     tiktokTrends,
     isSearchingTrends,
+    isGettingVideos,
+    tiktokVideos,
   };
 };
 
