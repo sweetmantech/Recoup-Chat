@@ -10,7 +10,7 @@ const getVideoComments = async (videoUrls: string) => {
       `/api/get_tiktok_video_comments/get_dataset_items?datasetId=${datasetId}`,
     );
     const data = await response.json();
-    if (data.length > 0) {
+    if (data.data.videos.length > 0) {
       return data.data;
     }
   }
