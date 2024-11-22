@@ -55,6 +55,12 @@ const useArtists = () => {
       body: JSON.stringify({
         name: artistSetting.name,
         image: artistSetting.image,
+        tiktok_url: artistSetting.tiktok,
+        youtube_url: artistSetting.youtube,
+        apple_url: artistSetting.appleUrl,
+        instagram_url: artistSetting.instagram,
+        twitter_url: artistSetting.twitter,
+        spotify_url: artistSetting.spotifyUrl,
         artistId: settingMode === SETTING_MODE.CREATE ? "" : selectedArtist?.id,
         email,
       }),
