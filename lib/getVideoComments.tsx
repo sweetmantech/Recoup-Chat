@@ -11,13 +11,14 @@ const getVideoComments = async (videoUrls: string) => {
       `/api/get_tiktok_video_comments/get_dataset_items?datasetId=${datasetId}`,
     );
     let data = await response.json();
-    const videos = data.data.videos;
+    const commentsInfo = data.data;
     response = await fetch(
       `/api/get_tiktok_video_comments/get_dataset_status?datasetId=${datasetId}`,
     );
     data = await response.json();
     const status = data.data;
-    if (videos?.length && status === "SUCCEEDED") return data.data;
+    if (commentsInfo?.videos?.length && status === "SUCCEEDED")
+      return commentsInfo;
   }
 };
 
