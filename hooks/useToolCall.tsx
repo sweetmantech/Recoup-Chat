@@ -23,6 +23,8 @@ const useToolCall = (message: Message) => {
     loading,
     tiktokTrends,
     isSearchingTrends,
+    setIsGettingVideos,
+    isGettingVideos
   } = useToolChat(question, context, toolName);
 
   useEffect(() => {
@@ -45,7 +47,10 @@ const useToolCall = (message: Message) => {
       if (
         toolName === "getScoreInfo" ||
         (toolName === "getArtistAnalysis" &&
-          context.status === ArtistToolResponse.TIKTOK_TRENDS)
+          context.status === ArtistToolResponse.TIKTOK_TRENDS) ||
+        (toolName === "getVideoComments" && 
+          context.status === ArtistToolResponse.VIDEO_COMMENTS
+        )
       ) {
         if (toolName === "getArtistAnalysis") {
           setIsSearchingTrends(true);
@@ -55,6 +60,9 @@ const useToolCall = (message: Message) => {
           const data = await response.json();
           setTiktokTrends(data.trends);
           setIsSearchingTrends(false);
+        }
+        if (toolName === "getVideoComments") {
+          setI(true);
         }
         setBeginCall(true);
       }

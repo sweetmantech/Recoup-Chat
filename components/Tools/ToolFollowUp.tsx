@@ -18,7 +18,7 @@ const ToolFollowUp = ({ message }: { message: AIMessage }) => {
 
   return (
     <div>
-      {(toolName === "getScoreInfo" || toolName === "getArtistAnalysis") && (
+      {(toolName === "getScoreInfo" || toolName === "getArtistAnalysis" || toolName === "getVideoComments") && (
         <>
           {loading && !content ? (
             <div className="flex gap-2 items-center">
