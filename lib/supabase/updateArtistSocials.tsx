@@ -9,12 +9,21 @@ const updateArtistSocials = async (
   twitter_url: string,
   spotify_url: string,
 ) => {
-  await createSocialLink(artistId, "TIKTOK", tiktok_url);
-  await createSocialLink(artistId, "YOUTUBE", youtube_url);
-  await createSocialLink(artistId, "APPLE", apple_url);
-  await createSocialLink(artistId, "INSTAGRAM", instagram_url);
-  await createSocialLink(artistId, "TIWTTER", twitter_url);
-  await createSocialLink(artistId, "SPOTIFY", spotify_url);
+  const socialMediaLinks = [
+    { type: "TIKTOK", url: tiktok_url },
+    { type: "YOUTUBE", url: youtube_url },
+    { type: "APPLE", url: apple_url },
+    { type: "INSTAGRAM", url: instagram_url },
+    { type: "TWITTER", url: twitter_url },
+    { type: "SPOTIFY", url: spotify_url },
+  ];
+
+  // Iterate over the social media links and call createSocialLink
+  await Promise.all(
+    socialMediaLinks.map(({ type, url }) =>
+      createSocialLink(artistId, type, url),
+    ),
+  );
 };
 
 export default updateArtistSocials;

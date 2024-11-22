@@ -95,6 +95,20 @@ const useArtists = () => {
     if (selectedArtist) {
       artistSetting.setName(selectedArtist.name || "");
       artistSetting.setImage(selectedArtist.image || "");
+      const socialMediaTypes = {
+        TWITTER: artistSetting.setTwitter,
+        YOUTUBE: artistSetting.setYoutube,
+        APPLE: artistSetting.setAppleUrl,
+        INSTAGRAM: artistSetting.setInstagram,
+        SPOTIFY: artistSetting.setSpotifyUrl,
+        TIKTOK: artistSetting.setTikTok,
+      };
+      Object.entries(socialMediaTypes).forEach(([type, setter]) => {
+        const link = selectedArtist.artist_social_links.find(
+          (item) => item.type === type,
+        )?.link;
+        setter(link || "");
+      });
     }
   }, [selectedArtist]);
 

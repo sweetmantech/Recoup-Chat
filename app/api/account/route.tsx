@@ -7,9 +7,9 @@ export async function POST(req: NextRequest) {
   const client = getSupabaseServerAdminClient();
 
   try {
-    const { data } = await client.from('artist_social_links').select("*")
-    console.log("ZIAD", data)
-    
+    const { data } = await client.from("artist_social_links").select("*");
+    console.log("ZIAD", data);
+
     const { data: found } = await client
       .from("accounts")
       .select("*")
