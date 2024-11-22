@@ -5,7 +5,7 @@ const getVideoComments = async (videoUrls: string) => {
   const data = await response.json();
   const datasetId = data.data;
   while (1) {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    await new Promise((resolve) => setTimeout(resolve, 6000));
     const response = await fetch(
       `/api/get_tiktok_video_comments/get_dataset_items?datasetId=${datasetId}`,
     );
