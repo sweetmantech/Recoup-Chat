@@ -10,7 +10,7 @@ const useToolChat = (question?: string, context?: any, toolName?: any) => {
   const [tiktokTrends, setTiktokTrends] = useState<any>(null);
   const [isSearchingTrends, setIsSearchingTrends] = useState(false);
   const [isGettingVideos, setIsGettingVideos] = useState(false);
-  const [tiktokVideos, setTiktokVideos] = useState([])
+  const [tiktokVideos, setTiktokVideos] = useState([]);
 
   const toolCallContext = {
     ...(context !== null && { context }),
@@ -74,7 +74,7 @@ const useToolChat = (question?: string, context?: any, toolName?: any) => {
     setIsGettingVideos,
     isGettingVideos,
     setTiktokVideos,
-    tiktokVideos
+    tiktokVideos,
   };
 };
 

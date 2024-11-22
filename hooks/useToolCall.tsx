@@ -26,7 +26,7 @@ const useToolCall = (message: Message) => {
     setTiktokVideos,
     tiktokVideos,
     setIsGettingVideos,
-    isGettingVideos
+    isGettingVideos,
   } = useToolChat(question, context, toolName);
 
   useEffect(() => {
@@ -50,9 +50,8 @@ const useToolCall = (message: Message) => {
         toolName === "getScoreInfo" ||
         (toolName === "getArtistAnalysis" &&
           context.status === ArtistToolResponse.TIKTOK_TRENDS) ||
-        (toolName === "getVideoComments" && 
-          context.status === ArtistToolResponse.VIDEO_COMMENTS
-        )
+        (toolName === "getVideoComments" &&
+          context.status === ArtistToolResponse.VIDEO_COMMENTS)
       ) {
         if (toolName === "getArtistAnalysis") {
           setIsSearchingTrends(true);
@@ -65,23 +64,24 @@ const useToolCall = (message: Message) => {
         }
         if (toolName === "getVideoComments") {
           setIsGettingVideos(true);
-            const videoUrls = encodeURIComponent(`["${context.video_url}"]`)
-            const response = await fetch(
-              `/api/get_tiktok_video_comments?postURLs=${videoUrls}`,
-            );
+          const videoUrls = encodeURIComponent(`["${context.video_url}"]`);
+          const response = await fetch(
+            `/api/get_tiktok_video_comments?postURLs=${videoUrls}`,
+          );
           const datasetId = await response.json();
-          while(1) {
+          while (1) {
             await new Promise((resolve) => setTimeout(resolve, 3000));
             const response = await fetch(
               `/api/get_tiktok_video_comments/get_dataset_items?datasetId=${datasetId}`,
             );
             const data = await response.json();
             if (data.length > 0) {
-              setTiktokVideos(data)
+              console.log("ZIAD", data)
+              setTiktokVideos(data);
               break;
             }
           }
-          setIsGettingVideos(false)
+          setIsGettingVideos(false);
         }
         setBeginCall(true);
       }

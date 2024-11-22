@@ -10,7 +10,7 @@ const getVideoComments = (question: string) =>
     Example questions that MUST trigger this tool:
     - "How many comments does this video have?"`,
     parameters: z.object({
-        video_url: z
+      video_url: z
         .string()
         .optional()
         .describe("The video url to be analyzed."),
