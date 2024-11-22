@@ -65,7 +65,7 @@ const useToolCall = (message: Message) => {
         }
         if (toolName === "getVideosInfo") {
           setIsGettingVideos(true);
-          const videoUrls = encodeURIComponent(`["${context.video_url}"]`);
+          const videoUrls = encodeURIComponent(`["${context.videoUrl}"]`);
           const data = await getVideoComments(videoUrls);
           setTiktokVideos(data);
           setIsGettingVideos(false);
