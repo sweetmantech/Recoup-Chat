@@ -5,12 +5,6 @@ const updateArtistProfile = async (
   email: string,
   image: string,
   name: string,
-  tiktok_url: string,
-  youtube_url: string,
-  apple_url: string,
-  instagram_url: string,
-  twitter_url: string,
-  spotify_url: string,
 ) => {
   const client = getSupabaseServerAdminClient();
 

@@ -1,4 +1,5 @@
 import updateArtistProfile from "@/lib/supabase/updateArtistProfile";
+import updateArtistSocials from "@/lib/supabase/updateArtistSocials";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -15,11 +16,10 @@ export async function POST(req: NextRequest) {
   const spotify_url = body.spotify_url;
 
   try {
-    const id = await updateArtistProfile(
+    const id = await updateArtistProfile(artistId, email, image, name);
+
+    await updateArtistSocials(
       artistId,
-      email,
-      image,
-      name,
       tiktok_url,
       youtube_url,
       apple_url,
