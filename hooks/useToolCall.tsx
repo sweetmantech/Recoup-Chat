@@ -9,6 +9,7 @@ import { ArtistToolResponse } from "@/types/Tool";
 import getToolCallMessage from "@/lib/getToolCallMessage";
 import useToolCallParams from "./useToolCallParams";
 import getVideoComments from "@/lib/getVideoComments";
+import isActiveToolCallTrigger from "@/lib/isActiveToolCallTrigger";
 
 const useToolCall = (message: Message) => {
   const { finalCallback } = useChatProvider();
@@ -47,13 +48,7 @@ const useToolCall = (message: Message) => {
       if (!isAssistant) return;
       if (isCalled) return;
       setIsCalled(true);
-      if (
-        toolName === "getScoreInfo" ||
-        (toolName === "getArtistAnalysis" &&
-          context.status === ArtistToolResponse.TIKTOK_TRENDS) ||
-        (toolName === "getVideosInfo" &&
-          context.status === ArtistToolResponse.VIDEO_COMMENTS)
-      ) {
+      if (isActiveToolCallTrigger(toolName, context?.status)) {
         if (toolName === "getArtistAnalysis") {
           setIsSearchingTrends(true);
           const response = await fetch(
