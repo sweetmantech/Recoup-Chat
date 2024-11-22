@@ -15,7 +15,7 @@ const getFormattedAccountInfo = (data: any) => {
         nickname: item.authorMeta.nickName,
         region: item.authorMeta.region,
         avatar: item.authorMeta.avatar,
-        bioLink: item.authorMeta.signature,
+        bio: item.authorMeta.signature,
         videos: [item.webVideoUrl],
         fans: item.authorMeta.fans,
         following: item.authorMeta.following,
