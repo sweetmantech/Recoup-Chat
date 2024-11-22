@@ -69,6 +69,7 @@ const useToolCall = (message: Message) => {
             `/api/get_tiktok_video_comments?postURLs=${videoUrls}`,
           );
           const datasetId = await response.json();
+          console.log("ZIAD", datasetId);
           while (1) {
             await new Promise((resolve) => setTimeout(resolve, 3000));
             const response = await fetch(
@@ -76,7 +77,7 @@ const useToolCall = (message: Message) => {
             );
             const data = await response.json();
             if (data.length > 0) {
-              console.log("ZIAD", data)
+              console.log("ZIAD", data);
               setTiktokVideos(data);
               break;
             }
