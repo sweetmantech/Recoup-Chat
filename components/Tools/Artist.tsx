@@ -10,6 +10,7 @@ import { useArtistProvider } from "@/providers/ArtistProvider";
 import UpdateArtistInfo from "./UpdateArtistInfo";
 import { SETTING_MODE } from "@/types/Setting";
 import MissingArtist from "./MissingArtist";
+import MissingVideoUrl from "./MissingVideoUrl";
 
 const Artist = () => {
   const { context, question } = useToolCallProvider();
@@ -57,6 +58,7 @@ const Artist = () => {
       {status === ArtistToolResponse.MISSING_ARTIST_TIKTOK_USERNAME && (
         <MissingTikTok />
       )}
+      {status === ArtistToolResponse.MISSING_VIDEO_URL && <MissingVideoUrl />}
       {status === ArtistToolResponse.TIKTOK_TRENDS && <TikTokPfp />}
       {status === ArtistToolResponse.UPDATED_ARTIST_INFO && (
         <>
