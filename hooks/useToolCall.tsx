@@ -44,8 +44,7 @@ const useToolCall = (message: Message) => {
       }
 
       const isAssistant = message.role === "assistant";
-      if (!isAssistant) return;
-      if (isCalled) return;
+      if (!isAssistant || isCalled) return;
       setIsCalled(true);
       if (isActiveToolCallTrigger(toolName, context?.status)) {
         if (toolName === "getArtistAnalysis") {
