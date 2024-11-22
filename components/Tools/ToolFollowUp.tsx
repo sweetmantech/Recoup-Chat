@@ -15,8 +15,7 @@ const ToolFollowUp = ({ message }: { message: AIMessage }) => {
     isGettingVideos,
   } = useToolCallProvider();
   const content = message.content || answer;
-
-  console.log("ZIAD", content, loading, content, isGettingVideos, context);
+  const isThinking = loading || isSearchingTrends || isGettingVideos;
 
   useEffect(() => {
     scrollTo();
@@ -31,7 +30,7 @@ const ToolFollowUp = ({ message }: { message: AIMessage }) => {
         toolName === "getArtistAnalysis" ||
         toolName === "getVideosInfo") && (
         <>
-          {loading && !content ? (
+          {isThinking && !content ? (
             <div className="flex gap-2 items-center">
               <p className="text-sm">
                 {getStatusMessage(isSearchingTrends, isGettingVideos, context)}
