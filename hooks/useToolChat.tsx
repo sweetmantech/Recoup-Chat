@@ -19,6 +19,8 @@ const useToolChat = (question?: string, context?: any, toolName?: any) => {
   };
   const [beginCall, setBeginCall] = useState(false);
 
+  console.log(toolCallContext)
+  
   const {
     messages,
     append,
