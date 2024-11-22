@@ -15,6 +15,9 @@ const ToolFollowUp = ({ message }: { message: AIMessage }) => {
     isGettingVideos,
   } = useToolCallProvider();
   const content = message.content || answer;
+
+  console.log("ZIAD", content)
+  
   useEffect(() => {
     scrollTo();
     const timeoutId = setTimeout(scrollTo, 1000);
