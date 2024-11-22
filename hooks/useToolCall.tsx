@@ -52,7 +52,7 @@ const useToolCall = (message: Message) => {
           setIsSearchingTrends(true);
           const profile = await getTikTokProfile(context?.username);
           const videoComments = await getVideoComments(
-            encodeURIComponent(profile?.videos),
+            encodeURIComponent(JSON.stringify(profile?.videos)),
           );
           setTiktokTrends({
             ...profile,
