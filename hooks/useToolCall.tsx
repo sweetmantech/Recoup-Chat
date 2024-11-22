@@ -23,6 +23,8 @@ const useToolCall = (message: Message) => {
     loading,
     tiktokTrends,
     isSearchingTrends,
+    setTiktokVideos,
+    tiktokVideos,
     setIsGettingVideos,
     isGettingVideos
   } = useToolChat(question, context, toolName);
@@ -62,7 +64,24 @@ const useToolCall = (message: Message) => {
           setIsSearchingTrends(false);
         }
         if (toolName === "getVideoComments") {
-          setI(true);
+          setIsGettingVideos(true);
+            const videoUrls = encodeURIComponent(`["${context.video_url}"]`)
+            const response = await fetch(
+              `/api/get_tiktok_video_comments?postURLs=${videoUrls}`,
+            );
+          const datasetId = await response.json();
+          while(1) {
+            await new Promise((resolve) => setTimeout(resolve, 3000));
+            const response = await fetch(
+              `/api/get_tiktok_video_comments/get_dataset_items?datasetId=${datasetId}`,
+            );
+            const data = await response.json();
+            if (data.length > 0) {
+              setTiktokVideos(data)
+              break;
+            }
+          }
+          setIsGettingVideos(false)
         }
         setBeginCall(true);
       }
