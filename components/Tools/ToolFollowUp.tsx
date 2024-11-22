@@ -16,7 +16,7 @@ const ToolFollowUp = ({ message }: { message: AIMessage }) => {
   } = useToolCallProvider();
   const content = message.content || answer;
 
-  console.log("ZIAD", content, loading, content);
+  console.log("ZIAD", content, loading, content, isGettingVideos, context);
 
   useEffect(() => {
     scrollTo();
