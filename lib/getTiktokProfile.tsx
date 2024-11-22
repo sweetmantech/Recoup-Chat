@@ -8,12 +8,12 @@ const getTikTokProfile = async (handle: string) => {
   while (1) {
     await new Promise((resolve) => setTimeout(resolve, 3000));
     const datasetItemsRes = await fetch(
-      `/api/get_toktok_account_trends/get_dataset_items?datasetId=${datasetId}`,
+      `/api/get_tiktok_account_trends/get_dataset_items?datasetId=${datasetId}`,
     );
     const datasetItems = await datasetItemsRes.json();
     const profileInfo = datasetItems.data;
     const statusRes = await fetch(
-      `/api/get_toktok_account_trends/get_dataset_status?datasetId=${datasetId}`,
+      `/api/get_tiktok_account_trends/get_dataset_status?datasetId=${datasetId}`,
     );
     const statusInfo = await statusRes.json();
     const status = statusInfo.data;
