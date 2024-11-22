@@ -28,7 +28,7 @@ const useToolCall = (message: Message) => {
     tiktokVideos,
     setIsGettingVideos,
     isGettingVideos,
-  } = useToolChat(question, context, toolName);
+  } = useToolChat(question, toolName);
 
   useEffect(() => {
     const init = async () => {
