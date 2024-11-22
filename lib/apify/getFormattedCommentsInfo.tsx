@@ -9,29 +9,27 @@ const getFormattedCommentsInfo = (data: Comment[]) => {
   );
 
   sorteddata.forEach((comment) => {
-    const { videoWebUrl, text, uniqueId, avatarThumbnail } = comment;
+    const { videoWebUrl, text, uniqueId, createTime } = comment;
 
     if (!aggregated[videoWebUrl]) {
       aggregated[videoWebUrl] = {
         videoWebUrl,
         comments: [],
-        usernames: [],
-        thumbnails: [],
       };
     }
 
     if (text) {
       totalComments++;
-      aggregated[videoWebUrl].comments.push(text);
-    }
-    aggregated[videoWebUrl].usernames.push(uniqueId);
-    if (avatarThumbnail) {
-      aggregated[videoWebUrl].thumbnails.push(avatarThumbnail);
+      aggregated[videoWebUrl].comments.push({
+        comment: text,
+        username: uniqueId,
+        created_at: createTime,
+      });
     }
   });
 
   return {
-    commentsInfo: Object.values(aggregated),
+    videos: Object.values(aggregated),
     totalComments,
   };
 };

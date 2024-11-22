@@ -26,11 +26,13 @@ const getBaseCampaign = async (artistId: string, email: string) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (episode: any) => episode.description,
   );
-  const average_streamed_count = await getStreamsCount(client, artistId, email);
-  const top_song_listening_fans_count = await getTopSongListeningFansCount(
+  const { average_count, total_count } = await getStreamsCount(
+    client,
     artistId,
     email,
   );
+  const artist_top_song_fans_listening_count =
+    await getTopSongListeningFansCount(artistId, email);
 
   return {
     tracks: limitCollection(campaign?.tracks || []),
@@ -42,15 +44,15 @@ const getBaseCampaign = async (artistId: string, email: string) => {
     episodes_descriptions: limitCollection(episodes_descriptions),
     shows: limitCollection(campaign?.shows || []),
     genres: limitCollection(campaign?.genres || []),
+    total_streams_generated_count: total_count,
+    average_fan_streamed_count: average_count,
+    artist_top_song_fans_listening_count,
     premium_spotify_fans_count: premiumCount,
     free_spotify_fans_count: freeCount,
     spotify_fans_count: premiumCount + freeCount,
     total_unique_fans_count: campaign?.fans.length || 0,
     playlists_count: campaign?.playlist?.length || 0,
-    average_streamed_count,
-    top_song_listening_fans_count,
     fans: limitCollection(campaign?.fans || [], 500),
   };
 };
-
 export default getBaseCampaign;
