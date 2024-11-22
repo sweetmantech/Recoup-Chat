@@ -17,7 +17,7 @@ const getVideoComments = async (videoUrls: string) => {
     );
     data = await response.json();
     const status = data.data;
-    if (videos?.length && status === "SUCCEED") return data.data;
+    if (videos?.length && status === "SUCCEEDED") return data.data;
   }
 };
 
