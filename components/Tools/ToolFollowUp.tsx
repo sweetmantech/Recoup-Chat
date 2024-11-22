@@ -16,8 +16,8 @@ const ToolFollowUp = ({ message }: { message: AIMessage }) => {
   } = useToolCallProvider();
   const content = message.content || answer;
 
-  console.log("ZIAD", content)
-  
+  console.log("ZIAD", content, loading, content);
+
   useEffect(() => {
     scrollTo();
     const timeoutId = setTimeout(scrollTo, 1000);
