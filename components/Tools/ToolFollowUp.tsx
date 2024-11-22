@@ -20,7 +20,7 @@ const ToolFollowUp = ({ message }: { message: AIMessage }) => {
     <div>
       {(toolName === "getScoreInfo" ||
         toolName === "getArtistAnalysis" ||
-        toolName === "getVideoComments") && (
+        toolName === "getVideosInfo") && (
         <>
           {loading && !content ? (
             <div className="flex gap-2 items-center">

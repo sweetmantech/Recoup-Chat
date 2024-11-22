@@ -2,7 +2,7 @@ import { z } from "zod";
 import { tool } from "ai";
 import { ArtistToolResponse } from "@/types/Tool";
 
-const getVideoComments = (question: string) =>
+const getVideosInfo = (question: string) =>
   tool({
     description: `IMPORTANT: Always call this tool for questions related to videos ANALYTICS:
     Do NOT attempt to answer questions on these topics without calling this tool first.
@@ -35,4 +35,4 @@ const getVideoComments = (question: string) =>
     },
   });
 
-export default getVideoComments;
+export default getVideosInfo;

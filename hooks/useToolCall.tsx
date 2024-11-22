@@ -8,6 +8,7 @@ import { useParams } from "next/navigation";
 import { ArtistToolResponse } from "@/types/Tool";
 import getToolCallMessage from "@/lib/getToolCallMessage";
 import useToolCallParams from "./useToolCallParams";
+import getVideoComments from "@/lib/getVideoComments";
 
 const useToolCall = (message: Message) => {
   const { finalCallback } = useChatProvider();
@@ -50,7 +51,7 @@ const useToolCall = (message: Message) => {
         toolName === "getScoreInfo" ||
         (toolName === "getArtistAnalysis" &&
           context.status === ArtistToolResponse.TIKTOK_TRENDS) ||
-        (toolName === "getVideoComments" &&
+        (toolName === "getVideosInfo" &&
           context.status === ArtistToolResponse.VIDEO_COMMENTS)
       ) {
         if (toolName === "getArtistAnalysis") {
@@ -62,26 +63,11 @@ const useToolCall = (message: Message) => {
           setTiktokTrends(data.trends);
           setIsSearchingTrends(false);
         }
-        if (toolName === "getVideoComments") {
+        if (toolName === "getVideosInfo") {
           setIsGettingVideos(true);
           const videoUrls = encodeURIComponent(`["${context.video_url}"]`);
-          const response = await fetch(
-            `/api/get_tiktok_video_comments?postURLs=${videoUrls}`,
-          );
-          const datasetId = await response.json();
-          console.log("ZIAD", datasetId);
-          while (1) {
-            await new Promise((resolve) => setTimeout(resolve, 3000));
-            const response = await fetch(
-              `/api/get_tiktok_video_comments/get_dataset_items?datasetId=${datasetId}`,
-            );
-            const data = await response.json();
-            if (data.length > 0) {
-              console.log("ZIAD", data);
-              setTiktokVideos(data);
-              break;
-            }
-          }
+          const data = await getVideoComments(videoUrls);
+          setTiktokVideos(data);
           setIsGettingVideos(false);
         }
         setBeginCall(true);
