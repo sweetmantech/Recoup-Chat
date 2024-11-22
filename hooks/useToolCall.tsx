@@ -50,9 +50,14 @@ const useToolCall = (message: Message) => {
       if (isActiveToolCallTrigger(toolName, context?.status)) {
         if (toolName === "getArtistAnalysis") {
           setIsSearchingTrends(true);
-          const response = await getTikTokProfile(context?.username)
-          const data = await response.json();
-          setTiktokTrends(data.trends);
+          const profile = await getTikTokProfile(context?.username);
+          const videoComments = await getVideoComments(
+            encodeURIComponent(profile?.videos),
+          );
+          setTiktokTrends({
+            ...profile,
+            video: videoComments,
+          });
           setIsSearchingTrends(false);
         }
         if (toolName === "getVideosInfo") {
