@@ -1,6 +1,6 @@
 const getTikTokProfile = async (handle: string) => {
   const response = await fetch(
-    `/api/get_toktok_account_trends?handle=${handle}`,
+    `/api/get_tiktok_account_trends?handle=${handle}`,
   );
   const data = await response.json();
   const datasetId = data.data;
