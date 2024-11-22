@@ -1,4 +1,4 @@
-import getDefaultDataset from "@/lib/apify/getDefaultDataset";
+import getDataset from "@/lib/apify/getDataset";
 import getFormattedAccountInfo from "@/lib/apify/getFormattedAccountInfo";
 import { NextRequest } from "next/server";
 
@@ -6,7 +6,7 @@ export async function GET(req: NextRequest) {
   const defaultDatasetId = req.nextUrl.searchParams.get("defaultDatasetId");
 
   try {
-    const data = await getDefaultDataset(defaultDatasetId as string);
+    const data = await getDataset(defaultDatasetId as string);
     const formattedData = getFormattedAccountInfo(data);
     return Response.json({
       success: true,
