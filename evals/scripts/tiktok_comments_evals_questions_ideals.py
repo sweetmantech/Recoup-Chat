@@ -9,7 +9,7 @@ evals_questions_ideals = [
     },
     {
         "eval_name": "get_tiktok_analysis",
-        "question": "Analyze a tiktok account? username: officialluhtyler",
+        "question": "Analyze a tiktok account? username is officialluhtyler",
         "ideal": "",
         "criteria": "The answer is not related to ideal value. The answer should provide a concise artist introduction followed by automatically generated fan segment data, including segment names and counts."
     }
