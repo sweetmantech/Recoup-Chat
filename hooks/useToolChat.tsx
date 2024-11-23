@@ -17,8 +17,6 @@ const useToolChat = (question?: string, toolName?: any) => {
     ...tiktokVideos,
   };
 
-  console.log(toolCallContext);
-
   const [beginCall, setBeginCall] = useState(false);
 
   const {
