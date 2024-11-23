@@ -56,7 +56,9 @@ const useToolCall = (message: Message) => {
           );
           setTiktokTrends({
             ...profile,
-            video: videoComments,
+            videos: videoComments.videos,
+            total_video_comments_count:
+              videoComments.total_video_comments_count,
           });
           setIsSearchingTrends(false);
         }
