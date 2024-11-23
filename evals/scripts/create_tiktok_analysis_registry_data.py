@@ -1,7 +1,5 @@
 import json
 import string
-import requests
-import time
 from consts import api_endpoint
 from get_instruction import get_instruction
 from get_tiktok_demo_context import get_demo_comments, get_demo_profile

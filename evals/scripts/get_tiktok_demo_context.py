@@ -1,3 +1,5 @@
+import requests
+
 def get_demo_comments():
     response = requests.get(f"{api_endpoint}/api/get_tiktok_video_comments/get_dataset_items?datasetId=TSaP77bmQql7L5tfA")
     data = response.json()
