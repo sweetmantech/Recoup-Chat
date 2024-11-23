@@ -9,6 +9,7 @@ const toolSystemMessage = (context: any, question: any, toolName: string) => {
     Context: ${JSON.stringify(context)}
     Question: ${question}
     ${instructions.get_tiktok_analysis}
+    ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
     `;
   if (toolName === "getVideosInfo")
     return `
