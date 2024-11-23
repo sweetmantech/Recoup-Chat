@@ -1,4 +1,4 @@
-from criteria import count_query_criteria
+from criteria import count_query_criteria, tiktok_analysis_criteria
 
 evals_questions_ideals = [
     {
