@@ -28,6 +28,7 @@ def create_tiktok_analysis_registry_data(ideal_key_or_value, question):
             f"[Question]: {question}\n\n"
             f"*****\n"
             f"[Instruction]: {json.dumps(instruction['get_tiktok_analysis'])}"
+            f"*****\n"
         ),
         "ideal": ideal_value_str
     }
