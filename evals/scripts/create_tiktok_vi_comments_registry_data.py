@@ -1,25 +1,12 @@
 import json
 import string
-import requests
-import time
-from consts import api_endpoint
 from get_instruction import get_instruction
-
-def fetch_comments(datasetId):
-    response = requests.get(f"{api_endpoint}/api/get_tiktok_video_comments/get_dataset_items?datasetId={datasetId}")
-    data = response.json()
-    if len(data['data']['videos']) > 0:
-        return data['data']
-    else:
-        return None
+from get_tiktok_demo_context import get_demo_comments
 
 def create_tiktok_vi_comments_registry_data(ideal_key_or_value, question):
     registry_data = ""
-    defaultDatasetId = "qYiAiOkrIyVqa97mZ"
     instruction = get_instruction()
-
-    data = fetch_comments(defaultDatasetId)
-    print(data)
+    data = get_demo_comments()
     if data != None:
         context_str = json.dumps(data)
     else:
