@@ -7,7 +7,7 @@ const Chat = () => {
   const { messages } = useChatProvider();
   return (
     <div
-      className={`grow h-[calc(100vh-56px)] md:h-screen overflow-hidden flex flex-col ${messages.length ? "px-4 pb-5 pt-20" : "items-center justify-center"}`}
+      className={`grow h-[calc(100vh-56px)] md:h-screen overflow-hidden flex flex-col ${messages.length ? "px-4 pb-5 md:pt-20" : "items-center justify-center"}`}
     >
       <ScrollTo>{({ scroll }) => <Messages scroll={scroll} />}</ScrollTo>
       <ChatInput />
