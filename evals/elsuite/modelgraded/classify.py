@@ -92,7 +92,6 @@ class ModelBasedClassify(evals.Eval):
         )
         metrics.update(dict(choice=choice, score=info["score"], sampled=info["prompt"]))
 
-        print(info["prompt"])
         # run metaeval if requested
         if self.metaeval:
             assert "choice" in test_sample
