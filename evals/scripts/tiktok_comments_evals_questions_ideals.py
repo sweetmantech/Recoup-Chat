@@ -8,7 +8,7 @@ evals_questions_ideals = [
         "criteria": count_query_criteria
     },
     {
-        "eval_name": "get_tiktok_analysis",
+        "eval_name": "analysis_tiktok_profile",
         "question": "Analyze a tiktok account? username is officialluhtyler",
         "ideal": "",
         "criteria": tiktok_analysis_criteria
