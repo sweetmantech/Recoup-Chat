@@ -4,15 +4,19 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { v4 as uuidV4 } from "uuid";
 
-const useToolChat = (question?: string, context?: any, toolName?: any) => {
+const useToolChat = (question?: string, toolName?: any) => {
   const { finalCallback, clearQuery } = useChatProvider();
   const { conversation: conversationId } = useParams();
   const [tiktokTrends, setTiktokTrends] = useState<any>(null);
   const [isSearchingTrends, setIsSearchingTrends] = useState(false);
+  const [isGettingVideos, setIsGettingVideos] = useState(false);
+  const [tiktokVideos, setTiktokVideos] = useState<any>({});
+
   const toolCallContext = {
-    ...(context !== null && { context }),
-    ...(tiktokTrends !== null && { trends: tiktokTrends }),
+    ...(tiktokTrends !== null && { ...tiktokTrends }),
+    ...tiktokVideos,
   };
+
   const [beginCall, setBeginCall] = useState(false);
 
   const {
@@ -52,6 +56,8 @@ const useToolChat = (question?: string, context?: any, toolName?: any) => {
         content: question as string,
         role: "user",
       });
+      setTiktokTrends(null);
+      setTiktokVideos({});
       setBeginCall(false);
     };
     if (!beginCall || !question) return;
@@ -68,6 +74,10 @@ const useToolChat = (question?: string, context?: any, toolName?: any) => {
     answer,
     tiktokTrends,
     setBeginCall,
+    setIsGettingVideos,
+    isGettingVideos,
+    setTiktokVideos,
+    tiktokVideos,
   };
 };
 
