@@ -22,9 +22,7 @@ def create_tiktok_analysis_registry_data(ideal_key_or_value, question):
 
     content = {
         "input": (
-            f"///////////////////////////////////////////////////// BEGIN CONTEXT //////////////////////////////////////////////////////\n"
-            f"{context_str}\n"
-            f"///////////////////////////////////////////////////// END CONTEXT //////////////////////////////////////////////////////\n\n"
+            f"[BEGIN CONTEXT] {context_str}\n [END CONTEXT]"
             f"{instruction['get_tiktok_analysis']}"
         ),
         "ideal": ideal_value_str
