@@ -2,22 +2,24 @@ import runTikTokActor from "@/lib/apify/runTikTokActor";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const postURLs = req.nextUrl.searchParams.get("postURLs");
+  const handle = req.nextUrl.searchParams.get("handle");
 
+  const profiles = [handle as string];
   const input = {
-    postURLs: JSON.parse(postURLs as string),
-    commentsPerPost: 100,
-    maxRepliesPerComment: 0,
+    resultsPerPage: 10,
+    proxyCountryCode: "None",
+    profiles,
   };
 
   try {
-    const data = await runTikTokActor(
+    const defaultDatasetId = await runTikTokActor(
       input,
-      "clockworks~tiktok-comments-scraper",
+      "clockworks~tiktok-scraper",
     );
+
     return Response.json({
       success: true,
-      data,
+      data: defaultDatasetId,
     });
   } catch (error) {
     console.error(error);

@@ -10,6 +10,7 @@ import updateArtistInfo from "../tools/updateArtistInfo";
 import getScoreInfo from "../tools/getScoreInfo";
 import getBaseCampaign from "../chat/getBaseCampaign";
 import instructions from "@/evals/scripts/instructions.json";
+import getVideosInfo from "../tools/getVideosInfo";
 
 export function createChatMessagesService() {
   return new ChatMessagesService();
@@ -61,6 +62,7 @@ ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
   ) {
     try {
       return {
+        getVideosInfo: getVideosInfo(question),
         getScoreInfo: getScoreInfo(question),
         createArtist: createArtist(question, email),
         getArtists: getArtists(question, email),

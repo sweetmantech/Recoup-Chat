@@ -5,9 +5,10 @@ import { useEffect, useState } from "react";
 import { v4 as uuidV4 } from "uuid";
 import useToolChat from "./useToolChat";
 import { useParams } from "next/navigation";
-import { ArtistToolResponse } from "@/types/Tool";
 import getToolCallMessage from "@/lib/getToolCallMessage";
 import useToolCallParams from "./useToolCallParams";
+import getVideoComments from "@/lib/getVideoComments";
+import isActiveToolCallTrigger from "@/lib/isActiveToolCallTrigger";
 
 const useToolCall = (message: Message) => {
   const { finalCallback } = useChatProvider();
@@ -23,7 +24,11 @@ const useToolCall = (message: Message) => {
     loading,
     tiktokTrends,
     isSearchingTrends,
-  } = useToolChat(question, context, toolName);
+    setTiktokVideos,
+    tiktokVideos,
+    setIsGettingVideos,
+    isGettingVideos,
+  } = useToolChat(question, toolName);
 
   useEffect(() => {
     const init = async () => {
@@ -39,14 +44,9 @@ const useToolCall = (message: Message) => {
       }
 
       const isAssistant = message.role === "assistant";
-      if (!isAssistant) return;
-      if (isCalled) return;
+      if (!isAssistant || isCalled) return;
       setIsCalled(true);
-      if (
-        toolName === "getScoreInfo" ||
-        (toolName === "getArtistAnalysis" &&
-          context.status === ArtistToolResponse.TIKTOK_TRENDS)
-      ) {
+      if (isActiveToolCallTrigger(toolName, context?.status)) {
         if (toolName === "getArtistAnalysis") {
           setIsSearchingTrends(true);
           const response = await fetch(
@@ -55,6 +55,13 @@ const useToolCall = (message: Message) => {
           const data = await response.json();
           setTiktokTrends(data.trends);
           setIsSearchingTrends(false);
+        }
+        if (toolName === "getVideosInfo") {
+          setIsGettingVideos(true);
+          const videoUrls = encodeURIComponent(`["${context.videoUrl}"]`);
+          const data = await getVideoComments(videoUrls);
+          setTiktokVideos(data);
+          setIsGettingVideos(false);
         }
         setBeginCall(true);
       }
@@ -72,6 +79,8 @@ const useToolCall = (message: Message) => {
     fans,
     tiktokTrends,
     isSearchingTrends,
+    isGettingVideos,
+    tiktokVideos,
   };
 };
 
