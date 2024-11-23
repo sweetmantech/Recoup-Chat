@@ -9,7 +9,7 @@ evals_questions_ideals = [
     },
     {
         "eval_name": "get_tiktok_analysis",
-        "question": "Analyze a tiktok account? username is officialluhtyler",
+        "question": "Analyze a tiktok account profile.",
         "ideal": "",
         "criteria": tiktok_analysis_criteria
     }
