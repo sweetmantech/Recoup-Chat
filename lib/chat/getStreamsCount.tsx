@@ -5,18 +5,18 @@ import { CampaignRecord } from "@/types/Artist";
 const getStreamsCount = async (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   client: SupabaseClient<Database, "public", any>,
-  email: string,
   artistId: string,
+  email: string,
 ) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let clientIds = [] as any;
+  let campaignIds = [] as any;
 
   if (artistId) {
     const { data } = await client
       .from("campaigns")
-      .select("*")
+      .select("id")
       .eq("artistId", artistId);
-    if (data?.length) clientIds.push(data[0].clientId);
+    if (data?.length) campaignIds = data.map((item) => item.id);
   } else {
     const { data } = await client
       .from("accounts")
@@ -28,22 +28,24 @@ const getStreamsCount = async (
         .from("campaigns")
         .select("*")
         .in("artistId", artistIds);
-      clientIds = campaigns?.map(
-        (campaign: CampaignRecord) => campaign.clientId,
-      );
+      campaignIds = campaigns?.map((campaign: CampaignRecord) => campaign.id);
     }
   }
 
   const { count: spotifyCount } = await client
     .from("spotify_play_button_clicked")
     .select("*", { count: "exact" })
-    .in("clientId", clientIds);
+    .in("campaignId", campaignIds);
   const { count: appleCount } = await client
     .from("apple_play_button_clicked")
     .select("*", { count: "exact" })
-    .in("clientId", clientIds);
+    .in("campaignId", campaignIds);
 
-  return (spotifyCount || 0) + (appleCount || 0);
+  const total_count = (spotifyCount || 0) + (appleCount || 0);
+  return {
+    total_count,
+    average_count: parseInt(Number(total_count / 2).toFixed(0), 10),
+  };
 };
 
 export default getStreamsCount;

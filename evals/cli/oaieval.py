@@ -14,6 +14,13 @@ import evals.record
 from evals.eval import Eval
 from evals.record import RecorderBase
 from evals.registry import Registry
+import os
+from slack_sdk import WebClient
+from slack_sdk.errors import SlackApiError
+import ssl
+from evals.fns.extract_between_markers import extract_between_markers
+
+ssl._create_default_https_context = ssl._create_unverified_context
 
 logger = logging.getLogger(__name__)
 
@@ -113,6 +120,55 @@ class OaiEvalArguments(argparse.Namespace):
     http_fail_percent_threshold: int
     dry_run: bool
     dry_run_logging: bool
+
+
+def send_slack_message(result: dict[str, Any], label) -> None:
+    """Send evaluation results to Slack."""
+    try:
+        client = WebClient(token=os.environ.get("SLACK_BOT_TOKEN"))
+
+        formatted_message = f"`{label}` "
+        message_content = ""
+        total_prompt_count = 0
+        yes_prompt_count = 0
+        for key, value in result.items():
+            if "prompt" in key:
+                answer = extract_between_markers(value[0]['content'])
+                if label != "Recoup Chat Benchmarks":
+                    message_content += f"• {answer}\n {'`correct`' if 'Y' in key else '`incorrect`'}\n"
+                if "Y" in key:
+                    yes_prompt_count += 1
+                total_prompt_count += 1
+
+        formatted_message += f"({yes_prompt_count}/{total_prompt_count}) {'✅' if total_prompt_count == yes_prompt_count else '❌'}\n"
+
+        response = client.chat_postMessage(
+            channel=os.environ.get("SLACK_CHANNEL_ID", ""),
+            text=formatted_message,
+            blocks=[
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": formatted_message
+                    }
+                }
+            ]
+        )
+
+        thread_ts = response['ts']
+
+        client.chat_postMessage(
+            channel=os.environ.get("SLACK_CHANNEL_ID", ""),
+            text=message_content,
+            thread_ts=thread_ts
+        )
+
+        logger.info("Slack message sent successfully")
+    except SlackApiError as e:
+        logger.error(f"Failed to send Slack message: {e.response['error']}")
+    except Exception as e:
+        logger.error(f"Error sending Slack message: {e}")
 
 
 def run(args: OaiEvalArguments, registry: Optional[Registry] = None) -> str:
@@ -236,6 +292,10 @@ def run(args: OaiEvalArguments, registry: Optional[Registry] = None) -> str:
     logger.info("Final report:")
     for key, value in result.items():
         logger.info(f"{key}: {value}")
+    
+    # Send results to Slack
+    send_slack_message(result, eval_spec.args['modelgraded_spec_args']['label'])
+    
     return run_spec.run_id
 
 

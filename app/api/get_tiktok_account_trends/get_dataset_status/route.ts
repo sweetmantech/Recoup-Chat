@@ -1,16 +1,14 @@
-import getTikTokContext from "@/lib/apify/getTikTokContext";
-import getTiktokTrends from "@/lib/apify/getTiktokTrends";
+import getActorStatus from "@/lib/apify/getActorStatus";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const handle = req.nextUrl.searchParams.get("handle");
+  const datasetId = req.nextUrl.searchParams.get("datasetId");
 
   try {
-    const trends = await getTiktokTrends(handle as string);
-    const trendsContext = getTikTokContext(trends);
+    const data = await getActorStatus(datasetId as string);
     return Response.json({
       success: true,
-      trends: trendsContext,
+      data,
     });
   } catch (error) {
     console.error(error);
@@ -18,3 +16,7 @@ export async function GET(req: NextRequest) {
     return Response.json({ message }, { status: 400 });
   }
 }
+
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+export const revalidate = 0;

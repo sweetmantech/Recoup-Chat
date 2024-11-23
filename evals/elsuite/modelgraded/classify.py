@@ -90,7 +90,7 @@ class ModelBasedClassify(evals.Eval):
             match_fn=self.match_fn,
             format_kwargs={**completions, **test_sample, **self.modelgraded_spec_args},
         )
-        metrics.update(dict(choice=choice, score=info["score"]))
+        metrics.update(dict(choice=choice, score=info["score"], sampled=info["prompt"]))
 
         # run metaeval if requested
         if self.metaeval:
@@ -111,12 +111,17 @@ class ModelBasedClassify(evals.Eval):
         if not all_sample_metrics:
             return record_metrics
 
-        # record the counts
+        # Record the counts of choices
         choices = [m["choice"] for m in all_sample_metrics]
-        counts = dict(Counter(choices))
-        record_metrics.update({f"counts/{k}": v for k, v in counts.items()})
+        counts_choices = dict(Counter(choices))
+        record_metrics.update({f"counts/{k}": v for k, v in counts_choices.items()})
 
-        # record the scores
+        prompt_counter = 1
+        for m in all_sample_metrics:
+            record_metrics[f"prompt/{prompt_counter}/{m.get('choice', 'N')}"] = m["sampled"]
+                
+            prompt_counter += 1
+        
         scores = [m["score"] for m in all_sample_metrics if m["score"] is not None]
         if scores:
             record_metrics["score"] = sum(scores) / len(scores)
