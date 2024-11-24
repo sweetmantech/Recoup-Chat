@@ -45,13 +45,15 @@ const useTikTokAnalysis = () => {
       setThought(THOUGHT_OF_ANALYSIS.SEGMENTS);
       const segments = await getFanSegments(profileWithComments);
       setSegments(segments);
-      setThought(THOUGHT_OF_ANALYSIS.CREATING_ARTIST);
-      toggleCreation();
-      setName(profileWithComments.name);
-      setImage(profileWithComments.avatar);
-      const artistInfo = await saveSetting();
-      setSelectedArtist(artistInfo);
-      setArtistActive(true);
+      if (email) {
+        setThought(THOUGHT_OF_ANALYSIS.CREATING_ARTIST);
+        toggleCreation();
+        setName(profileWithComments.name);
+        setImage(profileWithComments.avatar);
+        const artistInfo = await saveSetting();
+        setSelectedArtist(artistInfo);
+        setArtistActive(true);
+      }
       setThought(THOUGHT_OF_ANALYSIS.FINISHED);
     } catch (error) {
       console.error("Analysis failed:", error);
