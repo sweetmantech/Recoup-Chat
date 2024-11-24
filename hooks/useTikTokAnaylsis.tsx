@@ -14,14 +14,8 @@ const useTikTokAnalysis = () => {
   const [result, setResult] = useState<any>(null);
   const [progress, setProgress] = useState(0);
   const [segments, setSegments] = useState<Array<any>>([]);
-  const {
-    setSettingMode,
-    setImage,
-    setName,
-    saveSetting,
-    setSelectedArtist,
-    setArtistActive,
-  } = useArtistProvider();
+  const { setSettingMode, saveSetting, setSelectedArtist, setArtistActive } =
+    useArtistProvider();
   const { email } = useUserProvider();
 
   const handleAnalyze = async () => {
@@ -49,10 +43,15 @@ const useTikTokAnalysis = () => {
       if (email) {
         setSettingMode(SETTING_MODE.CREATE);
         setThought(THOUGHT_OF_ANALYSIS.CREATING_ARTIST);
-        setName(profileWithComments.nickname);
-        setImage(encodeURIComponent(profileWithComments.avatar));
-        const artistInfo = await saveSetting();
-        setSelectedArtist(artistInfo);
+        const artistInfo = await saveSetting(
+          profileWithComments.nickname,
+          profileWithComments.avatar,
+          SETTING_MODE.CREATE,
+        );
+        setSelectedArtist({
+          ...artistInfo,
+          id: artistInfo.artistId,
+        });
         setArtistActive(true);
       }
       setThought(THOUGHT_OF_ANALYSIS.FINISHED);

@@ -48,20 +48,22 @@ const useArtists = () => {
     }
   }, [email]);
 
-  const saveSetting = async () => {
+  const saveSetting = async (name?: string, image?: string, mode?: string) => {
     setUpdating(true);
+    const saveMode = mode || settingMode;
+
     const response = await fetch("/api/artist/profile", {
       method: "POST",
       body: JSON.stringify({
-        name: artistSetting.name,
-        image: artistSetting.image,
+        name: name || artistSetting.name,
+        image: image || artistSetting.image,
         tiktok_url: artistSetting.tiktok,
         youtube_url: artistSetting.youtube,
         apple_url: artistSetting.appleUrl,
         instagram_url: artistSetting.instagram,
         twitter_url: artistSetting.twitter,
         spotify_url: artistSetting.spotifyUrl,
-        artistId: settingMode === SETTING_MODE.CREATE ? "" : selectedArtist?.id,
+        artistId: saveMode === SETTING_MODE.CREATE ? "" : selectedArtist?.id,
         email,
       }),
       headers: {
@@ -73,7 +75,7 @@ const useArtists = () => {
     setUpdating(false);
     if (settingMode === SETTING_MODE.CREATE)
       setSettingMode(SETTING_MODE.UPDATE);
-    return data?.artistInfo;
+    return data;
   };
 
   useEffect(() => {
