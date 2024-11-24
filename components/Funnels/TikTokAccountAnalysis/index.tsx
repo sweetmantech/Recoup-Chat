@@ -1,3 +1,3 @@
 import TikTokAccountAnalysis from "./TikTokAccountAnalysis";
 
-export default TikTokAccountAnalysis
+export default TikTokAccountAnalysis;

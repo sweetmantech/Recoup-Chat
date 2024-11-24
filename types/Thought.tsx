@@ -1,0 +1,5 @@
+export enum THOUGHT_OF_ANALYSIS {
+  PROFILE,
+  POSTURLS,
+  VIDEO_COMMENTS,
+}
