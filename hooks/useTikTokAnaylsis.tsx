@@ -26,7 +26,7 @@ const useTikTokAnalysis = () => {
     if (!username || isLoading) return;
     if (!conversationId) {
       const newId = uuidV4();
-      push(`/${newId}`);
+      push(`/funnels/tiktok-account-analysis/${newId}`);
     }
     try {
       setIsLoading(true);
