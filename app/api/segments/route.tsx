@@ -5,8 +5,6 @@ import { AI_MODEL } from "@/lib/consts";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const context = body.context;
-
   try {
     const openai = new OpenAI();
     const response = await openai.chat.completions.create({
@@ -16,7 +14,7 @@ export async function POST(req: NextRequest) {
       messages: [
         {
           role: "user",
-          content: `Context: ${JSON.stringify(context)}
+          content: `Context: ${JSON.stringify(body)}
           ${instructions.get_fan_segments}`,
         },
         {
