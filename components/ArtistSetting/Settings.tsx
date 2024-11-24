@@ -2,7 +2,6 @@
 
 import useIsMobile from "@/hooks/useIsMobile";
 import { MicVocal, Plus, X } from "lucide-react";
-import Image from "next/image";
 import Form from "../Form";
 import { validation } from "@/lib/utils/setting";
 import Input from "../Input";
@@ -81,9 +80,9 @@ const Settings = () => {
             {imageUploading ? (
               <p className="text-sm">Uploading...</p>
             ) : (
-              <Image
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
                 src={image || "https://i.imgur.com/QCdc8Ai.jpg"}
-                layout="fill"
                 className="object-cover"
                 alt="not found pic"
               />
