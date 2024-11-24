@@ -24,7 +24,7 @@ const useTikTokAnalysis = () => {
     try {
       setIsLoading(true);
       setThought(THOUGHT_OF_ANALYSIS.PROFILE);
-      const profile = await getTikTokProfile(username);
+      const profile = await getTikTokProfile(username.replaceAll("@", ""));
       setThought(THOUGHT_OF_ANALYSIS.VIDEO_COMMENTS);
       const videoComments = await getVideoComments(
         encodeURIComponent(JSON.stringify(profile?.videos)),
