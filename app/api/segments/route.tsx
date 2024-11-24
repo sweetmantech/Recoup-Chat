@@ -26,7 +26,15 @@ export async function POST(req: NextRequest) {
     try {
       const answer = response.choices[0].message!.content!.toString();
       return Response.json(
-        { data: JSON.parse(answer)?.data || [] },
+        {
+          data:
+            JSON.parse(
+              answer
+                ?.replaceAll("\n", "")
+                ?.replaceAll("json", "")
+                ?.replaceAll("```", ""),
+            )?.data || [],
+        },
         { status: 200 },
       );
     } catch (error) {
