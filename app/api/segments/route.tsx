@@ -14,12 +14,11 @@ export async function POST(req: NextRequest) {
       messages: [
         {
           role: "user",
-          content: `Context: ${JSON.stringify(body)}
-          ${instructions.get_fan_segments}`,
+          content: `Context: ${JSON.stringify(body)}`,
         },
         {
           role: "system",
-          content: `Let's get response with only this json format. {"data": [{ string: number }, { string: number }]}.`,
+          content: `${instructions.get_fan_segments} \n Let's get response with only this json format. {"data": [{ string: number }, { string: number }]}.`,
         },
       ],
     });
