@@ -5,7 +5,9 @@ import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useUserProvider } from "@/providers/UserProvder";
 import { SETTING_MODE } from "@/types/Setting";
 import { THOUGHT_OF_ANALYSIS } from "@/types/Thought";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
+import { v4 as uuidV4 } from "uuid";
 
 const useTikTokAnalysis = () => {
   const [username, setUsername] = useState("");
@@ -17,10 +19,15 @@ const useTikTokAnalysis = () => {
   const { setSettingMode, saveSetting, setSelectedArtist, setArtistActive } =
     useArtistProvider();
   const { email } = useUserProvider();
+  const { conversation: conversationId } = useParams();
+  const { push } = useRouter();
 
   const handleAnalyze = async () => {
     if (!username || isLoading) return;
-
+    if (!conversationId) {
+      const newId = uuidV4();
+      push(`/${newId}`);
+    }
     try {
       setIsLoading(true);
       setThought(THOUGHT_OF_ANALYSIS.PROFILE);
