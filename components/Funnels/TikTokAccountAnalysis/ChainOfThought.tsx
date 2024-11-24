@@ -1,5 +1,8 @@
+import ChatInput from "@/components/Chat/ChatInput";
+import Messages from "@/components/Chat/Messages";
 import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
 import { THOUGHT_OF_ANALYSIS } from "@/types/Thought";
+import { ScrollTo } from "react-scroll-to";
 
 const ChainOfThought = () => {
   const { thought, username, progress, result, segments } =
@@ -7,7 +10,7 @@ const ChainOfThought = () => {
 
   return (
     <main className="flex-1 flex">
-      <div className="max-w-[900px] w-full mx-auto pt-10">
+      <div className="max-w-3xl mx-auto w-full h-screen mx-auto pt-10 flex flex-col">
         <div
           className={`flex gap-2 ${thought === THOUGHT_OF_ANALYSIS.FINISHED ? "items-start" : "items-center"}`}
         >
@@ -62,6 +65,12 @@ const ChainOfThought = () => {
               </div>
             </div>
           )}
+        </div>
+        <div className="grow flex flex-col pb-8">
+          <ScrollTo>
+            {({ scroll }) => <Messages scroll={scroll} className="!grow" />}
+          </ScrollTo>
+          <ChatInput />
         </div>
       </div>
     </main>

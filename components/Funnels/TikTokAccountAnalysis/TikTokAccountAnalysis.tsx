@@ -7,7 +7,7 @@ import ChainOfThought from "./ChainOfThought";
 const TikTokAccountAnalysis = () => {
   const { isLoading } = useTikTokAnalysisProvider();
 
-  return <>{isLoading ? <ChainOfThought /> : <TikTokAccountInput />}</>;
+  return <>{!isLoading ? <ChainOfThought /> : <TikTokAccountInput />}</>;
 };
 
 export default TikTokAccountAnalysis;
