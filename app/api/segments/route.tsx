@@ -22,23 +22,20 @@ export async function POST(req: NextRequest) {
         },
       ],
     });
-    const answer = response.choices[0].message!.content!.toString();
 
     try {
+      const answer = response.choices[0].message!.content!.toString();
       return Response.json(
         { data: JSON.parse(answer)?.data || [] },
         { status: 200 },
       );
     } catch (error) {
       console.error(error);
-      return Response.json(
-        { data: [], answer: response.choices[0].message!.content },
-        { status: 400 },
-      );
+      return Response.json({ data: [], answer: response }, { status: 500 });
     }
   } catch (error) {
     console.error(error);
-    return Response.json({ data: [], error }, { status: 400 });
+    return Response.json({ data: [], error }, { status: 500 });
   }
 }
 
