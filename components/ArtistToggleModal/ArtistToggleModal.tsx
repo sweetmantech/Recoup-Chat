@@ -1,4 +1,3 @@
-import Image from "next/image";
 import ArtistDropDown from "./ArtistDropDown";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import useClickOutsideSelect from "@/hooks/useClickOutsideSelect";
@@ -24,10 +23,11 @@ const ArtistToggleModal = () => {
             className={`${artistActive ? "translate-x-[calc(100%-5px)]" : "translate-x-[-5px]"} w-[20px] aspect-[1/1] rounded-full overflow-hidden
               transition duration-[300ms] ease-[cubic-bezier(0.68,-0.55,0.265,1.55)]`}
           >
-            <Image
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src={selectedArtist?.image || "https://i.imgur.com/QCdc8Ai.jpg"}
-              layout="fill"
-              alt="not found artist image"
+              className="object-cover"
+              alt="not found icon"
             />
           </div>
         </button>

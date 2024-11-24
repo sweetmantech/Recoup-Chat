@@ -1,5 +1,6 @@
 import updateArtistProfile from "@/lib/supabase/updateArtistProfile";
 import updateArtistSocials from "@/lib/supabase/updateArtistSocials";
+import { getSupabaseServerAdminClient } from "@/packages/supabase/src/clients/server-admin-client";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -16,10 +17,11 @@ export async function POST(req: NextRequest) {
   const spotify_url = body.spotify_url;
 
   try {
+    const client = getSupabaseServerAdminClient();
     const id = await updateArtistProfile(artistId, email, image, name);
 
     await updateArtistSocials(
-      artistId,
+      id,
       tiktok_url,
       youtube_url,
       apple_url,
@@ -27,7 +29,22 @@ export async function POST(req: NextRequest) {
       twitter_url,
       spotify_url,
     );
-    return Response.json({ message: "success", artistId: id }, { status: 200 });
+    const { data } = await client
+      .from("artists")
+      .select(
+        `
+        *,
+        artist_social_links (
+          *
+        )
+      `,
+      )
+      .eq("id", id)
+      .single();
+    return Response.json(
+      { message: "success", artistInfo: data },
+      { status: 200 },
+    );
   } catch (error) {
     console.error(error);
     const message = error instanceof Error ? error.message : "failed";

@@ -48,10 +48,7 @@ const useTikTokAnalysis = () => {
           profileWithComments.avatar,
           SETTING_MODE.CREATE,
         );
-        setSelectedArtist({
-          ...artistInfo,
-          id: artistInfo.artistId,
-        });
+        setSelectedArtist({ ...artistInfo });
         setArtistActive(true);
       }
       setThought(THOUGHT_OF_ANALYSIS.FINISHED);

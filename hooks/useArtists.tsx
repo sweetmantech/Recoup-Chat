@@ -75,7 +75,7 @@ const useArtists = () => {
     setUpdating(false);
     if (settingMode === SETTING_MODE.CREATE)
       setSettingMode(SETTING_MODE.UPDATE);
-    return data;
+    return data.artistInfo;
   };
 
   useEffect(() => {
