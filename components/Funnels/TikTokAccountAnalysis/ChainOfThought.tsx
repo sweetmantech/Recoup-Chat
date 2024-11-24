@@ -24,6 +24,8 @@ const ChainOfThought = () => {
               `I'm looking at the TikTok videos...`}
             {thought === THOUGHT_OF_ANALYSIS.VIDEO_COMMENTS &&
               `I'm looking at the TikTok video comments... ${Number(progress).toFixed(0)}%`}
+            {thought === THOUGHT_OF_ANALYSIS.SEGMENTS &&
+              `I'm grouping all of the Artist's TikTok Fans into the segments…`}
           </p>
         </div>
       </div>

@@ -1,3 +1,4 @@
+import getFanSegments from "@/lib/getFanSegments";
 import getTikTokProfile from "@/lib/getTiktokProfile";
 import getVideoComments from "@/lib/getVideoComments";
 import { THOUGHT_OF_ANALYSIS } from "@/types/Thought";
@@ -29,6 +30,8 @@ const useTikTokAnalysis = () => {
         total_video_comments_count: videoComments.total_video_comments_count,
       };
       setResult(profileWithComments);
+      setThought(THOUGHT_OF_ANALYSIS.SEGMENTS);
+      const segments = await getFanSegments(profileWithComments);
       setIsLoading(false);
     } catch (error) {
       console.error("Analysis failed:", error);
