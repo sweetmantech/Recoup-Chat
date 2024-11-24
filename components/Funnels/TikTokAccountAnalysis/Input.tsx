@@ -1,53 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { v4 as uuidV4 } from "uuid";
-import { useChatProvider } from "@/providers/ChatProvider";
+import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
 
 const TikTokAccountInput = () => {
-  const { append } = useChatProvider();
-  const [username, setUsername] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleAnalyze = async () => {
-    if (!username || isLoading) return;
-
-    try {
-      setIsLoading(true);
-
-      // First fetch TikTok trends
-      const response = await fetch(`/api/trends?handle=${username}`);
-      const data = await response.json();
-
-      if (!data.success) {
-        throw new Error(data.message);
-      }
-
-      // Then append to chat using the expected message format
-      await append({
-        id: uuidV4(),
-        content: `Analyze @${username}`,
-        role: "user",
-        tool_calls: [
-          {
-            id: uuidV4(),
-            type: "function",
-            function: {
-              name: "getArtistAnalysis",
-              arguments: JSON.stringify({
-                user_name: username,
-                trends: data.trends,
-              }),
-            },
-          },
-        ],
-      });
-    } catch (error) {
-      console.error("Analysis failed:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { username, setUsername, handleAnalyze } = useTikTokAnalysisProvider()
 
   return (
     <div className="flex flex-col items-center justify-center gap-4 px-4">
@@ -90,7 +46,7 @@ const TikTokAccountInput = () => {
         />
         <button
           onClick={handleAnalyze}
-          disabled={!username || isLoading}
+          disabled={!username}
           className="
             absolute
             right-2
@@ -116,35 +72,29 @@ const TikTokAccountInput = () => {
             disabled:cursor-not-allowed
           "
         >
-          {isLoading ? (
-            "Analyzing..."
-          ) : (
-            <>
-              Try For Free
-              <svg
-                width="15"
-                height="15"
-                viewBox="0 0 24 24"
-                fill="none"
-                className="translate-y-[0.5px]"
-              >
-                <path
-                  d="M7 17L17 7"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M7 7H17V17"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </>
-          )}
+          Try For Free
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            className="translate-y-[0.5px]"
+          >
+            <path
+              d="M7 17L17 7"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M7 7H17V17"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </button>
       </div>
     </div>

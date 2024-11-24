@@ -1,6 +1,7 @@
 import { Metadata } from "next";
-import TikTokAccountInput from "@/components/Funnels/TikTokAccountAnalysis/Input";
 import { Plus_Jakarta_Sans } from "next/font/google";
+import TikTokAccountAnalysis from "@/components/Funnels/TikTokAccountAnalysis";
+import { TikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -60,7 +61,9 @@ export default function TikTokAccountAnalysisFunnel() {
               See what works, why it works, and how to make it better.
             </span>
           </p>
-          <TikTokAccountInput />
+          <TikTokAnalysisProvider>
+            <TikTokAccountAnalysis />
+          </TikTokAnalysisProvider>
         </div>
       </main>
     </div>
