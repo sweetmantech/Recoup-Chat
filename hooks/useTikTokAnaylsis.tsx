@@ -57,7 +57,6 @@ const useTikTokAnalysis = () => {
       setThought(THOUGHT_OF_ANALYSIS.FINISHED);
     } catch (error) {
       console.error("Analysis failed:", error);
-    } finally {
     }
   };
 
