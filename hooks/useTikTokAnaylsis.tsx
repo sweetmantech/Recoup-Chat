@@ -1,6 +1,8 @@
 import getFanSegments from "@/lib/getFanSegments";
 import getTikTokProfile from "@/lib/getTiktokProfile";
 import getVideoComments from "@/lib/getVideoComments";
+import { useArtistProvider } from "@/providers/ArtistProvider";
+import { useUserProvider } from "@/providers/UserProvder";
 import { THOUGHT_OF_ANALYSIS } from "@/types/Thought";
 import { useState } from "react";
 
@@ -11,6 +13,15 @@ const useTikTokAnalysis = () => {
   const [result, setResult] = useState<any>(null);
   const [progress, setProgress] = useState(0);
   const [segments, setSegments] = useState<Array<any>>([]);
+  const {
+    toggleCreation,
+    setImage,
+    setName,
+    saveSetting,
+    setSelectedArtist,
+    setArtistActive,
+  } = useArtistProvider();
+  const { email } = useUserProvider();
 
   const handleAnalyze = async () => {
     if (!username || isLoading) return;
@@ -34,6 +45,13 @@ const useTikTokAnalysis = () => {
       setThought(THOUGHT_OF_ANALYSIS.SEGMENTS);
       const segments = await getFanSegments(profileWithComments);
       setSegments(segments);
+      setThought(THOUGHT_OF_ANALYSIS.CREATING_ARTIST);
+      toggleCreation();
+      setName(profileWithComments.name);
+      setImage(profileWithComments.avatar);
+      const artistInfo = await saveSetting();
+      setSelectedArtist(artistInfo);
+      setArtistActive(true);
       setThought(THOUGHT_OF_ANALYSIS.FINISHED);
     } catch (error) {
       console.error("Analysis failed:", error);
