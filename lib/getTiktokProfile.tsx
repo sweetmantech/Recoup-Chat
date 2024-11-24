@@ -1,10 +1,9 @@
 const getTikTokProfile = async (handle: string) => {
-  console.log(handle);
-  // const response = await fetch(
-  //   `/api/get_tiktok_account_trends?handle=${handle}`,
-  // );
-  // const data = await response.json();
-  const datasetId = "g6gCQvOZZ2vCtwiao";
+  const response = await fetch(
+    `/api/get_tiktok_account_trends?handle=${handle}`,
+  );
+  const data = await response.json();
+  const datasetId = data.data;
 
   while (1) {
     await new Promise((resolve) => setTimeout(resolve, 3000));

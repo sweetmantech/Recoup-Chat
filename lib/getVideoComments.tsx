@@ -8,16 +8,15 @@ const getVideoComments = async (
   updateProgress?: any,
 ) => {
   if (getStatus) getStatus(THOUGHT_OF_ANALYSIS.POSTURLS);
-  // const response = await fetch(
-  //   `/api/get_tiktok_video_comments?postURLs=${videoUrls}`,
-  // );
-  // const data = await response.json();
-  const datasetId = "cACD6kjRMquefLkS3";
+  const response = await fetch(
+    `/api/get_tiktok_video_comments?postURLs=${videoUrls}`,
+  );
+  const data = await response.json();
+  const datasetId = data.data;
   let attempts = 0;
   const maxAttempts = 30;
   let progress = 0;
-  getStatus(THOUGHT_OF_ANALYSIS.VIDEO_COMMENTS);
-
+  if (getStatus) getStatus(THOUGHT_OF_ANALYSIS.VIDEO_COMMENTS);
   while (1) {
     attempts++;
     progress = (attempts / maxAttempts) * 100;

@@ -34,18 +34,18 @@ const TikTokAccountInput = () => {
         </h1>
         <p
           className="
-        text-gray-400 
-        text-lg 
-        sm:text-xl 
-        mb-8 
-        sm:mb-10 
-        max-w-[600px] 
-        mx-auto 
-        px-6
-        sm:px-2
-        leading-relaxed
-        sm:leading-normal
-      "
+            text-gray-400 
+            text-lg 
+            sm:text-xl 
+            mb-8 
+            sm:mb-10 
+            max-w-[600px] 
+            mx-auto 
+            px-6
+            sm:px-2
+            leading-relaxed
+            sm:leading-normal
+          "
         >
           <span className="sm:hidden">
             See what works, why it works,

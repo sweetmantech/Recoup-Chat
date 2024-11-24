@@ -2,19 +2,26 @@ import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
 import { THOUGHT_OF_ANALYSIS } from "@/types/Thought";
 
 const ChainOfThought = () => {
-  const { thought, username, progress } = useTikTokAnalysisProvider();
+  const { thought, username, progress, result, segments } =
+    useTikTokAnalysisProvider();
 
   return (
     <main className="flex-1 flex">
       <div className="max-w-[900px] w-full mx-auto pt-10">
-        <div className="flex gap-2 items-center">
+        <div
+          className={`flex gap-2 ${thought === THOUGHT_OF_ANALYSIS.FINISHED ? "items-start" : "items-center"}`}
+        >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={"/logo-light.png"}
             alt="not found logo"
             className="!w-6 !h-6"
           />
-          <p className="text-sm">{`Scraping @${username}’s TikTok`}</p>
+          <p className="text-sm">
+            {thought === THOUGHT_OF_ANALYSIS.FINISHED
+              ? `Analysis complete! @breland’s is ${result.nickname} and makes content in ${result.region}. He has ${result.fans} followers. Please select a fan segmentation below to generate a report for brand partnership deals.`
+              : `Scraping @${username}’s TikTok`}
+          </p>
         </div>
         <div className="pl-8 pt-2">
           <p className="font-bold">
@@ -27,6 +34,34 @@ const ChainOfThought = () => {
             {thought === THOUGHT_OF_ANALYSIS.SEGMENTS &&
               `I'm grouping all of the Artist's TikTok Fans into the segments…`}
           </p>
+          {segments?.length > 0 && (
+            <div className="pt-6">
+              <p className="text-md font-bold">Fan Segments</p>
+              <div className="flex gap-2 flex-wrap mt-4">
+                {segments
+                  .map((obj) => Object.keys(obj))
+                  .flat()
+                  .slice(0, 10)
+                  .map((segment: string) => (
+                    <button
+                      className="flex flex-col items-center gap-1 max-w-[100px]"
+                      type="button"
+                      key={segment}
+                    >
+                      <div className="border-[grey] border-[1px] rounded-md p-1">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={"/segment.svg"}
+                          alt="not found logo"
+                          className="!w-5 !h-5"
+                        />
+                      </div>
+                      <p className="font-bold text-xs text-center">{segment}</p>
+                    </button>
+                  ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </main>
