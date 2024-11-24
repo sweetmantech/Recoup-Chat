@@ -11,8 +11,10 @@ import { Copy } from "lucide-react";
 
 const Messages = ({
   scroll,
+  className,
 }: {
   scroll: ({ smooth, y }: { smooth: boolean; y: number }) => void;
+  className?: string;
 }) => {
   const { messages, pending, suggestions } = useChatProvider();
   const scrollTo = () => scroll({ smooth: true, y: Number.MAX_SAFE_INTEGER });
@@ -25,7 +27,7 @@ const Messages = ({
 
   return (
     <ScrollArea
-      className={`w-full mt-4 max-w-3xl mx-auto overflow-y-auto ${messages.length && "grow"}`}
+      className={`w-full mt-4 max-w-3xl mx-auto overflow-y-auto ${messages.length && "grow"} ${className}`}
     >
       {messages.map((message: AIMessage, index: number) => (
         <ToolCallProvider message={message} scrollTo={scrollTo} key={index}>
