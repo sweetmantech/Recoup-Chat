@@ -18,18 +18,32 @@ export async function POST(req: NextRequest) {
         },
         {
           role: "system",
-          content: `${instructions.get_fan_segments} \n Let's get response with only this json format. {"data": [{ string: number }, { string: number }]}.`,
+          content: `${instructions.get_fan_segments} \n Let's get response with only this json format. {"data": [{ "string": number }, { "string": number }]}.`,
         },
       ],
     });
-    const answer = response.choices[0].message!.content!.toString();
-    return Response.json(
-      { data: JSON.parse(answer).data || [] },
-      { status: 200 },
-    );
+
+    try {
+      const answer = response.choices[0].message!.content!.toString();
+      return Response.json(
+        {
+          data:
+            JSON.parse(
+              answer
+                ?.replaceAll("\n", "")
+                ?.replaceAll("json", "")
+                ?.replaceAll("```", ""),
+            )?.data || [],
+        },
+        { status: 200 },
+      );
+    } catch (error) {
+      console.error(error);
+      return Response.json({ data: [], answer: response }, { status: 500 });
+    }
   } catch (error) {
     console.error(error);
-    return Response.json({ data: [], error }, { status: 400 });
+    return Response.json({ data: [], error }, { status: 500 });
   }
 }
 
