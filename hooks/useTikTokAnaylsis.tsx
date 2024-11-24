@@ -10,11 +10,7 @@ const useTikTokAnalysis = () => {
   const [thought, setThought] = useState(THOUGHT_OF_ANALYSIS.PROFILE);
   const [result, setResult] = useState<any>(null);
   const [progress, setProgress] = useState(0);
-  const [segments, setSegments] = useState<Array<any>>([
-    {
-      sports_betting: 13,
-    },
-  ]);
+  const [segments, setSegments] = useState<Array<any>>([]);
 
   const handleAnalyze = async () => {
     if (!username || isLoading) return;
