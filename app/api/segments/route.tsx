@@ -24,10 +24,13 @@ export async function POST(req: NextRequest) {
       ],
     });
     const answer = response.choices[0].message!.content!.toString();
-    return JSON.parse(answer).data || [];
+    return Response.json(
+      { data: JSON.parse(answer).data || [] },
+      { status: 200 },
+    );
   } catch (error) {
     console.error(error);
-    return [];
+    return Response.json({ data: [] }, { status: 200 });
   }
 }
 
