@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
       messages: [
         {
           role: "user",
-          content: `Context: ${context}
+          content: `Context: ${JSON.stringify(context)}
           ${instructions.get_fan_segments}`,
         },
         {
