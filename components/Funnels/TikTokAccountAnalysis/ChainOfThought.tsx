@@ -22,8 +22,8 @@ const ChainOfThought = () => {
           />
           <p className="text-sm">
             {thought === THOUGHT_OF_ANALYSIS.FINISHED
-              ? `Analysis complete! @breland’s is ${result.nickname} and makes content in ${result.region}. He has ${result.fans} followers. \nPlease select a fan segmentation below to generate a report for brand partnership deals.`
-              : `Scraping @${username}’s TikTok`}
+              ? `Analysis complete! @breland’s is ${result?.nickname} and makes content in ${result?.region}. He has ${result?.fans} followers. \nPlease select a fan segmentation below to generate a report for brand partnership deals.`
+              : `Scraping @${username.replaceAll("@", "")}’s TikTok`}
           </p>
         </div>
         <div className="pl-8 pt-2">
