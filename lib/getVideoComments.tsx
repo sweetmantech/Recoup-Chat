@@ -12,7 +12,7 @@ const getVideoComments = async (
   //   `/api/get_tiktok_video_comments?postURLs=${videoUrls}`,
   // );
   // const data = await response.json();
-  const datasetId = "g6gCQvOZZ2vCtwiao";
+  const datasetId = "cACD6kjRMquefLkS3";
   let attempts = 0;
   const maxAttempts = 30;
   let progress = 0;
