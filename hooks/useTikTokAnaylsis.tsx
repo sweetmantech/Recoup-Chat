@@ -1,6 +1,7 @@
 import getFanSegments from "@/lib/getFanSegments";
 import getTikTokProfile from "@/lib/getTiktokProfile";
 import getVideoComments from "@/lib/getVideoComments";
+import saveAnalysis from "@/lib/saveAnalysis";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useUserProvider } from "@/providers/UserProvder";
 import { SETTING_MODE } from "@/types/Setting";
@@ -24,7 +25,7 @@ const useTikTokAnalysis = () => {
 
   useEffect(() => {
     const init = async () => {
-      const response = await fetch("/api/get_tiktok_analysis");
+      const response = await fetch("/api/tiktok_analysis");
       const data = await response.json();
       if (data?.data) {
         setResult(data);
@@ -62,6 +63,11 @@ const useTikTokAnalysis = () => {
       setThought(THOUGHT_OF_ANALYSIS.SEGMENTS);
       const segments = await getFanSegments(profileWithComments);
       setSegments(segments);
+      setThought(THOUGHT_OF_ANALYSIS.SAVING_ANALYSIS);
+      await saveAnalysis({
+        ...profileWithComments,
+        segments,
+      });
       if (email) {
         setSettingMode(SETTING_MODE.CREATE);
         setThought(THOUGHT_OF_ANALYSIS.CREATING_ARTIST);
