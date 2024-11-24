@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
     );
   } catch (error) {
     console.error(error);
-    return Response.json({ data: [] }, { status: 200 });
+    return Response.json({ data: [], error }, { status: 400 });
   }
 }
 
