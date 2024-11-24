@@ -6,7 +6,7 @@ import { ScrollTo } from "react-scroll-to";
 import Segments from "./Segments";
 
 const ChainOfThought = () => {
-  const { thought, username, progress, result, segments } =
+  const { thought, username, progress, result, segments, handleRetry } =
     useTikTokAnalysisProvider();
 
   return (
@@ -22,11 +22,23 @@ const ChainOfThought = () => {
             className="!w-6 !h-6"
           />
           <p className="text-sm">
-            {thought === STEP_OF_ANALYSIS.FINISHED
-              ? result?.videos?.length
-                ? `Analysis complete! @${username.replaceAll("@", "")}’s is ${result?.nickname} and makes content in ${result?.region}. They have ${result?.fans} followers. \nPlease select a fan segmentation below to generate a report for brand partnership deals.`
-                : `The account @${username} does not have any engagement. Please try again with a TikTok handle with at least one comment on its videos.`
-              : `Scraping @${username.replaceAll("@", "")}’s TikTok`}
+            {thought === STEP_OF_ANALYSIS.FINISHED ? (
+              result?.videos?.length ? (
+                `Analysis complete! @${username.replaceAll("@", "") || result?.name}’s is ${result?.nickname} and makes content in ${result?.region}. They have ${result?.fans} followers. \nPlease select a fan segmentation below to generate a report for brand partnership deals.`
+              ) : (
+                <>
+                  {`The account @${username.replaceAll("@", "") || result?.name} does not have any engagement. Please try again with a TikTok handle with at least one comment on its videos. `}
+                  <span
+                    onClick={handleRetry}
+                    className="underline cursor-pointer"
+                  >
+                    Click here to retry.
+                  </span>
+                </>
+              )
+            ) : (
+              `Scraping @${username.replaceAll("@", "")}’s TikTok`
+            )}
           </p>
         </div>
         <div className="pl-8 pt-2">
