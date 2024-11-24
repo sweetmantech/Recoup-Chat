@@ -6,7 +6,7 @@ import { useUserProvider } from "@/providers/UserProvder";
 import { SETTING_MODE } from "@/types/Setting";
 import { THOUGHT_OF_ANALYSIS } from "@/types/Thought";
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuidV4 } from "uuid";
 
 const useTikTokAnalysis = () => {
@@ -22,10 +22,25 @@ const useTikTokAnalysis = () => {
   const { conversation: conversationId } = useParams();
   const { push } = useRouter();
 
+  useEffect(() => {
+    const init = async () => {
+      const response = await fetch("/api/get_tiktok_analysis");
+      const data = await response.json();
+      if (data?.data) {
+        setResult(data);
+        setIsLoading(true);
+        setThought(THOUGHT_OF_ANALYSIS.FINISHED);
+      }
+    };
+    if (!conversationId) return;
+    init();
+  }, [conversationId]);
+
   const handleAnalyze = async () => {
     if (!username || isLoading) return;
+    let newId = "";
     if (!conversationId) {
-      const newId = uuidV4();
+      newId = uuidV4();
       push(`/funnels/tiktok-account-analysis/${newId}`);
     }
     try {
