@@ -2,7 +2,6 @@ import { useArtistProvider } from "@/providers/ArtistProvider";
 import { ArtistRecord } from "@/types/Artist";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, ChevronUp, MicVocal, Plus } from "lucide-react";
-import Image from "next/image";
 import { useState } from "react";
 
 const Artists = () => {
@@ -51,9 +50,10 @@ const Artists = () => {
                 onClick={() => handleClick(artist)}
               >
                 <div className="relative w-6 h-6 md:w-8 md:h-8 rounded-md overflow-hidden">
-                  <Image
-                    src={artist.image || "https://i.imgur.com/QCdc8Ai.jpg"}
-                    layout="fill"
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={artist?.image || "https://i.imgur.com/QCdc8Ai.jpg"}
+                    className="object-cover"
                     alt="not found icon"
                   />
                 </div>

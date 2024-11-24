@@ -1,7 +1,6 @@
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { ArtistRecord } from "@/types/Artist";
 import { EllipsisVertical, Plus } from "lucide-react";
-import Image from "next/image";
 
 const ArtistDropDown = ({ toggleModal }: { toggleModal: () => void }) => {
   const {
@@ -29,9 +28,10 @@ const ArtistDropDown = ({ toggleModal }: { toggleModal: () => void }) => {
           >
             <div className="flex gap-2 items-center">
               <div className="relative w-6 h-6 rounded-md overflow-hidden">
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src={artist.image || "https://i.imgur.com/QCdc8Ai.jpg"}
-                  layout="fill"
+                  className="object-cover"
                   alt="not found icon"
                 />
               </div>

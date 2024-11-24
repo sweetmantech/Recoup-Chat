@@ -1,6 +1,9 @@
 import getFanSegments from "@/lib/getFanSegments";
 import getTikTokProfile from "@/lib/getTiktokProfile";
 import getVideoComments from "@/lib/getVideoComments";
+import { useArtistProvider } from "@/providers/ArtistProvider";
+import { useUserProvider } from "@/providers/UserProvder";
+import { SETTING_MODE } from "@/types/Setting";
 import { STEP_OF_ANALYSIS } from "@/types/Thought";
 import { useState } from "react";
 
@@ -11,8 +14,12 @@ const useTikTokAnalysis = () => {
   const [result, setResult] = useState<any>(null);
   const [progress, setProgress] = useState(0);
   const [segments, setSegments] = useState<Array<any>>([]);
+  const { setSettingMode, saveSetting, setSelectedArtist, setArtistActive } =
+    useArtistProvider();
+  const { email, isPrepared } = useUserProvider();
 
   const handleAnalyze = async () => {
+    if (!isPrepared()) return;
     if (!username || isLoading) return;
 
     try {
@@ -36,10 +43,20 @@ const useTikTokAnalysis = () => {
         const segments = await getFanSegments(profileWithComments);
         setSegments(segments);
       }
+      if (email) {
+        setSettingMode(SETTING_MODE.CREATE);
+        setThought(STEP_OF_ANALYSIS.CREATING_ARTIST);
+        const artistInfo = await saveSetting(
+          profileWithComments.nickname,
+          profileWithComments.avatar,
+          SETTING_MODE.CREATE,
+        );
+        setSelectedArtist({ ...artistInfo });
+        setArtistActive(true);
+      }
       setThought(STEP_OF_ANALYSIS.FINISHED);
     } catch (error) {
       console.error("Analysis failed:", error);
-    } finally {
     }
   };
 
