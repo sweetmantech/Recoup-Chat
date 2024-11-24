@@ -3,6 +3,7 @@ import Messages from "@/components/Chat/Messages";
 import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
 import { THOUGHT_OF_ANALYSIS } from "@/types/Thought";
 import { ScrollTo } from "react-scroll-to";
+import Segments from "./Segments";
 
 const ChainOfThought = () => {
   const { thought, username, progress, result, segments } =
@@ -39,40 +40,15 @@ const ChainOfThought = () => {
             {thought === THOUGHT_OF_ANALYSIS.CREATING_ARTIST &&
               `I'm setting up artist mode…`}
           </p>
-          {segments?.length > 0 && (
-            <div className="pt-6">
-              <p className="text-md font-bold">Fan Segments</p>
-              <div className="flex gap-2 flex-wrap mt-4">
-                {segments
-                  .map((obj) => Object.keys(obj))
-                  .flat()
-                  .slice(0, 10)
-                  .map((segment: string) => (
-                    <button
-                      className="flex flex-col items-center gap-1 max-w-[100px]"
-                      type="button"
-                      key={segment}
-                    >
-                      <div className="border-[grey] border-[1px] rounded-md p-1">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={"/segment.svg"}
-                          alt="not found logo"
-                          className="!w-5 !h-5"
-                        />
-                      </div>
-                      <p className="font-bold text-xs text-center">{segment}</p>
-                    </button>
-                  ))}
-              </div>
-            </div>
-          )}
         </div>
         <div className="grow flex flex-col pb-8">
           <ScrollTo>
             {({ scroll }) => <Messages scroll={scroll} className="!grow" />}
           </ScrollTo>
-          <ChatInput />
+          <div className="space-y-2">
+            {segments?.length > 0 && <Segments />}
+            <ChatInput />
+          </div>
         </div>
       </div>
     </main>
