@@ -22,7 +22,7 @@ const useTikTokAnalysis = () => {
     setArtistActive,
   } = useArtistProvider();
   const { email } = useUserProvider();
-
+  console.log("ZIAD HERE", email)
   const handleAnalyze = async () => {
     if (!username || isLoading) return;
 
