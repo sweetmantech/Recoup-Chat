@@ -2,7 +2,7 @@
 const getFanSegments = async (context: any) => {
   const response = await fetch(`/api/segments`, {
     method: "POST",
-    body: context,
+    body: JSON.stringify(context),
     headers: {
       "Content-Type": "application/json",
     },
