@@ -39,7 +39,7 @@ const ChainOfThought = () => {
               `I'm grouping all of the Artist's TikTok Fans into the segments…`}
           </p>
         </div>
-        <div className="grow pb-8">
+        <div className="grow flex flex-col pb-8">
           <ScrollTo>
             {({ scroll }) => <Messages scroll={scroll} className="!grow" />}
           </ScrollTo>
