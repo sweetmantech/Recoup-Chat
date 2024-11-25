@@ -38,9 +38,8 @@ const ChainOfThought = () => {
             {thought === STEP_OF_ANALYSIS.SEGMENTS &&
               `I'm grouping all of the Artist's TikTok Fans into the segments…`}
           </p>
-          STEP_OF_ANALYSIS
         </div>
-        <div className="gSTEP_OF_ANALYSISb-8">
+        <div className="grow pb-8">
           <ScrollTo>
             {({ scroll }) => <Messages scroll={scroll} className="!grow" />}
           </ScrollTo>
