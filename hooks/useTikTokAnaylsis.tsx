@@ -40,6 +40,15 @@ const useTikTokAnalysis = () => {
     init();
   }, [conversationId]);
 
+  const handleRetry = () => {
+    setResult(null);
+    setSegments([]);
+    setThought(STEP_OF_ANALYSIS.POSTURLS);
+    setProgress(0);
+    setUsername("");
+    setIsLoading(false);
+    push("/funnels/tiktok-account-analysis");
+  };
   const handleAnalyze = async () => {
     if (!isPrepared()) return;
     if (!username || isLoading) return;
@@ -105,6 +114,7 @@ const useTikTokAnalysis = () => {
     progress,
     setProgress,
     segments,
+    handleRetry,
   };
 };
 

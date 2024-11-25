@@ -4,12 +4,10 @@ import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
 import { STEP_OF_ANALYSIS } from "@/types/Thought";
 import { ScrollTo } from "react-scroll-to";
 import Segments from "./Segments";
-import { useRouter } from "next/navigation";
 
 const ChainOfThought = () => {
-  const { thought, username, progress, result, segments } =
+  const { thought, username, progress, result, segments, handleRetry } =
     useTikTokAnalysisProvider();
-  const { push } = useRouter();
 
   return (
     <main className="flex-1 flex">
@@ -26,12 +24,12 @@ const ChainOfThought = () => {
           <p className="text-sm">
             {thought === STEP_OF_ANALYSIS.FINISHED ? (
               result?.videos?.length ? (
-                `Analysis complete! @${username.replaceAll("@", "")}’s is ${result?.nickname} and makes content in ${result?.region}. They have ${result?.fans} followers. \nPlease select a fan segmentation below to generate a report for brand partnership deals.`
+                `Analysis complete! @${username.replaceAll("@", "") || result?.nickname}’s is ${result?.nickname} and makes content in ${result?.region}. They have ${result?.fans} followers. \nPlease select a fan segmentation below to generate a report for brand partnership deals.`
               ) : (
                 <>
-                  {`The account @${username} does not have any engagement. Please try again with a TikTok handle with at least one comment on its videos. `}
+                  {`The account @${username.replaceAll("@", "") || result?.nickname} does not have any engagement. Please try again with a TikTok handle with at least one comment on its videos. `}
                   <span
-                    onClick={() => push("/funnels/tiktok-account-analysis")}
+                    onClick={handleRetry}
                     className="underline cursor-pointer"
                   >
                     Click here to retry.
