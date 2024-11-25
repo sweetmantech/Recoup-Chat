@@ -29,7 +29,7 @@ const useTikTokAnalysis = () => {
       const data = await response.json();
       if (data?.data) {
         setResult(data);
-        setSegments(data.data.segments)
+        setSegments(data.data.segments);
         setIsLoading(true);
         setThought(STEP_OF_ANALYSIS.FINISHED);
       }
