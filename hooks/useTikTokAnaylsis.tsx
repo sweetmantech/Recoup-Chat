@@ -30,7 +30,7 @@ const useTikTokAnalysis = () => {
       );
       const data = await response.json();
       if (data?.data) {
-        setResult(data.data);
+        setResult(data);
         setSegments(data.data.segments);
         setIsLoading(true);
         setThought(STEP_OF_ANALYSIS.FINISHED);
@@ -68,12 +68,12 @@ const useTikTokAnalysis = () => {
       if (videoComments.videos.length > 0) {
         setThought(STEP_OF_ANALYSIS.SEGMENTS);
         fanSegments = await getFanSegments(profileWithComments);
-        setSegments(fanSegments);
+        setSegments([...fanSegments]);
       }
       setThought(STEP_OF_ANALYSIS.SAVING_ANALYSIS);
       await saveAnalysis({
         ...profileWithComments,
-        segments: fanSegments,
+        segments: [...fanSegments],
         chat_id: newId,
       });
       if (email) {
