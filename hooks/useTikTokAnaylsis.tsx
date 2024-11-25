@@ -68,7 +68,7 @@ const useTikTokAnalysis = () => {
       if (videoComments.videos.length > 0) {
         setThought(STEP_OF_ANALYSIS.SEGMENTS);
         fanSegments = await getFanSegments(profileWithComments);
-        setSegments(segments);
+        setSegments(fanSegments);
       }
       setThought(STEP_OF_ANALYSIS.SAVING_ANALYSIS);
       await saveAnalysis({
