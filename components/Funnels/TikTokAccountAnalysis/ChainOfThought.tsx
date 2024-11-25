@@ -1,7 +1,7 @@
 import ChatInput from "@/components/Chat/ChatInput";
 import Messages from "@/components/Chat/Messages";
 import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
-import { THOUGHT_OF_ANALYSIS } from "@/types/Thought";
+import { STEP_OF_ANALYSIS } from "@/types/Thought";
 import { ScrollTo } from "react-scroll-to";
 import Segments from "./Segments";
 
@@ -13,7 +13,7 @@ const ChainOfThought = () => {
     <main className="flex-1 flex">
       <div className="max-w-3xl mx-auto w-full h-screen mx-auto pt-10 flex flex-col">
         <div
-          className={`flex gap-2 ${thought === THOUGHT_OF_ANALYSIS.FINISHED ? "items-start" : "items-center"}`}
+          className={`flex gap-2 ${thought === STEP_OF_ANALYSIS.FINISHED ? "items-start" : "items-center"}`}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -22,24 +22,25 @@ const ChainOfThought = () => {
             className="!w-6 !h-6"
           />
           <p className="text-sm">
-            {thought === THOUGHT_OF_ANALYSIS.FINISHED
+            {thought === STEP_OF_ANALYSIS.FINISHED
               ? `Analysis complete! @breland’s is ${result?.nickname} and makes content in ${result?.region}. He has ${result?.fans} followers. \nPlease select a fan segmentation below to generate a report for brand partnership deals.`
               : `Scraping @${username.replaceAll("@", "")}’s TikTok`}
           </p>
         </div>
         <div className="pl-8 pt-2">
           <p className="font-bold">
-            {thought === THOUGHT_OF_ANALYSIS.PROFILE &&
+            {thought === STEP_OF_ANALYSIS.PROFILE &&
               `I'm looking at the TikTok artist profile...`}
-            {thought === THOUGHT_OF_ANALYSIS.POSTURLS &&
+            {thought === STEP_OF_ANALYSIS.POSTURLS &&
               `I'm looking at the TikTok videos...`}
-            {thought === THOUGHT_OF_ANALYSIS.VIDEO_COMMENTS &&
+            {thought === STEP_OF_ANALYSIS.VIDEO_COMMENTS &&
               `I'm looking at the TikTok video comments... ${Number(progress).toFixed(0)}%`}
-            {thought === THOUGHT_OF_ANALYSIS.SEGMENTS &&
+            {thought === STEP_OF_ANALYSIS.SEGMENTS &&
               `I'm grouping all of the Artist's TikTok Fans into the segments…`}
           </p>
+          STEP_OF_ANALYSIS
         </div>
-        <div className="grow flex flex-col pb-8">
+        <div className="gSTEP_OF_ANALYSISb-8">
           <ScrollTo>
             {({ scroll }) => <Messages scroll={scroll} className="!grow" />}
           </ScrollTo>
