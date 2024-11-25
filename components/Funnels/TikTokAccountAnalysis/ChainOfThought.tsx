@@ -24,7 +24,7 @@ const ChainOfThought = () => {
           <p className="text-sm">
             {thought === STEP_OF_ANALYSIS.FINISHED
               ? result?.videos?.length
-                ? `Analysis complete! @${username.replaceAll("@", "")}’s is ${result?.nickname} and makes content in ${result?.region}. He has ${result?.fans} followers. \nPlease select a fan segmentation below to generate a report for brand partnership deals.`
+                ? `Analysis complete! @${username.replaceAll("@", "")}’s is ${result?.nickname} and makes content in ${result?.region}. They have ${result?.fans} followers. \nPlease select a fan segmentation below to generate a report for brand partnership deals.`
                 : `The account @${username} does not have any engagement. Please try again with a TikTok handle with at least one comment on its videos.`
               : `Scraping @${username.replaceAll("@", "")}’s TikTok`}
           </p>
