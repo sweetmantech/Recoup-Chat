@@ -11,6 +11,7 @@ export async function GET(req: NextRequest) {
       .select("*")
       .eq("chat_id", chatId)
       .single();
+
     return Response.json({ data }, { status: 200 });
   } catch (error) {
     console.error(error);

@@ -25,7 +25,9 @@ const useTikTokAnalysis = () => {
 
   useEffect(() => {
     const init = async () => {
-      const response = await fetch("/api/tiktok_analysis");
+      const response = await fetch(
+        `/api/tiktok_analysis?chatId=${conversationId}`,
+      );
       const data = await response.json();
       if (data?.data) {
         setResult(data);

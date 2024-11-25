@@ -5,17 +5,17 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   try {
     const client = getSupabaseServerAdminClient();
-    await client
+    const { data } = await client
       .from("tiktok_analysis")
       .insert({
         ...body,
       })
       .select("*")
       .single();
-    return Response.json({ success: true }, { status: 200 });
+    return Response.json({ success: true, id: data.id }, { status: 200 });
   } catch (error) {
     console.error(error);
-    return Response.json({ data: [], error }, { status: 500 });
+    return Response.json({ id: null, success: false }, { status: 500 });
   }
 }
 
