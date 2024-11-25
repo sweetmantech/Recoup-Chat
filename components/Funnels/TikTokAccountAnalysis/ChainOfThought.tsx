@@ -24,10 +24,10 @@ const ChainOfThought = () => {
           <p className="text-sm">
             {thought === STEP_OF_ANALYSIS.FINISHED ? (
               result?.videos?.length ? (
-                `Analysis complete! @${username.replaceAll("@", "") || result?.nickname}’s is ${result?.nickname} and makes content in ${result?.region}. They have ${result?.fans} followers. \nPlease select a fan segmentation below to generate a report for brand partnership deals.`
+                `Analysis complete! @${username.replaceAll("@", "") || result?.name}’s is ${result?.nickname} and makes content in ${result?.region}. They have ${result?.fans} followers. \nPlease select a fan segmentation below to generate a report for brand partnership deals.`
               ) : (
                 <>
-                  {`The account @${username.replaceAll("@", "") || result?.nickname} does not have any engagement. Please try again with a TikTok handle with at least one comment on its videos. `}
+                  {`The account @${username.replaceAll("@", "") || result?.name} does not have any engagement. Please try again with a TikTok handle with at least one comment on its videos. `}
                   <span
                     onClick={handleRetry}
                     className="underline cursor-pointer"
