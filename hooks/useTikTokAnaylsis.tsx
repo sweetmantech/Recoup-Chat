@@ -5,21 +5,21 @@ import saveAnalysis from "@/lib/saveAnalysis";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useUserProvider } from "@/providers/UserProvder";
 import { SETTING_MODE } from "@/types/Setting";
-import { THOUGHT_OF_ANALYSIS } from "@/types/Thought";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { v4 as uuidV4 } from "uuid";
+import { STEP_OF_ANALYSIS } from "@/types/Thought";
 
 const useTikTokAnalysis = () => {
   const [username, setUsername] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [thought, setThought] = useState(THOUGHT_OF_ANALYSIS.PROFILE);
+  const [thought, setThought] = useState(STEP_OF_ANALYSIS.PROFILE);
   const [result, setResult] = useState<any>(null);
   const [progress, setProgress] = useState(0);
   const [segments, setSegments] = useState<Array<any>>([]);
   const { setSettingMode, saveSetting, setSelectedArtist, setArtistActive } =
     useArtistProvider();
-  const { email } = useUserProvider();
+  const { email, isPrepared } = useUserProvider();
   const { conversation: conversationId } = useParams();
   const { push } = useRouter();
 
@@ -29,8 +29,9 @@ const useTikTokAnalysis = () => {
       const data = await response.json();
       if (data?.data) {
         setResult(data);
+        setSegments(data.data.segments)
         setIsLoading(true);
-        setThought(THOUGHT_OF_ANALYSIS.FINISHED);
+        setThought(STEP_OF_ANALYSIS.FINISHED);
       }
     };
     if (!conversationId) return;
@@ -38,6 +39,7 @@ const useTikTokAnalysis = () => {
   }, [conversationId]);
 
   const handleAnalyze = async () => {
+    if (!isPrepared()) return;
     if (!username || isLoading) return;
     let newId = "";
     if (!conversationId) {
@@ -46,9 +48,9 @@ const useTikTokAnalysis = () => {
     }
     try {
       setIsLoading(true);
-      setThought(THOUGHT_OF_ANALYSIS.PROFILE);
+      setThought(STEP_OF_ANALYSIS.PROFILE);
       const profile = await getTikTokProfile(username.replaceAll("@", ""));
-      setThought(THOUGHT_OF_ANALYSIS.VIDEO_COMMENTS);
+      setThought(STEP_OF_ANALYSIS.VIDEO_COMMENTS);
       const videoComments = await getVideoComments(
         encodeURIComponent(JSON.stringify(profile?.videos)),
         setThought,
@@ -60,17 +62,19 @@ const useTikTokAnalysis = () => {
         total_video_comments_count: videoComments.total_video_comments_count,
       };
       setResult(profileWithComments);
-      setThought(THOUGHT_OF_ANALYSIS.SEGMENTS);
-      const segments = await getFanSegments(profileWithComments);
-      setSegments(segments);
-      setThought(THOUGHT_OF_ANALYSIS.SAVING_ANALYSIS);
+      if (videoComments.videos.length > 0) {
+        setThought(STEP_OF_ANALYSIS.SEGMENTS);
+        const segments = await getFanSegments(profileWithComments);
+        setSegments(segments);
+      }
+      setThought(STEP_OF_ANALYSIS.SAVING_ANALYSIS);
       await saveAnalysis({
         ...profileWithComments,
         segments,
       });
       if (email) {
         setSettingMode(SETTING_MODE.CREATE);
-        setThought(THOUGHT_OF_ANALYSIS.CREATING_ARTIST);
+        setThought(STEP_OF_ANALYSIS.CREATING_ARTIST);
         const artistInfo = await saveSetting(
           profileWithComments.nickname,
           profileWithComments.avatar,
@@ -79,7 +83,7 @@ const useTikTokAnalysis = () => {
         setSelectedArtist({ ...artistInfo });
         setArtistActive(true);
       }
-      setThought(THOUGHT_OF_ANALYSIS.FINISHED);
+      setThought(STEP_OF_ANALYSIS.FINISHED);
     } catch (error) {
       console.error("Analysis failed:", error);
     }
