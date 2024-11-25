@@ -64,15 +64,16 @@ const useTikTokAnalysis = () => {
         total_video_comments_count: videoComments.total_video_comments_count,
       };
       setResult(profileWithComments);
+      let fanSegments = [];
       if (videoComments.videos.length > 0) {
         setThought(STEP_OF_ANALYSIS.SEGMENTS);
-        const segments = await getFanSegments(profileWithComments);
+        fanSegments = await getFanSegments(profileWithComments);
         setSegments(segments);
       }
       setThought(STEP_OF_ANALYSIS.SAVING_ANALYSIS);
       await saveAnalysis({
         ...profileWithComments,
-        segments,
+        segments: fanSegments,
         chat_id: newId,
       });
       if (email) {
