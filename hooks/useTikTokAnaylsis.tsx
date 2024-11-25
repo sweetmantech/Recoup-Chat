@@ -16,9 +16,10 @@ const useTikTokAnalysis = () => {
   const [segments, setSegments] = useState<Array<any>>([]);
   const { setSettingMode, saveSetting, setSelectedArtist, setArtistActive } =
     useArtistProvider();
-  const { email } = useUserProvider();
+  const { email, isPrepared } = useUserProvider();
 
   const handleAnalyze = async () => {
+    if (!isPrepared()) return;
     if (!username || isLoading) return;
 
     try {
