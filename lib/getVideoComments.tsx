@@ -1,4 +1,4 @@
-import { THOUGHT_OF_ANALYSIS } from "@/types/Thought";
+import { STEP_OF_ANALYSIS } from "@/types/Thought";
 
 const getVideoComments = async (
   videoUrls: string,
@@ -7,7 +7,7 @@ const getVideoComments = async (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   updateProgress?: any,
 ) => {
-  if (getStatus) getStatus(THOUGHT_OF_ANALYSIS.POSTURLS);
+  if (getStatus) getStatus(STEP_OF_ANALYSIS.POSTURLS);
   const response = await fetch(
     `/api/get_tiktok_video_comments?postURLs=${videoUrls}`,
   );
@@ -16,7 +16,7 @@ const getVideoComments = async (
   let attempts = 0;
   const maxAttempts = 30;
   let progress = 0;
-  if (getStatus) getStatus(THOUGHT_OF_ANALYSIS.VIDEO_COMMENTS);
+  if (getStatus) getStatus(STEP_OF_ANALYSIS.VIDEO_COMMENTS);
   while (1) {
     attempts++;
     progress = (attempts / maxAttempts) * 100;
@@ -32,7 +32,7 @@ const getVideoComments = async (
     );
     const statusInfo = await statusRes.json();
     const status = statusInfo.data;
-    if (commentsInfo?.videos?.length && status === "SUCCEEDED") {
+    if (status === "SUCCEEDED" || progress > 95) {
       updateProgress(100);
       return commentsInfo;
     }

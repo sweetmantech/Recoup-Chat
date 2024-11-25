@@ -1,4 +1,4 @@
-export enum THOUGHT_OF_ANALYSIS {
+export enum STEP_OF_ANALYSIS {
   PROFILE,
   POSTURLS,
   VIDEO_COMMENTS,

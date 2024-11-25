@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
         },
         {
           role: "system",
-          content: `${instructions.get_fan_segments} \n Let's get response with only this json format. {"data": [{ "string": number }, { "string": number }]}.`,
+          content: `${instructions.get_fan_segments} \n Response should be in JSON format. {"data": [{ "string": number }, { "string": number }]}.`,
         },
       ],
     });
