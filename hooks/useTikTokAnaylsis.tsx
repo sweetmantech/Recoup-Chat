@@ -62,7 +62,6 @@ const useTikTokAnalysis = () => {
         ...profile,
         videos: videoComments.videos,
         total_video_comments_count: videoComments.total_video_comments_count,
-        chat_id: newId,
       };
       setResult(profileWithComments);
       if (videoComments.videos.length > 0) {
@@ -74,6 +73,7 @@ const useTikTokAnalysis = () => {
       await saveAnalysis({
         ...profileWithComments,
         segments,
+        chat_id: newId,
       });
       if (email) {
         setSettingMode(SETTING_MODE.CREATE);
