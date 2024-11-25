@@ -32,7 +32,10 @@ const getVideoComments = async (
     );
     const statusInfo = await statusRes.json();
     const status = statusInfo.data;
-    if (commentsInfo?.videos?.length && status === "SUCCEEDED") {
+    if (
+      commentsInfo?.videos?.length &&
+      (status === "SUCCEEDED" || progress > 95)
+    ) {
       updateProgress(100);
       return commentsInfo;
     }
