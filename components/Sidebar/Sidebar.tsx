@@ -1,33 +1,29 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import SideMenu from "../SideMenu";
+import { useState } from "react";
 import MiniMenu from "./MiniMenu";
+import { motion } from "framer-motion";
+import Menu from "./Menu";
+import useSideMenuAnimation from "@/hooks/useSideMenuAnimation";
 
 const Sidebar = () => {
-  const [mounted, setMounted] = useState(false);
-  const [isOpenSideMenu, setIsOpenSideMenu] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return (
-      <div className="border-r-[1px] border-r-greyw-16 flex flex-col py-4 px-2 items-center gap-3 hidden md:block">
-        <div className="mb-6 w-[90px] h-[90px]" />
-      </div>
-    );
-  }
+  const [menuExpanded, setMenuExpanded] = useState(false);
+  const { animate, initial } = useSideMenuAnimation(menuExpanded);
+  const toggleMenuExpanded = () => setMenuExpanded(!menuExpanded);
 
   return (
-    <div className="w-20 bg-background">
-      <MiniMenu toggleMenuExpanded={() => setIsOpenSideMenu(!isOpenSideMenu)} />
-      <SideMenu
-        isVisible={isOpenSideMenu}
-        toggleModal={() => setIsOpenSideMenu(!isOpenSideMenu)}
-      />
-    </div>
+    <motion.div
+      className="bg-background"
+      animate={animate}
+      initial={initial}
+      transition={{ duration: 0.2 }}
+    >
+      {menuExpanded ? (
+        <Menu toggleMenuExpanded={toggleMenuExpanded} />
+      ) : (
+        <MiniMenu toggleMenuExpanded={toggleMenuExpanded} />
+      )}
+    </motion.div>
   );
 };
 

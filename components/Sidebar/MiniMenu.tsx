@@ -56,7 +56,7 @@ const MiniMenu = ({
             <Icon name="robot" />
           </button>
         </Tooltip>
-        <div className="flex-grow flex items-end justify-center">
+        <div className="grow flex items-end justify-center">
           <button type="button" onClick={toggleMenuExpanded}>
             <ArrowRightFromLine />
           </button>
