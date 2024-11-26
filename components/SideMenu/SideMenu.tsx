@@ -70,7 +70,7 @@ const SideMenu = ({
         {isIntroOpen && (
           <Introducing toggleVisible={() => setIsIntroOpen(!isIntroOpen)} />
         )}
-        {email && <UserInfo />}
+        {email && <UserInfo toggleMenuExpanded={toggleModal} />}
       </div>
     </SideModal>
   );
