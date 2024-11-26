@@ -15,7 +15,7 @@ const ArtistToggleModal = () => {
     <div className="relative" ref={selectRef}>
       <div className="flex items-center gap-2">
         <button
-          className="relative flex items-center w-12 h-6 pl-2 border-[1px] border-grey  rounded-full cursor-pointer"
+          className="relative flex items-center w-12 h-6 pl-2 border-[1px] border-grey rounded-full cursor-pointer"
           onClick={toggleArtistModal}
           type="button"
         >
