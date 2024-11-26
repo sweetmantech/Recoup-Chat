@@ -14,10 +14,11 @@ const config: Config = {
       },
       colors: {
         background: {
-          DEFAULT: "#F5F5F5"
+          DEFAULT: "#F5F5F5",
+          dark: "#F1F1F1"
         },
         black: {
-          DEFAULT: "#000000"
+          DEFAULT: "#000000",
         },
         while: {
           DEFAULT: "#ffffff"

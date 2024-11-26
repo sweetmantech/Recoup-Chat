@@ -1,8 +1,6 @@
 import SideModal from "../SideModal";
-import { ArrowLeftFromLine, BookOpen } from "lucide-react";
+import { ArrowLeftFromLine, BookOpen, MicVocal } from "lucide-react";
 import { useRouter } from "next/navigation";
-import Artists from "../Sidebar/Artists";
-import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useUserProvider } from "@/providers/UserProvder";
 import RecentChats from "../Sidebar/RecentChats";
 import Introducing from "../Sidebar/Introducing";
@@ -19,7 +17,6 @@ const SideMenu = ({
   toggleModal: () => void;
 }) => {
   const { push } = useRouter();
-  const { artists } = useArtistProvider();
   const { email, isPrepared } = useUserProvider();
   const [isIntroOpen, setIsIntroOpen] = useState(true);
 
@@ -55,7 +52,14 @@ const SideMenu = ({
         <BookOpen />
         Library
       </button>
-      {artists.length > 0 && <Artists />}
+      <button
+        type="button"
+        onClick={() => goToItem("history")}
+        className="flex gap-2 items-center my-4"
+      >
+        <MicVocal />
+        Artists
+      </button>
       <button
         type="button"
         onClick={() => goToItem("agents")}
