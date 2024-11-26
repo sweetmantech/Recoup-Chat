@@ -12,8 +12,8 @@ const TikTokAccountInput = () => {
   const { username, setUsername, handleAnalyze } = useTikTokAnalysisProvider();
 
   return (
-    <main className="flex-1 flex items-center justify-center">
-      <div className="w-full px-4 sm:px-6 text-center">
+    <main className="flex-1 p-4 bg-background">
+      <div className="w-full h-full flex flex-col items-center justify-center px-4 sm:px-6 text-center bg-white rounded-xl">
         <h1
           className={`
             ${plusJakartaSans.className}

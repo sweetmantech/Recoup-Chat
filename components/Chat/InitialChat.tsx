@@ -38,38 +38,40 @@ const InitialChat = () => {
   }, [currentWord, isDeleting, wordIndex, words]);
 
   return (
-    <div className="grow h-screen overflow-hidden flex flex-col items-center justify-center w-full px-6">
-      <div className="max-w-[900px] w-full mx-auto text-center -mt-20">
-        <div
-          className={`
-          ${plusJakartaSans.className} 
-          text-[28px]
-          sm:text-3xl 
-          lg:text-[32px] 
-          leading-[1.2] 
-          lg:leading-[40px] 
-          tracking-[-0.5px] 
-          mb-12
-          lg:mb-8 
-          lg:whitespace-nowrap 
-          inline-block 
-          font-semibold 
-          text-center
-        `}
-        >
-          <span className="lg:inline block mb-4 lg:mb-0">
-            What would you like to know{" "}
-          </span>
-          <span className="lg:inline block lg:ml-0">
-            about your&nbsp;
-            <span className="inline-block min-w-[1ch] text-center transition-all duration-100">
-              {currentWord}
-              <span className="animate-pulse">|</span>
+    <div className="grow h-screen overflow-hidden w-full p-4 bg-background">
+      <div className="size-full flex flex-col items-center justify-center bg-white rounded-xl">
+        <div className="max-w-[900px] w-full mx-auto text-center -mt-20">
+          <div
+            className={`
+            ${plusJakartaSans.className} 
+            text-[28px]
+            sm:text-3xl 
+            lg:text-[32px] 
+            leading-[1.2] 
+            lg:leading-[40px] 
+            tracking-[-0.5px] 
+            mb-12
+            lg:mb-8 
+            lg:whitespace-nowrap 
+            inline-block 
+            font-semibold 
+            text-center
+          `}
+          >
+            <span className="lg:inline block mb-4 lg:mb-0">
+              What would you like to know{" "}
             </span>
-          </span>
+            <span className="lg:inline block lg:ml-0">
+              about your&nbsp;
+              <span className="inline-block min-w-[1ch] text-center transition-all duration-100">
+                {currentWord}
+                <span className="animate-pulse">|</span>
+              </span>
+            </span>
+          </div>
         </div>
+        <ChatInput />
       </div>
-      <ChatInput />
     </div>
   );
 };
