@@ -1,10 +1,14 @@
+import { useArtistProvider } from "@/providers/ArtistProvider";
 import { ArtistRecord } from "@/types/Artist";
 
 const Artist = ({ artist }: { artist: ArtistRecord }) => {
+  const { setSelectedArtist } = useArtistProvider();
+
   return (
     <button
       type="button"
       className="w-[335px] h-[162px] overflow-hidden rounded-xl relative border-grey border"
+      onClick={() => setSelectedArtist(artist)}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img

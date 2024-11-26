@@ -11,7 +11,7 @@ const Artists = () => {
         <p className="text-[19px] md:text-[25px] text-grey-dark text-center md:text-left">
           Choose an artist to dive into their insights and data.
         </p>
-        <div className="mt-8 pb-4 space-y-4 md:space-y-auto md:flex md:flex-row gap-8 md:flex-wrap grow overflow-y-auto">
+        <div className="mt-8 pb-4 space-y-4 md:space-y-0 md:flex md:flex-row gap-8 md:flex-wrap grow overflow-y-auto">
           {artists.map((artist) => (
             <Artist artist={artist} key={artist.id} />
           ))}
