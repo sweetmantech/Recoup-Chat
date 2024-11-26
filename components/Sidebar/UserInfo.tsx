@@ -2,7 +2,11 @@ import { useUserProvider } from "@/providers/UserProvder";
 import Image from "next/image";
 import Icon from "../Icon";
 
-const UserInfo = () => {
+const UserInfo = ({
+  toggleMenuExpanded,
+}: {
+  toggleMenuExpanded: () => void;
+}) => {
   const { email } = useUserProvider();
 
   return (
@@ -18,7 +22,9 @@ const UserInfo = () => {
         <p className="text-xs md:text-sm">{email}</p>
         <p className="text-xs md:text-sm">Team Name</p>
       </div>
-      <Icon name="exit" />
+      <button type="button" onClick={toggleMenuExpanded}>
+        <Icon name="exit" />
+      </button>
     </div>
   );
 };
