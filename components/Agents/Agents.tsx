@@ -4,14 +4,14 @@ const Agents = () => {
   const { push } = useRouter();
 
   return (
-    <div className="grow h-screen overflow-hidden bg-background p-4">
-      <div className="size-full bg-white rounded-xl flex flex-col gap-3 pt-6 md:pt-10 px-4 md:px-20">
+    <div className="grow h-screen overflow-hidden md:bg-background md:p-4">
+      <div className="size-full bg-white rounded-xl flex flex-col items-center md:items-start gap-3 pt-6 md:pt-10 px-4 md:px-20">
         <p className="font-plus_jakarta_sans_bold text-[50px]">Agents</p>
-        <p className="text-[25px] text-grey-dark">
+        <p className="text-[19px] md:text-[25px] text-grey-dark text-center md:text-left">
           Unlock the potential of your artist with intelligent, task-focused
           agents.
         </p>
-        <div className="pt-8 flex gap-8">
+        <div className="pt-8 flex flex-col md:flex-row gap-8">
           <button
             type="button"
             className="w-[335px] h-[162px] overflow-hidden rounded-xl"
