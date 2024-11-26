@@ -37,11 +37,11 @@ const Menu = ({ toggleMenuExpanded }: { toggleMenuExpanded: () => void }) => {
       </button>
       <button
         type="button"
-        onClick={() => goToItem("history")}
+        onClick={() => goToItem("dashboard")}
         className="flex gap-2 items-center my-4"
       >
-        <Icon name="book" />
-        Library
+        <Icon name="dashboard" />
+        Dashboard
       </button>
       {artists.length > 0 && <Artists />}
       <button

@@ -1,4 +1,18 @@
 export const Icons = {
+  dashboard: () => (
+    <svg
+      width="17"
+      height="17"
+      viewBox="0 0 17 17"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M9.375 0.625V5.875H16.375V0.625M9.375 16.375H16.375V7.625H9.375M0.625 16.375H7.625V11.125H0.625M0.625 9.375H7.625V0.625H0.625V9.375Z"
+        fill="black"
+      />
+    </svg>
+  ),
   exit: () => (
     <svg
       width="17"
