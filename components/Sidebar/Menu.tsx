@@ -23,7 +23,7 @@ const Menu = ({ toggleMenuExpanded }: { toggleMenuExpanded: () => void }) => {
   };
 
   return (
-    <div className="w-full h-screen pt-10 pb-4 px-6 gap-3 hidden md:flex flex-col">
+    <div className="w-full h-screen pt-10 pb-4 px-6 gap-1 hidden md:flex flex-col">
       <div className="flex items-center gap-4 justify-between">
         <div className="flex gap-2 items-center">
           <Logo />
