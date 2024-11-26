@@ -26,7 +26,7 @@ const Insights = () => {
             </p>
             <button
               type="button"
-              className="border-gray-700 border-[1px] px-3 py-1 rounded-full text-sm mt-2"
+              className="border-grey border-[1px] px-3 py-1 rounded-full text-sm mt-2"
               onClick={handleSubmit}
             >
               Create a new campaign

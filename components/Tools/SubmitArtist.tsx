@@ -23,13 +23,13 @@ const SubmitArtist = () => {
         <input
           type="text"
           onChange={(e) => setArtistName(e.target.value)}
-          className="!bg-transparent border-gray-700 border-[1px] rounded-md !outline-none px-2 py-1 text-sm"
+          className="!bg-transparent border-grey border-[1px] rounded-md !outline-none px-2 py-1 text-sm"
           placeholder="Input artist name."
         />
         <button
           type="button"
           onClick={handleSubmit}
-          className="border-gray-700 border-[1px] px-3 py-1 rounded-full text-sm"
+          className="border-grey border-[1px] px-3 py-1 rounded-full text-sm"
         >
           Submit
         </button>

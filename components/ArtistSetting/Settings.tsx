@@ -54,7 +54,7 @@ const Settings = () => {
       validationSchema={validation}
       onSubmit={handleSave}
     >
-      <div className="col-span-12 flex justify-between items-center border-b-gray-700 border-b-[1px] pb-3">
+      <div className="col-span-12 flex justify-between items-center border-b-greyborder-b-[1px] pb-3">
         <div className="flex gap-2 items-center">
           <MicVocal />
           <p>
@@ -192,7 +192,7 @@ const Settings = () => {
       <div className="col-span-7 md:col-span-5 space-y-1 md:space-y-2">
         <p className="text-sm">Knowledge Base</p>
         <button
-          className="w-full flex gap-2 items-center border-gray-700 rounded-md p-2 border-[1px]"
+          className="w-full flex gap-2 items-center border-grey rounded-md p-2 border-[1px]"
           onClick={() => baseRef.current.click()}
         >
           <Plus className="size-5 md:size-8" />
@@ -201,13 +201,13 @@ const Settings = () => {
         <input type="file" hidden ref={baseRef} />
       </div>
       <button
-        className="col-span-12 border-gray-700 border-[1px] rounded-md py-1"
+        className="col-span-12 border-grey border-[1px] rounded-md py-1"
         type="submit"
       >
         {updating ? "Saving..." : "Save"}
       </button>
       <button
-        className="col-span-12 border-gray-700 border-[1px] rounded-md py-1 mb-4"
+        className="col-span-12 border-grey border-[1px] rounded-md py-1 mb-4"
         onClick={toggleSettingModal}
       >
         Close

@@ -25,7 +25,10 @@ const config: Config = {
         grey: {
           DEFAULT: "#E6E6E6"
         }
-      }
+      },
+      boxShadow: {
+        grey: "1px 1px 1px 1px #E6E6E6",
+      },
     },
   },
   plugins: [],

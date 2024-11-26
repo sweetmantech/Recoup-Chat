@@ -16,7 +16,7 @@ const Modal = ({ children, onClose, className }: IModal) => (
       if (e.target === e.currentTarget) onClose();
     }}
   >
-    <div className="relative z-[2] max-h-[95%] md:max-h-[85%] overflow-y-auto rounded-2xl md:rounded-md w-full md:w-[500px] bg-black border-gray-700 border-[1px] px-4 py-3 md:p-4">
+    <div className="relative z-[2] max-h-[95%] md:max-h-[85%] overflow-y-auto rounded-2xl md:rounded-md w-full md:w-[500px] bg-background border-grey  border px-4 py-3 md:p-4">
       {children}
     </div>
   </div>

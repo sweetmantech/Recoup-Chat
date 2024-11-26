@@ -14,7 +14,7 @@ const Sidebar = () => {
 
   if (!mounted) {
     return (
-      <div className="border-r-[1px] border-r-gray-700 w-16 flex flex-col py-4 px-2 items-center gap-3 hidden md:block">
+      <div className="border-r-[1px] border-r-greyw-16 flex flex-col py-4 px-2 items-center gap-3 hidden md:block">
         <div className="mb-6 w-[90px] h-[90px]" />
       </div>
     );

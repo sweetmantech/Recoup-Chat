@@ -3,7 +3,7 @@ import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
 const Segments = () => {
   const { segments } = useTikTokAnalysisProvider();
   return (
-    <div className="mx-2 border-gray-700 border-[1px] rounded-md p-2">
+    <div className="mx-2 border-grey border-[1px] rounded-md p-2">
       <p className="text-md font-bold">Brand Partnerships</p>
       <div className="flex gap-2 flex-wrap pt-2">
         {segments

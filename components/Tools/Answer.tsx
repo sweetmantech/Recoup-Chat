@@ -9,7 +9,7 @@ const Answer = ({
 }) => (
   <section>
     <div
-      className={`text-sm font-sans max-w-[500px] text-pretty break-words ${role === "user" ? "bg-[#f4f4f438] px-4 p-2 rounded-full" : ""}`}
+      className={`text-sm font-sans max-w-[500px] text-pretty break-words ${role === "user" ? "bg-grey px-4 p-2 rounded-full" : ""}`}
       dangerouslySetInnerHTML={{
         __html: decodeURIComponent(content || ""),
       }}

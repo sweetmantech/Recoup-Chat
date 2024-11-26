@@ -14,7 +14,7 @@ const MissingArtist = ({ description }: { description: string }) => {
             setSettingMode(SETTING_MODE.CREATE);
             setIsOpenSettingModal(true);
           }}
-          className="border-gray-700 border-[1px] px-3 py-1 rounded-full text-sm"
+          className="border-grey border-[1px] px-3 py-1 rounded-full text-sm"
         >
           Create an artist.
         </button>

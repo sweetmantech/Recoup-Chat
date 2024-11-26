@@ -5,7 +5,7 @@ const Conversation = ({ name, id }: { name: string; id: string }) => {
 
   return (
     <button
-      className="border border-gray-700 rounded-md w-full p-3 text-left"
+      className="border border-grey rounded-md w-full p-3 text-left"
       type="button"
       onClick={() => push(`/${id}`)}
     >
