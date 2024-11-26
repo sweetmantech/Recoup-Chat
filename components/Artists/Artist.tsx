@@ -9,10 +9,10 @@ const Artist = ({ artist }: { artist: ArtistRecord }) => {
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={artist.image || "https://i.imgur.com/QCdc8Ai.jpg"}
-        className="object-cover"
+        className="object-cover w-full h-full"
         alt="not found pic"
       />
-      <div className="w-[62px] h-[25px] rounded-full flex items-center justify-center text-white absolute left-4 bottom-4">
+      <div className="rounded-full flex items-center justify-center text-white absolute left-4 bottom-4">
         {artist.name}
       </div>
     </button>
