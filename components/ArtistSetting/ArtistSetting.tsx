@@ -14,7 +14,7 @@ const ArtistSetting = () => {
       >
         <button
           type="button"
-          className="border-gray-700 border-[1px] p-2 rounded-md"
+          className="p-2 rounded-md"
           onClick={() => setIsOpenSettingModal(true)}
         >
           <MicVocal />

@@ -1,29 +1,16 @@
 "use client";
 
-import { ArrowRightFromLine, BookOpen, Plus } from "lucide-react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import Tooltip from "../Tooltip";
-import { useUserProvider } from "@/providers/UserProvder";
 import { useEffect, useState } from "react";
 import SideMenu from "../SideMenu";
-import ArtistSetting from "../ArtistSetting";
-import { useArtistProvider } from "@/providers/ArtistProvider";
+import MiniMenu from "./MiniMenu";
 
 const Sidebar = () => {
-  const { push } = useRouter();
-  const { isPrepared } = useUserProvider();
   const [mounted, setMounted] = useState(false);
   const [isOpenSideMenu, setIsOpenSideMenu] = useState(false);
-  const { artistActive, selectedArtist } = useArtistProvider();
 
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  const goToItem = (link?: string) => {
-    if (isPrepared()) push(`/${link || ""}`);
-  };
 
   if (!mounted) {
     return (
@@ -34,54 +21,8 @@ const Sidebar = () => {
   }
 
   return (
-    <div className="border-r-[1px] border-r-gray-700 w-16 flex-col items-center py-4 px-2 gap-3 hidden md:flex h-screen">
-      <button
-        type="button"
-        onClick={() => push("/")}
-        className="mb-6 w-[45px] h-[45px]"
-      >
-        <Image
-          src={"/logo-light.png"}
-          width={45}
-          height={45}
-          alt="logo"
-          className="rounded-md overflow-hidden w-full h-full object-contain"
-        />
-      </button>
-      <div className="flex flex-col gap-3 grow">
-        <Tooltip
-          id={"new-conversation-tooltip"}
-          message="New Chat"
-          className="!z-[100]"
-        >
-          <button
-            type="button"
-            className="border-gray-700 border-[1px] p-2 rounded-md"
-            onClick={() => goToItem()}
-          >
-            <Plus />
-          </button>
-        </Tooltip>
-        <Tooltip
-          id={"chat-history-tooltip"}
-          message="Chat History"
-          className="!z-[100]"
-        >
-          <button
-            type="button"
-            className="border-gray-700 border-[1px] p-2 rounded-md"
-            onClick={() => goToItem("history")}
-          >
-            <BookOpen />
-          </button>
-        </Tooltip>
-        {artistActive && selectedArtist && <ArtistSetting />}
-        <div className="flex-grow flex items-end justify-center">
-          <button type="button" onClick={() => setIsOpenSideMenu(true)}>
-            <ArrowRightFromLine />
-          </button>
-        </div>
-      </div>
+    <div className="w-20 bg-background">
+      <MiniMenu toggleMenuExpanded={() => setIsOpenSideMenu(!isOpenSideMenu)} />
       <SideMenu
         isVisible={isOpenSideMenu}
         toggleModal={() => setIsOpenSideMenu(!isOpenSideMenu)}

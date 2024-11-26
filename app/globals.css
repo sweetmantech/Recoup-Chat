@@ -2,22 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+@font-face {
+  font-family: "Inter Medium";
+  src: url("/fonts/Inter-Medium.ttf") format("truetype");
 }
 
 html,
 body {
+  font-family: "Inter Medium";
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: black;
+  background: white;
 }
 
 @layer utilities {

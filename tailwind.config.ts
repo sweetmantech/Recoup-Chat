@@ -9,7 +9,19 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-geist-sans)']
+        inter: ["Inter ", "sans-serif"],
+        inter_medium: ["Inter Medium", "sans-serif"]
+      },
+      colors: {
+        background: {
+          DEFAULT: "#F5F5F5"
+        },
+        black: {
+          DEFAULT: "#000000"
+        },
+        while: {
+          DEFAULT: "#ffffff"
+        }
       }
     },
   },
