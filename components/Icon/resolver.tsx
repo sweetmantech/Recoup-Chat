@@ -1,4 +1,18 @@
 export const Icons = {
+  exit: () => (
+    <svg
+      width="17"
+      height="17"
+      viewBox="0 0 17 17"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M15.3 17H17L17 0H15.3L15.3 7.65L3.2555 7.65L7.9305 2.975L6.732 1.768L0 8.5L6.732 15.232L7.9305 14.025L3.2555 9.35L15.3 9.35L15.3 17Z"
+        fill="#202020"
+      />
+    </svg>
+  ),
   logo: () => (
     <svg
       width="21"

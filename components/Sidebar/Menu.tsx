@@ -1,4 +1,3 @@
-import { ArrowLeftFromLine } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Artists from "../Sidebar/Artists";
 import { useArtistProvider } from "@/providers/ArtistProvider";
@@ -23,14 +22,11 @@ const Menu = ({ toggleMenuExpanded }: { toggleMenuExpanded: () => void }) => {
   };
 
   return (
-    <div className="w-full h-screen pt-10 pb-4 px-6 gap-1 hidden md:flex flex-col">
+    <div className="w-full h-screen pt-10 pb-4 pl-6 pr-2 gap-1 hidden md:flex flex-col">
       <div className="flex items-center gap-4 justify-between">
         <div className="flex gap-2 items-center">
           <Logo />
         </div>
-        <button type="button" onClick={toggleMenuExpanded}>
-          <ArrowLeftFromLine />
-        </button>
       </div>
       <button
         type="button"

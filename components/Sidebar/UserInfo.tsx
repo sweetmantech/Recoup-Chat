@@ -1,6 +1,6 @@
 import { useUserProvider } from "@/providers/UserProvder";
-import { SquareArrowOutUpRight } from "lucide-react";
 import Image from "next/image";
+import Icon from "../Icon";
 
 const UserInfo = () => {
   const { email } = useUserProvider();
@@ -18,7 +18,7 @@ const UserInfo = () => {
         <p className="text-xs md:text-sm">{email}</p>
         <p className="text-xs md:text-sm">Team Name</p>
       </div>
-      <SquareArrowOutUpRight className="size-5 md:size-8" />
+      <Icon name="exit" />
     </div>
   );
 };
