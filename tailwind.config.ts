@@ -9,8 +9,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        inter: ["Inter ", "sans-serif"],
-        inter_medium: ["Inter Medium", "sans-serif"]
+        inter_medium: ["Inter Medium", "sans-serif"],
+        plus_jakarta_sans_bold: ["PlusJakartaSans Bold", "sans-serif"]
       },
       colors: {
         background: {
@@ -23,7 +23,14 @@ const config: Config = {
           DEFAULT: "#ffffff"
         },
         grey: {
-          DEFAULT: "#E6E6E6"
+          DEFAULT: "#E6E6E6",
+          dark: "#71717A"
+        },
+        green: {
+          DEFAULT: "#345A5D"
+        },
+        purple: {
+          DEFAULT: "#BD99B3"
         }
       },
       boxShadow: {
