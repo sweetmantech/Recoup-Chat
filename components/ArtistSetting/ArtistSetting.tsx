@@ -1,4 +1,4 @@
-import { MicVocal } from "lucide-react";
+import Icon from "../Icon";
 import Tooltip from "../Tooltip";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 
@@ -17,7 +17,7 @@ const ArtistSetting = () => {
           className="p-2 rounded-md"
           onClick={() => setIsOpenSettingModal(true)}
         >
-          <MicVocal />
+          <Icon name="micval" />
         </button>
       </Tooltip>
     </div>

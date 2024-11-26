@@ -21,6 +21,9 @@ const config: Config = {
         },
         while: {
           DEFAULT: "#ffffff"
+        },
+        grey: {
+          DEFAULT: "#E6E6E6"
         }
       }
     },
