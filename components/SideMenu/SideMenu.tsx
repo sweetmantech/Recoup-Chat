@@ -1,5 +1,4 @@
 import SideModal from "../SideModal";
-import { ArrowLeftFromLine, BookOpen, MicVocal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useUserProvider } from "@/providers/UserProvder";
 import RecentChats from "../Sidebar/RecentChats";
@@ -29,35 +28,32 @@ const SideMenu = ({
 
   return (
     <SideModal isVisible={isVisible} toggleModal={toggleModal}>
-      <div className="flex items-center gap-4 justify-between">
+      <div className="flex items-center gap-4 justify-between mt-4">
         <div className="flex gap-2 items-center">
           <Logo />
         </div>
-        <button type="button" onClick={toggleModal}>
-          <ArrowLeftFromLine />
-        </button>
       </div>
       <button
         type="button"
-        className="border-[#E6E6E6] border-[1px] rounded-md p-2 mt-4 md:mt-8 cursor-pointer shadow-[1px_1px_1px_1px_#E6E6E6]"
+        className="mt-4 border-[#E6E6E6] border-[1px] rounded-md p-2 mt-4 md:mt-8 cursor-pointer shadow-[1px_1px_1px_1px_#E6E6E6]"
         onClick={() => goToItem("")}
       >
         New Chat
       </button>
       <button
         type="button"
-        onClick={() => goToItem("history")}
+        onClick={() => goToItem("dashboard")}
         className="flex gap-2 items-center my-4"
       >
-        <BookOpen />
-        Library
+        <Icon name="dashboard" />
+        Dashboard
       </button>
       <button
         type="button"
-        onClick={() => goToItem("history")}
+        onClick={() => goToItem("artists")}
         className="flex gap-2 items-center my-4"
       >
-        <MicVocal />
+        <Icon name="micval" />
         Artists
       </button>
       <button
