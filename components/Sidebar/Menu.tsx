@@ -58,7 +58,7 @@ const Menu = ({ toggleMenuExpanded }: { toggleMenuExpanded: () => void }) => {
         {isIntroOpen && (
           <Introducing toggleVisible={() => setIsIntroOpen(!isIntroOpen)} />
         )}
-        {email && <UserInfo toggleMenuExpanded={toggleMenuExpanded} />}
+        <UserInfo toggleMenuExpanded={toggleMenuExpanded} />
       </div>
     </div>
   );
