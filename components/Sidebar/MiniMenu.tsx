@@ -52,7 +52,11 @@ const MiniMenu = ({
         </Tooltip>
         {artistActive && selectedArtist && <ArtistSetting />}
         <Tooltip id={"agents-tooltip"} message="Agents" className="!z-[100]">
-          <button type="button" className=" p-2 rounded-md">
+          <button
+            type="button"
+            className=" p-2 rounded-md"
+            onClick={() => goToItem("agents")}
+          >
             <Icon name="robot" />
           </button>
         </Tooltip>
