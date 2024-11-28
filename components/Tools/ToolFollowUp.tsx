@@ -4,6 +4,7 @@ import { LoaderCircle } from "lucide-react";
 import { useEffect } from "react";
 import Answer from "./Answer";
 import getStatusMessage from "@/lib/getStatusMessage";
+import { Tools } from "@/types/Tool";
 
 const ToolFollowUp = ({ message }: { message: AIMessage }) => {
   const {
@@ -26,9 +27,10 @@ const ToolFollowUp = ({ message }: { message: AIMessage }) => {
 
   return (
     <div>
-      {(toolName === "getScoreInfo" ||
-        toolName === "getArtistAnalysis" ||
-        toolName === "getVideosInfo") && (
+      {(toolName === Tools.getArtistAnalysis ||
+        toolName === Tools.getSegmentsReport ||
+        toolName === Tools.getVideosInfo ||
+        toolName === Tools.getVideosInfo) && (
         <>
           {isThinking && !content ? (
             <div className="flex gap-2 items-center">

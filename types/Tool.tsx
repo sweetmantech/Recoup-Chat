@@ -12,4 +12,13 @@ export enum ArtistToolResponse {
   UPDATED_ARTIST_INFO = "UPDATE_ARTIST_INFO",
   MISSING_VIDEO_URL = "MISSING_VIDEO_URL",
   VIDEO_COMMENTS = "VIDEO_COMMENTS",
+  MISSING_SEGMENT_NAME_ANALYSIS_ID = "MISSING_SEGMENT_NAME_ANALYSIS_ID",
+  TIKTOK_SEGMENT_REPORT = "TIKTOK_SEGMENT_REPORT",
+}
+
+export enum Tools {
+  getScoreInfo = "getScoreInfo",
+  getVideosInfo = "getVideosInfo",
+  getSegmentsReport = "getSegmentsReport",
+  getArtistAnalysis = "getArtistAnalysis",
 }

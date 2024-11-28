@@ -1,12 +1,14 @@
-import { ArtistToolResponse } from "@/types/Tool";
+import { ArtistToolResponse, Tools } from "@/types/Tool";
 
 const isActiveToolCallTrigger = (toolName: string, status: string) => {
   return (
-    toolName === "getScoreInfo" ||
-    (toolName === "getArtistAnalysis" &&
+    toolName === Tools.getScoreInfo ||
+    (toolName === Tools.getArtistAnalysis &&
       status === ArtistToolResponse.TIKTOK_TRENDS) ||
-    (toolName === "getVideosInfo" &&
-      status === ArtistToolResponse.VIDEO_COMMENTS)
+    (toolName === Tools.getVideosInfo &&
+      status === ArtistToolResponse.VIDEO_COMMENTS) ||
+    (toolName === Tools.getSegmentsReport &&
+      status === ArtistToolResponse.TIKTOK_SEGMENT_REPORT)
   );
 };
 

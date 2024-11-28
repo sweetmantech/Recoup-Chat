@@ -10,6 +10,7 @@ import useToolCallParams from "./useToolCallParams";
 import getVideoComments from "@/lib/getVideoComments";
 import isActiveToolCallTrigger from "@/lib/isActiveToolCallTrigger";
 import getTikTokProfile from "@/lib/getTiktokProfile";
+import { Tools } from "@/types/Tool";
 
 const useToolCall = (message: Message) => {
   const { finalCallback } = useChatProvider();
@@ -48,7 +49,7 @@ const useToolCall = (message: Message) => {
       if (!isAssistant || isCalled) return;
       setIsCalled(true);
       if (isActiveToolCallTrigger(toolName, context?.status)) {
-        if (toolName === "getArtistAnalysis") {
+        if (toolName === Tools.getArtistAnalysis) {
           setIsSearchingTrends(true);
           const profile = await getTikTokProfile(context?.username);
           const videoComments = await getVideoComments(
@@ -62,7 +63,7 @@ const useToolCall = (message: Message) => {
           });
           setIsSearchingTrends(false);
         }
-        if (toolName === "getVideosInfo") {
+        if (toolName === Tools.getVideosInfo) {
           setIsGettingVideos(true);
           const videoUrls = encodeURIComponent(`["${context.videoUrl}"]`);
           const data = await getVideoComments(videoUrls);
