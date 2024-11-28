@@ -38,16 +38,16 @@ const MiniMenu = ({
           </button>
         </Tooltip>
         <Tooltip
-          id={"chat-history-tooltip"}
-          message="Chat History"
+          id={"dashboard-tooltip"}
+          message="Dashboard"
           className="!z-[100]"
         >
           <button
             type="button"
             className=" p-2 rounded-md"
-            onClick={() => goToItem("history")}
+            onClick={() => goToItem("dashboard")}
           >
-            <Icon name="book" />
+            <Icon name="dashboard" />
           </button>
         </Tooltip>
         {artistActive && selectedArtist && <ArtistSetting />}
@@ -56,7 +56,7 @@ const MiniMenu = ({
             <Icon name="robot" />
           </button>
         </Tooltip>
-        <div className="flex-grow flex items-end justify-center">
+        <div className="grow flex items-end justify-center">
           <button type="button" onClick={toggleMenuExpanded}>
             <ArrowRightFromLine />
           </button>

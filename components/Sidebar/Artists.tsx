@@ -1,8 +1,9 @@
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { ArtistRecord } from "@/types/Artist";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, ChevronUp, MicVocal, Plus } from "lucide-react";
+import { ChevronDown, ChevronUp, Plus } from "lucide-react";
 import { useState } from "react";
+import Icon from "../Icon";
 
 const Artists = () => {
   const [isOpenDropDown, setIsOpenDropDown] = useState(false);
@@ -22,7 +23,7 @@ const Artists = () => {
         onClick={() => setIsOpenDropDown(!isOpenDropDown)}
       >
         <div className="flex gap-2">
-          <MicVocal />
+          <Icon name="micval" />
           Artists
         </div>
         {isOpenDropDown ? <ChevronUp /> : <ChevronDown />}

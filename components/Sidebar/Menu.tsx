@@ -1,5 +1,3 @@
-import SideModal from "../SideModal";
-import { ArrowLeftFromLine, BookOpen } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Artists from "../Sidebar/Artists";
 import { useArtistProvider } from "@/providers/ArtistProvider";
@@ -11,13 +9,7 @@ import UserInfo from "../Sidebar/UserInfo";
 import Logo from "../Logo";
 import Icon from "../Icon";
 
-const SideMenu = ({
-  isVisible,
-  toggleModal,
-}: {
-  isVisible: boolean;
-  toggleModal: () => void;
-}) => {
+const Menu = ({ toggleMenuExpanded }: { toggleMenuExpanded: () => void }) => {
   const { push } = useRouter();
   const { artists } = useArtistProvider();
   const { email, isPrepared } = useUserProvider();
@@ -26,34 +18,30 @@ const SideMenu = ({
   const goToItem = (link?: string) => {
     if (isPrepared()) {
       push(`/${link || ""}`);
-      toggleModal();
     }
   };
 
   return (
-    <SideModal isVisible={isVisible} toggleModal={toggleModal}>
+    <div className="w-full h-screen pt-10 pb-4 pl-6 pr-2 gap-1 hidden md:flex flex-col">
       <div className="flex items-center gap-4 justify-between">
         <div className="flex gap-2 items-center">
           <Logo />
         </div>
-        <button type="button" onClick={toggleModal}>
-          <ArrowLeftFromLine />
-        </button>
       </div>
       <button
         type="button"
-        className="border-[#E6E6E6] border-[1px] rounded-md p-2 mt-4 md:mt-8 cursor-pointer shadow-[1px_1px_1px_1px_#E6E6E6]"
+        className="border-[#E6E6E6] border-[1px] rounded-md p-2 mt-4 md:mt-8 cursor-pointer shadow-[1px_1px_1px_1px_#E6E6E6] bg-white"
         onClick={() => goToItem("")}
       >
         New Chat
       </button>
       <button
         type="button"
-        onClick={() => goToItem("history")}
+        onClick={() => goToItem("dashboard")}
         className="flex gap-2 items-center my-4"
       >
-        <BookOpen />
-        Library
+        <Icon name="dashboard" />
+        Dashboard
       </button>
       {artists.length > 0 && <Artists />}
       <button
@@ -65,15 +53,15 @@ const SideMenu = ({
         Agents
       </button>
       <div className="h-[0.1px] bg-greyw-full my-4" />
-      {email && <RecentChats toggleModal={toggleModal} />}
+      {email && <RecentChats toggleModal={toggleMenuExpanded} />}
       <div className="grow flex flex-col gap-1 md:gap-3 justify-end">
         {isIntroOpen && (
           <Introducing toggleVisible={() => setIsIntroOpen(!isIntroOpen)} />
         )}
-        {email && <UserInfo toggleMenuExpanded={toggleModal} />}
+        <UserInfo toggleMenuExpanded={toggleMenuExpanded} />
       </div>
-    </SideModal>
+    </div>
   );
 };
 
-export default SideMenu;
+export default Menu;
