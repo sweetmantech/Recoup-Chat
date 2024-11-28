@@ -9,7 +9,7 @@ const saveAnalysis = async (info: any) => {
   });
   const data = await response.json();
 
-  return data.data;
+  return data;
 };
 
 export default saveAnalysis;
