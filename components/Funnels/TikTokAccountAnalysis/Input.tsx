@@ -2,6 +2,7 @@
 
 import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
 import { Plus_Jakarta_Sans } from "next/font/google";
+import AnalysisButton from "./AnalysisButton";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -9,11 +10,11 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 const TikTokAccountInput = () => {
-  const { username, setUsername, handleAnalyze } = useTikTokAnalysisProvider();
+  const { username, setUsername } = useTikTokAnalysisProvider();
 
   return (
-    <main className="flex-1 p-4 bg-background">
-      <div className="w-full h-full flex flex-col items-center justify-center px-4 sm:px-6 text-center bg-white rounded-xl">
+    <main className="flex-1 md:p-4 bg-background">
+      <div className="h-[calc(100vh-64px)] md:h-full flex flex-col items-center justify-center px-4 sm:px-6 text-center bg-white rounded-xl">
         <h1
           className={`
             ${plusJakartaSans.className}
@@ -30,7 +31,7 @@ const TikTokAccountInput = () => {
             px-2
           `}
         >
-          Analyze Your TikTok Account in Seconds.
+          Analyze Your TikTok Followers in Seconds
         </h1>
         <p
           className="
@@ -48,12 +49,12 @@ const TikTokAccountInput = () => {
           "
         >
           <span className="sm:hidden">
-            See what works, why it works,
+            Discover who your real fans are
             <br />
-            and how to make it better.
+            and what they care about.
           </span>
           <span className="hidden sm:block">
-            See what works, why it works, and how to make it better.
+            Discover who your real fans are and what they care about.
           </span>
         </p>
         <div className="flex flex-col items-center justify-center gap-4 px-4">
@@ -77,76 +78,30 @@ const TikTokAccountInput = () => {
           >
             <input
               type="text"
-              placeholder="@username"
+              placeholder="@tiktokusername"
               value={username}
               onChange={(e) => setUsername(e.target.value.trim())}
               className="
                 w-full
                 h-full
                 bg-transparent
-                pl-6
-                pr-[145px]
+                md:pl-6
+                md:pr-[145px]
+                px-4
                 text-[16px]
-                rounded-full
+                rounded-[10px]
                 !outline-none 
-                placeholder:text-white/40
+                placeholder:text-grey
                 relative
                 z-10
+                border
+                max-w-[239px]
+                md:max-w-full
               "
             />
-            <button
-              onClick={handleAnalyze}
-              disabled={!username}
-              className="
-                absolute
-                right-2
-                top-1/2
-                -translate-y-1/2
-                bg-white
-                rounded-full
-                pl-5
-                pr-4
-                h-9
-                z-20
-                flex
-                items-center
-                gap-2
-                justify-center
-                transition-all
-                text-[15px]
-                font-medium
-                text-black
-                hover:bg-white/90
-                active:bg-white/80
-                disabled:opacity-50
-                disabled:cursor-not-allowed
-              "
-            >
-              Try For Free
-              <svg
-                width="15"
-                height="15"
-                viewBox="0 0 24 24"
-                fill="none"
-                className="translate-y-[0.5px]"
-              >
-                <path
-                  d="M7 17L17 7"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M7 7H17V17"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
+            <AnalysisButton className="absolute right-2 top-1/2 -translate-y-1/2 md:block hidden" />
           </div>
+          <AnalysisButton className="md:hidden block" />
         </div>
       </div>
     </main>
