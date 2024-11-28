@@ -2,12 +2,12 @@
 
 import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
 import TikTokAccountInput from "./Input";
-import ChainOfThought from "./ChainOfThought";
+import AnalysisChat from "./AnalysisChat";
 
 const TikTokAccountAnalysis = () => {
   const { isLoading } = useTikTokAnalysisProvider();
 
-  return <>{isLoading ? <ChainOfThought /> : <TikTokAccountInput />}</>;
+  return <>{isLoading ? <AnalysisChat /> : <TikTokAccountInput />}</>;
 };
 
 export default TikTokAccountAnalysis;
