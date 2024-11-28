@@ -9,21 +9,29 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        inter: ["Inter ", "sans-serif"],
-        inter_medium: ["Inter Medium", "sans-serif"]
+        inter_medium: ["Inter Medium", "sans-serif"],
+        plus_jakarta_sans_bold: ["PlusJakartaSans Bold", "sans-serif"]
       },
       colors: {
         background: {
-          DEFAULT: "#F5F5F5"
+          DEFAULT: "#F5F5F5",
+          dark: "#F1F1F1"
         },
         black: {
-          DEFAULT: "#000000"
+          DEFAULT: "#000000",
         },
         while: {
           DEFAULT: "#ffffff"
         },
         grey: {
-          DEFAULT: "#E6E6E6"
+          DEFAULT: "#E6E6E6",
+          dark: "#71717A"
+        },
+        green: {
+          DEFAULT: "#345A5D"
+        },
+        purple: {
+          DEFAULT: "#BD99B3"
         }
       },
       boxShadow: {

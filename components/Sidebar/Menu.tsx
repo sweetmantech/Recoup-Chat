@@ -1,6 +1,4 @@
-import { useRouter } from "next/navigation";
-import Artists from "../Sidebar/Artists";
-import { useArtistProvider } from "@/providers/ArtistProvider";
+import { usePathname, useRouter } from "next/navigation";
 import { useUserProvider } from "@/providers/UserProvder";
 import RecentChats from "../Sidebar/RecentChats";
 import Introducing from "../Sidebar/Introducing";
@@ -11,9 +9,14 @@ import Icon from "../Icon";
 
 const Menu = ({ toggleMenuExpanded }: { toggleMenuExpanded: () => void }) => {
   const { push } = useRouter();
-  const { artists } = useArtistProvider();
+  const pathname = usePathname();
   const { email, isPrepared } = useUserProvider();
   const [isIntroOpen, setIsIntroOpen] = useState(true);
+  const activeClasses = "bg-background-dark";
+  const itemClasses = "flex gap-2 items-center rounded-md px-3 py-2";
+  const isAgents = pathname.includes("/agents");
+  const isDashboard = pathname.includes("/dashboard");
+  const isArtists = pathname.includes("/artists");
 
   const goToItem = (link?: string) => {
     if (isPrepared()) {
@@ -38,16 +41,23 @@ const Menu = ({ toggleMenuExpanded }: { toggleMenuExpanded: () => void }) => {
       <button
         type="button"
         onClick={() => goToItem("dashboard")}
-        className="flex gap-2 items-center my-4"
+        className={`${itemClasses} ${isDashboard && activeClasses} mt-6`}
       >
         <Icon name="dashboard" />
         Dashboard
       </button>
-      {artists.length > 0 && <Artists />}
+      <button
+        className={`${itemClasses} ${isArtists && activeClasses}`}
+        type="button"
+        onClick={() => goToItem("artists")}
+      >
+        <Icon name="micval" />
+        Artists
+      </button>
       <button
         type="button"
         onClick={() => goToItem("agents")}
-        className="flex gap-2 items-center my-4"
+        className={`${itemClasses} ${isAgents && activeClasses}`}
       >
         <Icon name="robot" />
         Agents
