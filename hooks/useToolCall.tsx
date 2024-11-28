@@ -30,6 +30,7 @@ const useToolCall = (message: Message) => {
     tiktokVideos,
     setIsGettingVideos,
     isGettingVideos,
+    setTiktokAnalysis,
   } = useToolChat(question, toolName);
 
   useEffect(() => {
@@ -70,6 +71,8 @@ const useToolCall = (message: Message) => {
           setTiktokVideos(data);
           setIsGettingVideos(false);
         }
+        if (toolName === Tools.getSegmentsReport)
+          setTiktokAnalysis(context?.analysis);
         setBeginCall(true);
       }
     };
