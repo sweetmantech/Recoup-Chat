@@ -1,4 +1,4 @@
-import Insights from "./Insights";
+// import Insights from "./Insights";
 
 const Answer = ({
   content,
@@ -8,13 +8,14 @@ const Answer = ({
   role: string;
 }) => (
   <section>
-    <div
+    {/* <div
       className={`text-sm font-sans max-w-[500px] text-pretty break-words ${role === "user" ? "bg-grey px-4 p-2 rounded-full" : ""}`}
       dangerouslySetInnerHTML={{
         __html: decodeURIComponent(content || ""),
       }}
     />
-    <Insights />
+    <Insights /> */}{role}
+    {content}
   </section>
 );
 

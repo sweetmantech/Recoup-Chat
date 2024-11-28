@@ -58,6 +58,7 @@ const useToolChat = (question?: string, toolName?: any) => {
         content: question as string,
         role: "user",
       });
+      setTiktokAnalysis(null);
       setTiktokTrends(null);
       setTiktokVideos({});
       setBeginCall(false);
