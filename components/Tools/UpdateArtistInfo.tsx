@@ -20,7 +20,7 @@ const UpdateArtistInfo = ({ toggleModal }: { toggleModal: () => void }) => {
         <fieldset className="flex gap-2 items-center">
           <p className="text-sm">Artist Id:</p>
           <select
-            className="!bg-transparent border-gray-700 border-[1px] rounded-md px-2 text-center text-sm"
+            className="!bg-transparent border-grey border-[1px] rounded-md px-2 text-center text-sm"
             onChange={handleSelectArtist}
           >
             {artists.map((artist: ArtistRecord, index: number) => (
@@ -37,7 +37,7 @@ const UpdateArtistInfo = ({ toggleModal }: { toggleModal: () => void }) => {
         <button
           type="button"
           onClick={toggleModal}
-          className="border-gray-700 border-[1px] px-3 py-1 rounded-full text-sm w-fit"
+          className="border-grey border-[1px] px-3 py-1 rounded-full text-sm w-fit"
         >
           Update Artist Info.
         </button>

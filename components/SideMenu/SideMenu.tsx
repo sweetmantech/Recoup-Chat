@@ -1,6 +1,4 @@
-import Image from "next/image";
 import SideModal from "../SideModal";
-import { Plus_Jakarta_Sans } from "next/font/google";
 import { ArrowLeftFromLine, BookOpen } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Artists from "../Sidebar/Artists";
@@ -10,11 +8,8 @@ import RecentChats from "../Sidebar/RecentChats";
 import Introducing from "../Sidebar/Introducing";
 import { useState } from "react";
 import UserInfo from "../Sidebar/UserInfo";
-
-const plusJakartaSans = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["600"],
-});
+import Logo from "../Logo";
+import Icon from "../Icon";
 
 const SideMenu = ({
   isVisible,
@@ -39,17 +34,7 @@ const SideMenu = ({
     <SideModal isVisible={isVisible} toggleModal={toggleModal}>
       <div className="flex items-center gap-4 justify-between">
         <div className="flex gap-2 items-center">
-          <div className="w-[45px] h-[45px] relative">
-            <Image
-              src={"/logo-light.png"}
-              alt="logo"
-              layout="fill"
-              className="rounded-md overflow-hidden w-full h-full object-contain"
-            />
-          </div>
-          <p className={`text-white text-[30px] ${plusJakartaSans.className} `}>
-            Recoup
-          </p>
+          <Logo />
         </div>
         <button type="button" onClick={toggleModal}>
           <ArrowLeftFromLine />
@@ -57,7 +42,7 @@ const SideMenu = ({
       </div>
       <button
         type="button"
-        className="border-gray-700 border-[1px] rounded-md p-2 mt-4 md:mt-8 cursor-pointer"
+        className="border-[#E6E6E6] border-[1px] rounded-md p-2 mt-4 md:mt-8 cursor-pointer shadow-[1px_1px_1px_1px_#E6E6E6]"
         onClick={() => goToItem("")}
       >
         New Chat
@@ -71,7 +56,15 @@ const SideMenu = ({
         Library
       </button>
       {artists.length > 0 && <Artists />}
-      <div className="h-[0.1px] bg-gray-700 w-full my-4" />
+      <button
+        type="button"
+        onClick={() => goToItem("agents")}
+        className="flex gap-2 items-center my-4"
+      >
+        <Icon name="robot" />
+        Agents
+      </button>
+      <div className="h-[0.1px] bg-greyw-full my-4" />
       {email && <RecentChats toggleModal={toggleModal} />}
       <div className="grow flex flex-col gap-1 md:gap-3 justify-end">
         {isIntroOpen && (

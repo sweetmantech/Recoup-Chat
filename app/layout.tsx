@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 import Providers from "@/providers/Providers";
 import { DESCRIPTION, TITLE } from "@/lib/consts";
@@ -26,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={GeistSans.className}>
+      <body>
         <Suspense>
           <Providers>
             <div className="flex flex-col md:flex-row">

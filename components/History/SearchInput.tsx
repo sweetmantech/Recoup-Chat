@@ -2,7 +2,7 @@ import { SearchIcon } from "lucide-react";
 
 const SearchInput = () => {
   return (
-    <div className="border border-gray-700 rounded-md flex gap-2 p-2 w-full mx-auto max-w-3xl">
+    <div className="border border-grey  rounded-md flex gap-2 p-2 w-full mx-auto max-w-3xl">
       <SearchIcon />
       <input
         type="text"

@@ -16,7 +16,7 @@ const SubmitCampaign = () => {
       <p className="text-sm">{`You don't manage any campaign.`}</p>
       <button
         type="button"
-        className="border-[1px] border-gray-700 px-2 py-1 rounded-full mt-3 text-sm"
+        className="border-[1px] border-grey px-2 py-1 rounded-full mt-3 text-sm"
         onClick={handleSubmit}
       >
         Create a new campaign

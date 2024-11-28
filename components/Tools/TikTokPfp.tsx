@@ -26,7 +26,7 @@ const TikTokPfp = () => {
               onClick={() =>
                 window.open(`${tiktokTrends[0].profileUrl}`, "_blank")
               }
-              className="text-sm border-[1px] border-gray-700 rounded-md px-3 py-1"
+              className="text-sm border-[1px] border-grey rounded-md px-3 py-1"
             >
               View on TikTok
             </button>

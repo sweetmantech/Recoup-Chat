@@ -15,7 +15,7 @@ const ArtistsTable = () => {
   return (
     <div>
       <p className="pl-2 pb-2 text-sm">{`Here's a table with all the artists which you are managing.`}</p>
-      <div className="border-gray-700 border-[1px] rounded-md w-full p-2">
+      <div className="border-grey border-[1px] rounded-md w-full p-2">
         <table className="w-full">
           <thead>
             <th className="text-xs text-left p-1">ID</th>
@@ -34,7 +34,7 @@ const ArtistsTable = () => {
                 <td className="text-xs p-1">
                   <button
                     type="button"
-                    className="px-3 py-1 text-sm border-gray-700 border-[1px] rounded-md text-sm"
+                    className="px-3 py-1 text-sm border-grey border-[1px] rounded-md text-sm"
                   >
                     Get campaigns
                   </button>
