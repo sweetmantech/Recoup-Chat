@@ -23,7 +23,7 @@ For Example:
         };
 
       const data = await getTikTokAnalysis(analysis_id);
-      const segment = data.find(
+      const segment = data.segments.find(
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (item: any) => Object.keys(item)[0] === segment_name,
       );
