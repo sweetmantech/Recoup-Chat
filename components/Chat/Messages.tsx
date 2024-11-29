@@ -12,9 +12,11 @@ import { Copy } from "lucide-react";
 const Messages = ({
   scroll,
   className,
+  children,
 }: {
   scroll: ({ smooth, y }: { smooth: boolean; y: number }) => void;
   className?: string;
+  children?: React.ReactNode;
 }) => {
   const { messages, pending, suggestions } = useChatProvider();
   const scrollTo = () => scroll({ smooth: true, y: Number.MAX_SAFE_INTEGER });
@@ -29,6 +31,7 @@ const Messages = ({
     <ScrollArea
       className={`w-full mt-4 max-w-3xl mx-auto overflow-y-auto ${messages.length && "grow"} ${className}`}
     >
+      {children || <div />}
       {messages.map((message: AIMessage, index: number) => (
         <ToolCallProvider message={message} scrollTo={scrollTo} key={index}>
           <Message message={message} />
