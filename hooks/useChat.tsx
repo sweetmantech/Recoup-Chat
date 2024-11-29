@@ -1,6 +1,6 @@
 import { Message } from "ai/react";
 import { v4 as uuidV4 } from "uuid";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import useConversations from "./useConversations";
 import useMessages from "./useMessages";
 import { useUserProvider } from "@/providers/UserProvder";
@@ -9,6 +9,8 @@ const useChat = () => {
   const { login, address } = useUserProvider();
   const { push } = useRouter();
   const { conversationId } = useConversations();
+  const pathname = usePathname();
+
   const {
     conversationRef,
     input,
@@ -25,7 +27,7 @@ const useChat = () => {
   } = useMessages();
 
   const goToNewConversation = async (name: string) => {
-    if (conversationId) return;
+    if (conversationId && !pathname.includes("funnels")) return;
     const newId = uuidV4();
     conversationRef.current = newId;
     push(`/${newId}`);

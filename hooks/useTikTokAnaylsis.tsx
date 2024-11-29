@@ -80,10 +80,14 @@ const useTikTokAnalysis = () => {
         setSegments([...fanSegments]);
       }
       setThought(STEP_OF_ANALYSIS.SAVING_ANALYSIS);
-      await saveAnalysis({
+      const data = await saveAnalysis({
         ...profileWithComments,
         segments: [...fanSegments],
         chat_id: newId,
+      });
+      setResult({
+        ...profileWithComments,
+        id: data.id,
       });
       if (email) {
         setSettingMode(SETTING_MODE.CREATE);
