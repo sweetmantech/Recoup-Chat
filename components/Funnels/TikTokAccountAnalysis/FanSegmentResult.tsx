@@ -25,7 +25,7 @@ const FanSegmentResult = () => {
                 </p>
                 {`@${username.replaceAll("@", "") || result?.name}’s is ${result?.nickname} and makes content in ${result?.region}. They have ${result?.fans} followers. \nPlease select a fan segmentation below to generate a report for brand partnership deals.`}
                 <p className="text-xl font-bold py-4"> Fan Segments</p>
-                {`We catagorized fan into ${Object.keys(segments).length} different segments - click any to explore. The agent is running in the background and will notify you of new insights!`}
+                {`We catagorized ${result?.name}'s fan into ${Object.keys(segments).length} different segments - click any to explore. The agent is running in the background and will notify you of new insights!`}
                 {segments?.length > 0 && <Segments />}
               </>
             ) : (
