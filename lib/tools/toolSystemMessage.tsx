@@ -24,6 +24,13 @@ const toolSystemMessage = (context: any, question: any, toolName: string) => {
     ${instructions.get_campaign_score}
     ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}`;
 
+  if (toolName === "getSegmentsReport")
+    return `
+    Context: ${JSON.stringify(context)}
+    Question: ${question}
+    ${instructions.get_segements_report}
+    ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}`;
+
   return "";
 };
 

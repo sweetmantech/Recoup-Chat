@@ -11,6 +11,7 @@ import getScoreInfo from "../tools/getScoreInfo";
 import getBaseCampaign from "../chat/getBaseCampaign";
 import instructions from "@/evals/scripts/instructions.json";
 import getVideosInfo from "../tools/getVideosInfo";
+import getSegmentsReport from "../tools/getSegmentsReport";
 
 export function createChatMessagesService() {
   return new ChatMessagesService();
@@ -70,6 +71,7 @@ ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
         createCampaign: createCampaign(question, email),
         getCampaigns: getCampaigns(question, email, artistId),
         updateArtistInfo: updateArtistInfo(question),
+        getSegmentsReport: getSegmentsReport(question),
       };
     } catch (error) {
       console.error("Error reading or parsing JSON files:", error);
