@@ -18,8 +18,10 @@ const getFullReport = async (context: any) => {
       }
       receivedData += new TextDecoder().decode(value);
     }
-    console.log("ZIAD", receivedData);
-    return receivedData;
+    return receivedData
+      .split("0:")
+      .map((str) => str.slice(1, str.length - 2))
+      .join("");
   } catch (error) {
     console.error(error);
     return "";

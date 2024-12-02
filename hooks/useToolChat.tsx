@@ -65,6 +65,7 @@ const useToolChat = (question?: string, toolName?: any) => {
         role: "user",
       });
       const reportContent = await getFullReport(tiktokAnalysis);
+      console.log("ZIAD", reportContent);
       setTiktokReportContent(reportContent);
       const activeArtist = artists.find(
         (artist: ArtistRecord) => artist.id === tiktokAnalysis?.artistId,
