@@ -8,7 +8,7 @@ const getBlob = async (imageUrl: string) => {
     const type = response.headers["content-type"];
     // const blob = new Blob([response.data], { type });
 
-    return { response, type };
+    return { data: response.data, type };
   } catch (error) {
     return { error };
   }
