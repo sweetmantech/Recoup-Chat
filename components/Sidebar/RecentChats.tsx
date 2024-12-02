@@ -1,4 +1,3 @@
-import { getRandomHexColor } from "@/lib/getRandomColor";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { Conversation } from "@/types/Stack";
 import { useRouter } from "next/navigation";
@@ -25,12 +24,7 @@ const RecentChats = ({ toggleModal }: { toggleModal: () => void }) => {
       <div className="max-h-[110px] md:max-h-[140px] overflow-y-auto space-y-2">
         {streamingTitle && streaming && (
           <button className="flex gap-2 items-center" type="button">
-            <div
-              className="w-4 h-4 rounded-full"
-              style={{
-                background: `${getRandomHexColor()}`,
-              }}
-            />
+            <div className="w-2 h-2 rounded-full bg-black" />
             <p className="text-sm truncate max-w-[200px]">{streamingTitle}</p>
           </button>
         )}
@@ -41,12 +35,7 @@ const RecentChats = ({ toggleModal }: { toggleModal: () => void }) => {
             type="button"
             onClick={() => handleClick(conversation)}
           >
-            <div
-              className="w-4 h-4 rounded-full"
-              style={{
-                background: `${getRandomHexColor()}`,
-              }}
-            />
+            <div className="w-2 h-2 rounded-full bg-black" />
             <p className="text-sm truncate max-w-[200px]">
               {conversation?.title || `${conversation?.metadata.content}`}
             </p>
