@@ -18,6 +18,7 @@ const getFullReport = async (context: any) => {
       }
       receivedData += new TextDecoder().decode(value);
     }
+    console.log("ZIAD", receivedData);
     return receivedData;
   } catch (error) {
     console.error(error);

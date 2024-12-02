@@ -1,5 +1,7 @@
 import getFullReport from "@/lib/getFullReport";
+import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useChatProvider } from "@/providers/ChatProvider";
+import { ArtistRecord } from "@/types/Artist";
 import { Message, useChat } from "ai/react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -15,6 +17,7 @@ const useToolChat = (question?: string, toolName?: any) => {
   const [tiktokAnalysis, setTiktokAnalysis] = useState<any>(null);
   const [tiktokNextSteps, setTikTokNextSteps] = useState("");
   const [tiktokReportContent, setTiktokReportContent] = useState("");
+  const { setArtistActive, setSelectedArtist, artists } = useArtistProvider();
 
   const toolCallContext = {
     ...(tiktokTrends !== null && { ...tiktokTrends }),
@@ -63,6 +66,13 @@ const useToolChat = (question?: string, toolName?: any) => {
       });
       const reportContent = await getFullReport(tiktokAnalysis);
       setTiktokReportContent(reportContent);
+      const activeArtist = artists.find(
+        (artist: ArtistRecord) => artist.id === tiktokAnalysis?.artistId,
+      );
+      if (activeArtist) {
+        setArtistActive(true);
+        setSelectedArtist(activeArtist);
+      }
       setTiktokAnalysis(null);
       setTiktokTrends(null);
       setTiktokVideos({});
