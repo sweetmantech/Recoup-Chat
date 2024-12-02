@@ -15,7 +15,7 @@ export const uploadToIpfs = async (content: any) => {
     },
   );
 
-  const aaaa = await response.json();
+  const { IpfsHash } = await response.json();
 
-  return aaaa;
+  return IpfsHash;
 };
