@@ -1,6 +1,6 @@
 import { Message } from "ai/react";
 import { v4 as uuidV4 } from "uuid";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import useConversations from "./useConversations";
 import useMessages from "./useMessages";
 import { useUserProvider } from "@/providers/UserProvder";
@@ -9,6 +9,8 @@ const useChat = () => {
   const { login, address } = useUserProvider();
   const { push } = useRouter();
   const { conversationId } = useConversations();
+  const searchParams = useSearchParams();
+  const reportEnabled = searchParams.get("report");
   const pathname = usePathname();
 
   const {
@@ -27,10 +29,10 @@ const useChat = () => {
   } = useMessages();
 
   const goToNewConversation = async (name: string) => {
-    if (conversationId && !pathname.includes("funnels")) return;
+    if (conversationId) return;
     const newId = uuidV4();
     conversationRef.current = newId;
-    push(`/${newId}`);
+    push(`/${newId}?report=enabled`);
   };
 
   const clearQuery = async () => {
@@ -49,7 +51,7 @@ const useChat = () => {
     if (!isPrepared()) return;
     setCurrentQuestion(message);
     appendAiChat(message);
-    await goToNewConversation(message.content);
+    goToNewConversation(message.content);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -61,7 +63,7 @@ const useChat = () => {
       id: uuidV4(),
     });
     handleAiChatSubmit(e);
-    await goToNewConversation(input);
+    goToNewConversation(input);
   };
 
   return {
@@ -75,6 +77,7 @@ const useChat = () => {
     finalCallback,
     clearQuery,
     toolCall,
+    reportEnabled,
   };
 };
 
