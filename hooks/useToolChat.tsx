@@ -62,6 +62,7 @@ const useToolChat = (question?: string, toolName?: any) => {
         role: "user",
       });
       const reportContent = await getFullReport(tiktokAnalysis);
+      console.log("ZIAD", reportContent);
       setTiktokReportContent(reportContent);
       setTiktokAnalysis(null);
       setTiktokTrends(null);
