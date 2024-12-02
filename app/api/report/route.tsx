@@ -18,38 +18,11 @@ export async function POST(req: NextRequest) {
       Question: Please, create a tiktok fan segment report.
       ${instructions.get_segements_report}
       ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
-      NOTE: ${FULL_REPORT_NOTE}`,
+      NOTE!!!: ${FULL_REPORT_NOTE}`,
       maxTokens: 1555,
       temperature: 0.7,
       messages: [],
     });
-    // const openai = new OpenAI();
-
-    // const response = await openai.chat.completions.create({
-    //   model: AI_MODEL,
-    //   max_tokens: 1111,
-    //   temperature: 0.7,
-    //   messages: [
-    //     {
-    //       role: "user",
-    //       content: `Context: ${JSON.stringify(body)}
-    //       Question: Please, create a tiktok fan segment report.`,
-    //     },
-    //     {
-    //       role: "system",
-    //       content: `${instructions.get_segements_report}
-    //       ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
-    //       NOTE: ${FULL_REPORT_NOTE}`,
-    //     },
-    //   ],
-    //   store: true,
-    // });
-
-    // const content = response.choices[0].message!.content!.toString();
-    // return Response.json({
-    //   message: "success",
-    //   content,
-    // });
     return result.toDataStreamResponse();
   } catch (error) {
     console.error(error);

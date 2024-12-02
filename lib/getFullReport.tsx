@@ -21,7 +21,8 @@ const getFullReport = async (context: any) => {
     return receivedData
       .split("0:")
       .map((str) => str.slice(1, str.length - 2))
-      .join("");
+      .join("")
+      .replaceAll("\n", "");
   } catch (error) {
     console.error(error);
     return "";
