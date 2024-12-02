@@ -9,11 +9,14 @@ const Segments = () => {
   const { append } = useChatProvider();
 
   const handleGenerateReport = async (segmentName: string) => {
-    append({
-      id: uuidV4(),
-      role: "user",
-      content: `Please create a tiktok fan segment report for ${result.id} using this segment ${segmentName}.`,
-    });
+    append(
+      {
+        id: uuidV4(),
+        role: "user",
+        content: `Please create a tiktok fan segment report for ${result.id} using this segment ${segmentName}.`,
+      },
+      true,
+    );
   };
 
   return (

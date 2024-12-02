@@ -28,13 +28,16 @@ const useChat = () => {
     setCurrentQuestion,
   } = useMessages();
 
-  const goToNewConversation = async (content: string) => {
+  const goToNewConversation = async (
+    content: string,
+    reportedActive: boolean = false,
+  ) => {
     if (conversationId) return;
     const newId = uuidV4();
     conversationRef.current = newId;
     const title = await getAiTitle(content);
-    trackNewTitle({ title }, newId);
-    push(`/${newId}?report=enabled`);
+    trackNewTitle({ title, reportedActive }, newId);
+    push(`/${newId}${reportedActive ? "?report=enabled" : ""}`);
   };
 
   const clearQuery = async () => {
@@ -49,11 +52,11 @@ const useChat = () => {
     return true;
   };
 
-  const append = async (message: Message) => {
+  const append = async (message: Message, reportedActive: boolean = false) => {
     if (!isPrepared()) return;
     setCurrentQuestion(message);
     appendAiChat(message);
-    goToNewConversation(message.content);
+    goToNewConversation(message.content, reportedActive);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

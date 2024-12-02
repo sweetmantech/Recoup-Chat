@@ -19,4 +19,5 @@ export type Conversation = {
   timestamp: string;
   title?: string;
   isTikTokAnalysis?: boolean;
+  reportedActive?: boolean;
 };
