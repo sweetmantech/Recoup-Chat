@@ -14,14 +14,21 @@ export async function POST(req: NextRequest) {
   try {
     const result = await streamText({
       model: openai(AI_MODEL) as LanguageModelV1,
-      system: `Context: ${JSON.stringify(body)}
-      Question: Please, create a tiktok fan segment report.
-      Instructions: ${instructions.get_segements_report}
-      ${FULL_REPORT_NOTE}
-      ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}`,
       maxTokens: 1555,
       temperature: 0.7,
-      messages: [],
+      messages: [
+        {
+          role: "user",
+          content: `Context: ${JSON.stringify(body)}
+          Question: Please, create a tiktok fan segment report.`,
+        },
+        {
+          role: "system",
+          content: `${instructions.get_segements_report}
+          ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
+          NOTE: ${FULL_REPORT_NOTE}`,
+        },
+      ],
     });
     return result.toDataStreamResponse();
   } catch (error) {
