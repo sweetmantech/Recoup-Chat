@@ -11,6 +11,7 @@ import getVideoComments from "@/lib/getVideoComments";
 import isActiveToolCallTrigger from "@/lib/isActiveToolCallTrigger";
 import getTikTokProfile from "@/lib/getTiktokProfile";
 import { Tools } from "@/types/Tool";
+import getReportNextSteps from "@/lib/getReportNextSteps";
 
 const useToolCall = (message: Message) => {
   const { finalCallback } = useChatProvider();
@@ -31,6 +32,8 @@ const useToolCall = (message: Message) => {
     setIsGettingVideos,
     isGettingVideos,
     setTiktokAnalysis,
+    setTikTokNextSteps,
+    tiktokNextSteps,
   } = useToolChat(question, toolName);
 
   useEffect(() => {
@@ -71,8 +74,11 @@ const useToolCall = (message: Message) => {
           setTiktokVideos(data);
           setIsGettingVideos(false);
         }
-        if (toolName === Tools.getSegmentsReport)
+        if (toolName === Tools.getSegmentsReport) {
+          const nextSteps = await getReportNextSteps(context?.analysis);
+          setTikTokNextSteps(nextSteps);
           setTiktokAnalysis(context?.analysis);
+        }
         setBeginCall(true);
       }
     };
@@ -91,6 +97,7 @@ const useToolCall = (message: Message) => {
     isSearchingTrends,
     isGettingVideos,
     tiktokVideos,
+    tiktokNextSteps,
   };
 };
 
