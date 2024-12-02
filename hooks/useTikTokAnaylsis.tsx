@@ -21,7 +21,7 @@ const useTikTokAnalysis = () => {
   const [segments, setSegments] = useState<Array<any>>([]);
   const { setSettingMode, saveSetting, setSelectedArtist, setArtistActive } =
     useArtistProvider();
-  const { email, isPrepared } = useUserProvider();
+  const { isPrepared } = useUserProvider();
   const { chat_id: chatId } = useParams();
   const { push } = useRouter();
 
