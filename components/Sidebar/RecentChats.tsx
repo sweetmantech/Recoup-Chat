@@ -15,7 +15,7 @@ const RecentChats = ({ toggleModal }: { toggleModal: () => void }) => {
       );
       return;
     }
-    push(`/${conversation.metadata.id}`);
+    push(`/${conversation.metadata.conversationId}`);
   };
 
   return (
