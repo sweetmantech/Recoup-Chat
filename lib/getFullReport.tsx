@@ -16,9 +16,8 @@ const getFullReport = async (context: any) => {
       if (done) {
         break;
       }
-      receivedData += new TextDecoder().decode(value); // Accumulate the received chunks
+      receivedData += new TextDecoder().decode(value);
     }
-    console.log("ZIAD", receivedData);
     return receivedData;
   } catch (error) {
     console.error(error);
