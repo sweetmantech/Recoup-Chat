@@ -1,3 +1,4 @@
+import getFullReport from "@/lib/getFullReport";
 import { useChatProvider } from "@/providers/ChatProvider";
 import { Message, useChat } from "ai/react";
 import { useParams } from "next/navigation";
@@ -13,6 +14,7 @@ const useToolChat = (question?: string, toolName?: any) => {
   const [tiktokVideos, setTiktokVideos] = useState<any>({});
   const [tiktokAnalysis, setTiktokAnalysis] = useState<any>(null);
   const [tiktokNextSteps, setTikTokNextSteps] = useState("");
+  const [tiktokReportContent, setTiktokReportContent] = useState("");
 
   const toolCallContext = {
     ...(tiktokTrends !== null && { ...tiktokTrends }),
@@ -59,6 +61,8 @@ const useToolChat = (question?: string, toolName?: any) => {
         content: question as string,
         role: "user",
       });
+      const reportContent = await getFullReport(tiktokAnalysis)
+      setTiktokReportContent(reportContent)
       setTiktokAnalysis(null);
       setTiktokTrends(null);
       setTiktokVideos({});
