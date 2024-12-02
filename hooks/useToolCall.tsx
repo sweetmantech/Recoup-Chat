@@ -34,6 +34,7 @@ const useToolCall = (message: Message) => {
     setTiktokAnalysis,
     setTikTokNextSteps,
     tiktokNextSteps,
+    tiktokReportContent
   } = useToolChat(question, toolName);
 
   useEffect(() => {
@@ -98,6 +99,7 @@ const useToolCall = (message: Message) => {
     isGettingVideos,
     tiktokVideos,
     tiktokNextSteps,
+    tiktokReportContent
   };
 };
 

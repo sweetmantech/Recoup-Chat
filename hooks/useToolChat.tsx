@@ -89,6 +89,7 @@ const useToolChat = (question?: string, toolName?: any) => {
     setTiktokAnalysis,
     setTikTokNextSteps,
     tiktokNextSteps,
+    tiktokReportContent
   };
 };
 
