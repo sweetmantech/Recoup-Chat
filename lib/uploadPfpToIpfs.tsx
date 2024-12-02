@@ -7,9 +7,7 @@ const uploadPfpToIpfs = async (image: string) => {
   const avatarBlob = new Blob([blob as any], { type });
   const fileName = "avatar.png";
   const avatarFile = new File([avatarBlob], fileName, { type });
-  const formData = new FormData();
-  formData.append("file", avatarFile);
-  const avatarCid = await uploadToIpfs(formData);
+  const avatarCid = await uploadToIpfs(avatarFile);
 
   return avatarCid;
 };
