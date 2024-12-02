@@ -18,11 +18,13 @@ const getFullReport = async (context: any) => {
       }
       receivedData += new TextDecoder().decode(value);
     }
-    return receivedData
+    const data = receivedData
       .split("0:")
-      .map((str) => str.slice(1, str.length - 2))
-      .join("")
-      .replaceAll(/\r\n/g, "");
+      .map((str) => str.slice(1, str.length - 2).replaceAll("\n", ""))
+      .join("");
+
+    const reportContent = data.replaceAll("\n", "");
+    return reportContent;
   } catch (error) {
     console.error(error);
     return "";
