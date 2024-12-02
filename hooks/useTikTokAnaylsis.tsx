@@ -11,7 +11,6 @@ import { v4 as uuidV4 } from "uuid";
 import { STEP_OF_ANALYSIS } from "@/types/Thought";
 import getSegmentsIcons from "@/lib/getSegmentsIcons";
 import uploadPfp from "@/lib/uploadPfp";
-import trackChatTitle from "@/lib/stack/trackChatTitle";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 
 const useTikTokAnalysis = () => {
