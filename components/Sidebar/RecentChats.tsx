@@ -4,7 +4,8 @@ import { Conversation } from "@/types/Stack";
 import { useRouter } from "next/navigation";
 
 const RecentChats = ({ toggleModal }: { toggleModal: () => void }) => {
-  const { conversations, streamingTitle } = useConversationsProvider();
+  const { conversations, streamingTitle, streaming } =
+    useConversationsProvider();
   const { push } = useRouter();
 
   const handleClick = (conversation: Conversation) => {
@@ -22,7 +23,18 @@ const RecentChats = ({ toggleModal }: { toggleModal: () => void }) => {
     <div>
       <p className="text-md mb-2">Recent Chats</p>
       <div className="max-h-[110px] md:max-h-[140px] overflow-y-auto space-y-2">
-        {conversations.map((conversation: Conversation, index: number) => (
+        {streamingTitle && streaming && (
+          <button className="flex gap-2 items-center" type="button">
+            <div
+              className="w-4 h-4 rounded-full"
+              style={{
+                background: `${getRandomHexColor()}`,
+              }}
+            />
+            <p className="text-sm truncate max-w-[200px]">{streamingTitle}</p>
+          </button>
+        )}
+        {conversations.map((conversation: Conversation) => (
           <button
             className="flex gap-2 items-center"
             key={conversation.metadata.id}
@@ -36,9 +48,7 @@ const RecentChats = ({ toggleModal }: { toggleModal: () => void }) => {
               }}
             />
             <p className="text-sm truncate max-w-[200px]">
-              {index === 0
-                ? streamingTitle
-                : conversation?.title || `${conversation?.metadata.content}`}
+              {conversation?.title || `${conversation?.metadata.content}`}
             </p>
           </button>
         ))}

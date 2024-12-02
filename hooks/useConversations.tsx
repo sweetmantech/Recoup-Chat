@@ -15,6 +15,7 @@ const useConversations = () => {
   const { conversation } = useParams();
   const conversationRef = useRef(conversation as string);
   const [streamingTitle, setStreamingTitle] = useState("");
+  const [streaming, setStreaming] = useState(false);
 
   useEffect(() => {
     if (address) {
@@ -22,30 +23,27 @@ const useConversations = () => {
     }
   }, [address]);
 
-  const trackNewTitle = async (title: any, conversationId: string) => {
-    await trackChatTitle(address, title, conversationId);
-    fetchConversations(address);
+  const trackNewTitle = async (titlemetadata: any, conversationId: string) => {
+    await trackChatTitle(address, titlemetadata, conversationId);
+    clearInterval(timer);
+    streamedIndex = 1;
+    timer = setInterval(() => {
+      if (streamedIndex === titlemetadata.title.length.length + 1) {
+        clearInterval(timer);
+        return;
+      }
+      setStreamingTitle(titlemetadata.title.slice(0, streamedIndex));
+      streamedIndex++;
+    }, 50);
+    setStreaming(true);
+    await fetchConversations(address);
+    setStreaming(false);
   };
 
   const fetchConversations = async (walletAddress: Address) => {
     try {
       const data = await getConversations(walletAddress);
       setConversations(data);
-      const streamedEvent = data?.[0];
-      if (!streamedEvent?.title) {
-        setStreamingTitle(streamedEvent?.metadata?.content);
-        return;
-      }
-      clearInterval(timer);
-      streamedIndex = 1;
-      timer = setInterval(() => {
-        if (streamedIndex === streamedEvent.title.length + 1) {
-          clearInterval(timer);
-          return;
-        }
-        setStreamingTitle(streamedEvent.title.slice(0, streamedIndex));
-        streamedIndex++;
-      }, 50);
     } catch (error) {
       console.error("Error fetching initial messages:", error);
       return [];
@@ -59,6 +57,7 @@ const useConversations = () => {
     conversationId: conversation,
     streamingTitle,
     trackNewTitle,
+    streaming,
   };
 };
 
