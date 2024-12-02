@@ -9,7 +9,8 @@ const getFullReport = async (context: any) => {
       },
     });
     const data = await response.json();
-    return data.content;
+    console.log("ZIAD", data);
+    return data;
   } catch (error) {
     console.error(error);
     return "";
