@@ -61,8 +61,8 @@ const useToolChat = (question?: string, toolName?: any) => {
         content: question as string,
         role: "user",
       });
-      const reportContent = await getFullReport(tiktokAnalysis)
-      setTiktokReportContent(reportContent)
+      const reportContent = await getFullReport(tiktokAnalysis);
+      setTiktokReportContent(reportContent);
       setTiktokAnalysis(null);
       setTiktokTrends(null);
       setTiktokVideos({});
@@ -89,7 +89,7 @@ const useToolChat = (question?: string, toolName?: any) => {
     setTiktokAnalysis,
     setTikTokNextSteps,
     tiktokNextSteps,
-    tiktokReportContent
+    tiktokReportContent,
   };
 };
 
