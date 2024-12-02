@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     return Response.json({ success: true, image: pfp }, { status: 200 });
   } catch (error) {
     console.error(error);
-    return Response.json({ id: null, success: false }, { status: 500 });
+    return Response.json({ image: null, success: false }, { status: 500 });
   }
 }
 

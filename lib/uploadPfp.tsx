@@ -2,7 +2,7 @@ const uploadPfp = async (image: string) => {
   try {
     const response = await fetch("/api/upload/pfp", {
       method: "POST",
-      body: JSON.stringify({ url: image }),
+      body: JSON.stringify({ image }),
       headers: {
         "Content-Type": "application/json",
       },
