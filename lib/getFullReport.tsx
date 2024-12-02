@@ -20,10 +20,16 @@ const getFullReport = async (context: any) => {
     }
     const data = receivedData
       .split("0:")
-      .map((str) => str.slice(1, str.length - 2).replaceAll("\n", ""))
+      .map((str) =>
+        str
+          .slice(1, str.length - 2)
+          .replaceAll(/\n/g, "")
+          .replaceAll(/\r?\n/g, "")
+          .trim(),
+      )
       .join("");
 
-    const reportContent = data.replaceAll("\n", "");
+    const reportContent = data.replaceAll(/\n/g, "");
     return reportContent;
   } catch (error) {
     console.error(error);
