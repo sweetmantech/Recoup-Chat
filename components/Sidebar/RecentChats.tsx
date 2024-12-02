@@ -1,10 +1,10 @@
-import useConversations from "@/hooks/useConversations";
 import { getRandomHexColor } from "@/lib/getRandomColor";
+import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { Conversation } from "@/types/Stack";
 import { useRouter } from "next/navigation";
 
 const RecentChats = ({ toggleModal }: { toggleModal: () => void }) => {
-  const { conversations } = useConversations();
+  const { conversations } = useConversationsProvider();
   const { push } = useRouter();
 
   return (

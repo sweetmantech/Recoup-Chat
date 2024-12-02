@@ -42,9 +42,14 @@ const getConversations = async (walletAddress: Address) => {
   chats.forEach((item: any) => {
     const event = item.event;
 
-    if (!aggregation[event]) {
-      aggregation[event] = item;
-    }
+    aggregation[event] = aggregation[event] || {
+      ...item,
+      title: "",
+      isTikTokAnalysis: false,
+    };
+    aggregation[event].title = item.metadata?.title ?? aggregation[event].title;
+    aggregation[event].isTikTokAnalysis =
+      item.metadata?.isTikTokAnalysis ?? aggregation[event].isTikTokAnalysis;
   });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return Object.values(aggregation) as any;

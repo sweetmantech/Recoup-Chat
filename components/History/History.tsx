@@ -1,9 +1,9 @@
-import useConversations from "@/hooks/useConversations";
 import Conversation from "./Conversation";
 import SearchInput from "./SearchInput";
+import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 
 const History = () => {
-  const { conversations } = useConversations();
+  const { conversations } = useConversationsProvider();
 
   return (
     <div className="grow h-screen overflow-hidden bg-background p-4">

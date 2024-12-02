@@ -1,17 +1,16 @@
 import { Message } from "ai/react";
 import { v4 as uuidV4 } from "uuid";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import useConversations from "./useConversations";
+import { useRouter, useSearchParams } from "next/navigation";
 import useMessages from "./useMessages";
 import { useUserProvider } from "@/providers/UserProvder";
+import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 
 const useChat = () => {
   const { login, address } = useUserProvider();
   const { push } = useRouter();
-  const { conversationId } = useConversations();
+  const { conversationId } = useConversationsProvider();
   const searchParams = useSearchParams();
   const reportEnabled = searchParams.get("report");
-  const pathname = usePathname();
 
   const {
     conversationRef,
