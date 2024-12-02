@@ -22,14 +22,13 @@ const getFullReport = async (context: any) => {
       .split("0:")
       .map((str) =>
         str
+          .toString()
           .slice(1, str.length - 2)
-          .replaceAll(/\n/g, "")
-          .replaceAll(/\r?\n/g, "")
-          .trim(),
+          .replaceAll("\\n", ""),
       )
       .join("");
 
-    const reportContent = data.replaceAll(/\n/g, "");
+    const reportContent = data.replaceAll(/\\n/g, "");
     return reportContent;
   } catch (error) {
     console.error(error);
