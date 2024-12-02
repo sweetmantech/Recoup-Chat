@@ -11,6 +11,8 @@ import { v4 as uuidV4 } from "uuid";
 import { STEP_OF_ANALYSIS } from "@/types/Thought";
 import getSegmentsIcons from "@/lib/getSegmentsIcons";
 import uploadPfp from "@/lib/uploadPfp";
+import trackChatTitle from "@/lib/stack/trackChatTitle";
+import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 
 const useTikTokAnalysis = () => {
   const [username, setUsername] = useState("");
@@ -21,9 +23,10 @@ const useTikTokAnalysis = () => {
   const [segments, setSegments] = useState<Array<any>>([]);
   const { setSettingMode, saveSetting, setSelectedArtist, setArtistActive } =
     useArtistProvider();
-  const { isPrepared } = useUserProvider();
+  const { isPrepared, address } = useUserProvider();
   const { chat_id: chatId } = useParams();
   const { push } = useRouter();
+  const { fetchConversations } = useConversationsProvider();
 
   useEffect(() => {
     const init = async () => {
@@ -57,6 +60,14 @@ const useTikTokAnalysis = () => {
       newId = uuidV4();
       push(`/funnels/tiktok-account-analysis/${newId}`);
     }
+    await trackChatTitle(
+      address,
+      {
+        title: `TikTok Analysis: ${username}`,
+      },
+      newId,
+    );
+    fetchConversations(address);
     try {
       setIsLoading(true);
       setThought(STEP_OF_ANALYSIS.PROFILE);
