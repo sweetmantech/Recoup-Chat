@@ -10,19 +10,19 @@ const trackChatTitle = async (
   address: Address,
   //   eslint-disable-next-line @typescript-eslint/no-explicit-any
   metadata: any,
-  chatId: string,
+  conversationId: string,
 ) => {
   try {
     const stackClient = getStackClient(CHAT_POINT_SYSTEM_ID);
     const uniqueId = `${address}-${Date.now()}`;
-    const eventName = `${MESSAGE_SENT_EVENT}-${chatId}`;
+    const eventName = `${MESSAGE_SENT_EVENT}-${conversationId}`;
     await stackClient.track(eventName, {
       points: MESSAGE_SENT_POINT,
       account: address,
       uniqueId,
       metadata: {
         ...metadata,
-        chatId,
+        conversationId: conversationId,
       },
     });
   } catch (error) {

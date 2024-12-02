@@ -17,4 +17,6 @@ export type Conversation = {
   };
   points: number;
   timestamp: string;
+  title?: string;
+  isTikTokAnalysis?: boolean;
 };
