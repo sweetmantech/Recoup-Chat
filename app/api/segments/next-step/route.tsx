@@ -1,7 +1,11 @@
 import { NextRequest } from "next/server";
 import OpenAI from "openai";
 import instructions from "@/evals/scripts/instructions.json";
-import { AI_MODEL, HTML_RESPONSE_FORMAT_INSTRUCTIONS } from "@/lib/consts";
+import {
+  AI_MODEL,
+  HTML_RESPONSE_FORMAT_INSTRUCTIONS,
+  REPORT_NEXT_STEP_NOTE,
+} from "@/lib/consts";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -19,7 +23,8 @@ export async function POST(req: NextRequest) {
         {
           role: "system",
           content: `${instructions.get_segments_report_next_step}
-          ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}`,
+          ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
+          NOTE: ${REPORT_NEXT_STEP_NOTE}`,
         },
       ],
     });
