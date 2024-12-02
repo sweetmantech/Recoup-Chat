@@ -13,7 +13,7 @@ const RecentChats = ({ toggleModal }: { toggleModal: () => void }) => {
       push(
         `/funnels/tiktok-account-analysis/${conversation.metadata.conversationId}`,
       );
-      return
+      return;
     }
     push(`/${conversation.metadata.id}`);
   };

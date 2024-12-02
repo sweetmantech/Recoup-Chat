@@ -23,10 +23,10 @@ const useTikTokAnalysis = () => {
   const [segments, setSegments] = useState<Array<any>>([]);
   const { setSettingMode, saveSetting, setSelectedArtist, setArtistActive } =
     useArtistProvider();
-  const { isPrepared, address } = useUserProvider();
+  const { isPrepared } = useUserProvider();
   const { chat_id: chatId } = useParams();
   const { push } = useRouter();
-  const { fetchConversations } = useConversationsProvider();
+  const { trackNewTitle } = useConversationsProvider();
 
   useEffect(() => {
     const init = async () => {
@@ -60,14 +60,12 @@ const useTikTokAnalysis = () => {
       newId = uuidV4();
       push(`/funnels/tiktok-account-analysis/${newId}`);
     }
-    await trackChatTitle(
-      address,
+    trackNewTitle(
       {
         title: `TikTok Analysis: ${username}`,
       },
       newId,
     );
-    fetchConversations(address);
     try {
       setIsLoading(true);
       setThought(STEP_OF_ANALYSIS.PROFILE);

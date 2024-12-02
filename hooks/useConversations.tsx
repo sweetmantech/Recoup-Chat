@@ -4,6 +4,7 @@ import { Conversation } from "@/types/Stack";
 import getConversations from "@/lib/stack/getConversations";
 import { useParams } from "next/navigation";
 import { useUserProvider } from "@/providers/UserProvder";
+import trackChatTitle from "@/lib/stack/trackChatTitle";
 
 let timer: any = null;
 let streamedIndex = 1;
@@ -20,6 +21,11 @@ const useConversations = () => {
       fetchConversations(address);
     }
   }, [address]);
+
+  const trackNewTitle = async (title: any, conversationId: string) => {
+    await trackChatTitle(address, title, conversationId);
+    fetchConversations(address);
+  };
 
   const fetchConversations = async (walletAddress: Address) => {
     try {
@@ -52,6 +58,7 @@ const useConversations = () => {
     conversationRef,
     conversationId: conversation,
     streamingTitle,
+    trackNewTitle,
   };
 };
 

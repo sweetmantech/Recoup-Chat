@@ -4,11 +4,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import useMessages from "./useMessages";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
+import getAiTitle from "@/lib/getAiTitle";
 
 const useChat = () => {
   const { login, address } = useUserProvider();
   const { push } = useRouter();
-  const { conversationId } = useConversationsProvider();
+  const { conversationId, trackNewTitle } = useConversationsProvider();
   const searchParams = useSearchParams();
   const reportEnabled = searchParams.get("report");
 
@@ -27,10 +28,12 @@ const useChat = () => {
     setCurrentQuestion,
   } = useMessages();
 
-  const goToNewConversation = async (name: string) => {
+  const goToNewConversation = async (content: string) => {
     if (conversationId) return;
     const newId = uuidV4();
     conversationRef.current = newId;
+    const title = await getAiTitle(content);
+    trackNewTitle({ title }, newId);
     push(`/${newId}?report=enabled`);
   };
 
