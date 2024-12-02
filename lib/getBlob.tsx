@@ -6,9 +6,9 @@ const getBlob = async (imageUrl: string) => {
       responseType: "arraybuffer",
     });
     const type = response.headers["content-type"];
-    const blob = new Blob([response.data], { type });
+    // const blob = new Blob([response.data], { type });
 
-    return { blob, type };
+    return { response, type };
   } catch (error) {
     return { error };
   }
