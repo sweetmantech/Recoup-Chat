@@ -16,9 +16,9 @@ export async function POST(req: NextRequest) {
       model: openai(AI_MODEL) as LanguageModelV1,
       system: `Context: ${JSON.stringify(body)}
       Question: Please, create a tiktok fan segment report.
-      ${instructions.get_segements_report}
-      ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
-      NOTE!!!: ${FULL_REPORT_NOTE}`,
+      Instructions: ${instructions.get_segements_report}
+      ${FULL_REPORT_NOTE}
+      ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}`,
       maxTokens: 1555,
       temperature: 0.7,
       messages: [],
