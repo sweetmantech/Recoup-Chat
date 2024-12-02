@@ -1,16 +1,18 @@
 import { useToolCallProvider } from "@/providers/ToolCallProvider";
 import Icon from "../Icon";
 import { useArtistProvider } from "@/providers/ArtistProvider";
+import useDownloadReport from "@/hooks/useDownloadReport";
 
 const ReportSummaryNote = () => {
   const { tiktokNextSteps, tiktokReportContent } = useToolCallProvider();
   const { selectedArtist } = useArtistProvider();
-
+  const { downloadReport } = useDownloadReport();
   return (
     <>
       <button
         type="button"
         className="text-purple-dark mt-6"
+        onClick={downloadReport}
       >{`[Download Full Report PDF]`}</button>
       <p className="pt-4 pb-2 text-[20px]">Next Steps</p>
       <div
@@ -25,6 +27,7 @@ const ReportSummaryNote = () => {
             className="text-black max-w-[9.5in] w-full bg-white p-[0.3in] text-[11pt] leading-normal relative box-border min-h-[11in]"
           >
             <div className="w-full aspect-[757/146] rounded-lg flex items-center justify-center overflow-hidden relative">
+              {/* eslint-disable-next-line  @next/next/no-img-element */}
               <img
                 src={selectedArtist?.image || ""}
                 alt="not found pic"
