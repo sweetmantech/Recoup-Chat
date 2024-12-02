@@ -12,6 +12,8 @@ import isActiveToolCallTrigger from "@/lib/isActiveToolCallTrigger";
 import getTikTokProfile from "@/lib/getTiktokProfile";
 import { Tools } from "@/types/Tool";
 import getReportNextSteps from "@/lib/getReportNextSteps";
+import { ArtistRecord } from "@/types/Artist";
+import { useArtistProvider } from "@/providers/ArtistProvider";
 
 const useToolCall = (message: Message) => {
   const { finalCallback } = useChatProvider();
@@ -36,6 +38,7 @@ const useToolCall = (message: Message) => {
     tiktokNextSteps,
     tiktokReportContent,
   } = useToolChat(question, toolName);
+  const { setArtistActive, setSelectedArtist, artists } = useArtistProvider();
 
   useEffect(() => {
     const init = async () => {
@@ -76,6 +79,13 @@ const useToolCall = (message: Message) => {
           setIsGettingVideos(false);
         }
         if (toolName === Tools.getSegmentsReport) {
+          const activeArtist = artists.find(
+            (artist: ArtistRecord) => artist.id === context?.analysis?.artistId,
+          );
+          if (activeArtist) {
+            setArtistActive(true);
+            setSelectedArtist(activeArtist);
+          }
           const nextSteps = await getReportNextSteps(context?.analysis);
           setTikTokNextSteps(nextSteps);
           setTiktokAnalysis(context?.analysis);
