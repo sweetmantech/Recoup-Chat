@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
       ${instructions.get_segements_report}
       ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
       NOTE: ${FULL_REPORT_NOTE}`,
-      maxTokens: 1111,
+      maxTokens: 1555,
       temperature: 0.7,
       messages: [],
     });
