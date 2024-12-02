@@ -24,6 +24,7 @@ const getFullReport = async (context: any) => {
         str
           .toString()
           .slice(1, str.length - 2)
+          .replaceAll('\\"', "")
           .replaceAll("\\n", ""),
       )
       .join("");
