@@ -8,9 +8,18 @@ const getFullReport = async (context: any) => {
         "Content-Type": "application/json",
       },
     });
-    const data = await response.json();
-    console.log("ZIAD", data);
-    return data;
+    const reader = response.body?.getReader();
+    if (!reader) return "";
+    let receivedData = "";
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) {
+        break;
+      }
+      receivedData += new TextDecoder().decode(value); // Accumulate the received chunks
+    }
+    console.log("ZIAD", receivedData);
+    return receivedData;
   } catch (error) {
     console.error(error);
     return "";
