@@ -36,7 +36,7 @@ const useChat = () => {
     const newId = uuidV4();
     conversationRef.current = newId;
     const title = await getAiTitle(content);
-    trackNewTitle({ title: title.replaceAll(`"`, ""), reportedActive }, newId);
+    trackNewTitle({ title: title.replaceAll(`\"`, ""), reportedActive }, newId);
     push(`/${newId}${reportedActive ? "?report=enabled" : ""}`);
   };
 

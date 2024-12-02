@@ -28,7 +28,7 @@ const useConversations = () => {
     clearInterval(timer);
     streamedIndex = 1;
     timer = setInterval(() => {
-      if (streamedIndex === titlemetadata.title.length.length + 1) {
+      if (streamedIndex === titlemetadata.title.length + 1) {
         clearInterval(timer);
         return;
       }
