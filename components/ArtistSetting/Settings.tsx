@@ -8,6 +8,7 @@ import Input from "../Input";
 import TextArea from "../TextArea";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { SETTING_MODE } from "@/types/Setting";
+import ImageWithFallback from "../ImageWithFallback";
 
 const Settings = () => {
   const isMobile = useIsMobile();
@@ -80,11 +81,8 @@ const Settings = () => {
             {imageUploading ? (
               <p className="text-sm">Uploading...</p>
             ) : (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <ImageWithFallback
                 src={image || "https://i.imgur.com/QCdc8Ai.jpg"}
-                className="object-cover"
-                alt="not found pic"
               />
             )}
           </div>
