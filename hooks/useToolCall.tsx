@@ -75,9 +75,9 @@ const useToolCall = (message: Message) => {
           setIsGettingVideos(false);
         }
         if (toolName === Tools.getSegmentsReport) {
+          setTiktokAnalysis(context?.analysis);
           const nextSteps = await getReportNextSteps(context?.analysis);
           setTikTokNextSteps(nextSteps);
-          setTiktokAnalysis(context?.analysis);
         }
         setBeginCall(true);
       }

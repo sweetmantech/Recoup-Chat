@@ -7,7 +7,7 @@ import Icon from "../Icon";
 import ReportSummaryNote from "./ReportSummaryNote";
 
 const Message = ({ message, index }: { message: AIMessage; index: number }) => {
-  const { context, loading } = useToolCallProvider();
+  const { context, loading, tiktokNextSteps } = useToolCallProvider();
   const { reportEnabled, pending } = useChatProvider();
 
   return (
@@ -20,9 +20,11 @@ const Message = ({ message, index }: { message: AIMessage; index: number }) => {
       <div className={`grow ${message.role === "user" && "flex justify-end"}`}>
         {context && <ToolContent />}
         <ToolFollowUp message={message} />
-        {reportEnabled && index === 0 && !pending && !loading && (
-          <ReportSummaryNote />
-        )}
+        {reportEnabled &&
+          index === 0 &&
+          !pending &&
+          !loading &&
+          tiktokNextSteps && <ReportSummaryNote />}
       </div>
     </div>
   );
