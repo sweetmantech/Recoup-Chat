@@ -9,7 +9,6 @@ export async function POST(req: NextRequest) {
       .from("tiktok_analysis")
       .insert({
         ...body,
-        timestamp: new Date().toISOString(),
       })
       .select("*")
       .single();
