@@ -32,7 +32,6 @@ const getFullReport = async (context: any) => {
       .join("");
 
     const reportContent = data.replaceAll(/\\n/g, "");
-    console.log("ZIAD ORIGIN", reportContent);
     return formatPdf(reportContent);
   } catch (error) {
     console.error(error);
