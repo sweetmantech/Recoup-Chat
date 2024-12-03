@@ -46,7 +46,7 @@ export const FULL_REPORT_NOTE = `
     **ROI Potential**
     **Content Collaboration Ideas**
     **Closing**
-  - Sub-titles should be 16px & font-bold. Don't use prefix numbers, just letters. Padding top should be 22px padding bottom should be 8px.
+  - Sub-titles should be 16px & font-bold. Don't use prefix numbers, just letters. Padding top should be 22px padding bottom should be 0px.
   - Don't include character * in response!!!.
   - <ul> should be left padding 20px for indentation.`;
 
