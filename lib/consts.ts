@@ -47,7 +47,7 @@ export const FULL_REPORT_NOTE = `
     **Content Collaboration Ideas**
     **Closing**
   - Sub-titles should be 16px & font-bold. Don't use prefix numbers, just letters. Padding top should be 18px padding bottom should be 4px.
-  - Don't include any description before **Fan Report [segment_name]**.
+  - Don'T INCLUDE any sentences before **Fan Report [segment_name]**!!!
   - Don't include character * in response!!!.
   - <ul> should be left padding 20px for indentation.`;
 
