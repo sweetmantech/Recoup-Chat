@@ -21,7 +21,7 @@ const useTikTokAnalysis = () => {
   const [segments, setSegments] = useState<Array<any>>([]);
   const { setSettingMode, saveSetting, setSelectedArtist, setArtistActive } =
     useArtistProvider();
-  const { email, isPrepared } = useUserProvider();
+  const { isPrepared } = useUserProvider();
   const { chat_id: chatId } = useParams();
   const { push } = useRouter();
 
@@ -82,27 +82,27 @@ const useTikTokAnalysis = () => {
         fanSegmentsWithIcons = await getSegmentsIcons(fanSegments);
         setSegments([...fanSegmentsWithIcons]);
       }
+      setSettingMode(SETTING_MODE.CREATE);
+      setThought(STEP_OF_ANALYSIS.CREATING_ARTIST);
+      const artistInfo = await saveSetting(
+        profileWithComments.nickname,
+        profileWithComments.avatar,
+        SETTING_MODE.CREATE,
+      );
+      setSelectedArtist({ ...artistInfo });
+      setArtistActive(true);
+
       setThought(STEP_OF_ANALYSIS.SAVING_ANALYSIS);
       const data = await saveAnalysis({
         ...profileWithComments,
         segments: [...fanSegmentsWithIcons],
         chat_id: newId,
+        artistId: artistInfo.id,
       });
       setResult({
         ...profileWithComments,
         id: data.id,
       });
-      if (email) {
-        setSettingMode(SETTING_MODE.CREATE);
-        setThought(STEP_OF_ANALYSIS.CREATING_ARTIST);
-        const artistInfo = await saveSetting(
-          profileWithComments.nickname,
-          profileWithComments.avatar,
-          SETTING_MODE.CREATE,
-        );
-        setSelectedArtist({ ...artistInfo });
-        setArtistActive(true);
-      }
       setThought(STEP_OF_ANALYSIS.FINISHED);
     } catch (error) {
       console.error("Analysis failed:", error);
