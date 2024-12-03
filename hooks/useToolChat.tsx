@@ -16,6 +16,7 @@ const useToolChat = (question?: string, toolName?: any) => {
     initReport,
     isSearchingTrends,
     setTiktokReportContent,
+    setIsGeneratingReport,
   } = useTikTokReportProvider();
 
   const toolCallContext = {
@@ -63,8 +64,10 @@ const useToolChat = (question?: string, toolName?: any) => {
         content: question as string,
         role: "user",
       });
+      setIsGeneratingReport(true);
       const reportContent = await getFullReport(tiktokAnalysis);
       setTiktokReportContent(reportContent);
+      setIsGeneratingReport(false);
       initReport();
       setBeginCall(false);
     };
