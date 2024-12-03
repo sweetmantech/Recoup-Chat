@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { v4 as uuidV4 } from "uuid";
 import { STEP_OF_ANALYSIS } from "@/types/Thought";
 import getSegmentsIcons from "@/lib/getSegmentsIcons";
+import uploadPfp from "@/lib/uploadPfp";
 
 const useTikTokAnalysis = () => {
   const [username, setUsername] = useState("");
@@ -66,8 +67,10 @@ const useTikTokAnalysis = () => {
         setThought,
         setProgress,
       );
+      const avatar = await uploadPfp(profile.avatar);
       const profileWithComments = {
         ...profile,
+        avatar,
         videos: videoComments.videos,
         total_video_comments_count: videoComments.total_video_comments_count,
       };
