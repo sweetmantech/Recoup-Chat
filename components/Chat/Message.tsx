@@ -19,7 +19,9 @@ const Message = ({ message, index }: { message: AIMessage; index: number }) => {
           <Icon name="logo-xs" />
         </div>
       )}
-      <div className={`grow ${message.role === "user" && "flex justify-end"}`}>
+      <div
+        className={`grow ${message.role === "user" && "flex justify-end"} max-w-[90%]`}
+      >
         {context && <ToolContent />}
         <ToolFollowUp message={message} />
         {reportEnabled &&
