@@ -66,6 +66,7 @@ const useToolChat = (question?: string, toolName?: any) => {
       });
       setIsGeneratingReport(true);
       const reportContent = await getFullReport(tiktokAnalysis);
+      console.log("ZIAD FULL REPORT", reportContent);
       setTiktokReportContent(reportContent);
       setIsGeneratingReport(false);
       initReport();
