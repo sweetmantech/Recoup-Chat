@@ -30,28 +30,32 @@ const ReportSummaryNote = () => {
         <div className="bg-white w-full min-h-screen fixed top-[99999999px] left-0 flex justify-center z-[99999999]">
           <div
             id="segment-report"
-            className="text-black max-w-[9.5in] w-full bg-white p-[0.3in] text-[11pt] leading-normal relative box-border min-h-[11in]"
+            className="flex flex-col text-black max-w-[9.5in] w-full bg-white p-[0.3in] text-[11pt] leading-normal relative box-border min-h-[11in]"
           >
-            <div className="w-full aspect-[757/146] rounded-lg flex items-center justify-center overflow-hidden relative mb-6">
-              {/* eslint-disable-next-line  @next/next/no-img-element */}
-              <img
-                src={selectedArtist?.image || ""}
-                alt="not found pic"
-                className="w-full"
-              />
-              <div className="absolute left-0 top-0 size-full flex items-center justify-end pr-3 gap-2">
-                <p className="text-white font-bold text-[40px]">
-                  {selectedArtist?.name}
-                </p>
-                <Icon name="logo-xl" />
-                <p className="text-white font-bold text-[40px]">Recoup</p>
+            <div className="grow w-full">
+              <div className="w-full aspect-[757/146] rounded-lg flex items-center justify-center overflow-hidden relative mb-6">
+                {/* eslint-disable-next-line  @next/next/no-img-element */}
+                <img
+                  src={selectedArtist?.image || ""}
+                  alt="not found pic"
+                  className="w-full"
+                />
+                <div className="absolute left-0 top-0 size-full flex items-center justify-end pr-3 gap-2">
+                  <p className="text-white font-bold text-[40px]">
+                    {selectedArtist?.name}
+                  </p>
+                  <div className="pt-5">
+                    <Icon name="logo-xl" />
+                  </div>
+                  <p className="text-white font-bold text-[40px]">Recoup</p>
+                </div>
               </div>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: tiktokReportContent,
+                }}
+              />
             </div>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: tiktokReportContent,
-              }}
-            />
             <div className="flex justify-center items-center py-10">
               <Icon name="logo" />
             </div>
