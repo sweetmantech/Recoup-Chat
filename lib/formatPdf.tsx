@@ -10,7 +10,8 @@ const formatPdf = (contentHTML: string) => {
     })
     .replaceAll(/<ul(.*?)>(.*?)<\/ul>/g, (_1, _2, content) => {
       return `<div>${content}</div>`;
-    });
+    })
+    .replaceAll(/<li(.*?)>/g, "<div>");
 
   return newHTML;
 };
