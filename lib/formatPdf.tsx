@@ -5,6 +5,12 @@ const formatPdf = (contentHTML: string) => {
     .replaceAll(/<li>(.*?)<\/li>/g, (_, content) => {
       return `<div style="display:flex; align-items:center; justify-content:center; gap: 4px;">${dotHTML}${content}</div>`;
     })
+    .replaceAll(
+      /<li style="list-style: inside;">(.*?)<\/li>/g,
+      (_, content) => {
+        return `<div style="display:flex; align-items:center; justify-content:center; gap: 4px;">${dotHTML}${content}</div>`;
+      },
+    )
     .replaceAll("<ul", "<div")
     .replaceAll("</ul>", "</div>");
 
