@@ -1,3 +1,5 @@
+import formatPdf from "./formatPdf";
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getFullReport = async (context: any) => {
   try {
@@ -30,7 +32,8 @@ const getFullReport = async (context: any) => {
       .join("");
 
     const reportContent = data.replaceAll(/\\n/g, "");
-    return reportContent;
+    console.log("ZIAD", reportContent);
+    return formatPdf(reportContent);
   } catch (error) {
     console.error(error);
     return "";
