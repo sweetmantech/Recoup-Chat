@@ -1,8 +1,10 @@
+import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
 import { useToolCallProvider } from "@/providers/ToolCallProvider";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const TikTokPfp = () => {
-  const { loading, answer, tiktokTrends } = useToolCallProvider();
+  const { loading, answer } = useToolCallProvider();
+  const { tiktokTrends } = useTikTokReportProvider();
 
   return (
     <div>
