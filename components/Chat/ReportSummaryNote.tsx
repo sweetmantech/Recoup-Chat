@@ -1,10 +1,11 @@
-import { useToolCallProvider } from "@/providers/ToolCallProvider";
 import Icon from "../Icon";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import useDownloadReport from "@/hooks/useDownloadReport";
+import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
 
 const ReportSummaryNote = () => {
-  const { tiktokNextSteps, tiktokReportContent } = useToolCallProvider();
+  const { tiktokNextSteps, tiktokReportContent, isGeneratingReport } =
+    useTikTokReportProvider();
   const { selectedArtist } = useArtistProvider();
   const { downloadReport } = useDownloadReport();
   return (
@@ -13,7 +14,12 @@ const ReportSummaryNote = () => {
         type="button"
         className="text-purple-dark mt-6"
         onClick={downloadReport}
-      >{`[Download Full Report PDF]`}</button>
+        disabled={isGeneratingReport}
+      >
+        {isGeneratingReport
+          ? "Generating Report..."
+          : `[Download Full Report PDF]`}
+      </button>
       <p className="pt-4 pb-2 text-[20px]">Next Steps</p>
       <div
         dangerouslySetInnerHTML={{
