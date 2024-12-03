@@ -44,7 +44,7 @@ const ReportSummaryNote = () => {
                   <p className="text-white font-bold text-[40px]">
                     {selectedArtist?.name}
                   </p>
-                  <div className="pt-5">
+                  <div className="pt-9">
                     <Icon name="logo-xl" />
                   </div>
                   <p className="text-white font-bold text-[40px]">Recoup</p>
