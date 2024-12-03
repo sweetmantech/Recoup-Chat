@@ -37,6 +37,8 @@ const useToolCall = (message: Message) => {
     setTikTokNextSteps,
     tiktokNextSteps,
     tiktokReportContent,
+    setIsGettingAnalysis,
+    isGettingAnalysis,
   } = useToolChat(question, toolName);
   const { setArtistActive, setSelectedArtist, artists } = useArtistProvider();
 
@@ -86,9 +88,11 @@ const useToolCall = (message: Message) => {
             setArtistActive(true);
             setSelectedArtist(activeArtist);
           }
+          setIsGettingAnalysis(true);
+          setTiktokAnalysis(context?.analysis);
           const nextSteps = await getReportNextSteps(context?.analysis);
           setTikTokNextSteps(nextSteps);
-          setTiktokAnalysis(context?.analysis);
+          setIsGettingAnalysis(false);
         }
         setBeginCall(true);
       }
@@ -107,6 +111,7 @@ const useToolCall = (message: Message) => {
     tiktokTrends,
     isSearchingTrends,
     isGettingVideos,
+    isGettingAnalysis,
     tiktokVideos,
     tiktokNextSteps,
     tiktokReportContent,

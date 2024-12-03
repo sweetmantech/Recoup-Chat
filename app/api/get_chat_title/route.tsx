@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
         {
           role: "user",
           content: `Provide a brief title (more formal, no more than 20 characters!!!) that reflects the key elements of the given context.
-          Highlight key words such as segment name…
+          If the question is related to a segment or contains a segment name, highlight the segment name.
           Context: ${question}`,
         },
       ],

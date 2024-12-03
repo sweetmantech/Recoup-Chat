@@ -14,9 +14,11 @@ const ToolFollowUp = ({ message }: { message: AIMessage }) => {
     context,
     isSearchingTrends,
     isGettingVideos,
+    isGettingAnalysis,
   } = useToolCallProvider();
   const content = message.content || answer;
-  const isThinking = loading || isSearchingTrends || isGettingVideos;
+  const isThinking =
+    loading || isSearchingTrends || isGettingVideos || isGettingAnalysis;
 
   useEffect(() => {
     scrollTo();
