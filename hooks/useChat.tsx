@@ -1,17 +1,17 @@
 import { Message } from "ai/react";
 import { v4 as uuidV4 } from "uuid";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import useConversations from "./useConversations";
+import { useRouter, useSearchParams } from "next/navigation";
 import useMessages from "./useMessages";
 import { useUserProvider } from "@/providers/UserProvder";
+import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
+import getAiTitle from "@/lib/getAiTitle";
 
 const useChat = () => {
   const { login, address } = useUserProvider();
   const { push } = useRouter();
-  const { conversationId } = useConversations();
+  const { conversationId, trackNewTitle } = useConversationsProvider();
   const searchParams = useSearchParams();
   const reportEnabled = searchParams.get("report");
-  const pathname = usePathname();
 
   const {
     conversationRef,
@@ -28,11 +28,16 @@ const useChat = () => {
     setCurrentQuestion,
   } = useMessages();
 
-  const goToNewConversation = async (name: string) => {
+  const goToNewConversation = async (
+    content: string,
+    reportedActive: boolean = false,
+  ) => {
     if (conversationId) return;
     const newId = uuidV4();
     conversationRef.current = newId;
-    push(`/${newId}?report=enabled`);
+    const title = await getAiTitle(content);
+    trackNewTitle({ title: title.replaceAll(`\"`, ""), reportedActive }, newId);
+    push(`/${newId}${reportedActive ? "?report=enabled" : ""}`);
   };
 
   const clearQuery = async () => {
@@ -47,11 +52,11 @@ const useChat = () => {
     return true;
   };
 
-  const append = async (message: Message) => {
+  const append = async (message: Message, reportedActive: boolean = false) => {
     if (!isPrepared()) return;
     setCurrentQuestion(message);
     appendAiChat(message);
-    goToNewConversation(message.content);
+    goToNewConversation(message.content, reportedActive);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
