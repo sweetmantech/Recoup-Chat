@@ -9,8 +9,15 @@ import useIsMobile from "@/hooks/useIsMobile";
 
 const Header = () => {
   const [isOpenMobileMenu, setIsOpenMobileMenu] = useState(false);
-  const { selectedArtist } = useArtistProvider();
+  const { selectedArtist, toggleUpdate, toggleSettingModal } =
+    useArtistProvider();
   const isMobile = useIsMobile();
+
+  const handleClickPfp = () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    toggleUpdate(selectedArtist as any);
+    toggleSettingModal();
+  };
 
   return (
     <div className="relative md:fixed md:right-0 md:top-0 w-screen md:w-fit flex p-4 md:pt-8 md:pr-8 items-center justify-between md:justify-end">
@@ -27,6 +34,7 @@ const Header = () => {
         <button
           type="button"
           className="w-8 aspect-1/1 rounded-full overflow-hidden flex items-center justify-center"
+          onClick={handleClickPfp}
         >
           <ImageWithFallback src={selectedArtist?.image || ""} />
         </button>
