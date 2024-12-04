@@ -19,10 +19,16 @@ const getFullReport = async (context: any) => {
       .replaceAll("\\n", "");
 
     const reportContent = content.replaceAll(/\\n/g, "");
-    return formatPdf(reportContent);
+    return {
+      reportContent: formatPdf(reportContent),
+      rawContent: data.content,
+    };
   } catch (error) {
     console.error(error);
-    return "";
+    return {
+      reportContent: "",
+      rawContent: "",
+    };
   }
 };
 

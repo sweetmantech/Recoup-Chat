@@ -10,6 +10,7 @@ const useTikTokReport = () => {
   const [tiktokAnalysis, setTiktokAnalysis] = useState<any>(null);
   const [tiktokNextSteps, setTiktokNextSteps] = useState("");
   const [tiktokReportContent, setTiktokReportContent] = useState("");
+  const [tiktokRawReportContent, setTiktokRawReportContent] = useState("");
 
   const initReport = () => {
     setTiktokTrends(null);
@@ -36,6 +37,8 @@ const useTikTokReport = () => {
     setIsGeneratingReport,
     isGeneratingReport,
     tiktokAnalysis,
+    setTiktokRawReportContent,
+    tiktokRawReportContent,
   };
 };
 
