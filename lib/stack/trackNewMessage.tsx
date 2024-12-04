@@ -11,6 +11,7 @@ const trackNewMessage = async (
   address: Address,
   message: StackMessage,
   conversationId: string,
+  artistId: string,
 ) => {
   try {
     const stackClient = getStackClient(CHAT_POINT_SYSTEM_ID);
@@ -23,6 +24,7 @@ const trackNewMessage = async (
       metadata: {
         ...message,
         conversationId,
+        artistId,
       },
     });
   } catch (error) {
