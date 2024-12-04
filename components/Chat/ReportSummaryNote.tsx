@@ -32,9 +32,9 @@ const ReportSummaryNote = () => {
         <div className="bg-white w-full min-h-screen fixed top-[99999999px] left-0 flex justify-center z-[99999999]">
           <div
             id="segment-report"
-            className="flex flex-col text-black max-w-[9.5in] w-full bg-white p-[0.3in] text-[11pt] leading-normal relative box-border min-h-[11in]"
+            className="flex flex-col text-black max-w-[9.5in] w-full bg-white p-[0.3in] text-[11pt] leading-normal relative box-border min-h-[22in]"
           >
-            <div className="w-full">
+            <div className="grow w-full">
               <div className="w-full aspect-[757/146] rounded-lg flex items-center justify-center overflow-hidden relative mb-6">
                 {/* eslint-disable-next-line  @next/next/no-img-element */}
                 <img
@@ -57,6 +57,9 @@ const ReportSummaryNote = () => {
                   __html: tiktokReportContent,
                 }}
               />
+            </div>
+            <div className="w-full flex justify-center">
+              <Icon name="logo-xl" />
             </div>
           </div>
         </div>
