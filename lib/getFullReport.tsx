@@ -1,37 +1,24 @@
+import { AGENT_API } from "./consts";
 import formatPdf from "./formatPdf";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getFullReport = async (context: any) => {
   try {
-    const response = await fetch(`/api/report`, {
+    const response = await fetch(`${AGENT_API}/api/get_full_report`, {
       method: "POST",
       body: JSON.stringify(context),
       headers: {
         "Content-Type": "application/json",
       },
     });
-    const reader = response.body?.getReader();
-    if (!reader) return "";
-    let receivedData = "";
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) {
-        break;
-      }
-      receivedData += new TextDecoder().decode(value);
-    }
-    const data = receivedData
-      .split("0:")
-      .map((str) =>
-        str
-          .toString()
-          .slice(1, str.length - 2)
-          .replaceAll('\\"', '"')
-          .replaceAll("\\n", ""),
-      )
-      .join("");
+    const data = await response.json();
 
-    const reportContent = data.replaceAll(/\\n/g, "");
+    const content = data
+      .toString()
+      .replaceAll('\\"', '"')
+      .replaceAll("\\n", "");
+
+    const reportContent = content.replaceAll(/\\n/g, "");
     return formatPdf(reportContent);
   } catch (error) {
     console.error(error);

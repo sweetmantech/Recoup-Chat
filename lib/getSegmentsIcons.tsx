@@ -1,4 +1,4 @@
-import { ICONS } from "./consts";
+import { AGENT_API, ICONS } from "./consts";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getSegmentsIcons = async (fanSegments: any) => {
@@ -6,7 +6,7 @@ const getSegmentsIcons = async (fanSegments: any) => {
     // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     const segments = fanSegments.map((segment: any) => Object.keys(segment)[0]);
 
-    const response = await fetch(`/api/segments/icons`, {
+    const response = await fetch(`${AGENT_API}/api/get_segments_icons`, {
       method: "POST",
       body: JSON.stringify(segments),
       headers: {

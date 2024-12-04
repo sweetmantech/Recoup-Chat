@@ -59,30 +59,36 @@ const useArtists = () => {
     setUpdating(true);
     const saveMode = mode || settingMode;
 
-    const response = await fetch("/api/artist/profile", {
-      method: "POST",
-      body: JSON.stringify({
-        name: name || artistSetting.name,
-        image: image || artistSetting.image,
-        tiktok_url: artistSetting.tiktok,
-        youtube_url: artistSetting.youtube,
-        apple_url: artistSetting.appleUrl,
-        instagram_url: artistSetting.instagram,
-        twitter_url: artistSetting.twitter,
-        spotify_url: artistSetting.spotifyUrl,
-        artistId: saveMode === SETTING_MODE.CREATE ? "" : selectedArtist?.id,
-        email,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await response.json();
-    await getArtists();
-    setUpdating(false);
-    if (settingMode === SETTING_MODE.CREATE)
-      setSettingMode(SETTING_MODE.UPDATE);
-    return data.artistInfo;
+    try {
+      const response = await fetch("/api/artist/profile", {
+        method: "POST",
+        body: JSON.stringify({
+          name: name || artistSetting.name,
+          image: image || artistSetting.image,
+          tiktok_url: artistSetting.tiktok,
+          youtube_url: artistSetting.youtube,
+          apple_url: artistSetting.appleUrl,
+          instagram_url: artistSetting.instagram,
+          twitter_url: artistSetting.twitter,
+          spotify_url: artistSetting.spotifyUrl,
+          artistId: saveMode === SETTING_MODE.CREATE ? "" : selectedArtist?.id,
+          email,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      await getArtists();
+      setUpdating(false);
+      if (settingMode === SETTING_MODE.CREATE)
+        setSettingMode(SETTING_MODE.UPDATE);
+      return data.artistInfo;
+    } catch (error) {
+      console.error(error);
+      setUpdating(false);
+      return null;
+    }
   };
 
   useEffect(() => {

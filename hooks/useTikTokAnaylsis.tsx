@@ -92,25 +92,36 @@ const useTikTokAnalysis = () => {
       }
       setSettingMode(SETTING_MODE.CREATE);
       setThought(STEP_OF_ANALYSIS.CREATING_ARTIST);
-      const artistInfo = await saveSetting(
-        profileWithComments.nickname,
-        profileWithComments.avatar,
-        SETTING_MODE.CREATE,
-      );
-      setSelectedArtist({ ...artistInfo });
-      setArtistActive(true);
-
+      let artistId = "";
+      while (1) {
+        const artistInfo = await saveSetting(
+          profileWithComments.nickname,
+          profileWithComments.avatar,
+          SETTING_MODE.CREATE,
+        );
+        if (artistInfo) {
+          setSelectedArtist({ ...artistInfo });
+          artistId = artistInfo?.id;
+          setArtistActive(true);
+          break;
+        }
+      }
       setThought(STEP_OF_ANALYSIS.SAVING_ANALYSIS);
-      const data = await saveAnalysis({
-        ...profileWithComments,
-        segments: [...fanSegmentsWithIcons],
-        chat_id: newId,
-        artistId: artistInfo.id,
-      });
-      setResult({
-        ...profileWithComments,
-        id: data.id,
-      });
+      while (1) {
+        const data = await saveAnalysis({
+          ...profileWithComments,
+          segments: [...fanSegmentsWithIcons],
+          chat_id: newId,
+          artistId,
+        });
+        if (data) {
+          setResult({
+            ...profileWithComments,
+            id: data.id,
+          });
+          break;
+        }
+      }
       setThought(STEP_OF_ANALYSIS.FINISHED);
     } catch (error) {
       console.error("Analysis failed:", error);
