@@ -34,7 +34,7 @@ const ReportSummaryNote = () => {
             id="segment-report"
             className="flex flex-col text-black max-w-[9.5in] w-full bg-white p-[0.3in] text-[11pt] leading-normal relative box-border min-h-[11in]"
           >
-            <div className="grow w-full">
+            <div className="w-full">
               <div className="w-full aspect-[757/146] rounded-lg flex items-center justify-center overflow-hidden relative mb-6">
                 {/* eslint-disable-next-line  @next/next/no-img-element */}
                 <img
@@ -57,9 +57,6 @@ const ReportSummaryNote = () => {
                   __html: tiktokReportContent,
                 }}
               />
-            </div>
-            <div className="flex justify-center items-center py-10">
-              <Icon name="logo" />
             </div>
           </div>
         </div>
