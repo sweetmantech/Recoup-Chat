@@ -23,7 +23,7 @@ const useConversations = () => {
     if (address) {
       fetchConversations(address);
     }
-  }, [address]);
+  }, [address, selectedArtist]);
 
   const trackNewTitle = async (titlemetadata: any, conversationId: string) => {
     await trackChatTitle(
@@ -50,11 +50,11 @@ const useConversations = () => {
   const fetchConversations = async (walletAddress: Address) => {
     try {
       const data = await getConversations(walletAddress);
-      if (selectedArtist?.id) {
+      if (!selectedArtist?.id) {
         setConversations(data);
         return;
       }
-      const filtered = data.map(
+      const filtered = data.filter(
         (item: any) => item.metadata.artistId === selectedArtist?.id,
       );
       setConversations(filtered);
