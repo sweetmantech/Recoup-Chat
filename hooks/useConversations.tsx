@@ -27,7 +27,7 @@ const useConversations = () => {
   }, [address]);
 
   useEffect(() => {
-    if (selectedArtist?.id) {
+    if (!selectedArtist?.id) {
       setConversations(allConverstaions);
       return;
     }
