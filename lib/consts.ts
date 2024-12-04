@@ -35,6 +35,22 @@ export const REPORT_NEXT_STEP_NOTE = `
   - Each section should top padding & bottom padding 8px.
   - **Sub-titles** for sections such as **Explore Partnership Opportunities:**, **Refine Content Ideas:**, **Behavior Trends:** should be 14px & font-bold & <span />.`;
 
+export const FULL_REPORT_NOTE = `
+  - Sub-titles
+    **Fan Report [segment_name]**
+    **Demographics**
+    **Behavior Trends**
+    **Engagement with [Brand/Artist Name]'s Content**
+    **Potential Brand Partnerships**
+    **Brand Matchmaking**
+    **ROI Potential**
+    **Content Collaboration Ideas**
+    **Closing**
+  - Sub-titles should be 16px & font-bold. Don't use prefix numbers, just letters. Padding top should be 18px padding bottom should be 4px.
+  - Don'T INCLUDE any sentences before **Fan Report [segment_name]**!!!
+  - Don't include character * in response!!!.
+  - <ul> should be left padding 20px for indentation.`;
+
 export const ICONS = [
   "AArrowDown",
   "AArrowUp",

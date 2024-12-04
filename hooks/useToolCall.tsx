@@ -12,6 +12,9 @@ import isActiveToolCallTrigger from "@/lib/isActiveToolCallTrigger";
 import getTikTokProfile from "@/lib/getTiktokProfile";
 import { Tools } from "@/types/Tool";
 import getReportNextSteps from "@/lib/getReportNextSteps";
+import { ArtistRecord } from "@/types/Artist";
+import { useArtistProvider } from "@/providers/ArtistProvider";
+import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
 
 const useToolCall = (message: Message) => {
   const { finalCallback } = useChatProvider();
@@ -19,24 +22,17 @@ const useToolCall = (message: Message) => {
   const [isCalled, setIsCalled] = useState(false);
   const { toolName, context, question } = useToolCallParams(message);
   const fans = context?.fans?.filter((fan: FAN_TYPE) => fan.name !== "Unknown");
+  const { setBeginCall, answer, loading } = useToolChat(question, toolName);
+  const { setArtistActive, setSelectedArtist, artists } = useArtistProvider();
   const {
-    setBeginCall,
-    setTiktokTrends,
     setIsSearchingTrends,
-    answer,
-    loading,
-    tiktokTrends,
-    isSearchingTrends,
-    setTiktokVideos,
-    tiktokVideos,
-    setIsGettingVideos,
-    isGettingVideos,
-    setTiktokAnalysis,
-    setTikTokNextSteps,
-    tiktokNextSteps,
+    setTiktokNextSteps,
+    setTiktokTrends,
     setIsGettingAnalysis,
-    isGettingAnalysis,
-  } = useToolChat(question, toolName);
+    setIsGettingVideos,
+    setTiktokAnalysis,
+    setTiktokVideos,
+  } = useTikTokReportProvider();
 
   useEffect(() => {
     const init = async () => {
@@ -77,10 +73,17 @@ const useToolCall = (message: Message) => {
           setIsGettingVideos(false);
         }
         if (toolName === Tools.getSegmentsReport) {
+          const activeArtist = artists.find(
+            (artist: ArtistRecord) => artist.id === context?.analysis?.artistId,
+          );
+          if (activeArtist) {
+            setArtistActive(true);
+            setSelectedArtist(activeArtist);
+          }
           setIsGettingAnalysis(true);
           setTiktokAnalysis(context?.analysis);
           const nextSteps = await getReportNextSteps(context?.analysis);
-          setTikTokNextSteps(nextSteps);
+          setTiktokNextSteps(nextSteps);
           setIsGettingAnalysis(false);
         }
         setBeginCall(true);
@@ -97,12 +100,6 @@ const useToolCall = (message: Message) => {
     question,
     context,
     fans,
-    tiktokTrends,
-    isSearchingTrends,
-    isGettingVideos,
-    isGettingAnalysis,
-    tiktokVideos,
-    tiktokNextSteps,
   };
 };
 

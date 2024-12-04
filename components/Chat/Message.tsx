@@ -5,9 +5,11 @@ import ToolFollowUp from "../Tools/ToolFollowUp";
 import { useChatProvider } from "@/providers/ChatProvider";
 import Icon from "../Icon";
 import ReportSummaryNote from "./ReportSummaryNote";
+import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
 
 const Message = ({ message, index }: { message: AIMessage; index: number }) => {
-  const { context, loading, tiktokNextSteps } = useToolCallProvider();
+  const { context, loading } = useToolCallProvider();
+  const { tiktokNextSteps } = useTikTokReportProvider();
   const { reportEnabled, pending } = useChatProvider();
 
   return (
@@ -17,7 +19,9 @@ const Message = ({ message, index }: { message: AIMessage; index: number }) => {
           <Icon name="logo-xs" />
         </div>
       )}
-      <div className={`grow ${message.role === "user" && "flex justify-end"}`}>
+      <div
+        className={`grow ${message.role === "user" && "flex justify-end"} max-w-[90%]`}
+      >
         {context && <ToolContent />}
         <ToolFollowUp message={message} />
         {reportEnabled &&

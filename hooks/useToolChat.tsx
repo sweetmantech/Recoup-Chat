@@ -1,4 +1,6 @@
+import getFullReport from "@/lib/getFullReport";
 import { useChatProvider } from "@/providers/ChatProvider";
+import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
 import { Message, useChat } from "ai/react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -7,13 +9,15 @@ import { v4 as uuidV4 } from "uuid";
 const useToolChat = (question?: string, toolName?: any) => {
   const { finalCallback, clearQuery } = useChatProvider();
   const { conversation: conversationId } = useParams();
-  const [tiktokTrends, setTiktokTrends] = useState<any>(null);
-  const [isSearchingTrends, setIsSearchingTrends] = useState(false);
-  const [isGettingVideos, setIsGettingVideos] = useState(false);
-  const [isGettingAnalysis, setIsGettingAnalysis] = useState(false);
-  const [tiktokVideos, setTiktokVideos] = useState<any>({});
-  const [tiktokAnalysis, setTiktokAnalysis] = useState<any>(null);
-  const [tiktokNextSteps, setTikTokNextSteps] = useState("");
+  const {
+    tiktokTrends,
+    tiktokVideos,
+    tiktokAnalysis,
+    initReport,
+    isSearchingTrends,
+    setTiktokReportContent,
+    setIsGeneratingReport,
+  } = useTikTokReportProvider();
 
   const toolCallContext = {
     ...(tiktokTrends !== null && { ...tiktokTrends }),
@@ -60,9 +64,11 @@ const useToolChat = (question?: string, toolName?: any) => {
         content: question as string,
         role: "user",
       });
-      setTiktokAnalysis(null);
-      setTiktokTrends(null);
-      setTiktokVideos({});
+      setIsGeneratingReport(true);
+      const reportContent = await getFullReport(tiktokAnalysis);
+      setTiktokReportContent(reportContent);
+      setIsGeneratingReport(false);
+      initReport();
       setBeginCall(false);
     };
     if (!beginCall || !question) return;
@@ -73,21 +79,8 @@ const useToolChat = (question?: string, toolName?: any) => {
     messages,
     append,
     loading: loading || isSearchingTrends,
-    isSearchingTrends,
-    setTiktokTrends,
-    setIsSearchingTrends,
     answer,
-    tiktokTrends,
     setBeginCall,
-    setIsGettingVideos,
-    isGettingVideos,
-    setTiktokVideos,
-    tiktokVideos,
-    setTiktokAnalysis,
-    setTikTokNextSteps,
-    tiktokNextSteps,
-    setIsGettingAnalysis,
-    isGettingAnalysis,
   };
 };
 

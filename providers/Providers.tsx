@@ -6,6 +6,7 @@ import PrivyProvider from "./PrivyProvider";
 import { UserProvider } from "./UserProvder";
 import { ArtistProvider } from "./ArtistProvider";
 import { ConversationsProvider } from "./ConverstaionsProvider";
+import { TikTokReportProvider } from "./TikTokReportProvider";
 
 const queryClient = new QueryClient();
 
@@ -13,11 +14,13 @@ const Providers = ({ children }: { children: React.ReactNode }) => (
   <QueryClientProvider client={queryClient}>
     <PrivyProvider>
       <UserProvider>
-        <ConversationsProvider>
-          <ArtistProvider>
-            <ChatProvider>{children}</ChatProvider>
-          </ArtistProvider>
-        </ConversationsProvider>
+        <TikTokReportProvider>
+          <ConversationsProvider>
+            <ArtistProvider>
+              <ChatProvider>{children}</ChatProvider>
+            </ArtistProvider>
+          </ConversationsProvider>
+        </TikTokReportProvider>
       </UserProvider>
     </PrivyProvider>
   </QueryClientProvider>
