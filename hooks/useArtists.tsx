@@ -102,8 +102,8 @@ const useArtists = () => {
 
   useEffect(() => {
     if (selectedArtist) {
-      artistSetting.setName(selectedArtist.name || "");
-      artistSetting.setImage(selectedArtist.image || "");
+      artistSetting.setName(selectedArtist?.name || "");
+      artistSetting.setImage(selectedArtist?.image || "");
       const socialMediaTypes = {
         TWITTER: artistSetting.setTwitter,
         YOUTUBE: artistSetting.setYoutube,
@@ -113,7 +113,7 @@ const useArtists = () => {
         TIKTOK: artistSetting.setTikTok,
       };
       Object.entries(socialMediaTypes).forEach(([type, setter]) => {
-        const link = selectedArtist.artist_social_links.find(
+        const link = selectedArtist?.artist_social_links?.find(
           (item) => item.type === type,
         )?.link;
         setter(link || "");
@@ -122,7 +122,7 @@ const useArtists = () => {
   }, [selectedArtist]);
 
   useEffect(() => {
-    if (artistCookie) {
+    if (Object.keys(artistCookie).length > 0) {
       setSelectedArtist(artistCookie as any);
       setArtistActive(true);
     }
