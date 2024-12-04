@@ -13,7 +13,7 @@ const getFullReport = async (context: any) => {
     });
     const data = await response.json();
 
-    const content = data
+    const content = data.content
       .toString()
       .replaceAll('\\"', '"')
       .replaceAll("\\n", "");
