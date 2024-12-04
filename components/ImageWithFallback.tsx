@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const ImageWithFallback = ({
   src,
@@ -12,6 +12,10 @@ const ImageWithFallback = ({
   const handleError = () => {
     setCurrentSrc("https://i.imgur.com/QCdc8Ai.jpg");
   };
+
+  useEffect(() => {
+    setCurrentSrc(src);
+  }, [src]);
 
   return (
     <div className="flex items-center justify-center">
