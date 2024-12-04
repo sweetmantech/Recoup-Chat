@@ -12,7 +12,6 @@ const useTikTokReport = () => {
   const [tiktokReportContent, setTiktokReportContent] = useState("");
 
   const initReport = () => {
-    setTiktokAnalysis(null);
     setTiktokTrends(null);
     setTiktokVideos({});
   };

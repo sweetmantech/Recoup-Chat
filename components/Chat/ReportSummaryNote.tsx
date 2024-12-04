@@ -1,12 +1,14 @@
 import Icon from "../Icon";
-import { useArtistProvider } from "@/providers/ArtistProvider";
 import useDownloadReport from "@/hooks/useDownloadReport";
 import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
 
 const ReportSummaryNote = () => {
-  const { tiktokNextSteps, tiktokReportContent, isGeneratingReport } =
-    useTikTokReportProvider();
-  const { selectedArtist } = useArtistProvider();
+  const {
+    tiktokNextSteps,
+    tiktokReportContent,
+    isGeneratingReport,
+    tiktokAnalysis,
+  } = useTikTokReportProvider();
   const { downloadReport } = useDownloadReport();
   return (
     <>
@@ -36,13 +38,13 @@ const ReportSummaryNote = () => {
               <div className="w-full aspect-[757/146] rounded-lg flex items-center justify-center overflow-hidden relative mb-6">
                 {/* eslint-disable-next-line  @next/next/no-img-element */}
                 <img
-                  src={selectedArtist?.image || ""}
+                  src={tiktokAnalysis?.avatar || ""}
                   alt="not found pic"
                   className="w-full"
                 />
                 <div className="absolute left-0 top-0 size-full flex items-center justify-end pr-3 gap-2">
                   <p className="text-white font-bold text-[40px]">
-                    {selectedArtist?.name}
+                    {tiktokAnalysis?.nickname}
                   </p>
                   <div className="pt-9">
                     <Icon name="logo-xl" />
