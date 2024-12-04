@@ -4,7 +4,7 @@ import formatPdf from "./formatPdf";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getFullReport = async (context: any) => {
   try {
-    const response = await fetch(`${AGENT_API}/api/report`, {
+    const response = await fetch(`/api/report`, {
       method: "POST",
       body: JSON.stringify(context),
       headers: {
