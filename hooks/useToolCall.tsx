@@ -34,6 +34,8 @@ const useToolCall = (message: Message) => {
     setTiktokAnalysis,
     setTikTokNextSteps,
     tiktokNextSteps,
+    setIsGettingAnalysis,
+    isGettingAnalysis,
   } = useToolChat(question, toolName);
 
   useEffect(() => {
@@ -75,9 +77,11 @@ const useToolCall = (message: Message) => {
           setIsGettingVideos(false);
         }
         if (toolName === Tools.getSegmentsReport) {
+          setIsGettingAnalysis(true);
+          setTiktokAnalysis(context?.analysis);
           const nextSteps = await getReportNextSteps(context?.analysis);
           setTikTokNextSteps(nextSteps);
-          setTiktokAnalysis(context?.analysis);
+          setIsGettingAnalysis(false);
         }
         setBeginCall(true);
       }
@@ -96,6 +100,7 @@ const useToolCall = (message: Message) => {
     tiktokTrends,
     isSearchingTrends,
     isGettingVideos,
+    isGettingAnalysis,
     tiktokVideos,
     tiktokNextSteps,
   };

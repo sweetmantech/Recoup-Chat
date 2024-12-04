@@ -10,6 +10,7 @@ const useToolChat = (question?: string, toolName?: any) => {
   const [tiktokTrends, setTiktokTrends] = useState<any>(null);
   const [isSearchingTrends, setIsSearchingTrends] = useState(false);
   const [isGettingVideos, setIsGettingVideos] = useState(false);
+  const [isGettingAnalysis, setIsGettingAnalysis] = useState(false);
   const [tiktokVideos, setTiktokVideos] = useState<any>({});
   const [tiktokAnalysis, setTiktokAnalysis] = useState<any>(null);
   const [tiktokNextSteps, setTikTokNextSteps] = useState("");
@@ -85,6 +86,8 @@ const useToolChat = (question?: string, toolName?: any) => {
     setTiktokAnalysis,
     setTikTokNextSteps,
     tiktokNextSteps,
+    setIsGettingAnalysis,
+    isGettingAnalysis,
   };
 };
 
