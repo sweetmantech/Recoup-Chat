@@ -18,12 +18,24 @@ const useConversations = () => {
   const [streamingTitle, setStreamingTitle] = useState("");
   const [streaming, setStreaming] = useState(false);
   const { selectedArtist } = useArtistProvider();
+  const [allConverstaions, setAllConverstaions] = useState<Conversation[]>([]);
 
   useEffect(() => {
     if (address) {
       fetchConversations(address);
     }
-  }, [address, selectedArtist]);
+  }, [address]);
+
+  useEffect(() => {
+    if (selectedArtist?.id) {
+      setConversations(allConverstaions);
+      return;
+    }
+    const filtered = allConverstaions.filter(
+      (item: any) => item.metadata.artistId === selectedArtist?.id,
+    );
+    setConversations(filtered);
+  }, [selectedArtist, allConverstaions]);
 
   const trackNewTitle = async (titlemetadata: any, conversationId: string) => {
     await trackChatTitle(
@@ -50,14 +62,7 @@ const useConversations = () => {
   const fetchConversations = async (walletAddress: Address) => {
     try {
       const data = await getConversations(walletAddress);
-      if (!selectedArtist?.id) {
-        setConversations(data);
-        return;
-      }
-      const filtered = data.filter(
-        (item: any) => item.metadata.artistId === selectedArtist?.id,
-      );
-      setConversations(filtered);
+      setAllConverstaions(data);
     } catch (error) {
       console.error("Error fetching initial messages:", error);
       return [];
