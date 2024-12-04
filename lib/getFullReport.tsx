@@ -10,11 +10,19 @@ const getFullReport = async (context: any) => {
         "Content-Type": "application/json",
       },
     });
-    const data = await response.json();
-
-    const content = data
+    const reader = response.body?.getReader();
+    if (!reader) return "";
+    let receivedData = "";
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) {
+        break;
+      }
+      receivedData += new TextDecoder().decode(value);
+    }
+    const data = receivedData
       .split("0:")
-      .map((str: string) =>
+      .map((str) =>
         str
           .toString()
           .slice(1, str.length - 2)
@@ -23,7 +31,7 @@ const getFullReport = async (context: any) => {
       )
       .join("");
 
-    const reportContent = content.replaceAll(/\\n/g, "");
+    const reportContent = data.replaceAll(/\\n/g, "");
     return formatPdf(reportContent);
   } catch (error) {
     console.error(error);
