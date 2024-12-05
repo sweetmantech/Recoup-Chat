@@ -19,6 +19,7 @@ const useDownloadReport = () => {
       sendReportEmail(
         tiktokRawReportContent,
         selectedArtist?.image || "",
+        selectedArtist?.name || "",
         email || "",
         streamingTitle,
       );

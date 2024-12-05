@@ -1,13 +1,18 @@
 const sendReportEmail = (
   rawContent: string,
   artistImage: string,
+  artistName: string,
   email: string,
   subject: string,
 ) => {
   const reportContent = `
-        <div style="width: 757px; height:146px; border-radius: 10px; background-image: url('${artistImage}'); background-position: center; background-size: cover; margin-bottom: 10px;"></div/>
-        <div style="width: 100%; height: 16px;"></div>${rawContent}
-      `;
+  <div style="width: 757px; height:146px; border-radius: 10px; background-image: url('${artistImage}'); background-position: center; background-size: cover; margin-bottom: 10px;">
+    <div style="display:flex; text-align:right; padding-right: 8px; color: white; font-weight:bold;">
+      <p>${artistName}</p><img src="https://i.imgur.com/hwJIKMx.png" style="width: 24px; height:27px;"/><p>Recoup</p>
+    </div>
+  </div/>
+  <div style="width: 100%; height: 16px;"></div>${rawContent}
+  `;
   const template = `<!DOCTYPE html>
       <html lang="en">
         <head>
