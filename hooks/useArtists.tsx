@@ -3,6 +3,7 @@ import { ArtistRecord } from "@/types/Artist";
 import { useCallback, useEffect, useState } from "react";
 import useArtistSetting from "./useArtistSetting";
 import { SETTING_MODE } from "@/types/Setting";
+import { useLocalStorage } from "usehooks-ts";
 
 const useArtists = () => {
   const artistSetting = useArtistSetting();
@@ -16,6 +17,7 @@ const useArtists = () => {
   const [updating, setUpdating] = useState(false);
   const [settingMode, setSettingMode] = useState(SETTING_MODE.UPDATE);
   const loading = artistSetting.imageUploading || updating;
+  const [artistCookie, setArtistCookie] = useLocalStorage("RECOUP_ARTIST", {});
 
   const toggleCreation = () => {
     artistSetting.clearParams();
@@ -31,6 +33,11 @@ const useArtists = () => {
 
   const toggleSettingModal = () => {
     setIsOpenSettingModal(!isOpenSettingModal);
+  };
+
+  const handleSelectArtist = (artist: ArtistRecord | null) => {
+    setSelectedArtist(artist);
+    if (artist) setArtistCookie(artist);
   };
 
   const getArtists = useCallback(async () => {
@@ -95,8 +102,8 @@ const useArtists = () => {
 
   useEffect(() => {
     if (selectedArtist) {
-      artistSetting.setName(selectedArtist.name || "");
-      artistSetting.setImage(selectedArtist.image || "");
+      artistSetting.setName(selectedArtist?.name || "");
+      artistSetting.setImage(selectedArtist?.image || "");
       const socialMediaTypes = {
         TWITTER: artistSetting.setTwitter,
         YOUTUBE: artistSetting.setYoutube,
@@ -106,7 +113,7 @@ const useArtists = () => {
         TIKTOK: artistSetting.setTikTok,
       };
       Object.entries(socialMediaTypes).forEach(([type, setter]) => {
-        const link = selectedArtist.artist_social_links.find(
+        const link = selectedArtist?.artist_social_links?.find(
           (item) => item.type === type,
         )?.link;
         setter(link || "");
@@ -114,11 +121,18 @@ const useArtists = () => {
     }
   }, [selectedArtist]);
 
+  useEffect(() => {
+    if (Object.keys(artistCookie).length > 0) {
+      setSelectedArtist(artistCookie as any);
+      setArtistActive(true);
+    }
+  }, [artistCookie]);
+
   return {
     artists,
     setArtists,
     selectedArtist,
-    setSelectedArtist,
+    setSelectedArtist: handleSelectArtist,
     artistActive,
     setArtistActive,
     getArtists,
