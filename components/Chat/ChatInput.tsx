@@ -6,7 +6,8 @@ import { usePathname } from "next/navigation";
 import SideSuggestions from "./SIdeSuggestions";
 
 const ChatInput: React.FC = () => {
-  const { input, handleInputChange, handleSubmit } = useChatProvider();
+  const { input, handleInputChange, handleSubmit, suggestions } =
+    useChatProvider();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const pathname = usePathname();
 
@@ -35,7 +36,7 @@ const ChatInput: React.FC = () => {
   return (
     <div className="w-full">
       <div className="w-full px-2 z-[10]">
-        {!isNewChat && (
+        {!isNewChat && suggestions.length > 2 && (
           <div className="max-w-3xl mx-auto">
             <SideSuggestions />
           </div>
