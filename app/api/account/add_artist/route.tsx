@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
 
     if (found?.length) {
       const artistIds = found[0].artistIds;
-      if (artistIds.include(artistId))
+      if (artistIds.includes(artistId))
         return Response.json({ success: true }, { status: 200 });
       await client
         .from("accounts")
