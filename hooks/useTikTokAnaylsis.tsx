@@ -40,8 +40,10 @@ const useTikTokAnalysis = () => {
       const response = await fetch(`/api/tiktok_analysis?chatId=${chatId}`);
       const data = await response.json();
       if (data?.data) {
-        await addArtist(email || "", data.data.artistId);
-        await getArtists();
+        if (email) {
+          await addArtist(email || "", data.data.artistId);
+          await getArtists();
+        }
         setResult(data.data);
         setSegments(data.data.segments);
         setIsLoading(true);
@@ -50,7 +52,7 @@ const useTikTokAnalysis = () => {
     };
     if (!chatId) return;
     init();
-  }, [chatId]);
+  }, [chatId, email]);
 
   const handleRetry = () => {
     setResult(null);
