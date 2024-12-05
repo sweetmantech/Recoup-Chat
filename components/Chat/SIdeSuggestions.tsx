@@ -20,7 +20,6 @@ const SideSuggestions = () => {
       )}
       <Slider
         className="!overflow-hidden"
-        slideClassName="!h-full"
         sliderProps={{
           initialSlide: 0,
           slidesPerView: 1.5,
@@ -41,7 +40,7 @@ const SideSuggestions = () => {
           <button
             key={suggestion}
             type="button"
-            className="min-w-[200px] h-full border border-grey py-2 px-4 rounded-xl flex gap-1 items-center justify-center text-xs transition-colors hover:bg-grey"
+            className="min-w-[200px] min-h-[66px] border border-grey py-2 px-4 rounded-xl flex gap-1 items-center justify-center text-xs transition-colors hover:bg-grey"
             onClick={() =>
               append({
                 id: uuidV4(),
