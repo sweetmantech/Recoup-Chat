@@ -36,33 +36,31 @@ const SideSuggestions = () => {
           },
         }}
       >
-        {[...suggestions, ...suggestions, ...suggestions].map(
-          (suggestion: string) => (
-            <button
-              key={suggestion}
-              type="button"
-              className="min-w-[200px] border border-grey py-2 px-4 rounded-xl flex gap-1 items-center justify-center text-xs transition-colors hover:bg-grey"
-              onClick={() =>
-                append({
-                  id: uuidV4(),
-                  role: "user",
-                  content: suggestion,
-                })
-              }
-            >
-              <div
-                className="text-center"
-                dangerouslySetInnerHTML={{
-                  __html: suggestion.replaceAll(
-                    selectedArtist?.name || "",
-                    `<span style="color:#aa7fdb;">${selectedArtist?.name || ""}</span>`,
-                  ),
-                }}
-              />
-              <ArrowUpRightIcon className="w-4 h-4 flex-shrink-0" />
-            </button>
-          ),
-        )}
+        {suggestions.map((suggestion: string) => (
+          <button
+            key={suggestion}
+            type="button"
+            className="min-w-[200px] border border-grey py-2 px-4 rounded-xl flex gap-1 items-center justify-center text-xs transition-colors hover:bg-grey"
+            onClick={() =>
+              append({
+                id: uuidV4(),
+                role: "user",
+                content: suggestion,
+              })
+            }
+          >
+            <div
+              className="text-center"
+              dangerouslySetInnerHTML={{
+                __html: suggestion.replaceAll(
+                  selectedArtist?.name || "",
+                  `<span style="color:#aa7fdb;">${selectedArtist?.name || ""}</span>`,
+                ),
+              }}
+            />
+            <ArrowUpRightIcon className="w-4 h-4 flex-shrink-0" />
+          </button>
+        ))}
       </Slider>
     </div>
   );
