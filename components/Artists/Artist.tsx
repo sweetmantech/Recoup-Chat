@@ -3,13 +3,18 @@ import { ArtistRecord } from "@/types/Artist";
 import ImageWithFallback from "../ImageWithFallback";
 
 const Artist = ({ artist }: { artist: ArtistRecord }) => {
-  const { setSelectedArtist } = useArtistProvider();
+  const { setSelectedArtist, setArtistActive } = useArtistProvider();
+
+  const handleClick = (artist: ArtistRecord) => {
+    setArtistActive(true);
+    setSelectedArtist(artist);
+  };
 
   return (
     <button
       type="button"
       className="w-[335px] h-[162px] overflow-hidden rounded-xl relative border-grey border"
-      onClick={() => setSelectedArtist(artist)}
+      onClick={() => handleClick(artist)}
     >
       <ImageWithFallback
         src={artist.image || "https://i.imgur.com/QCdc8Ai.jpg"}
