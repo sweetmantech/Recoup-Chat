@@ -8,9 +8,9 @@ const sendReportEmail = (
   const reportContent = `
   <div style="width: 757px; height:146px; border-radius: 10px; background-image: url('${artistImage}'); background-position: center; background-size: cover; margin-bottom: 10px;">
     <div style="display:flex; text-align:right; padding-right: 8px; color: white; font-weight:bold; font-size: 30px; justify-content: flex-end; padding-top: 53px;">
-      <p>${artistName}</p><img src="https://i.imgur.com/hwJIKMx.png" style="width: 24px; height:27px;"/><p>Recoup</p>
+      <p>${artistName}</p><img src="https://i.imgur.com/uAsO4Ng.png" style="width: 24px; height:27px;"/><p>Recoup</p>
     </div>
-    <div style="display:flex; text-align:right; padding-right: 8px; color: white; font-weight:bold; font-size:20px;">
+    <div style="text-align:right; padding-right: 8px; color: white; font-weight:bold; font-size:20px;">
       <p>${subject}</p>
     </div>
   </div/>
