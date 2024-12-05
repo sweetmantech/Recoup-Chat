@@ -23,7 +23,7 @@ const useToolCall = (message: Message) => {
   const { toolName, context, question } = useToolCallParams(message);
   const fans = context?.fans?.filter((fan: FAN_TYPE) => fan.name !== "Unknown");
   const { setBeginCall, answer, loading } = useToolChat(question, toolName);
-  const { setArtistActive, setSelectedArtist, artists } = useArtistProvider();
+  const { setSelectedArtist, artists } = useArtistProvider();
   const {
     setIsSearchingTrends,
     setTiktokNextSteps,
@@ -77,7 +77,6 @@ const useToolCall = (message: Message) => {
             (artist: ArtistRecord) => artist.id === context?.analysis?.artistId,
           );
           if (activeArtist) {
-            setArtistActive(true);
             setSelectedArtist(activeArtist);
           }
           setIsGettingAnalysis(true);

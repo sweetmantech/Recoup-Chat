@@ -2,11 +2,9 @@ import { useArtistProvider } from "@/providers/ArtistProvider";
 import { SETTING_MODE } from "@/types/Setting";
 
 const useSaveTiktokArtist = () => {
-  const { saveSetting, setSelectedArtist, setArtistActive } =
-    useArtistProvider();
+  const { saveSetting, setSelectedArtist } = useArtistProvider();
 
   const saveTiktokArtist = async (profileWithComments: any) => {
-    let artistId = "";
     while (1) {
       const artistInfo = await saveSetting(
         profileWithComments.nickname,
@@ -15,12 +13,9 @@ const useSaveTiktokArtist = () => {
       );
       if (artistInfo) {
         setSelectedArtist({ ...artistInfo });
-        artistId = artistInfo?.id;
-        setArtistActive(true);
-        break;
+        return artistInfo?.id;
       }
     }
-    return artistId;
   };
 
   return {

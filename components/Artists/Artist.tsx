@@ -3,10 +3,9 @@ import { ArtistRecord } from "@/types/Artist";
 import ImageWithFallback from "../ImageWithFallback";
 
 const Artist = ({ artist }: { artist: ArtistRecord }) => {
-  const { setSelectedArtist, setArtistActive } = useArtistProvider();
+  const { setSelectedArtist } = useArtistProvider();
 
   const handleClick = (artist: ArtistRecord) => {
-    setArtistActive(true);
     setSelectedArtist(artist);
   };
 
