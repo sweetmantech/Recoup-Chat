@@ -28,7 +28,7 @@ const sendReportEmail = (
           <div style="color: black; width: 100%; background-color: white; padding: 0.3in; font-size: 11pt; line-height: normal;">
             ${reportContent}
           </div>
-          <div style="display:flex; justify-content:center; padding-top:12px;">
+          <div style="display:flex; text-align: center;">
             <img src='https://i.imgur.com/hwJIKMx.png' style='width:24px; height:27px;'/>
           </div>
         </body>
