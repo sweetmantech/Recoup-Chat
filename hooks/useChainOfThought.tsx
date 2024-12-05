@@ -35,7 +35,7 @@ const useChainOfThought = () => {
       newId = uuidV4();
       push(`/funnels/tiktok-account-analysis/${newId}`);
     }
-    await trackNewTitle(
+    trackNewTitle(
       {
         title: `TikTok Analysis: ${username}`,
       },
