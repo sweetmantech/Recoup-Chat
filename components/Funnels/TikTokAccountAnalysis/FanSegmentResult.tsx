@@ -24,7 +24,7 @@ const FanSegmentResult = () => {
           ) : thought === STEP_OF_ANALYSIS.INITITAL ? (
             `I’m diving into @${artistHandle}’s account to uncover insights about their content, audience, and fan engagement.`
           ) : (
-            `Scraping @${artistHandle}’s TikTok`
+            `Scraping @${artistHandle}’s TikTok...`
           )}
         </p>
       </div>

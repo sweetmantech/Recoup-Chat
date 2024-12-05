@@ -1,23 +1,25 @@
+import getThoughtStatus from "@/lib/getThoughtStatus";
 import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
 import { STEP_OF_ANALYSIS } from "@/types/Thought";
 
 const ThoughtSteps = () => {
-  const { thought, progress } = useTikTokAnalysisProvider();
+  const { thought, progress, username } = useTikTokAnalysisProvider();
+  const artistHandle = username.replaceAll("@", "");
 
   return (
     <p className="font-bold">
       {thought === STEP_OF_ANALYSIS.PROFILE &&
-        `I'm looking at the TikTok artist profile...`}
+        `Looking at ${artistHandle}’s profile.`}
       {thought === STEP_OF_ANALYSIS.POSTURLS &&
-        `I'm looking at the TikTok videos...`}
+        `Reviewing ${artistHandle}’s top-performing videos.`}
       {thought === STEP_OF_ANALYSIS.VIDEO_COMMENTS &&
-        `I'm looking at the TikTok video comments... ${Number(progress).toFixed(0)}%`}
+        getThoughtStatus(progress)}
       {thought === STEP_OF_ANALYSIS.SEGMENTS &&
-        `I'm grouping all of the Artist's TikTok Fans into the segments…`}
+        `Grouping all of the @${username}'s TikTok Fans into the segments.`}
       {thought === STEP_OF_ANALYSIS.SAVING_ANALYSIS &&
-        `I'm saving video comments scrapped data...`}
+        `Saving video comments scrapped data.`}
       {thought === STEP_OF_ANALYSIS.CREATING_ARTIST &&
-        `I'm setting up artist mode…`}
+        `Setting up artist mode.`}
     </p>
   );
 };
