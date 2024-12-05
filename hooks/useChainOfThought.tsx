@@ -1,8 +1,6 @@
 import getFanSegments from "@/lib/getFanSegments";
-import getSegmentsIcons from "@/lib/getSegmentsIcons";
 import getTikTokProfile from "@/lib/getTiktokProfile";
 import getVideoComments from "@/lib/getVideoComments";
-import saveAnalysis from "@/lib/saveAnalysis";
 import uploadPfp from "@/lib/uploadPfp";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
@@ -27,7 +25,6 @@ const useChainOfThought = () => {
   const { trackNewTitle } = useConversationsProvider();
   const { chat_id: chatId } = useParams();
   const { push } = useRouter();
-
   const { isPrepared } = useUserProvider();
 
   const handleAnalyze = async () => {
@@ -65,14 +62,12 @@ const useChainOfThought = () => {
       let fanSegmentsWithIcons = [];
       if (videoComments.videos.length > 0) {
         setThought(STEP_OF_ANALYSIS.SEGMENTS);
-        const fanSegments = await getFanSegments(profileWithComments);
-        fanSegmentsWithIcons = await getSegmentsIcons(fanSegments);
+        fanSegmentsWithIcons = await getFanSegments(profileWithComments);
         setSegments([...fanSegmentsWithIcons]);
       }
       setSettingMode(SETTING_MODE.CREATE);
       setThought(STEP_OF_ANALYSIS.CREATING_ARTIST);
       const artistId = await saveTiktokArtist(profileWithComments);
-
       setThought(STEP_OF_ANALYSIS.SAVING_ANALYSIS);
       const result = await saveTiktokAnalysis(
         profileWithComments,
