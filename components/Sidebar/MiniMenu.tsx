@@ -13,7 +13,7 @@ const MiniMenu = ({
 }) => {
   const { push } = useRouter();
   const { isPrepared } = useUserProvider();
-  const { artistActive, selectedArtist } = useArtistProvider();
+  const { selectedArtist } = useArtistProvider();
   const goToItem = (link?: string) => {
     if (isPrepared()) push(`/${link || ""}`);
   };
@@ -50,7 +50,7 @@ const MiniMenu = ({
             <Icon name="dashboard" />
           </button>
         </Tooltip>
-        {artistActive && selectedArtist && <ArtistSetting />}
+        {selectedArtist && <ArtistSetting />}
         <Tooltip id={"agents-tooltip"} message="Agents" className="!z-[100]">
           <button
             type="button"

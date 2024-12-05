@@ -12,7 +12,7 @@ import formattedContent from "@/lib/formattedContent";
 
 const useSuggestions = () => {
   const { address } = useUserProvider();
-  const { artistActive, selectedArtist } = useArtistProvider();
+  const { selectedArtist } = useArtistProvider();
   const [suggestions, setSuggestions] = useState(SUGGESTIONS);
   const [currentQuestion, setCurrentQuestion] = useState<Message | null>(null);
   const { conversation: pathId } = useParams();
@@ -20,7 +20,7 @@ const useSuggestions = () => {
   const isNewChat = pathname === "/";
 
   useEffect(() => {
-    if (artistActive) {
+    if (selectedArtist) {
       setSuggestions([
         `Who are ${selectedArtist?.name || ""}’s most engaged fans?`,
         `Analyze ${selectedArtist?.name || ""}’s TikTok posts from this week.`,
@@ -28,7 +28,7 @@ const useSuggestions = () => {
       return;
     }
     setSuggestions(SUGGESTIONS);
-  }, [isNewChat, artistActive, selectedArtist]);
+  }, [isNewChat, selectedArtist, selectedArtist]);
 
   const finalCallback = async (
     message: Message,

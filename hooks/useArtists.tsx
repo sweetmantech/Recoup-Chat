@@ -12,7 +12,6 @@ const useArtists = () => {
   const [selectedArtist, setSelectedArtist] = useState<ArtistRecord | null>(
     null,
   );
-  const [artistActive, setArtistActive] = useState(false);
   const [isOpenSettingModal, setIsOpenSettingModal] = useState(false);
   const [updating, setUpdating] = useState(false);
   const [settingMode, setSettingMode] = useState(SETTING_MODE.UPDATE);
@@ -28,7 +27,6 @@ const useArtists = () => {
   const toggleUpdate = (artist: ArtistRecord) => {
     setSettingMode(SETTING_MODE.UPDATE);
     setSelectedArtist(artist);
-    setArtistActive(true);
   };
 
   const toggleSettingModal = () => {
@@ -130,7 +128,6 @@ const useArtists = () => {
   useEffect(() => {
     if (Object.keys(artistCookie).length > 0) {
       setSelectedArtist(artistCookie as any);
-      setArtistActive(true);
     }
   }, [artistCookie]);
 
@@ -139,8 +136,6 @@ const useArtists = () => {
     setArtists,
     selectedArtist,
     setSelectedArtist: handleSelectArtist,
-    artistActive,
-    setArtistActive,
     getArtists,
     isOpenSettingModal,
     setIsOpenSettingModal,

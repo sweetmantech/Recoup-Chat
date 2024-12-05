@@ -8,7 +8,7 @@ import { v4 as uuidV4 } from "uuid";
 const MissingArtistClient = () => {
   const [clientId, setClientId] = useState("");
   const [artistId, setArtistId] = useState("");
-  const { artistActive, selectedArtist } = useArtistProvider();
+  const { selectedArtist } = useArtistProvider();
 
   const { context } = useToolCallProvider();
   const artists = context?.artists;
@@ -23,7 +23,7 @@ const MissingArtistClient = () => {
     if (!clientId || !artistId) return;
     append({
       id: uuidV4(),
-      content: `Create a new campaign. CampaignName: ${clientId} ArtistId: ${artistActive ? selectedArtist?.id : artistId}`,
+      content: `Create a new campaign. CampaignName: ${clientId} ArtistId: ${selectedArtist?.id || artistId}`,
       role: "user",
     });
   };
@@ -34,7 +34,7 @@ const MissingArtistClient = () => {
       <section className="pt-2 flex flex-col gap-2">
         <fieldset className="flex gap-2 items-center">
           <p className="text-sm">Artist Id:</p>
-          {artistActive ? (
+          {selectedArtist ? (
             <p className="text-sm">{selectedArtist?.name}</p>
           ) : (
             <select
