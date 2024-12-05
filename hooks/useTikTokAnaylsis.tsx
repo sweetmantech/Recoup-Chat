@@ -12,6 +12,8 @@ import { STEP_OF_ANALYSIS } from "@/types/Thought";
 import getSegmentsIcons from "@/lib/getSegmentsIcons";
 import uploadPfp from "@/lib/uploadPfp";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
+import addArtist from "@/lib/addArtist";
+import getArtists from "@/lib/tools/getArtists";
 
 const useTikTokAnalysis = () => {
   const [username, setUsername] = useState("");
@@ -20,18 +22,26 @@ const useTikTokAnalysis = () => {
   const [result, setResult] = useState<any>(null);
   const [progress, setProgress] = useState(0);
   const [segments, setSegments] = useState<Array<any>>([]);
-  const { setSettingMode, saveSetting, setSelectedArtist, setArtistActive } =
-    useArtistProvider();
+  const {
+    setSettingMode,
+    saveSetting,
+    setSelectedArtist,
+    setArtistActive,
+    getArtists,
+  } = useArtistProvider();
   const { isPrepared } = useUserProvider();
   const { chat_id: chatId } = useParams();
   const { push } = useRouter();
   const { trackNewTitle } = useConversationsProvider();
+  const { email } = useUserProvider();
 
   useEffect(() => {
     const init = async () => {
       const response = await fetch(`/api/tiktok_analysis?chatId=${chatId}`);
       const data = await response.json();
       if (data?.data) {
+        await addArtist(email || "", data.data.artistId);
+        await getArtists();
         setResult(data.data);
         setSegments(data.data.segments);
         setIsLoading(true);
