@@ -15,11 +15,11 @@ const Providers = ({ children }: { children: React.ReactNode }) => (
     <PrivyProvider>
       <UserProvider>
         <TikTokReportProvider>
-          <ConversationsProvider>
-            <ArtistProvider>
+          <ArtistProvider>
+            <ConversationsProvider>
               <ChatProvider>{children}</ChatProvider>
-            </ArtistProvider>
-          </ConversationsProvider>
+            </ConversationsProvider>
+          </ArtistProvider>
         </TikTokReportProvider>
       </UserProvider>
     </PrivyProvider>

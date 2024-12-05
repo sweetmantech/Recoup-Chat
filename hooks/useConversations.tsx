@@ -5,6 +5,7 @@ import getConversations from "@/lib/stack/getConversations";
 import { useParams } from "next/navigation";
 import { useUserProvider } from "@/providers/UserProvder";
 import trackChatTitle from "@/lib/stack/trackChatTitle";
+import { useArtistProvider } from "@/providers/ArtistProvider";
 
 let timer: any = null;
 let streamedIndex = 1;
@@ -16,6 +17,8 @@ const useConversations = () => {
   const conversationRef = useRef(conversation as string);
   const [streamingTitle, setStreamingTitle] = useState("");
   const [streaming, setStreaming] = useState(false);
+  const { selectedArtist } = useArtistProvider();
+  const [allConverstaions, setAllConverstaions] = useState<Conversation[]>([]);
 
   useEffect(() => {
     if (address) {
@@ -23,8 +26,24 @@ const useConversations = () => {
     }
   }, [address]);
 
+  useEffect(() => {
+    if (!selectedArtist?.id) {
+      setConversations(allConverstaions);
+      return;
+    }
+    const filtered = allConverstaions.filter(
+      (item: any) => item.metadata.artistId === selectedArtist?.id,
+    );
+    setConversations(filtered);
+  }, [selectedArtist, allConverstaions]);
+
   const trackNewTitle = async (titlemetadata: any, conversationId: string) => {
-    await trackChatTitle(address, titlemetadata, conversationId);
+    await trackChatTitle(
+      address,
+      titlemetadata,
+      conversationId,
+      selectedArtist?.id || "",
+    );
     clearInterval(timer);
     streamedIndex = 1;
     timer = setInterval(() => {
@@ -43,7 +62,7 @@ const useConversations = () => {
   const fetchConversations = async (walletAddress: Address) => {
     try {
       const data = await getConversations(walletAddress);
-      setConversations(data);
+      setAllConverstaions(data);
     } catch (error) {
       console.error("Error fetching initial messages:", error);
       return [];

@@ -38,7 +38,12 @@ const useSuggestions = () => {
     const convId = newConversationId || (pathId as string);
     const question = lastQuestion || currentQuestion;
     if (!message.content || !question) return;
-    await trackNewMessage(address as Address, question, convId);
+    await trackNewMessage(
+      address as Address,
+      question,
+      convId,
+      selectedArtist?.id || "",
+    );
     await trackNewMessage(
       address as Address,
       {
@@ -48,6 +53,7 @@ const useSuggestions = () => {
         questionId: question.id,
       },
       convId,
+      selectedArtist?.id || "",
     );
     setCurrentQuestion(null);
     const response = await fetch(
