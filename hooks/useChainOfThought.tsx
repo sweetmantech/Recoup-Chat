@@ -47,7 +47,6 @@ const useChainOfThought = () => {
         username.replaceAll("@", ""),
         setThought,
       );
-      setThought(STEP_OF_ANALYSIS.VIDEO_COMMENTS);
       const videoComments = await getVideoComments(
         encodeURIComponent(JSON.stringify(profile?.videos)),
         setThought,
