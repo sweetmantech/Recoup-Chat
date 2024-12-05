@@ -1,7 +1,9 @@
+import { AGENT_API } from "./consts";
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getReportNextSteps = async (context: any) => {
   try {
-    const response = await fetch(`/api/segments/next-step`, {
+    const response = await fetch(`${AGENT_API}/api/get_next_steps`, {
       method: "POST",
       body: JSON.stringify(context),
       headers: {
@@ -13,7 +15,7 @@ const getReportNextSteps = async (context: any) => {
     return data.data;
   } catch (error) {
     console.error(error);
-    return [];
+    return "";
   }
 };
 

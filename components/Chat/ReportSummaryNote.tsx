@@ -58,8 +58,8 @@ const ReportSummaryNote = () => {
                 }}
               />
             </div>
-            <div className="flex justify-center items-center py-10">
-              <Icon name="logo" />
+            <div className="w-full flex justify-center">
+              <Icon name="logo-xl" />
             </div>
           </div>
         </div>
