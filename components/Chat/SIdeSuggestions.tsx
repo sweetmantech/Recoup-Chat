@@ -11,7 +11,7 @@ const SideSuggestions = () => {
   const { selectedArtist } = useArtistProvider();
 
   return (
-    <div className="relative pb-2">
+    <div className="relative py-2">
       {currentIndex !== 0 && (
         <div className="absolute left-0 top-0 size-full bg-gradient-to-r from-[#ffffffab] via-[#ffffff00] to-[#ffffff00] z-[2] pointer-events-none" />
       )}
