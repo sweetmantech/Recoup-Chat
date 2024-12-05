@@ -7,8 +7,8 @@ const sendReportEmail = (
 ) => {
   const reportContent = `
   <div style="width: 757px; height:146px; border-radius: 10px; background-image: url('${artistImage}'); background-position: center; background-size: cover; margin-bottom: 10px;">
-    <div style="display:flex; text-align:right; padding-right: 8px; color: white; font-weight:bold; font-size: 30px; justify-content: flex-end; padding-top: 53px;">
-      <p>${artistName}</p><img src="https://i.imgur.com/dNzHwTO.png" style="width: 24px; height:27px;"/><p>Recoup</p>
+    <div style="display:flex; text-align:right; padding-right: 8px; color: white; font-weight:bold; font-size: 30px; padding-top: 53px; padding-left: 462px;">
+      <p style="padding-right: 10px;">${artistName}</p><img src="https://i.imgur.com/dNzHwTO.png" style="width: 24px; height:27px;"/><p style="padding-left: 10px;">Recoup</p>
     </div>
     <div style="text-align:right; padding-right: 8px; color: white; font-weight:bold; font-size:20px;">
       <p>${subject}</p>
@@ -36,7 +36,7 @@ const sendReportEmail = (
           <div style="color: black; width: 100%; background-color: white; padding: 0.3in; font-size: 11pt; line-height: normal;">
             ${reportContent}
           </div>
-          <div style="display:flex; text-align: center;">
+          <div style="text-align: center;">
             <img src='https://i.imgur.com/hwJIKMx.png' style='width:24px; height:27px;'/>
           </div>
         </body>
