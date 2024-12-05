@@ -17,7 +17,7 @@ const useChainOfThought = () => {
   const { setSettingMode } = useArtistProvider();
   const [username, setUsername] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [thought, setThought] = useState(STEP_OF_ANALYSIS.PROFILE);
+  const [thought, setThought] = useState(STEP_OF_ANALYSIS.INITITAL);
   const [result, setResult] = useState<any>(null);
   const [progress, setProgress] = useState(0);
   const [segments, setSegments] = useState<Array<any>>([]);
@@ -43,8 +43,10 @@ const useChainOfThought = () => {
     );
     try {
       setIsLoading(true);
-      setThought(STEP_OF_ANALYSIS.PROFILE);
-      const profile = await getTikTokProfile(username.replaceAll("@", ""));
+      const profile = await getTikTokProfile(
+        username.replaceAll("@", ""),
+        setThought,
+      );
       setThought(STEP_OF_ANALYSIS.VIDEO_COMMENTS);
       const videoComments = await getVideoComments(
         encodeURIComponent(JSON.stringify(profile?.videos)),

@@ -1,6 +1,8 @@
+import { STEP_OF_ANALYSIS } from "@/types/Thought";
 import { AGENT_API } from "./consts";
 
-const getTikTokProfile = async (handle: string) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getTikTokProfile = async (handle: string, setThought: any) => {
   const response = await fetch(
     `${AGENT_API}/api/get_tiktok_account_trends?handle=${handle}`,
   );
@@ -9,6 +11,7 @@ const getTikTokProfile = async (handle: string) => {
 
   while (1) {
     await new Promise((resolve) => setTimeout(resolve, 3000));
+    setThought(STEP_OF_ANALYSIS.PROFILE);
     const datasetItemsRes = await fetch(
       `${AGENT_API}/api/get_tiktok_account_trends/get_dataset_items?datasetId=${datasetId}`,
     );
