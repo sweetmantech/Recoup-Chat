@@ -10,7 +10,7 @@ const sendReportEmail = (
     <div style="display:flex; text-align:right; padding-right: 8px; color: white; font-weight:bold; font-size: 30px; justify-content: flex-end; padding-top: 53px;">
       <p>${artistName}</p><img src="https://i.imgur.com/hwJIKMx.png" style="width: 24px; height:27px;"/><p>Recoup</p>
     </div>
-    <div style="display:flex; text-align:right; padding-right: 8px; color: white; font-weight:bold;">
+    <div style="display:flex; text-align:right; padding-right: 8px; color: white; font-weight:bold; font-size:20px;">
       <p>${subject}</p>
     </div>
   </div/>
