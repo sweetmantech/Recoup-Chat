@@ -20,6 +20,7 @@ const SideSuggestions = () => {
       )}
       <Slider
         className="!overflow-hidden"
+        slideClassName="!h-full"
         sliderProps={{
           initialSlide: 0,
           slidesPerView: 1.5,
