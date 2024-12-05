@@ -16,10 +16,13 @@ export async function GET(req: NextRequest) {
       const artistIds = found[0].artistIds;
       if (artistIds.include(artistId))
         return Response.json({ success: true }, { status: 200 });
-      await client.from("accounts").update({
-        ...found[0],
-        artistIds: [...artistIds, artistId],
-      });
+      await client
+        .from("accounts")
+        .update({
+          ...found[0],
+          artistIds: [...artistIds, artistId],
+        })
+        .eq("id", found[0].id);
       return Response.json({ success: true }, { status: 200 });
     }
     return Response.json({ message: "Not found account." }, { status: 400 });
