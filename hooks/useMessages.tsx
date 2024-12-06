@@ -17,7 +17,7 @@ const useMessages = () => {
   const queryClient = useQueryClient();
   const { email } = useUserProvider();
   const [toolCall, setToolCall] = useState<any>(null);
-  const { selectedArtist, artistActive } = useArtistProvider();
+  const { selectedArtist } = useArtistProvider();
 
   const pathname = usePathname();
   const isNewChat = pathname === "/";
@@ -37,7 +37,7 @@ const useMessages = () => {
     },
     body: {
       email,
-      artistId: artistActive ? selectedArtist?.id : "",
+      artistId: selectedArtist?.id || "",
     },
     initialMessages,
     onError: console.error,

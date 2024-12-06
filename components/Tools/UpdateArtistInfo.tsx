@@ -2,15 +2,14 @@ import { useArtistProvider } from "@/providers/ArtistProvider";
 import { ArtistRecord } from "@/types/Artist";
 
 const UpdateArtistInfo = ({ toggleModal }: { toggleModal: () => void }) => {
-  const { artists, setSelectedArtist, setArtistActive } = useArtistProvider();
+  const { artists, setSelectedArtist } = useArtistProvider();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSelectArtist = (e: any) => {
-    setArtistActive(true);
-    const currentArtist = artists.filter(
+    const currentArtist = artists.find(
       (artist: ArtistRecord) => artist.id === e.target.value,
     );
-    setSelectedArtist(currentArtist[0]);
+    if (currentArtist) setSelectedArtist(currentArtist);
   };
 
   return (
