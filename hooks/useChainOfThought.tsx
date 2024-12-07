@@ -11,7 +11,7 @@ import { useState } from "react";
 import { v4 as uuidV4 } from "uuid";
 import useSaveTiktokArtist from "./useSaveTiktokArtist";
 import saveTiktokAnalysis from "@/lib/saveTiktokAnalysis";
-import getSemgnets from "@/lib/getSegments";
+import getSegments from "@/lib/getSegments";
 
 const useChainOfThought = () => {
   const { setSettingMode } = useArtistProvider();
@@ -43,6 +43,7 @@ const useChainOfThought = () => {
     );
     try {
       setIsLoading(true);
+      await new Promise((resolve) => setTimeout(resolve, 1900));
       const profile = await getTikTokProfile(
         username.replaceAll("@", ""),
         setThought,
@@ -63,7 +64,7 @@ const useChainOfThought = () => {
       let fanSegmentsWithIcons = [];
       if (videoComments.videos.length > 0) {
         setThought(STEP_OF_ANALYSIS.SEGMENTS);
-        fanSegmentsWithIcons = await getSemgnets(profileWithComments);
+        fanSegmentsWithIcons = await getSegments(profileWithComments);
         setSegments([...fanSegmentsWithIcons]);
       }
       setSettingMode(SETTING_MODE.CREATE);
