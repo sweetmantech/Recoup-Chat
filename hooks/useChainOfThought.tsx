@@ -1,4 +1,3 @@
-import getFanSegments from "@/lib/getFanSegments";
 import getTikTokProfile from "@/lib/getTiktokProfile";
 import getVideoComments from "@/lib/getVideoComments";
 import uploadPfp from "@/lib/uploadPfp";
@@ -12,12 +11,13 @@ import { useState } from "react";
 import { v4 as uuidV4 } from "uuid";
 import useSaveTiktokArtist from "./useSaveTiktokArtist";
 import saveTiktokAnalysis from "@/lib/saveTiktokAnalysis";
+import getSegments from "@/lib/getSegments";
 
 const useChainOfThought = () => {
   const { setSettingMode } = useArtistProvider();
   const [username, setUsername] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [thought, setThought] = useState(STEP_OF_ANALYSIS.PROFILE);
+  const [thought, setThought] = useState(STEP_OF_ANALYSIS.INITITAL);
   const [result, setResult] = useState<any>(null);
   const [progress, setProgress] = useState(0);
   const [segments, setSegments] = useState<Array<any>>([]);
@@ -43,9 +43,11 @@ const useChainOfThought = () => {
     );
     try {
       setIsLoading(true);
-      setThought(STEP_OF_ANALYSIS.PROFILE);
-      const profile = await getTikTokProfile(username.replaceAll("@", ""));
-      setThought(STEP_OF_ANALYSIS.VIDEO_COMMENTS);
+      await new Promise((resolve) => setTimeout(resolve, 1900));
+      const profile = await getTikTokProfile(
+        username.replaceAll("@", ""),
+        setThought,
+      );
       const videoComments = await getVideoComments(
         encodeURIComponent(JSON.stringify(profile?.videos)),
         setThought,
@@ -62,7 +64,7 @@ const useChainOfThought = () => {
       let fanSegmentsWithIcons = [];
       if (videoComments.videos.length > 0) {
         setThought(STEP_OF_ANALYSIS.SEGMENTS);
-        fanSegmentsWithIcons = await getFanSegments(profileWithComments);
+        fanSegmentsWithIcons = await getSegments(profileWithComments);
         setSegments([...fanSegmentsWithIcons]);
       }
       setSettingMode(SETTING_MODE.CREATE);

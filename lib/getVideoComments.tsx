@@ -8,7 +8,6 @@ const getVideoComments = async (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   updateProgress?: any,
 ) => {
-  if (getStatus) getStatus(STEP_OF_ANALYSIS.POSTURLS);
   const response = await fetch(
     `${AGENT_API}/api/get_tiktok_video_comments?postURLs=${videoUrls}`,
   );
@@ -17,10 +16,11 @@ const getVideoComments = async (
   let attempts = 0;
   const maxAttempts = 30;
   let progress = 0;
-  if (getStatus) getStatus(STEP_OF_ANALYSIS.VIDEO_COMMENTS);
   while (1) {
     attempts++;
     progress = (attempts / maxAttempts) * 100;
+    if (progress < 20) getStatus(STEP_OF_ANALYSIS.POSTURLS);
+    if (progress > 20) getStatus(STEP_OF_ANALYSIS.VIDEO_COMMENTS);
     if (updateProgress && progress < 100) updateProgress(progress);
     await new Promise((resolve) => setTimeout(resolve, 3000));
     const datasetItemsRes = await fetch(
