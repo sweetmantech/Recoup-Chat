@@ -3,9 +3,11 @@ import { useChatProvider } from "@/providers/ChatProvider";
 import Suggestions from "./Suggestions";
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
+import SideSuggestions from "./SideSuggestions";
 
 const ChatInput: React.FC = () => {
-  const { input, handleInputChange, handleSubmit } = useChatProvider();
+  const { input, handleInputChange, handleSubmit, suggestions } =
+    useChatProvider();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const pathname = usePathname();
 
@@ -34,6 +36,11 @@ const ChatInput: React.FC = () => {
   return (
     <div className="w-full">
       <div className="w-full px-2 z-[10]">
+        {!isNewChat && suggestions.length > 2 && (
+          <div className="max-w-3xl mx-auto">
+            <SideSuggestions />
+          </div>
+        )}
         <div className="border-grey  border-[1px] shadow-grey rounded-md p-2 max-w-3xl mx-auto">
           <form onSubmit={handleSubmit} className="w-full">
             <textarea
