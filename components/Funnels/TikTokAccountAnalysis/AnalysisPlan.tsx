@@ -17,14 +17,14 @@ const AnalysisPlan = () => {
                 </div>
               `,
           )
-          .pauseFor(100)
+          .pauseFor(1)
           .start()
           .callFunction(() => {});
       }}
       options={{
         autoStart: true,
         loop: false,
-        delay: 30,
+        delay: 0,
       }}
     />
   );

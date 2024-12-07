@@ -43,6 +43,7 @@ const useChainOfThought = () => {
     );
     try {
       setIsLoading(true);
+      await new Promise((resolve) => setTimeout(resolve, 1900));
       const profile = await getTikTokProfile(
         username.replaceAll("@", ""),
         setThought,
