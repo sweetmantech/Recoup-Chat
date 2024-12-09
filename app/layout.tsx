@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import "react-toastify/dist/ReactToastify.css";
 import Providers from "@/providers/Providers";
 import { DESCRIPTION, TITLE } from "@/lib/consts";
 import Sidebar from "@/components/Sidebar";
@@ -8,7 +7,6 @@ import Header from "@/components/Header";
 import { Suspense } from "react";
 import { CircleHelp } from "lucide-react";
 import ArtistSettingModal from "@/components/ArtistSettingModal";
-import { ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -40,7 +38,6 @@ export default function RootLayout({
                   <CircleHelp />
                 </button>
               </div>
-              <ToastContainer />
             </div>
           </Providers>
         </Suspense>

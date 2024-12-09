@@ -3,31 +3,12 @@ import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
 import { v4 as uuidV4 } from "uuid";
 import Icon from "@/components/Icon";
 import LucideIcon from "@/components/LucideIcon";
-import StripeModal from "@/components/StripeModal";
-import { Elements } from "@stripe/react-stripe-js";
-import { usePaymentProvider } from "@/providers/PaymentProvider";
-import { useState } from "react";
 
 const Segments = () => {
   const { segments, result } = useTikTokAnalysisProvider();
   const { append } = useChatProvider();
-  const {
-    stripePromise,
-    stripeOption,
-    stripeClientSecret,
-    stripePaymentId,
-    createStripePaymentIntent,
-  } = usePaymentProvider();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [segmentName, setSegmentName] = useState("");
 
-  const payNow = async (segmentName: string) => {
-    await createStripePaymentIntent();
-    setSegmentName(segmentName);
-    setIsModalOpen(true);
-  };
-
-  const handleGenerateReport = () => {
+  const handleGenerateReport = async (segmentName: string) => {
     append(
       {
         id: uuidV4(),
@@ -45,7 +26,7 @@ const Segments = () => {
           className="w-full border-grey-light border-[1px] rounded-md px-3 py-2 flex gap-2 items-center shadow-grey"
           type="button"
           key={segment?.name}
-          onClick={() => payNow(segment?.name)}
+          onClick={() => handleGenerateReport(segment?.name)}
         >
           {segment?.icon ? (
             <LucideIcon name={segment.icon} />
@@ -59,18 +40,6 @@ const Segments = () => {
           </p>
         </button>
       ))}
-      {stripeClientSecret &&
-        isModalOpen &&
-        stripePaymentId &&
-        stripePromise && (
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          <Elements options={stripeOption as any} stripe={stripePromise}>
-            <StripeModal
-              toggleModal={() => setIsModalOpen(!isModalOpen)}
-              handleGenerateReport={handleGenerateReport}
-            />
-          </Elements>
-        )}
     </div>
   );
 };
