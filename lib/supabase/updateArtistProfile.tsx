@@ -5,6 +5,9 @@ const updateArtistProfile = async (
   email: string,
   image: string,
   name: string,
+  instruction: string,
+  label: string,
+  knowledges: string,
 ) => {
   const client = getSupabaseServerAdminClient();
 
@@ -24,6 +27,9 @@ const updateArtistProfile = async (
         ...artistData,
         image,
         name,
+        instruction,
+        knowledges,
+        label,
       })
       .eq("id", artistId)
       .select("*");
@@ -35,6 +41,9 @@ const updateArtistProfile = async (
       .insert({
         image,
         name,
+        instruction,
+        knowledges,
+        label,
         timestamp: Date.now(),
       })
       .select("*")
