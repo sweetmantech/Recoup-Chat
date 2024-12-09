@@ -1,3 +1,6 @@
-const stripeClient = require('stripe')(process.env.STRIPE_SK);
+import Stripe from "stripe";
 
-export default stripeClient
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const stripeClient = new Stripe(process.env.STRIPE_SK as string) as any;
+
+export default stripeClient;

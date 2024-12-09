@@ -1,20 +1,19 @@
+import stripeClient from "@/lib/stripe/client";
 import { NextRequest } from "next/server";
-const stripe = require('stripe')(process.env.STRIPE_SK);
 
 export async function GET(req: NextRequest) {
   const successUrl = req.nextUrl.searchParams.get("successUrl");
   const priceId = req.nextUrl.searchParams.get("priceId");
 
   try {
-    const response = await stripe.checkout.sessions.create({
-      success_url: successUrl,
-      'line_items[0][price]': priceId,
-      'line_items[0][quantity]': 1,
-      mode: 'payment'
+    const session = await stripeClient.checkout.sessions.create({
+      success_url: successUrl as string,
+      "line_items[0][price]": priceId,
+      "line_items[0][quantity]": 1,
+      mode: "payment",
     });
 
-    const data = await response.json();
-    return Response.json({ data }, { status: 200 });
+    return Response.json({ data: session }, { status: 200 });
   } catch (error) {
     console.error(error);
     const message = error instanceof Error ? error.message : "failed";

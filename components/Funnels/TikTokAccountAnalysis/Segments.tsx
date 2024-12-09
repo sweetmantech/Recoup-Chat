@@ -5,13 +5,13 @@ import { usePaymentProvider } from "@/providers/PaymentProvider";
 
 const Segments = () => {
   const { segments, username, result } = useTikTokAnalysisProvider();
-  console.log("ZIAD", result)
-  const {
-    createCheckoutSession,
-  } = usePaymentProvider();
+  const { createCheckoutSession } = usePaymentProvider();
 
   const payNow = async (segmentName: string) => {
-    await createCheckoutSession(`${result?.name || username}'s fan segment report: ${segmentName}`, window.location.href);
+    await createCheckoutSession(
+      `${result?.name || username}'s fan segment report: ${segmentName}`,
+      window.location.href,
+    );
   };
 
   return (

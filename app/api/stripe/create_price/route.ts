@@ -4,21 +4,14 @@ import { NextRequest } from "next/server";
 export async function GET(req: NextRequest) {
   const productName = req.nextUrl.searchParams.get("productName");
 
-  console.log("ZIAD", productName)
-
   try {
     const price = await stripeClient.prices.create({
-      currency: 'usd',
-      unit_amount: 1000,
-      recurring: {
-        interval: 'month',
-      },
+      currency: "usd",
+      unit_amount: 99,
       product_data: {
         name: productName,
       },
     });
-
-    console.log("ZIAD", price)
 
     return Response.json({ data: price }, { status: 200 });
   } catch (error) {

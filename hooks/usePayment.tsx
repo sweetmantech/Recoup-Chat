@@ -6,23 +6,25 @@ import { createSession } from "@/lib/stripe/createSession";
 const usePayment = () => {
   const [loading, setLoading] = useState(false);
 
-  const createCheckoutSession = async (productName: string, successUrl: string) => {
+  const createCheckoutSession = async (
+    productName: string,
+    successUrl: string,
+  ) => {
     const priceResponse = await createPrice(productName);
 
-    console.log("ZIAD", priceResponse)
     if (priceResponse.error) {
       toast.error("price creation is failed.");
       return false;
     }
-    
-    const sessionResponse = await createSession(successUrl, priceResponse.id)
-    console.log("ZIAD", sessionResponse)
+
+    const sessionResponse = await createSession(successUrl, priceResponse.id);
+    window.open(sessionResponse.url, "_self");
   };
 
   return {
     loading,
     setLoading,
-    createCheckoutSession
+    createCheckoutSession,
   };
 };
 
