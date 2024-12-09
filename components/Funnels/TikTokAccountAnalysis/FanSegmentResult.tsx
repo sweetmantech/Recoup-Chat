@@ -7,9 +7,9 @@ import Icon from "@/components/Icon";
 import { useRouter } from "next/navigation";
 
 const FanSegmentResult = () => {
-  const { thought, username } = useTikTokAnalysisProvider();
+  const { thought, username, setIsLoading } = useTikTokAnalysisProvider();
   const artistHandle = username.replaceAll("@", "");
-  const { push } = useRouter()
+  const { push } = useRouter();
 
   return (
     <>
@@ -38,7 +38,10 @@ const FanSegmentResult = () => {
               to upgrade your account or{" "}
               <a
                 className="underline text-purple-dark cursor-pointer"
-                onClick={() => push("funnels/tiktok-account-analysis/")}
+                onClick={() => {
+                  setIsLoading(false);
+                  push("/funnels/tiktok-account-analysis/");
+                }}
               >
                 try again
               </a>{" "}
