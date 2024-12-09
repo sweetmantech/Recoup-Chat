@@ -26,3 +26,7 @@ body {
     text-wrap: balance;
   }
 }
+
+.no_typecursor .Typewriter__cursor {
+  display: none;
+}
