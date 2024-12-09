@@ -8,7 +8,7 @@ const ThoughtSteps = () => {
   const artistHandle = username.replaceAll("@", "");
 
   return (
-    <p className="font-bold">
+    <div className="font-bold">
       {thought === STEP_OF_ANALYSIS.PROFILE && (
         <StreamingThought text={`Looking at ${artistHandle}’s profile.`} />
       )}
@@ -31,7 +31,7 @@ const ThoughtSteps = () => {
       {thought === STEP_OF_ANALYSIS.CREATING_ARTIST && (
         <StreamingThought text={`Setting up artist mode.`} />
       )}
-    </p>
+    </div>
   );
 };
 
