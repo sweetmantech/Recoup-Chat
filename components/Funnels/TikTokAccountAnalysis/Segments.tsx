@@ -59,15 +59,18 @@ const Segments = () => {
           </p>
         </button>
       ))}
-      {stripeClientSecret && isModalOpen && stripePaymentId && (
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        <Elements options={stripeOption as any} stripe={stripePromise}>
-          <StripeModal
-            toggleModal={() => setIsModalOpen(!isModalOpen)}
-            handleGenerateReport={handleGenerateReport}
-          />
-        </Elements>
-      )}
+      {stripeClientSecret &&
+        isModalOpen &&
+        stripePaymentId &&
+        stripePromise && (
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          <Elements options={stripeOption as any} stripe={stripePromise}>
+            <StripeModal
+              toggleModal={() => setIsModalOpen(!isModalOpen)}
+              handleGenerateReport={handleGenerateReport}
+            />
+          </Elements>
+        )}
     </div>
   );
 };
