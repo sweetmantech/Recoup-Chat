@@ -21,10 +21,20 @@ const useArtistSetting = () => {
   const [instagram, setInstagram] = useState("");
   const [youtube, setYoutube] = useState("");
   const [twitter, setTwitter] = useState("");
-  const [bases, setBases] = useState("");
+  const [bases, setBases] = useState<any>([]);
   const [imageUploading, setImageUploading] = useState(false);
+  const [knowledgeUploading, setKnowledgeUploading] = useState(false);
   const [question, setQuestion] = useState("");
 
+  const handleDeleteKnowledge = (index: number) => {
+    let temp = [...bases];
+    if (temp.length === 1) {
+      setBases([]);
+      return;
+    }
+    temp = temp.splice(index, 1);
+    setBases([...temp]);
+  };
   const handleImageSelected = async (e: any) => {
     setImageUploading(true);
     const file = e.target.files[0];
@@ -37,6 +47,24 @@ const useArtistSetting = () => {
       setImage(getIpfsLink(uri));
     }
     setImageUploading(false);
+  };
+
+  const handleKnowledgesSelected = async (e: any) => {
+    setKnowledgeUploading(true);
+    const files = e.target.files;
+    const temp = [];
+    for (const file of files) {
+      const name = file.name;
+      const type = file.type;
+      const { uri } = await uploadFile(file);
+      temp.push({
+        name,
+        url: getIpfsLink(uri),
+        type,
+      });
+    }
+    setBases(temp);
+    setKnowledgeUploading(false);
   };
 
   const updateCallback = (artistInfo: ArtistRecord) => {
@@ -62,11 +90,12 @@ const useArtistSetting = () => {
     setTikTok("");
     setYoutube("");
     setTwitter("");
-    setBases("");
+    setBases([]);
   };
 
   return {
     handleImageSelected,
+    handleKnowledgesSelected,
     image,
     setImage,
     instruction,
@@ -96,6 +125,8 @@ const useArtistSetting = () => {
     setQuestion,
     updateCallback,
     clearParams,
+    knowledgeUploading,
+    handleDeleteKnowledge,
   };
 };
 
