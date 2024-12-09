@@ -9,6 +9,7 @@ const useSaveTiktokArtist = () => {
       const artistInfo = await saveSetting(
         profileWithComments.nickname,
         profileWithComments.avatar,
+        `https://tiktok.com/@${profileWithComments.name}`,
         SETTING_MODE.CREATE,
       );
       if (artistInfo) {

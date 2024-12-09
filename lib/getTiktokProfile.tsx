@@ -6,6 +6,7 @@ const getTikTokProfile = async (handle: string, setThought?: any) => {
   const response = await fetch(
     `${AGENT_API}/api/get_tiktok_account_trends?handle=${handle}`,
   );
+  if (!response.ok) throw Error("failed!");
   const data = await response.json();
   const datasetId = data.data;
 
@@ -15,6 +16,7 @@ const getTikTokProfile = async (handle: string, setThought?: any) => {
     const datasetItemsRes = await fetch(
       `${AGENT_API}/api/get_tiktok_account_trends/get_dataset_items?datasetId=${datasetId}`,
     );
+    if (!datasetItemsRes.ok) throw Error("failed!");
     const datasetItems = await datasetItemsRes.json();
     const profileInfo = datasetItems.data;
     const statusRes = await fetch(
