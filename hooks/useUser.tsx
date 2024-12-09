@@ -37,7 +37,7 @@ const useUser = () => {
       }
 
       const data = await response.json();
-      setUserData(data);
+      setUserData(data.data);
     };
     if (!email) return;
     init();

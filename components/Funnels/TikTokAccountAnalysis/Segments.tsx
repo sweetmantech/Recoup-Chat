@@ -7,6 +7,9 @@ import StripeModal from "@/components/StripeModal";
 import { Elements } from "@stripe/react-stripe-js";
 import { usePaymentProvider } from "@/providers/PaymentProvider";
 import { useState } from "react";
+import getCredits from "@/lib/supabase/getCredits";
+import { useUserProvider } from "@/providers/UserProvder";
+import decreaseCredits from "@/lib/supabase/decreaseCredits";
 
 const Segments = () => {
   const { segments, result } = useTikTokAnalysisProvider();
@@ -20,11 +23,19 @@ const Segments = () => {
   } = usePaymentProvider();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [segmentName, setSegmentName] = useState("");
+  const { userData, isPrepared } = useUserProvider();
 
   const payNow = async (segmentName: string) => {
-    await createStripePaymentIntent();
-    setSegmentName(segmentName);
-    setIsModalOpen(true);
+    if (!isPrepared()) return;
+    const credits = await getCredits(userData?.id);
+    if (!credits?.remaining_credits) {
+      await createStripePaymentIntent();
+      setSegmentName(segmentName);
+      setIsModalOpen(true);
+      return;
+    }
+    await decreaseCredits(userData?.id);
+    handleGenerateReport();
   };
 
   const handleGenerateReport = () => {
