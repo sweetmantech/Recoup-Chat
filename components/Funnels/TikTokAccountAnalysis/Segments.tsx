@@ -26,6 +26,17 @@ const Segments = () => {
     setSegmentName(segmentName);
   };
 
+  const handleGenerateReport = () => {
+    append(
+      {
+        id: uuidV4(),
+        role: "user",
+        content: `Please create a tiktok fan segment report for ${result.id} using this segment ${segmentName}.`,
+      },
+      true,
+    );
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 pt-4 gap-3">
       {segments.map((segment) => (
@@ -52,16 +63,7 @@ const Segments = () => {
         <Elements options={stripeOption as any} stripe={stripePromise}>
           <StripeModal
             toggleModal={() => setIsModalOpen(!isModalOpen)}
-            handleGenerateReport={() => {
-              append(
-                {
-                  id: uuidV4(),
-                  role: "user",
-                  content: `Please create a tiktok fan segment report for ${result.id} using this segment ${segmentName}.`,
-                },
-                true,
-              );
-            }}
+            handleGenerateReport={handleGenerateReport}
           />
         </Elements>
       )}
