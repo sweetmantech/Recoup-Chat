@@ -7,6 +7,7 @@ import { UserProvider } from "./UserProvder";
 import { ArtistProvider } from "./ArtistProvider";
 import { ConversationsProvider } from "./ConverstaionsProvider";
 import { TikTokReportProvider } from "./TikTokReportProvider";
+import { PaymentProvider } from "./PaymentProvider";
 
 const queryClient = new QueryClient();
 
@@ -17,7 +18,9 @@ const Providers = ({ children }: { children: React.ReactNode }) => (
         <TikTokReportProvider>
           <ArtistProvider>
             <ConversationsProvider>
-              <ChatProvider>{children}</ChatProvider>
+              <ChatProvider>
+                <PaymentProvider>{children}</PaymentProvider>
+              </ChatProvider>
             </ConversationsProvider>
           </ArtistProvider>
         </TikTokReportProvider>
