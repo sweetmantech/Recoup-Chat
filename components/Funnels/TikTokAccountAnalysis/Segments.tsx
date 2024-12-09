@@ -1,21 +1,16 @@
-import { useChatProvider } from "@/providers/ChatProvider";
 import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
-import { v4 as uuidV4 } from "uuid";
 import Icon from "@/components/Icon";
 import LucideIcon from "@/components/LucideIcon";
+import { usePaymentProvider } from "@/providers/PaymentProvider";
 
 const Segments = () => {
-  const { segments, result } = useTikTokAnalysisProvider();
-  const { append } = useChatProvider();
+  const { segments, username, result } = useTikTokAnalysisProvider();
+  const { createCheckoutSession } = usePaymentProvider();
 
-  const handleGenerateReport = async (segmentName: string) => {
-    append(
-      {
-        id: uuidV4(),
-        role: "user",
-        content: `Please create a tiktok fan segment report for ${result.id} using this segment ${segmentName}.`,
-      },
-      true,
+  const payNow = async (segmentName: string) => {
+    await createCheckoutSession(
+      `${result?.name || username}'s fan segment report: ${segmentName}`,
+      window.location.href,
     );
   };
 
@@ -26,7 +21,7 @@ const Segments = () => {
           className="w-full border-grey-light border-[1px] rounded-md px-3 py-2 flex gap-2 items-center shadow-grey"
           type="button"
           key={segment?.name}
-          onClick={() => handleGenerateReport(segment?.name)}
+          onClick={() => payNow(segment?.name)}
         >
           {segment?.icon ? (
             <LucideIcon name={segment.icon} />
