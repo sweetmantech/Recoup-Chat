@@ -15,10 +15,21 @@ export async function POST(req: NextRequest) {
   const instagram_url = body.instagram_url;
   const twitter_url = body.twitter_url;
   const spotify_url = body.spotify_url;
+  const label = body.label;
+  const instruction = body.instruction;
+  const knowledges = body.knowledges;
 
   try {
     const client = getSupabaseServerAdminClient();
-    const id = await updateArtistProfile(artistId, email, image, name);
+    const id = await updateArtistProfile(
+      artistId,
+      email,
+      image,
+      name,
+      instruction,
+      label,
+      knowledges,
+    );
 
     await updateArtistSocials(
       id,

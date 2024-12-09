@@ -9,6 +9,9 @@ export type Artist = {
 
 export type ArtistRecord = {
   name: string;
+  instruction: string;
+  label: string;
+  knowledges: Array<any>;
   id: string;
   timestamp: number;
   image: string | null;

@@ -69,6 +69,9 @@ const useArtists = () => {
           instagram_url: artistSetting.instagram,
           twitter_url: artistSetting.twitter,
           spotify_url: artistSetting.spotifyUrl,
+          instruction: artistSetting.instruction,
+          label: artistSetting.label,
+          knowledges: artistSetting.bases,
           artistId: saveMode === SETTING_MODE.CREATE ? "" : selectedArtist?.id,
           email,
         }),
@@ -108,6 +111,9 @@ const useArtists = () => {
     if (selectedArtist) {
       artistSetting.setName(selectedArtist?.name || "");
       artistSetting.setImage(selectedArtist?.image || "");
+      artistSetting.setLabel(selectedArtist?.label || "");
+      artistSetting.setInstruction(selectedArtist?.instruction || "");
+      artistSetting.setBases(selectedArtist?.knowledges || "");
       const socialMediaTypes = {
         TWITTER: artistSetting.setTwitter,
         YOUTUBE: artistSetting.setYoutube,
