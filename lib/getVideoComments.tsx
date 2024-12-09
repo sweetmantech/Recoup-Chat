@@ -11,6 +11,7 @@ const getVideoComments = async (
   const response = await fetch(
     `${AGENT_API}/api/get_tiktok_video_comments?postURLs=${videoUrls}`,
   );
+  if (!response.ok) throw Error("failed!");
   const data = await response.json();
   const datasetId = data.data;
   let attempts = 0;
@@ -26,6 +27,7 @@ const getVideoComments = async (
     const datasetItemsRes = await fetch(
       `${AGENT_API}/api/get_tiktok_video_comments/get_dataset_items?datasetId=${datasetId}`,
     );
+    if (!datasetItemsRes.ok) throw Error("failed!");
     const datasetItems = await datasetItemsRes.json();
     const commentsInfo = datasetItems.data;
     const statusRes = await fetch(
