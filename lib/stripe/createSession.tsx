@@ -1,5 +1,3 @@
-import handleError from "../handleError";
-
 export const createSession = async (successUrl: string, priceId: string) => {
   try {
     const response = await fetch(
@@ -15,7 +13,6 @@ export const createSession = async (successUrl: string, priceId: string) => {
     const data = await response.json();
     return data.data;
   } catch (error) {
-    handleError(error);
     return { error };
   }
 };

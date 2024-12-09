@@ -1,5 +1,3 @@
-import handleError from "../handleError";
-
 export const createPrice = async (productName: string) => {
   try {
     const response = await fetch(
@@ -9,7 +7,6 @@ export const createPrice = async (productName: string) => {
     const data = await response.json();
     return data.data;
   } catch (error) {
-    handleError(error);
     return { error };
   }
 };
