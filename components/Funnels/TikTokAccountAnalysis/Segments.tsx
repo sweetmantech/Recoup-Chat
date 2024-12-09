@@ -76,10 +76,7 @@ const Segments = () => {
         stripePromise && (
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           <Elements options={stripeOption as any} stripe={stripePromise}>
-            <StripeModal
-              toggleModal={() => setIsModalOpen(!isModalOpen)}
-              handleGenerateReport={handleGenerateReport}
-            />
+            <StripeModal toggleModal={() => setIsModalOpen(!isModalOpen)} />
           </Elements>
         )}
     </div>

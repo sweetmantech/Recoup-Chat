@@ -6,21 +6,22 @@ import {
 } from "@stripe/react-stripe-js";
 import handleError from "@/lib/handleError";
 import { useParams } from "next/navigation";
+import increaseCredits from "@/lib/supabase/increaseCredits";
+import { useUserProvider } from "@/providers/UserProvder";
+import { usePaymentProvider } from "@/providers/PaymentProvider";
+import { toast } from "react-toastify";
 
-const StripeModal = ({
-  toggleModal,
-  handleGenerateReport,
-}: {
-  toggleModal: () => void;
-  handleGenerateReport: () => void;
-}) => {
+const StripeModal = ({ toggleModal }: { toggleModal: () => void }) => {
   const stripe = useStripe();
   const elements = useElements();
   const { chat_id: chatId } = useParams();
+  const { userData } = useUserProvider();
+  const { setLoading, loading } = usePaymentProvider();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setLoading(true);
 
     if (!stripe || !elements) return;
 
@@ -37,8 +38,10 @@ const StripeModal = ({
       return;
     }
 
-    handleGenerateReport();
+    await increaseCredits(userData?.id);
     toggleModal();
+    toast.success("1 Credit purchased!");
+    setLoading(false);
   };
 
   return (
@@ -49,8 +52,9 @@ const StripeModal = ({
           <button
             type="submit"
             className="w-full border border-grey px-4 py-2 rounded-md"
+            disabled={loading}
           >
-            Pay Now
+            {loading ? "Loading..." : "Pay for more credits"}
           </button>
         </div>
       </form>
