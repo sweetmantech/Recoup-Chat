@@ -1,8 +1,8 @@
 import handleError from "../handleError";
 
-export const createCheckoutSession = async () => {
+export const createSession = async (successUrl: string, priceId: string) => {
   try {
-    const response = await fetch(`/api/stripe/create_checkout_session`, {
+    const response = await fetch(`/api/stripe/create_checkout_session?successUrl=${successUrl}&priceId=${priceId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

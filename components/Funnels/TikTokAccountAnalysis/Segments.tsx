@@ -1,41 +1,16 @@
-import { useChatProvider } from "@/providers/ChatProvider";
 import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
-import { v4 as uuidV4 } from "uuid";
 import Icon from "@/components/Icon";
 import LucideIcon from "@/components/LucideIcon";
-import StripeModal from "@/components/StripeModal";
-import { Elements } from "@stripe/react-stripe-js";
 import { usePaymentProvider } from "@/providers/PaymentProvider";
-import { useState } from "react";
 
 const Segments = () => {
-  const { segments, result } = useTikTokAnalysisProvider();
-  const { append } = useChatProvider();
+  const { segments, username } = useTikTokAnalysisProvider();
   const {
-    stripePromise,
-    stripeOption,
-    stripeClientSecret,
-    stripePaymentId,
-    createStripePaymentIntent,
+    createCheckoutSession,
   } = usePaymentProvider();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [segmentName, setSegmentName] = useState("");
 
   const payNow = async (segmentName: string) => {
-    await createStripePaymentIntent();
-    setSegmentName(segmentName);
-    setIsModalOpen(true);
-  };
-
-  const handleGenerateReport = () => {
-    append(
-      {
-        id: uuidV4(),
-        role: "user",
-        content: `Please create a tiktok fan segment report for ${result.id} using this segment ${segmentName}.`,
-      },
-      true,
-    );
+    await createCheckoutSession(`${username}'s fan segment report: ${segmentName}`);
   };
 
   return (
@@ -59,18 +34,6 @@ const Segments = () => {
           </p>
         </button>
       ))}
-      {stripeClientSecret &&
-        isModalOpen &&
-        stripePaymentId &&
-        stripePromise && (
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          <Elements options={stripeOption as any} stripe={stripePromise}>
-            <StripeModal
-              toggleModal={() => setIsModalOpen(!isModalOpen)}
-              handleGenerateReport={handleGenerateReport}
-            />
-          </Elements>
-        )}
     </div>
   );
 };
