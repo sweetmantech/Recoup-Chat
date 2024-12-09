@@ -1,26 +1,25 @@
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const successUrl = req.nextUrl.searchParams.get("successUrl");
-  const priceId = req.nextUrl.searchParams.get("priceId");
+  const productName = req.nextUrl.searchParams.get("productName");
 
   try {
-    const session = {
-      success_url: successUrl,
-      'line_items[0][price]': priceId,
-      'line_items[0][quantity]': 1,
-      mode: 'payment'
+    const price = {
+      currency: 'usd',
+        unit_amount: 99,
+        'recurring[interval]': 'month',
+        'product_data[name]': productName
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any;
 
-    const response = await fetch(`https://api.stripe.com/v1/payment_intents`, {
-      method: "POST",
-      body: new URLSearchParams(session).toString(),
+    const response = await fetch('https://api.stripe.com/v1/prices', {
+      method: 'POST',
       headers: {
         Authorization: `Bearer ${process.env.STRIPE_SK}`,
         "Content-Type": "application/x-www-form-urlencoded",
       },
-    });
+      body: new URLSearchParams(price).toString()
+    })
 
     const data = await response.json();
     return Response.json({ data }, { status: 200 });
