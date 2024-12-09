@@ -64,7 +64,6 @@ const Inputs = () => {
           label="Spotify URL"
           id="spotifyUrl"
           name="spotifyUrl"
-          required
           hookToForm
         />
       </div>
