@@ -1,33 +1,28 @@
-import qs from "qs"
-import handleError from "../handleError"
+import handleError from "../handleError";
 
-export const createPaymentIntent = async (
-) => {
+export const createPaymentIntent = async () => {
   try {
-    const data = {
+    const paymentIntentData = {
       amount: 99,
       currency: "usd",
-      application_fee_amount: 0,
       "automatic_payment_methods[enabled]": "true",
-      "transfer_data[destination]": "acct_1P0selF15SheFPGX",
       "metadata[created_at]": Date.now(),
-    }
-
-    const dataStringify = qs.stringify(data)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any;
 
     const response = await fetch(`https://api.stripe.com/v1/payment_intents`, {
-      method: "post",
-      data: "",
+      method: "POST",
+      body: new URLSearchParams(paymentIntentData).toString(),
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRIPE_SK}`,
         "Content-Type": "application/x-www-form-urlencoded",
       },
-    })
+    });
 
     const data = await response.json();
-    return data
-  } catch (err) {
-    handleError(err)
-    return { error: err }
+    return data;
+  } catch (error) {
+    handleError(error);
+    return { error };
   }
-}
+};

@@ -1,21 +1,22 @@
-import { useState } from "react";
 import Modal from "../Modal";
 import {
   useElements,
   useStripe,
   PaymentElement,
-  Elements,
 } from "@stripe/react-stripe-js";
 import handleError from "@/lib/handleError";
 import { useParams } from "next/navigation";
-import { usePaymentProvider } from "@/providers/PaymentProvider";
 
-const StripeModal = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const StripeModal = ({
+  toggleModal,
+  handleGenerateReport,
+}: {
+  toggleModal: () => void;
+  handleGenerateReport: () => void;
+}) => {
   const stripe = useStripe();
   const elements = useElements();
   const { chat_id: chatId } = useParams();
-  const { stripePromise, stripeOption } = usePaymentProvider()
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSubmit = async (e: any) => {
@@ -35,16 +36,24 @@ const StripeModal = () => {
       handleError(paymentIntent.error);
       return;
     }
+
+    handleGenerateReport();
+    toggleModal();
   };
 
   return (
-    <Modal onClose={() => setIsModalOpen(!isModalOpen)}>
-      <Elements options={stripeOption} stripe={stripePromise}>
-        <form id="payment-form" onSubmit={handleSubmit}>
-          <PaymentElement id="payment-element" />
-          <button type="button">Pay</button>
-        </form>
-      </Elements>
+    <Modal onClose={toggleModal}>
+      <form id="payment-form" onSubmit={handleSubmit}>
+        <PaymentElement id="payment-element" />
+        <div className="flex justify-center mt-4">
+          <button
+            type="submit"
+            className="w-full border border-grey px-4 py-2 rounded-md"
+          >
+            Pay Now
+          </button>
+        </div>
+      </form>
     </Modal>
   );
 };
