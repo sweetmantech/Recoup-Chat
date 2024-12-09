@@ -15,15 +15,16 @@ const Segments = () => {
     stripePromise,
     stripeOption,
     stripeClientSecret,
+    stripePaymentId,
     createStripePaymentIntent,
   } = usePaymentProvider();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [segmentName, setSegmentName] = useState("");
 
   const payNow = async (segmentName: string) => {
-    setIsModalOpen(true);
-    createStripePaymentIntent();
+    await createStripePaymentIntent();
     setSegmentName(segmentName);
+    setIsModalOpen(true);
   };
 
   const handleGenerateReport = () => {
@@ -58,7 +59,7 @@ const Segments = () => {
           </p>
         </button>
       ))}
-      {stripeClientSecret && isModalOpen && (
+      {stripeClientSecret && isModalOpen && stripePaymentId && (
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         <Elements options={stripeOption as any} stripe={stripePromise}>
           <StripeModal
