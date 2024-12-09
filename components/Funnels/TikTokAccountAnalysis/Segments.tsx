@@ -3,6 +3,7 @@ import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
 import { v4 as uuidV4 } from "uuid";
 import Icon from "@/components/Icon";
 import LucideIcon from "@/components/LucideIcon";
+import StripeModal from "@/components/StripeModal";
 
 const Segments = () => {
   const { segments, result } = useTikTokAnalysisProvider();
@@ -40,6 +41,7 @@ const Segments = () => {
           </p>
         </button>
       ))}
+      <StripeModal />
     </div>
   );
 };
