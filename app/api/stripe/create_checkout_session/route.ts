@@ -1,16 +1,16 @@
 export async function GET() {
   try {
-    const paymentIntentData = {
-      amount: 99,
-      currency: "usd",
-      "automatic_payment_methods[enabled]": "true",
-      "metadata[created_at]": Date.now(),
+    const session = {
+      success_url: 'https://example.com/success',
+      'line_items[0][price]': 'price_1MotwRLkdIwHu7ixYcPLm5uZ',
+      'line_items[0][quantity]': 2,
+      mode: 'payment'
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any;
 
     const response = await fetch(`https://api.stripe.com/v1/payment_intents`, {
       method: "POST",
-      body: new URLSearchParams(paymentIntentData).toString(),
+      body: new URLSearchParams(session).toString(),
       headers: {
         Authorization: `Bearer ${process.env.STRIPE_SK}`,
         "Content-Type": "application/x-www-form-urlencoded",
