@@ -1,25 +1,16 @@
 import { NextRequest } from "next/server";
+const stripe = require('stripe')(process.env.STRIPE_SK);
 
 export async function GET(req: NextRequest) {
   const successUrl = req.nextUrl.searchParams.get("successUrl");
   const priceId = req.nextUrl.searchParams.get("priceId");
 
   try {
-    const session = {
+    const response = await stripe.checkout.sessions.create({
       success_url: successUrl,
       'line_items[0][price]': priceId,
       'line_items[0][quantity]': 1,
       mode: 'payment'
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any;
-
-    const response = await fetch(`https://api.stripe.com/v1/payment_intents`, {
-      method: "POST",
-      body: new URLSearchParams(session).toString(),
-      headers: {
-        Authorization: `Bearer ${process.env.STRIPE_SK}`,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
     });
 
     const data = await response.json();

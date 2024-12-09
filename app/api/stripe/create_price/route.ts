@@ -1,28 +1,26 @@
+import stripeClient from "@/lib/stripe/client";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   const productName = req.nextUrl.searchParams.get("productName");
 
+  console.log("ZIAD", productName)
+
   try {
-    const price = {
+    const price = await stripeClient.prices.create({
       currency: 'usd',
-        unit_amount: 99,
-        'recurring[interval]': 'month',
-        'product_data[name]': productName
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any;
-
-    const response = await fetch('https://api.stripe.com/v1/prices', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${process.env.STRIPE_SK}`,
-        "Content-Type": "application/x-www-form-urlencoded",
+      unit_amount: 1000,
+      recurring: {
+        interval: 'month',
       },
-      body: new URLSearchParams(price).toString()
-    })
+      product_data: {
+        name: productName,
+      },
+    });
 
-    const data = await response.json();
-    return Response.json({ data }, { status: 200 });
+    console.log("ZIAD", price)
+
+    return Response.json({ data: price }, { status: 200 });
   } catch (error) {
     console.error(error);
     const message = error instanceof Error ? error.message : "failed";
