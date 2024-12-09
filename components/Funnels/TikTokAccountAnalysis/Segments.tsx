@@ -10,7 +10,7 @@ const Segments = () => {
   } = usePaymentProvider();
 
   const payNow = async (segmentName: string) => {
-    await createCheckoutSession(`${username}'s fan segment report: ${segmentName}`);
+    await createCheckoutSession(`${username}'s fan segment report: ${segmentName}`, window.location.href);
   };
 
   return (

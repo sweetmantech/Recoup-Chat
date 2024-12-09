@@ -6,7 +6,7 @@ import { createSession } from "@/lib/stripe/createSession";
 const usePayment = () => {
   const [loading, setLoading] = useState(false);
 
-  const createCheckoutSession = async (productName: string) => {
+  const createCheckoutSession = async (productName: string, successUrl: string) => {
     const priceResponse = await createPrice(productName);
 
     console.log("ZIAD", priceResponse)
@@ -15,7 +15,7 @@ const usePayment = () => {
       return false;
     }
     
-    const sessionResponse = await createSession("", priceResponse.id)
+    const sessionResponse = await createSession(successUrl, priceResponse.id)
     console.log("ZIAD", sessionResponse)
   };
 
