@@ -2,14 +2,14 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { createPrice } from "@/lib/stripe/createPrice";
 import { createSession } from "@/lib/stripe/createSession";
+import { v4 as uuidV4 } from "uuid";
+import { useParams } from "next/navigation";
 
 const usePayment = () => {
   const [loading, setLoading] = useState(false);
+  const { chat_id: chatId } = useParams();
 
-  const createCheckoutSession = async (
-    productName: string,
-    successUrl: string,
-  ) => {
+  const createCheckoutSession = async (productName: string) => {
     const priceResponse = await createPrice(productName);
 
     if (priceResponse.error) {
@@ -17,7 +17,14 @@ const usePayment = () => {
       return false;
     }
 
-    const sessionResponse = await createSession(successUrl, priceResponse.id);
+    const referenceId = uuidV4();
+    const sessionResponse = await createSession(
+      `${window.origin}/credits?referenceId=${referenceId}`,
+      priceResponse.id,
+      referenceId,
+      chatId as string,
+    );
+
     window.open(sessionResponse.url, "_self");
   };
 

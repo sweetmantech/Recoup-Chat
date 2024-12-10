@@ -1,7 +1,12 @@
-export const createSession = async (successUrl: string, priceId: string) => {
+export const createSession = async (
+  successUrl: string,
+  priceId: string,
+  referenceId: string,
+  chatId: string,
+) => {
   try {
     const response = await fetch(
-      `/api/stripe/create_checkout_session?successUrl=${encodeURIComponent(successUrl)}&priceId=${priceId}`,
+      `/api/stripe/session/create?successUrl=${encodeURIComponent(successUrl)}&priceId=${priceId}&referenceId=${referenceId}&chatId=${chatId}`,
       {
         method: "GET",
         headers: {
