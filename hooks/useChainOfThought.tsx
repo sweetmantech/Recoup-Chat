@@ -54,7 +54,6 @@ const useChainOfThought = () => {
         if (existedAnalysis) {
           setResult(existedAnalysis);
           setSegments(existedAnalysis.segments);
-          setIsLoading(true);
           setThought(STEP_OF_ANALYSIS.FINISHED);
           return;
         }
