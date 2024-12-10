@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const data = {
-      from: "sidney@syncstream.ai",
+      from: "hello@recoupable.com",
       to: email,
       subject,
       html: template,

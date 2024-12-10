@@ -1,44 +1,20 @@
-import { useChatProvider } from "@/providers/ChatProvider";
 import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
-import { v4 as uuidV4 } from "uuid";
 import Icon from "@/components/Icon";
 import LucideIcon from "@/components/LucideIcon";
-import StripeModal from "@/components/StripeModal";
-import { Elements } from "@stripe/react-stripe-js";
 import { usePaymentProvider } from "@/providers/PaymentProvider";
-import { useState } from "react";
+import decreaseCredits from "@/lib/supabase/decreaseCredits";
 import getCredits from "@/lib/supabase/getCredits";
 import { useUserProvider } from "@/providers/UserProvder";
-import decreaseCredits from "@/lib/supabase/decreaseCredits";
+import { v4 as uuidV4 } from "uuid";
+import { useChatProvider } from "@/providers/ChatProvider";
 
 const Segments = () => {
-  const { segments, result } = useTikTokAnalysisProvider();
   const { append } = useChatProvider();
-  const {
-    stripePromise,
-    stripeOption,
-    stripeClientSecret,
-    stripePaymentId,
-    createStripePaymentIntent,
-  } = usePaymentProvider();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [segmentName, setSegmentName] = useState("");
+  const { segments, username, result } = useTikTokAnalysisProvider();
+  const { createCheckoutSession } = usePaymentProvider();
   const { userData, isPrepared } = useUserProvider();
 
-  const payNow = async (segmentName: string) => {
-    if (!isPrepared()) return;
-    const credits = await getCredits(userData?.id);
-    if (!credits?.remaining_credits) {
-      await createStripePaymentIntent();
-      setSegmentName(segmentName);
-      setIsModalOpen(true);
-      return;
-    }
-    await decreaseCredits(userData?.id);
-    handleGenerateReport();
-  };
-
-  const handleGenerateReport = () => {
+  const handleGenerateReport = (segmentName: string) => {
     append(
       {
         id: uuidV4(),
@@ -47,6 +23,20 @@ const Segments = () => {
       },
       true,
     );
+  };
+
+  const payNow = async (segmentName: string) => {
+    if (!isPrepared()) return;
+    const credits = await getCredits(userData?.id);
+    if (!credits?.remaining_credits) {
+      await createCheckoutSession(
+        `${result?.name || username}'s fan segment report: ${segmentName}`,
+        window.location.href,
+      );
+      return;
+    }
+    await decreaseCredits(userData?.id);
+    handleGenerateReport(segmentName);
   };
 
   return (
@@ -70,15 +60,6 @@ const Segments = () => {
           </p>
         </button>
       ))}
-      {stripeClientSecret &&
-        isModalOpen &&
-        stripePaymentId &&
-        stripePromise && (
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          <Elements options={stripeOption as any} stripe={stripePromise}>
-            <StripeModal toggleModal={() => setIsModalOpen(!isModalOpen)} />
-          </Elements>
-        )}
     </div>
   );
 };

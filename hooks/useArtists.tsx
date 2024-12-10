@@ -53,7 +53,12 @@ const useArtists = () => {
     }
   }, [email]);
 
-  const saveSetting = async (name?: string, image?: string, mode?: string) => {
+  const saveSetting = async (
+    name?: string,
+    image?: string,
+    tiktokUrl?: string,
+    mode?: string,
+  ) => {
     setUpdating(true);
     const saveMode = mode || settingMode;
 
@@ -63,7 +68,7 @@ const useArtists = () => {
         body: JSON.stringify({
           name: name || artistSetting.name,
           image: image || artistSetting.image,
-          tiktok_url: artistSetting.tiktok,
+          tiktok_url: tiktokUrl || artistSetting.tiktok,
           youtube_url: artistSetting.youtube,
           apple_url: artistSetting.appleUrl,
           instagram_url: artistSetting.instagram,

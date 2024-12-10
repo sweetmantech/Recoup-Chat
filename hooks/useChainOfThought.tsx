@@ -28,21 +28,21 @@ const useChainOfThought = () => {
   const { isPrepared } = useUserProvider();
 
   const handleAnalyze = async () => {
-    if (!isPrepared()) return;
-    if (!username || isLoading) return;
-    let newId = "";
-    if (!chatId) {
-      newId = uuidV4();
-      push(`/funnels/tiktok-account-analysis/${newId}`);
-    }
-    trackNewTitle(
-      {
-        title: `TikTok Analysis: ${username}`,
-      },
-      newId,
-    );
     try {
+      if (!isPrepared()) return;
       setIsLoading(true);
+      if (!username || isLoading) return;
+      let newId = "";
+      if (!chatId) {
+        newId = uuidV4();
+        push(`/funnels/tiktok-account-analysis/${newId}`);
+      }
+      trackNewTitle(
+        {
+          title: `TikTok Analysis: ${username}`,
+        },
+        newId,
+      );
       await new Promise((resolve) => setTimeout(resolve, 1900));
       const profile = await getTikTokProfile(
         username.replaceAll("@", ""),
@@ -81,6 +81,7 @@ const useChainOfThought = () => {
       setThought(STEP_OF_ANALYSIS.FINISHED);
     } catch (error) {
       console.error("Analysis failed:", error);
+      setThought(STEP_OF_ANALYSIS.ERROR);
     }
   };
 
