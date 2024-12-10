@@ -50,12 +50,12 @@ const useChainOfThought = () => {
         (artist) => handle === getArtistTikTokHandle(artist),
       );
       if (artistSelected) {
-        const existedAnalysis = await getTikTokAnalysisByArtistId(
+        const analysisCache = await getTikTokAnalysisByArtistId(
           artistSelected?.id || "",
         );
-        if (existedAnalysis) {
-          setResult(existedAnalysis);
-          setSegments(existedAnalysis.segments);
+        if (analysisCache) {
+          setResult(analysisCache);
+          setSegments(analysisCache.segments);
           setThought(STEP_OF_ANALYSIS.FINISHED);
           return;
         }
