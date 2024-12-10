@@ -37,6 +37,7 @@ const useUser = () => {
   };
 
   const save = async () => {
+    setUpdating(true);
     const response = await fetch("/api/account/update", {
       method: "POST",
       body: JSON.stringify({
@@ -48,6 +49,7 @@ const useUser = () => {
     });
     const data = await response.json();
     setUserData(data.data);
+    setUpdating(false);
   };
 
   const isPrepared = () => {
@@ -78,6 +80,10 @@ const useUser = () => {
 
       const data = await response.json();
       setUserData(data.data);
+      setImage(data.data?.image || "");
+      setInstruction(data.data?.instruction || "");
+      setName(data?.data?.name || "");
+      setOrganization(data?.data?.organization || "");
     };
     if (!email) return;
     init();
