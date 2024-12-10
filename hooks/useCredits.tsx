@@ -2,15 +2,18 @@ import { checkSession } from "@/lib/stripe/checkSession";
 import { getSession } from "@/lib/stripe/getSession";
 import increaseCredits from "@/lib/supabase/increaseCredits";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 const useCredits = () => {
   const searchParams = useSearchParams();
   const referenceId = searchParams.get("referenceId");
   const { push } = useRouter();
+  const initialized = useRef(false);
 
   useEffect(() => {
     const init = async () => {
+      if (initialized.current) return;
+      initialized.current = true;
       const session = await getSession(referenceId as string);
       const paymentStatus = session?.payment_status;
       if (paymentStatus === "paid") {
