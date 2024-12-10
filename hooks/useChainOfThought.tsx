@@ -16,7 +16,7 @@ import getArtistTikTokHandle from "@/lib/getArtistTikTokHandle";
 import getTikTokAnalysisByArtistId from "@/lib/getTikTokAnalysisByArtistId";
 
 const useChainOfThought = () => {
-  const { setSettingMode, selectedArtist } = useArtistProvider();
+  const { setSettingMode, selectedArtist, artists } = useArtistProvider();
   const [username, setUsername] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [thought, setThought] = useState(STEP_OF_ANALYSIS.INITITAL);
@@ -46,10 +46,12 @@ const useChainOfThought = () => {
         newId,
       );
       const handle = username.replaceAll("@", "");
-      const artistHandle = getArtistTikTokHandle(selectedArtist);
-      if (artistHandle === handle) {
+      const artistSelected = artists.find(
+        (artist) => handle === getArtistTikTokHandle(artist),
+      );
+      if (artistSelected) {
         const existedAnalysis = await getTikTokAnalysisByArtistId(
-          selectedArtist?.id || "",
+          artistSelected?.id || "",
         );
         if (existedAnalysis) {
           setResult(existedAnalysis);
