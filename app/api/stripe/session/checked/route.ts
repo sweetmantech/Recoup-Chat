@@ -4,12 +4,14 @@ import { NextRequest } from "next/server";
 export async function GET(req: NextRequest) {
   const sessionId = req.nextUrl.searchParams.get("sessionId");
   const chatId = req.nextUrl.searchParams.get("chatId");
+  const accountId = req.nextUrl.searchParams.get("accountId");
 
   try {
     const session = await stripeClient.checkout.sessions.update(sessionId, {
       metadata: {
         credit_updated: "credit_updated",
         chatId,
+        accountId,
       },
     });
 

@@ -1,11 +1,12 @@
 import stripeClient from "@/lib/stripe/client";
 import { NextRequest } from "next/server";
 
-export async function GET(req: NextRequest) {
-  const successUrl = req.nextUrl.searchParams.get("successUrl");
-  const priceId = req.nextUrl.searchParams.get("priceId");
-  const referenceId = req.nextUrl.searchParams.get("referenceId");
-  const chatId = req.nextUrl.searchParams.get("chatId");
+export async function POST(req: NextRequest) {
+  const body = await req.json();
+  const successUrl = body.successUrl;
+  const priceId = body.priceId;
+  const referenceId = body.referenceId;
+  const metadata = body.metadata;
 
   try {
     const session = await stripeClient.checkout.sessions.create({
@@ -14,9 +15,7 @@ export async function GET(req: NextRequest) {
       "line_items[0][quantity]": 1,
       mode: "payment",
       client_reference_id: referenceId,
-      metadata: {
-        chatId,
-      },
+      metadata,
     });
 
     return Response.json({ data: session }, { status: 200 });

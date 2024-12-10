@@ -4,10 +4,12 @@ import { createPrice } from "@/lib/stripe/createPrice";
 import { createSession } from "@/lib/stripe/createSession";
 import { v4 as uuidV4 } from "uuid";
 import { useParams } from "next/navigation";
+import { useUserProvider } from "@/providers/UserProvder";
 
 const usePayment = () => {
   const [loading, setLoading] = useState(false);
   const { chat_id: chatId } = useParams();
+  const { userData } = useUserProvider();
 
   const createCheckoutSession = async (productName: string) => {
     const priceResponse = await createPrice(productName);
@@ -23,6 +25,7 @@ const usePayment = () => {
       priceResponse.id,
       referenceId,
       chatId as string,
+      userData?.id,
     );
 
     window.open(sessionResponse.url, "_self");
