@@ -6,6 +6,7 @@ export async function GET(req: NextRequest) {
   const priceAmount = req.nextUrl.searchParams.get("price");
 
   try {
+    const isSubscription = priceAmount === "2000";
     const price = await stripeClient.prices.create({
       currency: "usd",
       unit_amount: priceAmount,
@@ -13,6 +14,17 @@ export async function GET(req: NextRequest) {
         name: productName,
       },
     });
+
+    if (isSubscription) {
+      price.type = "recurring";
+      price.recurring = {
+        aggregate_usage: null,
+        interval: "month",
+        interval_count: 1,
+        trial_period_days: null,
+        usage_type: "licensed",
+      };
+    }
 
     return Response.json({ data: price }, { status: 200 });
   } catch (error) {
