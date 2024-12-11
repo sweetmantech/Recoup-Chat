@@ -7,6 +7,7 @@ export async function POST(req: NextRequest) {
   const name = body.name;
   const organization = body.organization;
   const accountId = body.accountId;
+  const image = body.image;
 
   const client = getSupabaseServerAdminClient();
 
@@ -17,18 +18,18 @@ export async function POST(req: NextRequest) {
       .eq("id", accountId);
 
     if (found?.length) {
-      const { data } = await client
+      await client
         .from("accounts")
         .update({
           ...found[0],
           instruction,
           name,
           organization,
+          image,
         })
-        .eq("id", accountId)
-        .single();
+        .eq("id", accountId);
 
-      return Response.json({ data }, { status: 200 });
+      return Response.json({ success: true }, { status: 200 });
     }
 
     return Response.json({ data: null }, { status: 400 });
