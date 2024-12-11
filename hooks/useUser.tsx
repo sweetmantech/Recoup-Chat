@@ -51,6 +51,7 @@ const useUser = () => {
     const data = await response.json();
     setUserData(data.data);
     setUpdating(false);
+    setIsModalOpen(false);
   };
 
   const isPrepared = () => {
