@@ -3,11 +3,12 @@ import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   const productName = req.nextUrl.searchParams.get("productName");
+  const priceAmount = req.nextUrl.searchParams.get("price");
 
   try {
     const price = await stripeClient.prices.create({
       currency: "usd",
-      unit_amount: 99,
+      unit_amount: priceAmount,
       product_data: {
         name: productName,
       },
