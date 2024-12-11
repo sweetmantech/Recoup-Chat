@@ -2,6 +2,7 @@ import { checkSession } from "@/lib/stripe/checkSession";
 import { getSession } from "@/lib/stripe/getSession";
 import { useChatProvider } from "@/providers/ChatProvider";
 import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
+import { useUserProvider } from "@/providers/UserProvder";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { v4 as uuidV4 } from "uuid";
@@ -13,6 +14,7 @@ const useCredits = () => {
   const initialized = useRef(false);
   const { append } = useChatProvider();
   const { result } = useTikTokAnalysisProvider();
+  const { email } = useUserProvider();
 
   useEffect(() => {
     const init = async () => {
@@ -38,10 +40,10 @@ const useCredits = () => {
         }
       }
     };
-    if (!referenceId || !result?.id || !segmentName) return;
+    if (!referenceId || !result?.id || !segmentName || !email) return;
 
     init();
-  }, [referenceId, result, segmentName]);
+  }, [referenceId, result, segmentName, email]);
 };
 
 export default useCredits;
