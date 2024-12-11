@@ -1,3 +1,4 @@
+import { X } from "lucide-react";
 import React, { ReactNode } from "react";
 
 interface IModal {
@@ -17,6 +18,13 @@ const Modal = ({ children, onClose, className, containerClasses }: IModal) => (
       if (e.target === e.currentTarget) onClose();
     }}
   >
+    <button
+      className="block md:hidden absolute right-[0px] top-2 z-[100]"
+      type="button"
+      onClick={onClose}
+    >
+      <X className="text-grey size-5 md:text-grey-dark" />
+    </button>
     <div
       className={`relative z-[2] max-h-[95%] md:max-h-[85%] overflow-y-auto rounded-2xl md:rounded-md w-full md:w-[500px] bg-background border-grey border px-4 py-3 md:p-4 ${containerClasses}`}
     >
