@@ -36,7 +36,7 @@ const Messages = ({
             scrollTo={scrollTo}
             key={message.id}
           >
-            <Message message={message} index={index} key={message.id} />
+            <Message message={message} index={index} />
           </ToolCallProvider>
         ))}
       {pending && <Thinking />}
