@@ -12,7 +12,7 @@ const getAiTitle = async (question: string) => {
     if (!response.ok) return { error: true };
     return data.title;
   } catch (error) {
-    console.error(error, "ZIAD");
+    console.error(error);
     return { error };
   }
 };
