@@ -18,9 +18,9 @@ const UnlockProModal = ({
   const { isPrepared } = useUserProvider();
   const { createCheckoutSession } = usePaymentProvider();
 
-  const pay = async (productName: string, credit: number) => {
+  const pay = async (productName: string, price?: string) => {
     if (!isPrepared()) return;
-    await createCheckoutSession(productName);
+    await createCheckoutSession(productName, price);
     return;
   };
 
@@ -76,6 +76,7 @@ const UnlockProModal = ({
               <button
                 type="button"
                 className="flex gap-2 justify-center items-center bg-black rounded-lg text-white w-fit px-3 py-2 mt-3 mb-2 font-inter_bold text-sm"
+                onClick={() => pay("Unlimited subscription", "2000")}
               >
                 Activate Your AI Agent Today
                 <ArrowRight className="size-5" />
@@ -83,7 +84,7 @@ const UnlockProModal = ({
               <button
                 className="font-inter_medium italic text-xs text-left"
                 type="button"
-                onClick={() => pay("1 Credit", 1)}
+                onClick={() => pay("1 Credit", "99")}
               >
                 Or unlock individual fan segment reports for $2
               </button>

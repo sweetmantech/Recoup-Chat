@@ -11,8 +11,11 @@ const usePayment = () => {
   const { chat_id: chatId } = useParams();
   const { userData } = useUserProvider();
 
-  const createCheckoutSession = async (productName: string) => {
-    const priceResponse = await createPrice(productName);
+  const createCheckoutSession = async (
+    productName: string,
+    price: string = "99",
+  ) => {
+    const priceResponse = await createPrice(productName, price);
 
     if (priceResponse.error) {
       toast.error("price creation is failed.");
