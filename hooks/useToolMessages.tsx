@@ -4,10 +4,9 @@ import { Message, useChat } from "ai/react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { v4 as uuidV4 } from "uuid";
-import useTrackToolCallMessages from "./useTrackToolCallMessages";
 import { Tools } from "@/types/Tool";
 
-const useToolChat = (question?: string, toolName?: any) => {
+const useToolMessages = (question?: string, toolName?: any) => {
   const { finalCallback, clearQuery } = useChatProvider();
   const { conversation: conversationId } = useParams();
   const {
@@ -50,8 +49,6 @@ const useToolChat = (question?: string, toolName?: any) => {
     },
   });
 
-  useTrackToolCallMessages(question || "", toolName || "", loading, messages);
-
   const answer = messages.filter(
     (message: Message) => message.role === "assistant",
   )?.[0]?.content;
@@ -79,4 +76,4 @@ const useToolChat = (question?: string, toolName?: any) => {
   };
 };
 
-export default useToolChat;
+export default useToolMessages;

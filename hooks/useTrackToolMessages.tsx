@@ -1,17 +1,13 @@
 import { useChatProvider } from "@/providers/ChatProvider";
 import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
+import { useToolCallProvider } from "@/providers/ToolCallProvider";
 import { Tools } from "@/types/Tool";
-import { Message } from "ai";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import { v4 as uuidV4 } from "uuid";
 
-const useTrackToolCallMessages = (
-  question: string,
-  toolName: string,
-  isLoading: boolean,
-  messages: Message[],
-) => {
+const useTrackToolMessages = () => {
+  const { question, toolName, loading, messages } = useToolCallProvider();
   const { finalCallback } = useChatProvider();
   const { conversation: conversationId } = useParams();
   const { tiktokRawReportContent, tiktokNextSteps } = useTikTokReportProvider();
@@ -33,14 +29,13 @@ const useTrackToolCallMessages = (
       );
     };
     if (
-      !isLoading &&
-      messages?.length === 2 &&
+      !loading &&
       tiktokRawReportContent &&
       tiktokNextSteps &&
       toolName === Tools.getSegmentsReport
     )
       track();
-  }, [isLoading, messages, tiktokNextSteps, tiktokRawReportContent]);
+  }, [loading, messages, tiktokNextSteps, tiktokRawReportContent]);
 };
 
-export default useTrackToolCallMessages;
+export default useTrackToolMessages;
