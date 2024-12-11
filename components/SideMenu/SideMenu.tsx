@@ -41,7 +41,7 @@ const SideMenu = ({
       <button
         type="button"
         onClick={() => goToItem("dashboard")}
-        className="flex gap-2 items-center my-4"
+        className="flex gap-2 items-center mt-2 mb-1 md:my-4"
       >
         <Icon name="dashboard" />
         Dashboard
@@ -49,7 +49,7 @@ const SideMenu = ({
       <button
         type="button"
         onClick={() => goToItem("artists")}
-        className="flex gap-2 items-center my-4"
+        className="flex gap-2 items-center my-1 md:my-4"
       >
         <Icon name="micval" />
         Artists
@@ -57,12 +57,11 @@ const SideMenu = ({
       <button
         type="button"
         onClick={() => goToItem("agents")}
-        className="flex gap-2 items-center my-4"
+        className="flex gap-2 items-center my-1 md:my-4"
       >
         <Icon name="robot" />
         Agents
       </button>
-      <div className="h-[0.1px] bg-greyw-full my-4" />
       {email && <RecentChats toggleModal={toggleModal} />}
       <div className="grow flex flex-col gap-1 md:gap-3 justify-end">
         <UnlockPro />
