@@ -36,7 +36,7 @@ const RecentChats = ({ toggleModal }: { toggleModal: () => void }) => {
             onClick={() => handleClick(conversation)}
           >
             <p className="text-sm truncate max-w-[200px]">
-              `${getConversationTitle(conversation)}`
+              {getConversationTitle(conversation)}
             </p>
           </button>
         ))}
