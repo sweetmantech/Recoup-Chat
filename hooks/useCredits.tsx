@@ -14,12 +14,14 @@ const useCredits = () => {
   const { append } = useChatProvider();
   const { result } = useTikTokAnalysisProvider();
 
+  console.log("ZIAD", referenceId, result?.id, segmentName)
   useEffect(() => {
     const init = async () => {
       if (initialized.current) return;
       initialized.current = true;
       const session = await getSession(referenceId as string);
       const paymentStatus = session?.payment_status;
+      console.log("ZIAD HERE", paymentStatus);
       if (paymentStatus === "paid") {
         if (!session?.metadata?.credit_updated) {
           await checkSession(
