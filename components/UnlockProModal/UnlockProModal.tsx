@@ -30,7 +30,7 @@ const UnlockProModal = ({
             >
               <X className="text-grey-dark" />
             </button>
-            <div className="col-span-12 md:col-span-6 font-inter_bold text-[45px] text-white p-6 leading-[120%] flex items-center relative">
+            <div className="bg-[url('/brand.png')] bg-cover bg-center md:bg-none col-span-12 md:col-span-6 font-inter_bold text-[45px] text-white p-6 leading-[120%] flex items-center relative">
               Secure <br />
               Brand Deals <br />
               While You <br />
