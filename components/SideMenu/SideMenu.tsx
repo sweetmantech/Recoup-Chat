@@ -2,8 +2,7 @@ import SideModal from "../SideModal";
 import { useRouter } from "next/navigation";
 import { useUserProvider } from "@/providers/UserProvder";
 import RecentChats from "../Sidebar/RecentChats";
-import Introducing from "../Sidebar/Introducing";
-import { useState } from "react";
+import UnlockPro from "../Sidebar/UnlockPro";
 import UserInfo from "../Sidebar/UserInfo";
 import Logo from "../Logo";
 import Icon from "../Icon";
@@ -17,7 +16,6 @@ const SideMenu = ({
 }) => {
   const { push } = useRouter();
   const { email, isPrepared } = useUserProvider();
-  const [isIntroOpen, setIsIntroOpen] = useState(true);
 
   const goToItem = (link?: string) => {
     if (isPrepared()) {
@@ -43,7 +41,7 @@ const SideMenu = ({
       <button
         type="button"
         onClick={() => goToItem("dashboard")}
-        className="flex gap-2 items-center my-4"
+        className="flex gap-2 items-center mt-2 mb-1 md:my-4"
       >
         <Icon name="dashboard" />
         Dashboard
@@ -51,7 +49,7 @@ const SideMenu = ({
       <button
         type="button"
         onClick={() => goToItem("artists")}
-        className="flex gap-2 items-center my-4"
+        className="flex gap-2 items-center my-1 md:my-4"
       >
         <Icon name="micval" />
         Artists
@@ -59,17 +57,14 @@ const SideMenu = ({
       <button
         type="button"
         onClick={() => goToItem("agents")}
-        className="flex gap-2 items-center my-4"
+        className="flex gap-2 items-center my-1 md:my-4"
       >
         <Icon name="robot" />
         Agents
       </button>
-      <div className="h-[0.1px] bg-greyw-full my-4" />
       {email && <RecentChats toggleModal={toggleModal} />}
       <div className="grow flex flex-col gap-1 md:gap-3 justify-end">
-        {isIntroOpen && (
-          <Introducing toggleVisible={() => setIsIntroOpen(!isIntroOpen)} />
-        )}
+        <UnlockPro />
         <UserInfo toggleMenuExpanded={toggleModal} />
       </div>
     </SideModal>
