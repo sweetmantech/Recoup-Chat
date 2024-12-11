@@ -1,6 +1,6 @@
 "use client";
 
-import useTrackToollMessages from "@/hooks/useTrackToolMessages";
+import useTrackToolMessages from "@/hooks/useTrackToolMessages";
 import React, { createContext, useContext } from "react";
 
 const TrackToolMessageContext = createContext<undefined>(undefined);
@@ -10,7 +10,7 @@ const TrackToolMessageProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  useTrackToollMessages();
+  useTrackToolMessages();
   return (
     <TrackToolMessageContext.Provider value={undefined}>
       {children}
