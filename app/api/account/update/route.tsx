@@ -18,18 +18,16 @@ export async function POST(req: NextRequest) {
       .eq("id", accountId);
 
     if (found?.length) {
-      await client
-        .from("accounts")
-        .update({
-          ...found[0],
-          instruction,
-          name,
-          organization,
-          image,
-        })
-        .eq("id", accountId);
+      const newUserData = {
+        ...found[0],
+        instruction,
+        name,
+        organization,
+        image,
+      };
+      await client.from("accounts").update(newUserData).eq("id", accountId);
 
-      return Response.json({ success: true }, { status: 200 });
+      return Response.json({ data: newUserData }, { status: 200 });
     }
 
     return Response.json({ data: null }, { status: 400 });
