@@ -4,6 +4,8 @@ import { ArrowRight, X } from "lucide-react";
 import Modal from "../Modal";
 import useIsMobile from "@/hooks/useIsMobile";
 import Icon from "../Icon";
+import { useUserProvider } from "@/providers/UserProvder";
+import { usePaymentProvider } from "@/providers/PaymentProvider";
 
 const UnlockProModal = ({
   isModalOpen,
@@ -13,6 +15,16 @@ const UnlockProModal = ({
   toggleModal: () => void;
 }) => {
   const isMobile = useIsMobile();
+  const { isPrepared } = useUserProvider()
+  const { } = usePaymentProvider()
+  
+  const payNow = async (productName: string, ) => {
+    if (!isPrepared()) return;
+    await createCheckoutSession(
+      `${result?.name || username}'s fan segment report: ${segmentName}`,
+    );
+    return;
+  };
 
   return (
     <>
@@ -70,9 +82,9 @@ const UnlockProModal = ({
                 Activate Your AI Agent Today
                 <ArrowRight className="size-5" />
               </button>
-              <p className="font-inter_medium italic text-xs">
+              <button className="font-inter_medium italic text-xs text-left" type="button">
                 Or unlock individual fan segment reports for $2
-              </p>
+              </button>
             </div>
           </div>
         </Modal>
