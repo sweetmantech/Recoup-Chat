@@ -45,6 +45,7 @@ const useUser = () => {
         organization,
         name,
         image,
+        accountId: userData?.id,
       }),
     });
     const data = await response.json();

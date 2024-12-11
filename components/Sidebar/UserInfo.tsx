@@ -8,7 +8,7 @@ const UserInfo = ({
 }: {
   toggleMenuExpanded: () => void;
 }) => {
-  const { email, toggleModal } = useUserProvider();
+  const { email, toggleModal, userData } = useUserProvider();
 
   return (
     <>
@@ -20,7 +20,7 @@ const UserInfo = ({
         >
           <div className="relative w-6 h-6 md:w-8 md:h-8 rounded-md overflow-hidden">
             <Image
-              src="https://i.imgur.com/QCdc8Ai.jpg"
+              src={userData?.image || "https://i.imgur.com/QCdc8Ai.jpg"}
               layout="fill"
               alt="not found icon"
             />
