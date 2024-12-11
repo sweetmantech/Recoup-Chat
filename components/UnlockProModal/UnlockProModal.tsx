@@ -3,6 +3,7 @@
 import { ArrowRight, X } from "lucide-react";
 import Modal from "../Modal";
 import useIsMobile from "@/hooks/useIsMobile";
+import Icon from "../Icon";
 
 const UnlockProModal = ({
   isModalOpen,
@@ -18,22 +19,25 @@ const UnlockProModal = ({
       {isModalOpen && (
         <Modal
           onClose={toggleModal}
-          containerClasses="!p-0 !w-auto !border-none"
+          containerClasses="!p-0 !w-auto !border-none !rounded-xl !shadow-[1px_1px_8px_1px_#80808061]"
           className="!p-0 !border-none"
         >
           <div className="bg-[url('/brand.png')] md:w-[710px] md:h-[347px] bg-cover bg-center grid grid-cols-12 relative">
             <button
-              className="absolute right-4 top-4"
+              className="hidden md:block absolute right-4 top-4"
               type="button"
               onClick={toggleModal}
             >
               <X className="text-grey-dark" />
             </button>
-            <div className="col-span-12 md:col-span-6 font-inter_bold text-[45px] text-white p-6 leading-[120%] flex items-center">
+            <div className="col-span-12 md:col-span-6 font-inter_bold text-[45px] text-white p-6 leading-[120%] flex items-center relative">
               Secure <br />
               Brand Deals <br />
               While You <br />
               Sleep.
+              <div className="absolute right-4 top-4">
+                <Icon name="star-xl" />
+              </div>
             </div>
             <div className="col-span-12 md:col-span-6 bg-white flex justify-center flex-col p-6">
               <p className="font-plus_jakarta_sans_bold text-xl">
