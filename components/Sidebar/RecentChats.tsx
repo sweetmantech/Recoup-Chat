@@ -21,7 +21,7 @@ const RecentChats = ({ toggleModal }: { toggleModal: () => void }) => {
   return (
     <div>
       <p className="text-md md:mb-2">Recent Chats</p>
-      <div className="max-h-[110px] md:max-h-[140px] overflow-y-auto space-y-2">
+      <div className="max-h-[80px] md:max-h-[140px] overflow-y-auto space-y-2">
         {streamingTitle && streaming && (
           <button className="flex gap-2 items-center" type="button">
             <p className="text-sm truncate max-w-[200px]">{streamingTitle}</p>
