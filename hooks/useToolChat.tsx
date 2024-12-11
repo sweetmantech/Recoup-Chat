@@ -1,10 +1,11 @@
-import getFullReport from "@/lib/getFullReport";
 import { useChatProvider } from "@/providers/ChatProvider";
 import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
 import { Message, useChat } from "ai/react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { v4 as uuidV4 } from "uuid";
+import useTrackToolCallMessages from "./useTrackToolCallMessages";
+import { Tools } from "@/types/Tool";
 
 const useToolChat = (question?: string, toolName?: any) => {
   const { finalCallback, clearQuery } = useChatProvider();
@@ -15,19 +16,13 @@ const useToolChat = (question?: string, toolName?: any) => {
     tiktokAnalysis,
     initReport,
     isSearchingTrends,
-    setTiktokReportContent,
-    setIsGeneratingReport,
-    setTiktokRawReportContent,
   } = useTikTokReportProvider();
-
   const toolCallContext = {
     ...(tiktokTrends !== null && { ...tiktokTrends }),
     ...tiktokVideos,
     ...(tiktokAnalysis !== null && { ...tiktokAnalysis }),
   };
-
   const [beginCall, setBeginCall] = useState(false);
-
   const {
     messages,
     append,
@@ -41,6 +36,7 @@ const useToolChat = (question?: string, toolName?: any) => {
     },
     onError: console.error,
     onFinish: async (message) => {
+      if (toolName === Tools.getSegmentsReport) return;
       await finalCallback(
         message,
         {
@@ -54,6 +50,8 @@ const useToolChat = (question?: string, toolName?: any) => {
     },
   });
 
+  useTrackToolCallMessages(question || "", toolName || "", loading, messages);
+
   const answer = messages.filter(
     (message: Message) => message.role === "assistant",
   )?.[0]?.content;
@@ -65,11 +63,6 @@ const useToolChat = (question?: string, toolName?: any) => {
         content: question as string,
         role: "user",
       });
-      setIsGeneratingReport(true);
-      const { reportContent, rawContent } = await getFullReport(tiktokAnalysis);
-      setTiktokReportContent(reportContent);
-      setTiktokRawReportContent(rawContent);
-      setIsGeneratingReport(false);
       initReport();
       setBeginCall(false);
     };
