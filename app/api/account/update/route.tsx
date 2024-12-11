@@ -25,7 +25,10 @@ export async function POST(req: NextRequest) {
         organization,
         image,
       };
-      await client.from("accounts").update(newUserData).eq("id", accountId);
+      await client
+        .from("accounts")
+        .update({ ...newUserData })
+        .eq("id", accountId);
 
       return Response.json({ data: newUserData }, { status: 200 });
     }
