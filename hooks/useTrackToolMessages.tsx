@@ -10,10 +10,12 @@ const useTrackToolMessages = () => {
   const { question, toolName, loading, messages } = useToolCallProvider();
   const { finalCallback } = useChatProvider();
   const { conversation: conversationId } = useParams();
-  const { tiktokRawReportContent, tiktokNextSteps } = useTikTokReportProvider();
+  const { tiktokRawReportContent, tiktokNextSteps, setTikTokSummary } =
+    useTikTokReportProvider();
 
   useEffect(() => {
     const track = async () => {
+      setTikTokSummary(messages[1].content);
       await finalCallback(
         {
           id: uuidV4(),
@@ -35,7 +37,7 @@ const useTrackToolMessages = () => {
       toolName === Tools.getSegmentsReport
     )
       track();
-  }, [loading, messages, tiktokNextSteps, tiktokRawReportContent]);
+  }, [loading, tiktokNextSteps, tiktokRawReportContent]);
 };
 
 export default useTrackToolMessages;

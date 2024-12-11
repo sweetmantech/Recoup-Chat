@@ -12,6 +12,7 @@ const useTikTokReport = () => {
   const [tiktokNextSteps, setTiktokNextSteps] = useState("");
   const [tiktokReportContent, setTiktokReportContent] = useState("");
   const [tiktokRawReportContent, setTiktokRawReportContent] = useState("");
+  const [tiktokSummary, setTikTokSummary] = useState("");
 
   useEffect(() => {
     const init = async () => {
@@ -52,6 +53,8 @@ const useTikTokReport = () => {
     tiktokAnalysis,
     setTiktokRawReportContent,
     tiktokRawReportContent,
+    tiktokSummary,
+    setTikTokSummary,
   };
 };
 
