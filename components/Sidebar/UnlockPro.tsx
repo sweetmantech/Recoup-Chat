@@ -9,7 +9,7 @@ const UnlockPro = () => {
 
   return (
     <>
-      <div className="w-full shadow-grey-light flex flex-col rounded-3xl overflow-hidden my-4 aspect-[212/175] md:aspect-[212/180] bg-[url('/unlock-pro.png')] bg-cover bg-center">
+      <div className="w-full md:w-[250px] shadow-grey-light flex flex-col rounded-3xl overflow-hidden my-4 aspect-[212/175] md:aspect-[212/180] bg-[url('/unlock-pro.png')] bg-cover bg-center">
         <div className="w-full relative aspect-[212/100]">
           <div className="absolute right-4 top-4">
             <Icon name="star" />
