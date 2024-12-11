@@ -37,7 +37,7 @@ const useTrackToolMessages = () => {
       toolName === Tools.getSegmentsReport
     )
       track();
-  }, [loading, tiktokNextSteps, tiktokRawReportContent]);
+  }, [loading, tiktokNextSteps, tiktokRawReportContent, toolName]);
 };
 
 export default useTrackToolMessages;
