@@ -1,4 +1,4 @@
-import getConverstaionTitle from "@/lib/getConversationTitle";
+import getConversationTitle from "@/lib/getConversationTitle";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { Conversation } from "@/types/Stack";
 import { useRouter } from "next/navigation";
@@ -36,7 +36,7 @@ const RecentChats = ({ toggleModal }: { toggleModal: () => void }) => {
             onClick={() => handleClick(conversation)}
           >
             <p className="text-sm truncate max-w-[200px]">
-              `${getConverstaionTitle(conversation)}`
+              `${getConversationTitle(conversation)}`
             </p>
           </button>
         ))}

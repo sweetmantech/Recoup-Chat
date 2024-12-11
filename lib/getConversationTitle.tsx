@@ -1,7 +1,7 @@
 import { Conversation } from "@/types/Stack";
 
-const getConverstaionTitle = (conversation: Conversation) => {
+const getConversationTitle = (conversation: Conversation) => {
   return `${conversation?.title}` || `${conversation?.metadata.content}`;
 };
 
-export default getConverstaionTitle;
+export default getConversationTitle;
