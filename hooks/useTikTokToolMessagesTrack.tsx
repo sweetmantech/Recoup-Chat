@@ -18,7 +18,7 @@ const useTikTokToolMessagesTrack = () => {
     const track = async () => {
       setTikTokSummary(messages[1].content);
       const stackUniqueId = uuidV4();
-      await saveTikTokReport({
+      const response = await saveTikTokReport({
         summary: messages[1].content,
         next_steps: tiktokNextSteps,
         report: tiktokRawReportContent,
@@ -36,6 +36,7 @@ const useTikTokToolMessagesTrack = () => {
           role: "user",
         },
         conversationId as string,
+        response?.id,
       );
     };
     if (

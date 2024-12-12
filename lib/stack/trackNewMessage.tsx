@@ -10,8 +10,9 @@ import { StackMessage } from "@/types/Stack";
 const trackNewMessage = async (
   address: Address,
   message: StackMessage,
-  conversationId: string,
   artistId: string,
+  conversationId: string,
+  referenceId?: string,
 ) => {
   try {
     const stackClient = getStackClient(CHAT_POINT_SYSTEM_ID);
@@ -24,6 +25,7 @@ const trackNewMessage = async (
       metadata: {
         ...message,
         conversationId,
+        referenceId,
         artistId,
       },
     });
