@@ -14,7 +14,7 @@ const Segments = () => {
   const { segments, result } = useTikTokAnalysisProvider();
   const { userData, isPrepared } = useUserProvider();
   useCredits();
-  const { toggleModal } = usePaymentProvider();
+  const { toggleModal, setSuccessCallbackParams } = usePaymentProvider();
 
   const handleGenerateReport = (segmentName: string) => {
     append(
@@ -31,6 +31,7 @@ const Segments = () => {
     if (!isPrepared()) return;
     const credits = await getCredits(userData?.id);
     if (!credits?.remaining_credits) {
+      setSuccessCallbackParams(new URLSearchParams({ segmentName }).toString());
       toggleModal();
       return;
     }
