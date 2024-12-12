@@ -24,11 +24,7 @@ const useCredits = () => {
       const paymentStatus = session?.payment_status;
       if (paymentStatus === "paid") {
         if (!session?.metadata?.credit_updated) {
-          await checkSession(
-            session.id,
-            session?.metadata?.chatId,
-            session?.metadata?.accountId,
-          );
+          await checkSession(session.id, session?.metadata?.accountId);
           append(
             {
               id: uuidV4(),

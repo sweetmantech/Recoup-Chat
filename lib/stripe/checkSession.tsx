@@ -1,11 +1,7 @@
-export const checkSession = async (
-  sessionId: string,
-  chatId: string,
-  accountId: string,
-) => {
+export const checkSession = async (sessionId: string, accountId: string) => {
   try {
     const response = await fetch(
-      `/api/stripe/session/checked?sessionId=${sessionId}&chatId=${chatId}&accountId=${accountId}`,
+      `/api/stripe/session/checked?sessionId=${sessionId}&accountId=${accountId}`,
     );
 
     const data = await response.json();
