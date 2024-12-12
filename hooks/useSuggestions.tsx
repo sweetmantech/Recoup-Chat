@@ -3,7 +3,6 @@ import trackNewMessage from "@/lib/stack/trackNewMessage";
 import { Message } from "ai";
 import { useEffect, useState } from "react";
 import { Address } from "viem";
-import { v4 as uuidV4 } from "uuid";
 import { useParams, usePathname } from "next/navigation";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useArtistProvider } from "@/providers/ArtistProvider";
