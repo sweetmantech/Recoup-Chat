@@ -2,7 +2,7 @@ export const createSession = async (
   successUrl: string,
   productName: string,
   referenceId: string,
-  subscriptionActive: boolean,
+  isSubscription: boolean,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   metadata: any,
 ) => {
@@ -16,7 +16,7 @@ export const createSession = async (
         successUrl,
         productName,
         referenceId,
-        subscriptionActive,
+        isSubscription,
         metadata,
       }),
     });

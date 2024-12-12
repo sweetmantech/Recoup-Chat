@@ -10,7 +10,7 @@ const usePayment = () => {
 
   const createCheckoutSession = async (
     productName: string,
-    subscriptionActive: boolean,
+    isSubscription: boolean,
     referenceId: string,
     successUrl: string,
   ) => {
@@ -18,7 +18,7 @@ const usePayment = () => {
       successUrl,
       productName,
       referenceId,
-      subscriptionActive,
+      isSubscription,
       {
         chatId: chatId as string,
         accountId: userData?.id,
