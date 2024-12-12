@@ -6,13 +6,15 @@ import getCredits from "@/lib/supabase/getCredits";
 import { useUserProvider } from "@/providers/UserProvder";
 import { v4 as uuidV4 } from "uuid";
 import { useChatProvider } from "@/providers/ChatProvider";
+import useCredits from "@/hooks/useCredits";
 import { usePaymentProvider } from "@/providers/PaymentProvider";
 
 const Segments = () => {
   const { append } = useChatProvider();
   const { segments, result } = useTikTokAnalysisProvider();
   const { userData, isPrepared } = useUserProvider();
-  const { toggleModal } = usePaymentProvider();
+  useCredits();
+  const { toggleModal, setSuccessCallbackParams } = usePaymentProvider();
 
   const handleGenerateReport = (segmentName: string) => {
     append(
@@ -29,6 +31,7 @@ const Segments = () => {
     if (!isPrepared()) return;
     const credits = await getCredits(userData?.id);
     if (!credits?.remaining_credits) {
+      setSuccessCallbackParams(new URLSearchParams({ segmentName }).toString());
       toggleModal();
       return;
     }

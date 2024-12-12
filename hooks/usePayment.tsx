@@ -2,23 +2,24 @@ import { useState } from "react";
 import { createSession } from "@/lib/stripe/createSession";
 import { useParams } from "next/navigation";
 import { useUserProvider } from "@/providers/UserProvder";
+import { v4 as uuidV4 } from "uuid";
 
 const usePayment = () => {
   const [loading, setLoading] = useState(false);
   const { chat_id: chatId } = useParams();
   const { userData } = useUserProvider();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [successCallbackParams, setSuccessCallbackParams] = useState("");
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
   const createCheckoutSession = async (
     productName: string,
     isSubscription: boolean,
-    referenceId: string,
-    successUrl: string,
   ) => {
+    const referenceId = uuidV4();
     const sessionResponse = await createSession(
-      successUrl,
+      `${window.location.href}?referenceId=${referenceId}&${successCallbackParams || ""}`,
       productName,
       referenceId,
       isSubscription,
@@ -32,6 +33,7 @@ const usePayment = () => {
   };
 
   return {
+    setSuccessCallbackParams,
     loading,
     setLoading,
     createCheckoutSession,

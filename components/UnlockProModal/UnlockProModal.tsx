@@ -6,7 +6,6 @@ import useIsMobile from "@/hooks/useIsMobile";
 import Icon from "../Icon";
 import { useUserProvider } from "@/providers/UserProvder";
 import { usePaymentProvider } from "@/providers/PaymentProvider";
-import { v4 as uuidV4 } from "uuid";
 
 const UnlockProModal = ({
   isModalOpen,
@@ -21,13 +20,7 @@ const UnlockProModal = ({
 
   const pay = async (productName: string, isSubscription: boolean) => {
     if (!isPrepared()) return;
-    const referenceId = uuidV4();
-    await createCheckoutSession(
-      productName,
-      isSubscription,
-      referenceId,
-      `${window.location.href}?referenceId=${referenceId}`,
-    );
+    await createCheckoutSession(productName, isSubscription);
     return;
   };
 
