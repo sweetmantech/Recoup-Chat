@@ -45,11 +45,13 @@ const useUser = () => {
         organization,
         name,
         image,
+        accountId: userData?.id,
       }),
     });
     const data = await response.json();
     setUserData(data.data);
     setUpdating(false);
+    setIsModalOpen(false);
   };
 
   const isPrepared = () => {
