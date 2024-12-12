@@ -6,7 +6,6 @@ import AnalysisChat from "./AnalysisChat";
 
 const TikTokAccountAnalysis = () => {
   const { isLoading } = useTikTokAnalysisProvider();
-
   return <>{isLoading ? <AnalysisChat /> : <TikTokAccountInput />}</>;
 };
 
