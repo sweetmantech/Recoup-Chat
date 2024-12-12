@@ -18,9 +18,9 @@ const UnlockProModal = ({
   const { isPrepared } = useUserProvider();
   const { createCheckoutSession } = usePaymentProvider();
 
-  const pay = async (productName: string, subscriptionActive: boolean) => {
+  const pay = async (productName: string, isSubscription: boolean) => {
     if (!isPrepared()) return;
-    await createCheckoutSession(productName, subscriptionActive);
+    await createCheckoutSession(productName, isSubscription);
     return;
   };
 

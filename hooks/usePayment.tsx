@@ -15,14 +15,14 @@ const usePayment = () => {
 
   const createCheckoutSession = async (
     productName: string,
-    subscriptionActive: boolean,
+    isSubscription: boolean,
   ) => {
     const referenceId = uuidV4();
     const sessionResponse = await createSession(
       `${window.location.href}?referenceId=${referenceId}&${successCallbackParams || ""}`,
       productName,
       referenceId,
-      subscriptionActive,
+      isSubscription,
       {
         chatId: chatId as string,
         accountId: userData?.id,
