@@ -25,7 +25,7 @@ const trackNewMessage = async (
       metadata: {
         ...message,
         conversationId,
-        referenceId,
+        referenceId: referenceId || "",
         artistId,
       },
     });
