@@ -1,8 +1,5 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
-import { createPrice } from "@/lib/stripe/createPrice";
 import { createSession } from "@/lib/stripe/createSession";
-import { v4 as uuidV4 } from "uuid";
 import { useParams } from "next/navigation";
 import { useUserProvider } from "@/providers/UserProvder";
 
@@ -13,22 +10,19 @@ const usePayment = () => {
 
   const createCheckoutSession = async (
     productName: string,
-    price: string = "99",
+    subscriptionActive: boolean,
+    referenceId: string,
+    successUrl: string,
   ) => {
-    const priceResponse = await createPrice(productName, price);
-
-    if (priceResponse.error) {
-      toast.error("price creation is failed.");
-      return false;
-    }
-
-    const referenceId = uuidV4();
     const sessionResponse = await createSession(
-      `${window.origin}/credits?referenceId=${referenceId}`,
-      priceResponse.id,
+      successUrl,
+      productName,
       referenceId,
-      chatId as string,
-      userData?.id,
+      subscriptionActive,
+      {
+        chatId: chatId as string,
+        accountId: userData?.id,
+      },
     );
 
     window.open(sessionResponse.url, "_self");
