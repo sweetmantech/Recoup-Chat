@@ -29,8 +29,12 @@ const Segments = () => {
     if (!isPrepared()) return;
     const credits = await getCredits(userData?.id);
     if (!credits?.remaining_credits) {
+      const referenceId = uuidV4();
       await createCheckoutSession(
         `${result?.name || username}'s fan segment report: ${segmentName}`,
+        false,
+        referenceId,
+        `${window.origin}/credits?referenceId=${referenceId}`,
       );
       return;
     }
