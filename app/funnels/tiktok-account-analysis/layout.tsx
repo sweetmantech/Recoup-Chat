@@ -1,3 +1,4 @@
+import useCredits from "@/hooks/useCredits";
 import { TikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
 import { Metadata } from "next";
 
@@ -12,6 +13,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  useCredits();
   return (
     <div className="grow h-screen flex">
       <TikTokAnalysisProvider>{children}</TikTokAnalysisProvider>
