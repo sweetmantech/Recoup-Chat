@@ -48,9 +48,8 @@ const useSuggestions = () => {
     await trackNewMessage(
       address as Address,
       {
+        ...message,
         content: formattedContent(message.content),
-        role: message.role,
-        id: uuidV4(),
         questionId: question.id,
       },
       selectedArtist?.id || "",
