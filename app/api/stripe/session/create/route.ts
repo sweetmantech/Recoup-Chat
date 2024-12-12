@@ -6,19 +6,19 @@ export async function POST(req: NextRequest) {
   const successUrl = body.successUrl;
   const referenceId = body.referenceId;
   const metadata = body.metadata;
-  const subscriptionActive = body.subscriptionActive;
+  const isSubscription = body.isSubscription;
   const productName = body.productName;
 
   const priceData = {
     currency: "usd",
-    unit_amount: subscriptionActive ? 2000 : 99, // Removed quotes for numerical values.
+    unit_amount: isSubscription ? 2000 : 99,
     product_data: {
       name: productName,
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } as any;
 
-  if (subscriptionActive)
+  if (isSubscription)
     priceData.recurring = {
       interval: "month",
       interval_count: 1,
@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
           quantity: 1,
         },
       ],
-      mode: subscriptionActive ? "subscription" : "payment",
+      mode: isSubscription ? "subscription" : "payment",
       client_reference_id: referenceId,
       metadata,
     });

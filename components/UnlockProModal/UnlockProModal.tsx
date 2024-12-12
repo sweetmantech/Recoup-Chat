@@ -19,12 +19,12 @@ const UnlockProModal = ({
   const { isPrepared } = useUserProvider();
   const { createCheckoutSession } = usePaymentProvider();
 
-  const pay = async (productName: string, subscriptionActive: boolean) => {
+  const pay = async (productName: string, isSubscription: boolean) => {
     if (!isPrepared()) return;
     const referenceId = uuidV4();
     await createCheckoutSession(
       productName,
-      subscriptionActive,
+      isSubscription,
       referenceId,
       `${window.location.href}?referenceId=${referenceId}`,
     );
