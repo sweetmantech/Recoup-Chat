@@ -1,3 +1,4 @@
+import useIsMobile from "@/hooks/useIsMobile";
 import getConversationTitle from "@/lib/getConversationTitle";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { Conversation } from "@/types/Stack";
@@ -7,9 +8,10 @@ const RecentChats = ({ toggleModal }: { toggleModal: () => void }) => {
   const { conversations, streamingTitle, streaming } =
     useConversationsProvider();
   const { push } = useRouter();
+  const isMobile = useIsMobile();
 
   const handleClick = (conversation: Conversation) => {
-    toggleModal();
+    if (isMobile) toggleModal();
     if (conversation.metadata.is_tiktok_analysis) {
       push(
         `/funnels/tiktok-account-analysis/${conversation.metadata.conversationId}`,
