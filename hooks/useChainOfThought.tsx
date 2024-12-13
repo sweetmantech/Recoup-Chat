@@ -42,6 +42,7 @@ const useChainOfThought = () => {
       trackNewTitle(
         {
           title: `TikTok Analysis: ${username}`,
+          is_tiktok_analysis: true,
         },
         newId,
       );

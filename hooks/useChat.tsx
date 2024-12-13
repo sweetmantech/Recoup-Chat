@@ -32,7 +32,7 @@ const useChat = () => {
 
   const goToNewConversation = async (
     content: string,
-    reportedActive: boolean = false,
+    is_tiktok_report: boolean = false,
   ) => {
     if (conversationId) return;
     const newId = uuidV4();
@@ -45,10 +45,10 @@ const useChat = () => {
     }
     setQuotaExceeded(false);
     trackNewTitle(
-      { title: response.replaceAll(`\"`, ""), reportedActive },
+      { title: response.replaceAll(`\"`, ""), is_tiktok_report },
       newId,
     );
-    push(`/${newId}${reportedActive ? "?report=enabled" : ""}`);
+    push(`/${newId}${is_tiktok_report ? "?report=enabled" : ""}`);
   };
 
   const clearQuery = async () => {
@@ -63,11 +63,14 @@ const useChat = () => {
     return true;
   };
 
-  const append = async (message: Message, reportedActive: boolean = false) => {
+  const append = async (
+    message: Message,
+    is_tiktok_report: boolean = false,
+  ) => {
     if (!isPrepared()) return;
     setCurrentQuestion(message);
     appendAiChat(message);
-    goToNewConversation(message.content, reportedActive);
+    goToNewConversation(message.content, is_tiktok_report);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

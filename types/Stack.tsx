@@ -15,11 +15,10 @@ export type Conversation = {
     uniqueId: string;
     conversationId: string;
     referenceId: string;
-    reportedActive: true;
+    is_tiktok_report: boolean;
+    is_tiktok_analysis: boolean;
   };
   points: number;
   timestamp: string;
   title?: string;
-  isTikTokAnalysis?: boolean;
-  reportedActive?: boolean;
 };

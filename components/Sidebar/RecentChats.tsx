@@ -10,14 +10,14 @@ const RecentChats = ({ toggleModal }: { toggleModal: () => void }) => {
 
   const handleClick = (conversation: Conversation) => {
     toggleModal();
-    if (conversation.isTikTokAnalysis) {
+    if (conversation.metadata.is_tiktok_analysis) {
       push(
         `/funnels/tiktok-account-analysis/${conversation.metadata.conversationId}`,
       );
       return;
     }
     push(
-      `/${conversation.metadata.conversationId}${conversation.metadata?.reportedActive ? "report=enabled" : ""}`,
+      `/${conversation.metadata.conversationId}${conversation.metadata?.is_tiktok_report ? "report=enabled" : ""}`,
     );
   };
 
