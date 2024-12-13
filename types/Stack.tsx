@@ -11,9 +11,10 @@ export type Conversation = {
     id: string;
     role: string;
     content: string;
-    conversationId: string;
     questionId: string;
     uniqueId: string;
+    conversationId: string;
+    referenceId: string;
   };
   points: number;
   timestamp: string;

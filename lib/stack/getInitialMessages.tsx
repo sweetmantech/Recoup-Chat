@@ -26,6 +26,7 @@ const getInitialMessages = async (
       content: event.metadata.content,
       role: event.metadata.role as Message["role"],
       createdAt: new Date(event.timestamp),
+      metadata: event.metadata,
     } as StackMessage;
     if (event.metadata.role === "assistant")
       data.questionId = event.metadata.questionId;
