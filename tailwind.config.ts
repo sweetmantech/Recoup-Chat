@@ -32,6 +32,7 @@ const config: Config = {
           dark: "#71717A",
           primary: "#C6C6C6",
           secondary: "#F8F8F8",
+          light: "#E0E0E0"
         },
         green: {
           DEFAULT: "#345A5D"

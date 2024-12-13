@@ -5,7 +5,7 @@ import RecentChats from "../Sidebar/RecentChats";
 import UnlockPro from "../Sidebar/UnlockPro";
 import UserInfo from "../Sidebar/UserInfo";
 import Logo from "../Logo";
-import Icon from "../Icon";
+import MenuItemIcon from "../MenuItemIcon";
 
 const SideMenu = ({
   isVisible,
@@ -41,25 +41,25 @@ const SideMenu = ({
       <button
         type="button"
         onClick={() => goToItem("dashboard")}
-        className="flex gap-2 items-center mt-3 md:my-4"
+        className="flex gap-3 items-center mt-3 md:my-4"
       >
-        <Icon name="dashboard" />
+        <MenuItemIcon name="dashboard" />
         Dashboard
       </button>
       <button
         type="button"
         onClick={() => goToItem("artists")}
-        className="flex gap-2 items-center my-3 md:my-4"
+        className="flex gap-3 items-center my-3 md:my-4"
       >
-        <Icon name="micval" />
+        <MenuItemIcon name="micval" />
         Artists
       </button>
       <button
         type="button"
         onClick={() => goToItem("agents")}
-        className="flex gap-2 items-center mb-2 md:my-4"
+        className="flex gap-3 items-center mb-2 md:my-4"
       >
-        <Icon name="robot" />
+        <MenuItemIcon name="robot" />
         Agents
       </button>
       {email && <RecentChats toggleModal={toggleModal} />}
