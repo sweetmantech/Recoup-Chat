@@ -12,7 +12,7 @@ import { v4 as uuidV4 } from "uuid";
 const useTikTokToolMessagesTrack = () => {
   const { question, toolName, loading, messages, message } =
     useToolCallProvider();
-  const { finalCallback } = useChatProvider();
+  const { finalCallback, clearQuery } = useChatProvider();
   const { conversation: conversationId } = useParams();
   const {
     tiktokRawReportContent,
@@ -48,6 +48,7 @@ const useTikTokToolMessagesTrack = () => {
         conversationId as string,
         response?.id,
       );
+      clearQuery();
     };
     if (
       !loading &&

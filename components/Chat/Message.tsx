@@ -35,7 +35,7 @@ const Message = ({ message, index }: { message: AIMessage; index: number }) => {
           <p> ...</p>
         ) : (
           <>
-            {tiktokSummary ? (
+            {tiktokSummary && index === 0 ? (
               <Answer content={tiktokSummary} role="assistant" />
             ) : (
               <ToolFollowUp message={message} />
