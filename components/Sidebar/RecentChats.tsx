@@ -16,7 +16,9 @@ const RecentChats = ({ toggleModal }: { toggleModal: () => void }) => {
       );
       return;
     }
-    push(`/${conversation.metadata.conversationId}`);
+    push(
+      `/${conversation.metadata.conversationId}${conversation.metadata?.reportedActive ? "report=enabled" : ""}`,
+    );
   };
 
   return (

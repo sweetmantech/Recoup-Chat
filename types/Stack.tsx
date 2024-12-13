@@ -15,6 +15,7 @@ export type Conversation = {
     uniqueId: string;
     conversationId: string;
     referenceId: string;
+    reportedActive: true;
   };
   points: number;
   timestamp: string;
