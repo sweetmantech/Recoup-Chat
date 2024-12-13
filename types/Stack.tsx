@@ -17,6 +17,7 @@ export type Conversation = {
     referenceId: string;
     is_tiktok_report: boolean;
     is_tiktok_analysis: boolean;
+    title: string;
   };
   points: number;
   timestamp: string;
