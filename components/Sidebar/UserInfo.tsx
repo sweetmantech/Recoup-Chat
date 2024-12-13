@@ -29,10 +29,10 @@ const UserInfo = ({
               />
             </div>
             <div>
-              <p className="text-xs md:text-sm truncate max-w-[190px]">
-                {email}
+              <p className="text-xs md:text-sm truncate max-w-[190px]">{email}</p>
+              <p className="text-xs md:text-sm text-left">
+                {userData?.organization}
               </p>
-              <p className="text-xs md:text-sm text-left">Team Name</p>
             </div>
           </button>
         )}
