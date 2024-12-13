@@ -1,3 +1,4 @@
+import saveTikTokReport from "@/lib/saveTikTokReport";
 import { useChatProvider } from "@/providers/ChatProvider";
 import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
 import { useToolCallProvider } from "@/providers/ToolCallProvider";
@@ -6,7 +7,7 @@ import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import { v4 as uuidV4 } from "uuid";
 
-const useTrackToolMessages = () => {
+const useTikTokToolMessagesTrack = () => {
   const { question, toolName, loading, messages } = useToolCallProvider();
   const { finalCallback } = useChatProvider();
   const { conversation: conversationId } = useParams();
@@ -16,9 +17,16 @@ const useTrackToolMessages = () => {
   useEffect(() => {
     const track = async () => {
       setTikTokSummary(messages[1].content);
+      const stackUniqueId = uuidV4();
+      const response = await saveTikTokReport({
+        summary: messages[1].content,
+        next_steps: tiktokNextSteps,
+        report: tiktokRawReportContent,
+        stack_unique_id: stackUniqueId,
+      });
       await finalCallback(
         {
-          id: uuidV4(),
+          id: stackUniqueId,
           content: "TikTok Report",
           role: "assistant",
         },
@@ -28,6 +36,7 @@ const useTrackToolMessages = () => {
           role: "user",
         },
         conversationId as string,
+        response?.id,
       );
     };
     if (
@@ -40,4 +49,4 @@ const useTrackToolMessages = () => {
   }, [loading, tiktokNextSteps, tiktokRawReportContent, toolName]);
 };
 
-export default useTrackToolMessages;
+export default useTikTokToolMessagesTrack;
