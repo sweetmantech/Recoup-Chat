@@ -2,18 +2,21 @@ import stripeClient from "@/lib/stripe/client";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const sessionId = req.nextUrl.searchParams.get("sessionId");
   const accountId = req.nextUrl.searchParams.get("accountId");
 
   try {
-    const session = await stripeClient.checkout.sessions.update(sessionId, {
-      metadata: {
-        credit_updated: "credit_updated",
-        accountId,
+    const subscriptions = await stripeClient.subscriptions.list({
+      limit: 100,
+      current_period_end: {
+        gt: parseInt(Number(Date.now() / 1000).toFixed(0), 10),
       },
     });
 
-    return Response.json({ data: session }, { status: 200 });
+    const activeSubscriptions = subscriptions?.data?.filter(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (subscription: any) => subscription.metadata?.accountId === accountId,
+    );
+    return Response.json({ data: activeSubscriptions }, { status: 200 });
   } catch (error) {
     console.error(error);
     const message = error instanceof Error ? error.message : "failed";
