@@ -39,13 +39,6 @@ const useChainOfThought = () => {
         newId = uuidV4();
         push(`/funnels/tiktok-account-analysis/${newId}`);
       }
-      trackNewTitle(
-        {
-          title: `TikTok Analysis: ${username}`,
-          is_tiktok_analysis: true,
-        },
-        newId,
-      );
       const handle = username.replaceAll("@", "");
       const artistSelected = artists.find(
         (artist) => handle === getArtistTikTokHandle(artist),
@@ -53,6 +46,15 @@ const useChainOfThought = () => {
       if (artistSelected) {
         const analysisCache = await getTikTokAnalysisByArtistId(
           artistSelected?.id || "",
+        );
+        trackNewTitle(
+          {
+            title: `TikTok Analysis: ${username}`,
+            is_tiktok_analysis: true,
+            cached_id: analysisCache.id,
+            artistId: artistSelected?.id,
+          },
+          newId,
         );
         if (analysisCache) {
           setResult(analysisCache);

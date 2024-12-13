@@ -18,6 +18,8 @@ export type Conversation = {
     is_tiktok_report: boolean;
     is_tiktok_analysis: boolean;
     title: string;
+    cached_id: string;
+    artistId?: string;
   };
   points: number;
   timestamp: string;
