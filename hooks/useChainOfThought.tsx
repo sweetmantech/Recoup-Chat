@@ -16,7 +16,7 @@ import getArtistTikTokHandle from "@/lib/getArtistTikTokHandle";
 import getTikTokAnalysisByArtistId from "@/lib/getTikTokAnalysisByArtistId";
 
 const useChainOfThought = () => {
-  const { setSettingMode, selectedArtist, artists } = useArtistProvider();
+  const { setSettingMode, artists } = useArtistProvider();
   const [username, setUsername] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [thought, setThought] = useState(STEP_OF_ANALYSIS.INITITAL);
@@ -28,6 +28,7 @@ const useChainOfThought = () => {
   const { chat_id: chatId } = useParams();
   const { push } = useRouter();
   const { isPrepared } = useUserProvider();
+  const { trackTikTokAnalysisChat } = useConversationsProvider();
 
   const handleAnalyze = async () => {
     try {
@@ -47,14 +48,10 @@ const useChainOfThought = () => {
         const analysisCache = await getTikTokAnalysisByArtistId(
           artistSelected?.id || "",
         );
-        trackNewTitle(
-          {
-            title: `TikTok Analysis: ${username}`,
-            is_tiktok_analysis: true,
-            cached_id: analysisCache.id,
-            artistId: artistSelected?.id,
-          },
-          newId,
+        trackTikTokAnalysisChat(
+          username,
+          artistSelected?.id,
+          analysisCache?.chat_id,
         );
         if (analysisCache) {
           setResult(analysisCache);
@@ -96,13 +93,18 @@ const useChainOfThought = () => {
       setThought(STEP_OF_ANALYSIS.CREATING_ARTIST);
       const artistId = await saveTiktokArtist(profileWithComments);
       setThought(STEP_OF_ANALYSIS.SAVING_ANALYSIS);
-      const result = await saveTiktokAnalysis(
-        profileWithComments,
-        fanSegmentsWithIcons,
+      const analysis = {
+        ...profileWithComments,
+        segments: [...fanSegmentsWithIcons],
+        chat_id: newId,
         artistId,
-        newId,
-      );
-      setResult(result);
+      };
+      const newAnalaysisId = await saveTiktokAnalysis(analysis);
+      setResult({
+        id: newAnalaysisId,
+        ...profileWithComments,
+      });
+      trackTikTokAnalysisChat(username, artistId, newId);
       setThought(STEP_OF_ANALYSIS.FINISHED);
     } catch (error) {
       console.error("Analysis failed:", error);

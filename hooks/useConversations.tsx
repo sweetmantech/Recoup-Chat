@@ -37,6 +37,23 @@ const useConversations = () => {
     setConversations(filtered);
   }, [selectedArtist, allConverstaions]);
 
+  const trackTikTokAnalysisChat = async (
+    username: string,
+    artistId: string,
+    chatId: string,
+  ) => {
+    await trackNewTitle(
+      {
+        title: `TikTok Analysis: ${username}`,
+        is_tiktok_analysis: true,
+        cached_id: null,
+        artistId,
+      },
+      chatId,
+    );
+    fetchConversations(address);
+  };
+
   const trackNewTitle = async (titlemetadata: any, conversationId: string) => {
     await trackChatTitle(
       address,
@@ -77,6 +94,7 @@ const useConversations = () => {
     streamingTitle,
     trackNewTitle,
     streaming,
+    trackTikTokAnalysisChat,
   };
 };
 
