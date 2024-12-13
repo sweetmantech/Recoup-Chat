@@ -6,11 +6,14 @@ import { useChatProvider } from "@/providers/ChatProvider";
 import Icon from "../Icon";
 import ReportSummaryNote from "./ReportSummaryNote";
 import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
+import Answer from "../Tools/Answer";
+import { useTrackToolMessageProvider } from "@/providers/TrackToolMessageProvider";
 
 const Message = ({ message, index }: { message: AIMessage; index: number }) => {
   const { context, loading } = useToolCallProvider();
-  const { tiktokNextSteps } = useTikTokReportProvider();
+  const { tiktokNextSteps, tiktokSummary } = useTikTokReportProvider();
   const { reportEnabled, pending, messages } = useChatProvider();
+  const { tiktokTracking } = useTrackToolMessageProvider();
   const summaryShown =
     reportEnabled &&
     index === 0 &&
@@ -28,7 +31,17 @@ const Message = ({ message, index }: { message: AIMessage; index: number }) => {
         className={`grow ${message.role === "user" && "flex justify-end"} max-w-[90%]`}
       >
         {context && <ToolContent />}
-        <ToolFollowUp message={message} />
+        {tiktokTracking ? (
+          <p> ...</p>
+        ) : (
+          <>
+            {tiktokSummary && index === 0 ? (
+              <Answer content={tiktokSummary} role="assistant" />
+            ) : (
+              <ToolFollowUp message={message} />
+            )}
+          </>
+        )}
         {summaryShown && <ReportSummaryNote />}
       </div>
     </div>
