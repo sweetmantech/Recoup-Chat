@@ -3,7 +3,6 @@ import trackNewMessage from "@/lib/stack/trackNewMessage";
 import { Message } from "ai";
 import { useEffect, useState } from "react";
 import { Address } from "viem";
-import { v4 as uuidV4 } from "uuid";
 import { useParams, usePathname } from "next/navigation";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useArtistProvider } from "@/providers/ArtistProvider";
@@ -34,6 +33,7 @@ const useSuggestions = () => {
     message: Message,
     lastQuestion?: Message,
     newConversationId?: string,
+    referenceId?: string,
   ) => {
     const convId = newConversationId || (pathId as string);
     const question = lastQuestion || currentQuestion;
@@ -41,19 +41,19 @@ const useSuggestions = () => {
     await trackNewMessage(
       address as Address,
       question,
-      convId,
       selectedArtist?.id || "",
+      convId,
     );
     await trackNewMessage(
       address as Address,
       {
+        ...message,
         content: formattedContent(message.content),
-        role: message.role,
-        id: uuidV4(),
         questionId: question.id,
       },
-      convId,
       selectedArtist?.id || "",
+      convId,
+      referenceId,
     );
     setCurrentQuestion(null);
     const response = await fetch(

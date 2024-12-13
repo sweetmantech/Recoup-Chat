@@ -1,15 +1,17 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { createSession } from "@/lib/stripe/createSession";
-import { useParams } from "next/navigation";
 import { useUserProvider } from "@/providers/UserProvder";
 import { v4 as uuidV4 } from "uuid";
+import getCredits from "@/lib/supabase/getCredits";
+import { getActiveSubscription } from "@/lib/stripe/getActiveSubscription";
 
 const usePayment = () => {
   const [loading, setLoading] = useState(false);
-  const { chat_id: chatId } = useParams();
   const { userData } = useUserProvider();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [successCallbackParams, setSuccessCallbackParams] = useState("");
+  const [hasCredits, setHasCredits] = useState(false);
+  const [subscriptionActive, setSubscriptionActive] = useState(false);
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
@@ -24,13 +26,27 @@ const usePayment = () => {
       referenceId,
       isSubscription,
       {
-        chatId: chatId as string,
         accountId: userData?.id,
       },
     );
 
     window.open(sessionResponse.url, "_self");
   };
+
+  const checkCredits = useCallback(async () => {
+    if (!userData) return;
+    const subscriptions = await getActiveSubscription(userData?.id);
+    if (subscriptions?.length) {
+      setSubscriptionActive(true);
+      return;
+    }
+    const credits = await getCredits(userData?.id);
+    if (credits?.remaining_credits) setHasCredits(true);
+  }, [userData]);
+
+  useEffect(() => {
+    checkCredits();
+  }, [checkCredits]);
 
   return {
     setSuccessCallbackParams,
@@ -40,6 +56,9 @@ const usePayment = () => {
     isModalOpen,
     setIsModalOpen,
     toggleModal,
+    checkCredits,
+    hasCredits,
+    subscriptionActive,
   };
 };
 

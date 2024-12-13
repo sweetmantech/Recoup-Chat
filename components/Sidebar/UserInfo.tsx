@@ -13,7 +13,7 @@ const UserInfo = ({
   return (
     <>
       <div
-        className={`w-full px-3 flex gap-3 items-center ${email ? "justify-between" : "justify-start"}`}
+        className={`w-full flex gap-3 items-center ${email ? "justify-between" : "justify-end pr-2"}`}
       >
         {email && (
           <button
@@ -29,7 +29,9 @@ const UserInfo = ({
               />
             </div>
             <div>
-              <p className="text-xs md:text-sm">{email}</p>
+              <p className="text-xs md:text-sm truncate max-w-[190px]">
+                {email}
+              </p>
               <p className="text-xs md:text-sm text-left">Team Name</p>
             </div>
           </button>

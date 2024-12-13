@@ -10,12 +10,13 @@ import { StackMessage } from "@/types/Stack";
 const trackNewMessage = async (
   address: Address,
   message: StackMessage,
-  conversationId: string,
   artistId: string,
+  conversationId: string,
+  referenceId?: string,
 ) => {
   try {
     const stackClient = getStackClient(CHAT_POINT_SYSTEM_ID);
-    const uniqueId = `${address}-${Date.now()}`;
+    const uniqueId = message.id;
     const eventName = `${MESSAGE_SENT_EVENT}-${conversationId}`;
     await stackClient.track(eventName, {
       points: MESSAGE_SENT_POINT,
@@ -24,6 +25,7 @@ const trackNewMessage = async (
       metadata: {
         ...message,
         conversationId,
+        referenceId: referenceId || "",
         artistId,
       },
     });
