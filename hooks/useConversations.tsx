@@ -51,7 +51,6 @@ const useConversations = () => {
       },
       chatId,
     );
-    fetchConversations(address);
   };
 
   const trackNewTitle = async (titlemetadata: any, conversationId: string) => {
