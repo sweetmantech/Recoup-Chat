@@ -1,7 +1,7 @@
-export const checkSession = async (sessionId: string, accountId: string) => {
+export const getActiveSubscription = async (accountId: string) => {
   try {
     const response = await fetch(
-      `/api/stripe/session/checked?sessionId=${sessionId}&accountId=${accountId}`,
+      `/api/stripe/subscription/search?accountId=${accountId}`,
     );
 
     const data = await response.json();

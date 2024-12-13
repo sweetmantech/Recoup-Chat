@@ -42,7 +42,7 @@ const sendReportEmail = (
         </body>
       </html>`;
 
-  return fetch("/api/report/email", {
+  return fetch("/api/tiktok_report/email", {
     method: "POST",
     body: JSON.stringify({
       email,

@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     };
 
   try {
-    const session = await stripeClient.checkout.sessions.create({
+    const sessionData = {
       success_url: successUrl as string,
       line_items: [
         {
@@ -36,7 +36,13 @@ export async function POST(req: NextRequest) {
       mode: isSubscription ? "subscription" : "payment",
       client_reference_id: referenceId,
       metadata,
-    });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any;
+    if (isSubscription)
+      sessionData.subscription_data = {
+        metadata,
+      };
+    const session = await stripeClient.checkout.sessions.create(sessionData);
 
     return Response.json({ data: session }, { status: 200 });
   } catch (error) {
