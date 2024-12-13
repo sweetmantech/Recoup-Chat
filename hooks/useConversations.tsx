@@ -46,7 +46,6 @@ const useConversations = () => {
       {
         title: `TikTok Analysis: ${username}`,
         is_tiktok_analysis: true,
-        cached_id: null,
         artistId,
       },
       chatId,

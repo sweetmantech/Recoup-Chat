@@ -24,7 +24,6 @@ const useChainOfThought = () => {
   const [progress, setProgress] = useState(0);
   const [segments, setSegments] = useState<Array<any>>([]);
   const { saveTiktokArtist } = useSaveTiktokArtist();
-  const { trackNewTitle } = useConversationsProvider();
   const { chat_id: chatId } = useParams();
   const { push } = useRouter();
   const { isPrepared } = useUserProvider();
