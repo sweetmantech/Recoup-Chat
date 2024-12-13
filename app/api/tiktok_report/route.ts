@@ -1,40 +1,22 @@
-import {
-  AI_MODEL,
-  FULL_REPORT_NOTE,
-  HTML_RESPONSE_FORMAT_INSTRUCTIONS,
-} from "@/lib/consts";
+import { getSupabaseServerAdminClient } from "@/packages/supabase/src/clients/server-admin-client";
 import { NextRequest } from "next/server";
-import instructions from "@/evals/scripts/instructions.json";
-import { LanguageModelV1, streamText } from "ai";
-import { openai } from "@ai-sdk/openai";
 
-export async function POST(req: NextRequest) {
-  const body = await req.json();
+export async function GET(req: NextRequest) {
+  const id = req.nextUrl.searchParams.get("id");
 
   try {
-    const result = await streamText({
-      model: openai(AI_MODEL) as LanguageModelV1,
-      maxTokens: 1555,
-      temperature: 0.7,
-      messages: [
-        {
-          role: "user",
-          content: `Context: ${JSON.stringify(body)}
-          Question: Please, create a tiktok fan segment report.`,
-        },
-        {
-          role: "system",
-          content: `${instructions.get_segements_report}
-          ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
-          NOTE: ${FULL_REPORT_NOTE}`,
-        },
-      ],
-    });
-    return result.toDataStreamResponse();
+    const client = getSupabaseServerAdminClient();
+    const { data, error } = await client
+      .from("tiktok_reports")
+      .select("*")
+      .eq("id", id)
+      .single();
+    if (error)
+      return Response.json({ id: null, success: false }, { status: 500 });
+    return Response.json({ success: true, data }, { status: 200 });
   } catch (error) {
     console.error(error);
-    const message = error instanceof Error ? error.message : "failed";
-    return Response.json({ message }, { status: 400 });
+    return Response.json({ id: null, success: false }, { status: 500 });
   }
 }
 
