@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const saveTikTokReport = async (info: any) => {
   try {
-    const response = await fetch("/api/report/save", {
+    const response = await fetch("/api/tiktok_report/save", {
       method: "POST",
       body: JSON.stringify(info),
       headers: {

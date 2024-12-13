@@ -7,6 +7,9 @@ import { TrackToolMessageProvider } from "./TrackToolMessageProvider";
 
 type ToolCallContextType = ReturnType<typeof useToolCall> & {
   scrollTo: () => void;
+  message: Message & {
+    metadata?: any;
+  };
 };
 
 const ToolCallContext = createContext<ToolCallContextType | undefined>(
@@ -24,7 +27,7 @@ const ToolCallProvider = ({
 }) => {
   const toolCall = useToolCall(message);
 
-  const value = useMemo(() => ({ ...toolCall, scrollTo }), [toolCall]);
+  const value = useMemo(() => ({ ...toolCall, message, scrollTo }), [toolCall]);
 
   return (
     <ToolCallContext.Provider value={value}>
