@@ -60,7 +60,6 @@ const Menu = ({ toggleMenuExpanded }: { toggleMenuExpanded: () => void }) => {
         <MenuItemIcon name="robot" />
         Agents
       </button>
-      <div className="h-[0.1px] bg-greyw-full my-4" />
       {email && <RecentChats toggleModal={toggleMenuExpanded} />}
       <div className="grow flex flex-col gap-1 md:gap-3 justify-end">
         <UnlockPro />
