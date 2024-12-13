@@ -30,7 +30,9 @@ const UserInfo = ({
             </div>
             <div>
               <p className="text-xs md:text-sm">{email}</p>
-              <p className="text-xs md:text-sm text-left">Team Name</p>
+              <p className="text-xs md:text-sm text-left">
+                {userData?.organization}
+              </p>
             </div>
           </button>
         )}
