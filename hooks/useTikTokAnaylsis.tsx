@@ -6,6 +6,7 @@ import { STEP_OF_ANALYSIS } from "@/types/Thought";
 import addArtist from "@/lib/addArtist";
 import useTikTokAnalysisChain from "./useTikTokAnalysisChain";
 import { useChatProvider } from "@/providers/ChatProvider";
+import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
 
 const useTikTokAnalysis = () => {
   const tiktokAnalysisChain = useTikTokAnalysisChain();
@@ -14,9 +15,11 @@ const useTikTokAnalysis = () => {
   const { push } = useRouter();
   const { email } = useUserProvider();
   const { clearMessagesCache } = useChatProvider();
+  const { setTikTokSummary } = useTikTokReportProvider();
 
   useEffect(() => {
     const init = async () => {
+      setTikTokSummary("");
       clearMessagesCache();
       const response = await fetch(`/api/tiktok_analysis?chatId=${chatId}`);
       const data = await response.json();
