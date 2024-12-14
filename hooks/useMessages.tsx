@@ -87,6 +87,7 @@ const useMessages = () => {
     suggestions,
     setCurrentQuestion,
     finalCallback,
+    setMessages,
   };
 };
 

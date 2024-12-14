@@ -15,7 +15,7 @@ import getSegments from "@/lib/getSegments";
 import getArtistTikTokHandle from "@/lib/getArtistTikTokHandle";
 import getTikTokAnalysisByArtistId from "@/lib/getTikTokAnalysisByArtistId";
 
-const useChainOfThought = () => {
+const useTikTokAnalysisChain = () => {
   const { setSettingMode, artists } = useArtistProvider();
   const [username, setUsername] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -128,4 +128,4 @@ const useChainOfThought = () => {
   };
 };
 
-export default useChainOfThought;
+export default useTikTokAnalysisChain;

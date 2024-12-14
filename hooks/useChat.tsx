@@ -19,6 +19,7 @@ const useChat = () => {
     handleAiChatSubmit,
     handleInputChange,
     messagesRef,
+    setMessages,
     pending,
     fetchInitialMessages,
     toolCall,
@@ -75,6 +76,7 @@ const useChat = () => {
   return {
     suggestions,
     messages: messagesRef.current,
+    setMessages,
     input,
     handleInputChange,
     handleSubmit,
