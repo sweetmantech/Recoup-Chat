@@ -15,11 +15,11 @@ const useTikTokAnalysis = () => {
   const { push } = useRouter();
   const { email } = useUserProvider();
   const { clearMessagesCache } = useChatProvider();
-  const { setTikTokSummary } = useTikTokReportProvider();
+  const { clearReportCache } = useTikTokReportProvider();
 
   useEffect(() => {
     const init = async () => {
-      setTikTokSummary("");
+      clearReportCache();
       clearMessagesCache();
       const response = await fetch(`/api/tiktok_analysis?chatId=${chatId}`);
       const data = await response.json();
