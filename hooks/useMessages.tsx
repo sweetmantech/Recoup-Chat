@@ -87,7 +87,7 @@ const useMessages = () => {
     handleAiChatSubmit,
     handleInputChange,
     input,
-    messagesRef,
+    messages,
     pending,
     fetchInitialMessages,
     toolCall,

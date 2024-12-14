@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import useMessages from "./useMessages";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
+import { useMemo } from "react";
 
 const useChat = () => {
   const { login, address } = useUserProvider();
@@ -18,7 +19,7 @@ const useChat = () => {
     appendAiChat,
     handleAiChatSubmit,
     handleInputChange,
-    messagesRef,
+    messages,
     pending,
     fetchInitialMessages,
     toolCall,
@@ -75,7 +76,7 @@ const useChat = () => {
 
   return {
     suggestions,
-    messages: messagesRef.current,
+    messages,
     input,
     handleInputChange,
     handleSubmit,
