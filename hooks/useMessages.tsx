@@ -12,7 +12,8 @@ import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 const useMessages = () => {
   const { finalCallback, suggestions, setCurrentQuestion } = useSuggestions();
   const csrfToken = useCsrfToken();
-  const { initialMessages, fetchInitialMessages } = useInitialMessages();
+  const { initialMessages, fetchInitialMessages, setInitialMessages } =
+    useInitialMessages();
   const { conversationRef } = useConversationsProvider();
   const queryClient = useQueryClient();
   const { email } = useUserProvider();
@@ -59,6 +60,12 @@ const useMessages = () => {
 
   const messagesRef = useRef(messages);
 
+  const clearMessagesCache = () => {
+    setInitialMessages([]);
+    setMessages([]);
+    messagesRef.current = [];
+  };
+
   useEffect(() => {
     if (messages.length) messagesRef.current = messages;
   }, [messages]);
@@ -87,7 +94,7 @@ const useMessages = () => {
     suggestions,
     setCurrentQuestion,
     finalCallback,
-    setMessages,
+    clearMessagesCache,
   };
 };
 

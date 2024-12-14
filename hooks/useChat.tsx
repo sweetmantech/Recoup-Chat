@@ -19,13 +19,13 @@ const useChat = () => {
     handleAiChatSubmit,
     handleInputChange,
     messagesRef,
-    setMessages,
     pending,
     fetchInitialMessages,
     toolCall,
     suggestions,
     finalCallback,
     setCurrentQuestion,
+    clearMessagesCache,
   } = useMessages();
 
   const goToNewConversation = async (
@@ -76,7 +76,6 @@ const useChat = () => {
   return {
     suggestions,
     messages: messagesRef.current,
-    setMessages,
     input,
     handleInputChange,
     handleSubmit,
@@ -86,6 +85,7 @@ const useChat = () => {
     clearQuery,
     toolCall,
     reportEnabled,
+    clearMessagesCache,
   };
 };
 
