@@ -37,6 +37,7 @@ const usePayment = () => {
     if (!userData) return;
     const subscriptions = await getActiveSubscription(userData?.id);
     if (subscriptions?.length) {
+      setIsCreditChecking(false);
       setSubscriptionActive(true);
       return;
     }
