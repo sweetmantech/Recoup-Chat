@@ -14,7 +14,7 @@ export const createPdf = async ({
       return;
     }
     const options = {
-      margin: [0.5, 0.5],
+      margin: [0.5, 0.3],
       filename: name,
       image: { type: "jpeg", quality: 1 },
       html2canvas: {
