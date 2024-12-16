@@ -50,7 +50,10 @@ const useArtists = () => {
         const newUpdatedInfo = data.artists.find(
           (artist: ArtistRecord) => artist.id === artistId,
         );
-        if (newUpdatedInfo) setSelectedArtist(newUpdatedInfo);
+        if (newUpdatedInfo) {
+          setSelectedArtist(newUpdatedInfo);
+          setArtistCookie(newUpdatedInfo);
+        }
       }
     },
     [email],
