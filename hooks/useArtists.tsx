@@ -47,10 +47,11 @@ const useArtists = () => {
       const data = await response.json();
       setArtists(data.artists);
       if (selectedArtist) {
-        const newUpdatedInfo = data.artists.filter(
-          (artist: ArtistRecord) => artist.id === artistId || selectedArtist.id,
+        const newUpdatedInfo = data.artists.find(
+          (artist: ArtistRecord) =>
+            artist.id === (artistId || selectedArtist.id),
         );
-        setSelectedArtist(newUpdatedInfo?.[0] || selectedArtist);
+        setSelectedArtist(newUpdatedInfo || selectedArtist);
       }
     },
     [email],
