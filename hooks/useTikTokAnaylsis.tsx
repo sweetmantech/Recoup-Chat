@@ -4,17 +4,23 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { STEP_OF_ANALYSIS } from "@/types/Thought";
 import addArtist from "@/lib/addArtist";
-import useChainOfThought from "./useChainOfThought";
+import useTikTokAnalysisChain from "./useTikTokAnalysisChain";
+import { useChatProvider } from "@/providers/ChatProvider";
+import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
 
 const useTikTokAnalysis = () => {
-  const chainOfThought = useChainOfThought();
+  const tiktokAnalysisChain = useTikTokAnalysisChain();
   const { getArtists } = useArtistProvider();
   const { chat_id: chatId } = useParams();
   const { push } = useRouter();
   const { email } = useUserProvider();
+  const { clearMessagesCache } = useChatProvider();
+  const { clearReportCache } = useTikTokReportProvider();
 
   useEffect(() => {
     const init = async () => {
+      clearReportCache();
+      clearMessagesCache();
       const response = await fetch(`/api/tiktok_analysis?chatId=${chatId}`);
       const data = await response.json();
       if (data?.data) {
@@ -22,10 +28,10 @@ const useTikTokAnalysis = () => {
           await addArtist(email || "", data.data.artistId);
           await getArtists();
         }
-        chainOfThought.setResult(data.data);
-        chainOfThought.setSegments(data.data.segments);
-        chainOfThought.setIsLoading(true);
-        chainOfThought.setThought(STEP_OF_ANALYSIS.FINISHED);
+        tiktokAnalysisChain.setResult(data.data);
+        tiktokAnalysisChain.setSegments(data.data.segments);
+        tiktokAnalysisChain.setIsLoading(true);
+        tiktokAnalysisChain.setThought(STEP_OF_ANALYSIS.FINISHED);
       }
     };
     if (!chatId) return;
@@ -33,17 +39,17 @@ const useTikTokAnalysis = () => {
   }, [chatId, email]);
 
   const handleRetry = () => {
-    chainOfThought.setResult(null);
-    chainOfThought.setSegments([]);
-    chainOfThought.setThought(STEP_OF_ANALYSIS.POSTURLS);
-    chainOfThought.setProgress(0);
-    chainOfThought.setUsername("");
-    chainOfThought.setIsLoading(false);
+    tiktokAnalysisChain.setResult(null);
+    tiktokAnalysisChain.setSegments([]);
+    tiktokAnalysisChain.setThought(STEP_OF_ANALYSIS.POSTURLS);
+    tiktokAnalysisChain.setProgress(0);
+    tiktokAnalysisChain.setUsername("");
+    tiktokAnalysisChain.setIsLoading(false);
     push("/funnels/tiktok-account-analysis");
   };
 
   return {
-    ...chainOfThought,
+    ...tiktokAnalysisChain,
     handleRetry,
   };
 };
