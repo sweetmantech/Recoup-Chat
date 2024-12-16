@@ -101,9 +101,9 @@ const useMessages = () => {
   useEffect(() => {
     if (messages.length) {
       messagesRef.current = messages;
-      getPrompts(messages[messages.length - 1]);
+      if (!pending) getPrompts(messages[messages.length - 1]);
     }
-  }, [messages, tiktokRawReportContent]);
+  }, [messages, tiktokRawReportContent, pending]);
   useEffect(() => {
     if (initialMessages.length) setMessages(initialMessages);
   }, [initialMessages]);
