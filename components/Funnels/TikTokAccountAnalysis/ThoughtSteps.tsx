@@ -1,6 +1,6 @@
 import getThoughtStatus from "@/lib/getThoughtStatus";
 import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
-import { STEP_OF_ANALYSIS } from "@/types/Twitter";
+import { STEP_OF_ANALYSIS } from "@/types/Thought";
 import StreamingThought from "./StreamThought";
 
 const ThoughtSteps = () => {
