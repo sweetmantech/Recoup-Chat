@@ -2,10 +2,11 @@ import { Address } from "viem";
 import { useEffect, useRef, useState } from "react";
 import { Conversation } from "@/types/Stack";
 import getConversations from "@/lib/stack/getConversations";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useUserProvider } from "@/providers/UserProvder";
 import trackChatTitle from "@/lib/stack/trackChatTitle";
 import { useArtistProvider } from "@/providers/ArtistProvider";
+import getAiTitle from "@/lib/getAiTitle";
 
 let timer: any = null;
 let streamedIndex = 1;
@@ -19,6 +20,8 @@ const useConversations = () => {
   const [streaming, setStreaming] = useState(false);
   const { selectedArtist } = useArtistProvider();
   const [allConverstaions, setAllConverstaions] = useState<Conversation[]>([]);
+  const [quotaExceeded, setQuotaExceeded] = useState(false);
+  const { push } = useRouter();
 
   useEffect(() => {
     if (address) {
@@ -36,6 +39,44 @@ const useConversations = () => {
     );
     setConversations(filtered);
   }, [selectedArtist, allConverstaions]);
+
+  const trackGeneralChat = async (
+    content: string,
+    chatId: string,
+    is_tiktok_report: boolean,
+  ) => {
+    const response = await getAiTitle(content);
+    if (response?.error) {
+      setQuotaExceeded(true);
+      push("/");
+      return;
+    }
+    setQuotaExceeded(false);
+    await trackNewTitle(
+      {
+        title: response.replaceAll(`\"`, ""),
+        is_tiktok_report,
+        artistId: selectedArtist?.id,
+      },
+      chatId,
+    );
+    fetchConversations(address);
+  };
+
+  const trackTikTokAnalysisChat = async (
+    username: string,
+    artistId: string,
+    chatId: string,
+  ) => {
+    await trackNewTitle(
+      {
+        title: `TikTok Analysis: ${username}`,
+        is_tiktok_analysis: true,
+        artistId,
+      },
+      chatId,
+    );
+  };
 
   const trackNewTitle = async (titlemetadata: any, conversationId: string) => {
     await trackChatTitle(
@@ -77,6 +118,10 @@ const useConversations = () => {
     streamingTitle,
     trackNewTitle,
     streaming,
+    trackTikTokAnalysisChat,
+    setQuotaExceeded,
+    quotaExceeded,
+    trackGeneralChat,
   };
 };
 

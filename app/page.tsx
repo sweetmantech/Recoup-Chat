@@ -2,10 +2,10 @@
 
 import AIError from "@/components/Chat/AIError";
 import InitialChat from "@/components/Chat/InitialChat";
-import { useChatProvider } from "@/providers/ChatProvider";
+import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 
 const LandingPage = () => {
-  const { quotaExceeded } = useChatProvider();
+  const { quotaExceeded } = useConversationsProvider();
   return <>{quotaExceeded ? <AIError /> : <InitialChat />}</>;
 };
 
