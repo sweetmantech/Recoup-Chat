@@ -2,6 +2,7 @@ import { createPdf } from "@/lib/pdf/createPdf";
 import sendReportEmail from "@/lib/sendReportEmail";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
+import { useInitialMessagesProvider } from "@/providers/InititalMessagesProvider";
 import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useState } from "react";
@@ -12,22 +13,24 @@ const useDownloadReport = () => {
   const { email } = useUserProvider();
   const { tiktokRawReportContent } = useTikTokReportProvider();
   const { selectedArtist } = useArtistProvider();
+  const { titleMessage } = useInitialMessagesProvider();
 
   const downloadReport = async () => {
     setDownloading(true);
     try {
+      const reportTitle = streamingTitle || titleMessage?.metadata?.title;
       sendReportEmail(
         tiktokRawReportContent,
         selectedArtist?.image || "",
         selectedArtist?.name || "",
         email || "",
-        streamingTitle,
+        reportTitle,
       );
       const doc = await createPdf({
         pdfDomElementId: "segment-report",
-        name: `${streamingTitle}.pdf`,
+        name: `${reportTitle}.pdf`,
       });
-      doc?.save(`${streamingTitle}.pdf`);
+      doc?.save(`${reportTitle}.pdf`);
     } catch (error) {
       console.error("Error generating PDF:", error);
     } finally {

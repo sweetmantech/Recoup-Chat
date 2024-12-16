@@ -7,7 +7,8 @@ const ReportSummaryNote = () => {
     tiktokNextSteps,
     tiktokReportContent,
     isGeneratingReport,
-    tiktokAnalysis,
+    bannerImage,
+    bannerArtistName,
   } = useTikTokReportProvider();
   const { downloadReport } = useDownloadReport();
   return (
@@ -38,13 +39,13 @@ const ReportSummaryNote = () => {
               <div className="w-full aspect-[757/146] rounded-lg flex items-center justify-center overflow-hidden relative mb-6">
                 {/* eslint-disable-next-line  @next/next/no-img-element */}
                 <img
-                  src={tiktokAnalysis?.avatar || ""}
+                  src={bannerImage || ""}
                   alt="not found pic"
                   className="w-full"
                 />
                 <div className="absolute left-0 top-0 size-full flex items-center justify-end pr-3 gap-2">
                   <p className="text-white font-bold text-[40px]">
-                    {tiktokAnalysis?.nickname}
+                    {bannerArtistName}
                   </p>
                   <div className="pt-9">
                     <Icon name="logo-xl" />

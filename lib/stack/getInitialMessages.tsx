@@ -34,7 +34,15 @@ const getInitialMessages = async (
   });
   messages.sort((a, b) => a.createdAt!.getTime() - b.createdAt!.getTime());
 
-  return messages;
+  const titleMessage = messages.filter(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (message: any) => message?.metadata?.title,
+  )?.[0];
+
+  return {
+    messages,
+    titleMessage,
+  };
 };
 
 export default getInitialMessages;

@@ -2,18 +2,17 @@ import { useEffect, useRef, useState } from "react";
 import useSuggestions from "./useSuggestions";
 import { useChat as useAiChat } from "ai/react";
 import { useCsrfToken } from "@/packages/shared/src/hooks";
-import useInitialMessages from "./useInitialMessages";
 import { usePathname } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
+import { useInitialMessagesProvider } from "@/providers/InititalMessagesProvider";
 
 const useMessages = () => {
   const { finalCallback, suggestions, setCurrentQuestion } = useSuggestions();
   const csrfToken = useCsrfToken();
-  const { initialMessages, fetchInitialMessages, setInitialMessages } =
-    useInitialMessages();
+  const { initialMessages, setInitialMessages } = useInitialMessagesProvider();
   const { conversationRef } = useConversationsProvider();
   const queryClient = useQueryClient();
   const { email } = useUserProvider();
@@ -89,7 +88,6 @@ const useMessages = () => {
     input,
     messages,
     pending,
-    fetchInitialMessages,
     toolCall,
     suggestions,
     setCurrentQuestion,

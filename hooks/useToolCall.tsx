@@ -1,4 +1,3 @@
-import { useChatProvider } from "@/providers/ChatProvider";
 import { Message } from "ai";
 import { useEffect, useState } from "react";
 import { v4 as uuidV4 } from "uuid";
@@ -14,9 +13,10 @@ import getReportNextSteps from "@/lib/getReportNextSteps";
 import { ArtistRecord } from "@/types/Artist";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
+import { useMessagesProvider } from "@/providers/MessagesProvider";
 
 const useToolCall = (message: Message) => {
-  const { finalCallback } = useChatProvider();
+  const { finalCallback } = useMessagesProvider();
   const { conversation: conversationId } = useParams();
   const [isCalled, setIsCalled] = useState(false);
   const { toolName, context, question } = useToolCallParams(message);
@@ -25,6 +25,7 @@ const useToolCall = (message: Message) => {
     toolName,
   );
   const { setSelectedArtist, artists } = useArtistProvider();
+  const { setBannerArtistName, setBannerImage } = useTikTokReportProvider();
   const {
     setIsSearchingTrends,
     setTiktokNextSteps,
@@ -82,6 +83,8 @@ const useToolCall = (message: Message) => {
           }
           setIsGettingAnalysis(true);
           setTiktokAnalysis(context?.analysis);
+          setBannerImage(context?.analysis?.avatar);
+          setBannerArtistName(context?.analysis?.nickname);
           const nextSteps = await getReportNextSteps(context?.analysis);
           setTiktokNextSteps(nextSteps);
           setIsGettingAnalysis(false);

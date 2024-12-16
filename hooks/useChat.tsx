@@ -1,10 +1,10 @@
 import { Message } from "ai/react";
 import { v4 as uuidV4 } from "uuid";
 import { useRouter, useSearchParams } from "next/navigation";
-import useMessages from "./useMessages";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
-import { useMemo } from "react";
+import { useMessagesProvider } from "@/providers/MessagesProvider";
+import { useInitialMessagesProvider } from "@/providers/InititalMessagesProvider";
 
 const useChat = () => {
   const { login, address } = useUserProvider();
@@ -12,22 +12,14 @@ const useChat = () => {
   const { conversationId, trackGeneralChat } = useConversationsProvider();
   const searchParams = useSearchParams();
   const reportEnabled = searchParams.get("report");
-
   const {
     conversationRef,
     input,
     appendAiChat,
     handleAiChatSubmit,
-    handleInputChange,
-    messages,
-    pending,
-    fetchInitialMessages,
-    toolCall,
-    suggestions,
-    finalCallback,
     setCurrentQuestion,
-    clearMessagesCache,
-  } = useMessages();
+  } = useMessagesProvider();
+  const { fetchInitialMessages } = useInitialMessagesProvider();
 
   const goToNewConversation = async (
     content: string,
@@ -75,18 +67,10 @@ const useChat = () => {
   };
 
   return {
-    suggestions,
-    messages,
-    input,
-    handleInputChange,
     handleSubmit,
     append,
-    pending,
-    finalCallback,
     clearQuery,
-    toolCall,
     reportEnabled,
-    clearMessagesCache,
   };
 };
 

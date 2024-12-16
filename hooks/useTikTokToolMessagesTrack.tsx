@@ -2,6 +2,7 @@ import getPdfReport from "@/lib/getPdfReport";
 import saveTikTokReport from "@/lib/saveTikTokReport";
 import getTikTokReport from "@/lib/tiktok/getTikTokReport";
 import { useChatProvider } from "@/providers/ChatProvider";
+import { useMessagesProvider } from "@/providers/MessagesProvider";
 import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
 import { useToolCallProvider } from "@/providers/ToolCallProvider";
 import { Tools } from "@/types/Tool";
@@ -12,7 +13,8 @@ import { v4 as uuidV4 } from "uuid";
 const useTikTokToolMessagesTrack = () => {
   const { question, toolName, loading, messages, message } =
     useToolCallProvider();
-  const { finalCallback, clearQuery } = useChatProvider();
+  const { finalCallback } = useMessagesProvider();
+  const { clearQuery } = useChatProvider();
   const { conversation: conversationId } = useParams();
   const {
     tiktokRawReportContent,

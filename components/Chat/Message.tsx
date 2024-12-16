@@ -8,11 +8,13 @@ import ReportSummaryNote from "./ReportSummaryNote";
 import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
 import Answer from "../Tools/Answer";
 import { useTrackToolMessageProvider } from "@/providers/TrackToolMessageProvider";
+import { useMessagesProvider } from "@/providers/MessagesProvider";
 
 const Message = ({ message, index }: { message: AIMessage; index: number }) => {
   const { context, loading } = useToolCallProvider();
   const { tiktokNextSteps, tiktokSummary } = useTikTokReportProvider();
-  const { reportEnabled, pending, messages } = useChatProvider();
+  const { reportEnabled } = useChatProvider();
+  const { pending, messages } = useMessagesProvider();
   const { tiktokTracking } = useTrackToolMessageProvider();
   const summaryShown =
     reportEnabled &&

@@ -2,6 +2,8 @@
 
 import useChat from "@/hooks/useChat";
 import React, { createContext, useContext, useMemo } from "react";
+import { MessagesProvider } from "./MessagesProvider";
+import { InitialMessagesProvider } from "./InititalMessagesProvider";
 
 const ChatContext = createContext<ReturnType<typeof useChat>>(
   {} as ReturnType<typeof useChat>,
@@ -12,7 +14,13 @@ const ChatProvider = ({ children }: { children: React.ReactNode }) => {
 
   const value = useMemo(() => ({ ...chat }), [chat]);
 
-  return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
+  return (
+    <InitialMessagesProvider>
+      <MessagesProvider>
+        <ChatContext.Provider value={value}>{children}</ChatContext.Provider>
+      </MessagesProvider>
+    </InitialMessagesProvider>
+  );
 };
 
 const useChatProvider = () => {
