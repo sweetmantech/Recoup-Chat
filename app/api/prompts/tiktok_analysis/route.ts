@@ -14,21 +14,16 @@ export async function POST(req: NextRequest) {
       messages: [
         {
           role: "user",
-          content: `Based on the conversation context, generate helpful follow-up questions that encourage deeper exploration and analysis of the provided data. 
-          - Questions should be framed to help guide the user to actionable insights.
-          - Utilize the existing data context to craft relevant and engaging questions.
-          - Ensure that questions are forward-thinking, aimed at helping the user make informed decisions or identify key trends.
-          - Keep questions to 10 words or less.
-          - Dumb it down to a 7th grade reading level.
-          - Limit number of questions to 4 max.
-
-          For example:
-          - "Write [Segment Name] Pitch" 
-          - "Write [Segment Name] Pitch"
-          - "Create TikTok Content Ideas"
-          - "Do a Deeper Analysis"
+          content: `Based on the conversation context, generate four helpful follow-up questions.
+            Format your answers using ONLY this structure:
+            Prioritizes segment names with the highest value among segments in a given context.
+            Examples: 
+              - "Write [Segment Name] Pitch" 
+              - "Write [Segment Name] Pitch"
+              - "Create TikTok Content Ideas"
+              - "Do a Deeper Analysis"
           
-          Answer:
+          Context:
           ${answer}
           `,
         },
