@@ -47,7 +47,7 @@ const useTikTokAnalysisChain = () => {
         const analysisCache = await getTikTokAnalysisByArtistId(
           artistSelected?.id || "",
         );
-        trackTikTokAnalysisChat(
+        await trackTikTokAnalysisChat(
           username,
           artistSelected?.id,
           analysisCache?.chat_id,
@@ -103,7 +103,7 @@ const useTikTokAnalysisChain = () => {
         id: newAnalaysisId,
         ...profileWithComments,
       });
-      trackTikTokAnalysisChat(username, artistId, newId);
+      await trackTikTokAnalysisChat(username, artistId, newId);
       setThought(STEP_OF_ANALYSIS.FINISHED);
     } catch (error) {
       console.error("Analysis failed:", error);
