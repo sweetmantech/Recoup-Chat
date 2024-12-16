@@ -18,6 +18,7 @@ const Segments = () => {
     setSuccessCallbackParams,
     hasCredits,
     subscriptionActive,
+    isCreditChecking,
   } = usePaymentProvider();
 
   const handleGenerateReport = (segmentName: string) => {
@@ -33,6 +34,7 @@ const Segments = () => {
 
   const payNow = async (segmentName: string) => {
     if (!isPrepared()) return;
+    if (isCreditChecking) return;
     if (!hasCredits && !subscriptionActive) {
       setSuccessCallbackParams(new URLSearchParams({ segmentName }).toString());
       toggleModal();

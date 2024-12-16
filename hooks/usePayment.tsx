@@ -6,7 +6,7 @@ import getCredits from "@/lib/supabase/getCredits";
 import { getActiveSubscription } from "@/lib/stripe/getActiveSubscription";
 
 const usePayment = () => {
-  const [loading, setLoading] = useState(false);
+  const [isCreditChecking, setIsCreditChecking] = useState(true);
   const { userData } = useUserProvider();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [successCallbackParams, setSuccessCallbackParams] = useState("");
@@ -42,6 +42,7 @@ const usePayment = () => {
     }
     const credits = await getCredits(userData?.id);
     if (credits?.remaining_credits) setHasCredits(true);
+    setIsCreditChecking(false);
   }, [userData]);
 
   useEffect(() => {
@@ -50,8 +51,7 @@ const usePayment = () => {
 
   return {
     setSuccessCallbackParams,
-    loading,
-    setLoading,
+    isCreditChecking,
     createCheckoutSession,
     isModalOpen,
     setIsModalOpen,

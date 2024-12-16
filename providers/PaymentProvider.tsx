@@ -2,7 +2,7 @@
 
 import UnlockProModal from "@/components/UnlockProModal";
 import usePayment from "@/hooks/usePayment";
-import React, { createContext, useContext, useMemo, useState } from "react";
+import React, { createContext, useContext, useMemo } from "react";
 
 const PaymentContext = createContext<ReturnType<typeof usePayment>>(
   {} as ReturnType<typeof usePayment>,
@@ -14,10 +14,12 @@ const PaymentProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <PaymentContext.Provider value={value}>
-      <UnlockProModal
-        isModalOpen={payment.isModalOpen}
-        toggleModal={payment.toggleModal}
-      />
+      {!payment.isCreditChecking && (
+        <UnlockProModal
+          isModalOpen={payment.isModalOpen}
+          toggleModal={payment.toggleModal}
+        />
+      )}
       {children}
     </PaymentContext.Provider>
   );
