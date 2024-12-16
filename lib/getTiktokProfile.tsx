@@ -1,4 +1,4 @@
-import { STEP_OF_ANALYSIS } from "@/types/Thought";
+import { STEP_OF_ANALYSIS } from "@/types/Twitter";
 import { AGENT_API } from "./consts";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -6,7 +6,10 @@ const getTikTokProfile = async (handle: string, setThought?: any) => {
   const response = await fetch(
     `${AGENT_API}/api/get_tiktok_account_trends?handle=${handle}`,
   );
-  if (!response.ok) throw Error("failed!");
+  if (!response.ok) {
+    const error = await response.text();
+    return { error };
+  }
   const data = await response.json();
   const datasetId = data.data;
 
@@ -16,8 +19,12 @@ const getTikTokProfile = async (handle: string, setThought?: any) => {
     const datasetItemsRes = await fetch(
       `${AGENT_API}/api/get_tiktok_account_trends/get_dataset_items?datasetId=${datasetId}`,
     );
-    if (!datasetItemsRes.ok) throw Error("failed!");
+    if (!datasetItemsRes.ok) {
+      const error = await datasetItemsRes.text();
+      return { error };
+    }
     const datasetItems = await datasetItemsRes.json();
+
     const profileInfo = datasetItems.data;
     const statusRes = await fetch(
       `${AGENT_API}/api/get_tiktok_account_trends/get_dataset_status?datasetId=${datasetId}`,
