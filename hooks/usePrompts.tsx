@@ -25,9 +25,8 @@ const usePrompts = () => {
     setSuggestions(SUGGESTIONS);
   }, [isNewChat, selectedArtist, selectedArtist]);
 
-  const getPrompts = async (message: any) => {
-    let content = message?.content;
-    if (message.content === "TikTok Report") content = tiktokRawReportContent;
+  const getPrompts = async (content: string) => {
+    if (content === "TikTok Report") content = tiktokRawReportContent;
     if (!content) return;
     const response = await fetch("/api/prompts", {
       method: "POST",
