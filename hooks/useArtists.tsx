@@ -38,20 +38,23 @@ const useArtists = () => {
     if (artist) setArtistCookie(artist);
   };
 
-  const getArtists = useCallback(async () => {
-    if (!email) return;
-    const response = await fetch(
-      `/api/artists?email=${encodeURIComponent(email as string)}`,
-    );
-    const data = await response.json();
-    setArtists(data.artists);
-    if (selectedArtist) {
-      const newUpdatedInfo = data.artists.filter(
-        (artist: ArtistRecord) => artist.id === selectedArtist.id,
+  const getArtists = useCallback(
+    async (artistId?: string) => {
+      if (!email) return;
+      const response = await fetch(
+        `/api/artists?email=${encodeURIComponent(email as string)}`,
       );
-      setSelectedArtist(newUpdatedInfo?.[0] || selectedArtist);
-    }
-  }, [email]);
+      const data = await response.json();
+      setArtists(data.artists);
+      if (selectedArtist) {
+        const newUpdatedInfo = data.artists.filter(
+          (artist: ArtistRecord) => artist.id === artistId || selectedArtist.id,
+        );
+        setSelectedArtist(newUpdatedInfo?.[0] || selectedArtist);
+      }
+    },
+    [email],
+  );
 
   const saveSetting = async (
     name?: string,
@@ -85,7 +88,7 @@ const useArtists = () => {
         },
       });
       const data = await response.json();
-      await getArtists();
+      await getArtists(data.artistInfo?.id);
       setUpdating(false);
       if (settingMode === SETTING_MODE.CREATE)
         setSettingMode(SETTING_MODE.UPDATE);
