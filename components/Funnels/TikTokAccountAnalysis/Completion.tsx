@@ -10,7 +10,7 @@ const Completion = () => {
   const { getPrompts } = useMessagesProvider();
 
   useEffect(() => {
-    if (result) getPrompts(JSON.stringify(result));
+    if (result) getPrompts(JSON.stringify(result), true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [result]);
 
