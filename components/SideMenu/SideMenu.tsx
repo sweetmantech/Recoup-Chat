@@ -40,16 +40,8 @@ const SideMenu = ({
       </button>
       <button
         type="button"
-        onClick={() => goToItem("dashboard")}
-        className="flex gap-3 items-center mt-3 md:my-4"
-      >
-        <MenuItemIcon name="dashboard" />
-        Dashboard
-      </button>
-      <button
-        type="button"
         onClick={() => goToItem("artists")}
-        className="flex gap-3 items-center my-3 md:my-4"
+        className="flex gap-3 items-center mb-3 mt-4"
       >
         <MenuItemIcon name="micval" />
         Artists
@@ -57,7 +49,7 @@ const SideMenu = ({
       <button
         type="button"
         onClick={() => goToItem("agents")}
-        className="flex gap-3 items-center mb-2 md:my-4"
+        className="flex gap-3 items-center mb-2"
       >
         <MenuItemIcon name="robot" />
         Agents
