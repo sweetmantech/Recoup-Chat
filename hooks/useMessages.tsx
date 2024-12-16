@@ -11,10 +11,12 @@ import { useInitialMessagesProvider } from "@/providers/InititalMessagesProvider
 import trackNewMessage from "@/lib/stack/trackNewMessage";
 import { Address } from "viem";
 import formattedContent from "@/lib/formattedContent";
+import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
 
 const useMessages = () => {
   const { currentQuestion, suggestions, setCurrentQuestion, getPrompts } =
     usePrompts();
+  const { tiktokRawReportContent } = useTikTokReportProvider();
   const csrfToken = useCsrfToken();
   const { initialMessages, setInitialMessages } = useInitialMessagesProvider();
   const { conversationRef } = useConversationsProvider();
@@ -101,7 +103,7 @@ const useMessages = () => {
       messagesRef.current = messages;
       getPrompts(messages[messages.length - 1]);
     }
-  }, [messages]);
+  }, [messages, tiktokRawReportContent]);
   useEffect(() => {
     if (initialMessages.length) setMessages(initialMessages);
   }, [initialMessages]);
