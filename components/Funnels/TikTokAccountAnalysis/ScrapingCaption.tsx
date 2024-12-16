@@ -1,6 +1,7 @@
 import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
 import { STEP_OF_ANALYSIS } from "@/types/Twitter";
 import Completion from "./Completion";
+import Loading from "@/components/Loading";
 
 const ScrapingCaption = () => {
   const { thought, username, initialize } = useTikTokAnalysisProvider();
@@ -43,8 +44,12 @@ const ScrapingCaption = () => {
           later.
         </>
       )}
-      {thought > STEP_OF_ANALYSIS.UNKNOWN_PROFILE &&
-        `Scraping @${artistHandle}’s TikTok...`}
+      {thought > STEP_OF_ANALYSIS.UNKNOWN_PROFILE && (
+        <div className="flex gap-2 items-center">
+          Scraping @{artistHandle}’s TikTok...
+          <Loading />
+        </div>
+      )}
     </p>
   );
 };
