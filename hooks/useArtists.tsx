@@ -102,17 +102,6 @@ const useArtists = () => {
   };
 
   useEffect(() => {
-    if (selectedArtist && artists.length > 0) {
-      const currentArtist = artists.filter(
-        (artist: ArtistRecord) => artist.id === selectedArtist.id,
-      );
-      if (currentArtist?.length) {
-        setSelectedArtist(currentArtist[0]);
-      }
-    }
-  }, [artists, selectedArtist]);
-
-  useEffect(() => {
     getArtists();
   }, [getArtists]);
 
