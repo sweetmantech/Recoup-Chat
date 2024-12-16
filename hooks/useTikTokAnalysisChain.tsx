@@ -5,7 +5,7 @@ import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { useUserProvider } from "@/providers/UserProvder";
 import { SETTING_MODE } from "@/types/Setting";
-import { STEP_OF_ANALYSIS } from "@/types/Thought";
+import { STEP_OF_ANALYSIS } from "@/types/Twitter";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { v4 as uuidV4 } from "uuid";
@@ -28,6 +28,12 @@ const useTikTokAnalysisChain = () => {
   const { push } = useRouter();
   const { isPrepared } = useUserProvider();
   const { trackTikTokAnalysisChat } = useConversationsProvider();
+
+  const initialize = () => {
+    setIsLoading(false);
+    setThought(STEP_OF_ANALYSIS.INITITAL);
+    push("/funnels/tiktok-account-analysis/");
+  };
 
   const handleAnalyze = async () => {
     try {
@@ -65,6 +71,10 @@ const useTikTokAnalysisChain = () => {
         username.replaceAll("@", ""),
         setThought,
       );
+      if (profile?.error) {
+        setThought(STEP_OF_ANALYSIS.UNKNOWN_PROFILE);
+        return;
+      }
       const videoComments = await getVideoComments(
         encodeURIComponent(JSON.stringify(profile?.videos)),
         setThought,
@@ -106,7 +116,6 @@ const useTikTokAnalysisChain = () => {
       trackTikTokAnalysisChat(username, artistId, newId);
       setThought(STEP_OF_ANALYSIS.FINISHED);
     } catch (error) {
-      console.error("Analysis failed:", error);
       setThought(STEP_OF_ANALYSIS.ERROR);
     }
   };
@@ -125,6 +134,7 @@ const useTikTokAnalysisChain = () => {
     segments,
     setThought,
     setSegments,
+    initialize,
   };
 };
 
