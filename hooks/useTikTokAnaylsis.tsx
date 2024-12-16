@@ -2,7 +2,7 @@ import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { STEP_OF_ANALYSIS } from "@/types/Thought";
+import { STEP_OF_ANALYSIS } from "@/types/Twitter";
 import addArtist from "@/lib/addArtist";
 import useChainOfThought from "./useChainOfThought";
 
