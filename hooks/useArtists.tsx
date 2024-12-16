@@ -50,10 +50,7 @@ const useArtists = () => {
         const newUpdatedInfo = data.artists.find(
           (artist: ArtistRecord) => artist.id === artistId,
         );
-        if (newUpdatedInfo) {
-          setSelectedArtist(newUpdatedInfo);
-          setArtistCookie(newUpdatedInfo);
-        }
+        if (newUpdatedInfo) setSelectedArtist(newUpdatedInfo);
       }
     },
     [email],
@@ -136,6 +133,17 @@ const useArtists = () => {
       setSelectedArtist(artistCookie as any);
     }
   }, [artistCookie]);
+
+  useEffect(() => {
+    if (selectedArtist && artists.length > 0) {
+      const currentArtist = artists.filter(
+        (artist: ArtistRecord) => artist.id === selectedArtist.id,
+      );
+      if (currentArtist?.length) {
+        setSelectedArtist(currentArtist[0]);
+      }
+    }
+  }, [artists, selectedArtist]);
 
   return {
     artists,
