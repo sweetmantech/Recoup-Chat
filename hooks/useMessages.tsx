@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import usePrompts from "./usePrompts";
 import { Message, useChat as useAiChat } from "ai/react";
 import { useCsrfToken } from "@/packages/shared/src/hooks";
-import { useParams, usePathname } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useArtistProvider } from "@/providers/ArtistProvider";
@@ -11,22 +11,18 @@ import { useInitialMessagesProvider } from "@/providers/InititalMessagesProvider
 import trackNewMessage from "@/lib/stack/trackNewMessage";
 import { Address } from "viem";
 import formattedContent from "@/lib/formattedContent";
-import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
 
 const useMessages = () => {
   const { currentQuestion, suggestions, setCurrentQuestion, getPrompts } =
     usePrompts();
-  const { tiktokRawReportContent } = useTikTokReportProvider();
   const csrfToken = useCsrfToken();
-  const { initialMessages, setInitialMessages } = useInitialMessagesProvider();
+  const { initialMessages } = useInitialMessagesProvider();
   const { conversationRef } = useConversationsProvider();
   const queryClient = useQueryClient();
   const { email, address } = useUserProvider();
   const [toolCall, setToolCall] = useState<any>(null);
   const { selectedArtist } = useArtistProvider();
   const { conversation: pathId } = useParams();
-  const pathname = usePathname();
-  const isNewChat = pathname === "/";
 
   const {
     messages,
@@ -64,12 +60,6 @@ const useMessages = () => {
 
   const messagesRef = useRef(messages);
 
-  const clearMessagesCache = () => {
-    setInitialMessages([]);
-    setMessages([]);
-    messagesRef.current = [];
-  };
-
   const finalCallback = async (
     message: Message,
     lastQuestion?: Message,
@@ -98,21 +88,6 @@ const useMessages = () => {
     );
     setCurrentQuestion(null);
   };
-  useEffect(() => {
-    if (messages.length) {
-      messagesRef.current = messages;
-      if (!pending) getPrompts(messages[messages.length - 1]);
-    }
-  }, [messages, tiktokRawReportContent, pending]);
-  useEffect(() => {
-    if (initialMessages.length) setMessages(initialMessages);
-  }, [initialMessages]);
-  useEffect(() => {
-    if (isNewChat) {
-      conversationRef.current = "";
-      setMessages([]);
-    }
-  }, [isNewChat]);
 
   return {
     conversationRef,
@@ -120,13 +95,15 @@ const useMessages = () => {
     handleAiChatSubmit,
     handleInputChange,
     input,
+    setMessages,
     messages,
+    messagesRef,
     pending,
     toolCall,
     suggestions,
     setCurrentQuestion,
     finalCallback,
-    clearMessagesCache,
+    getPrompts,
   };
 };
 
