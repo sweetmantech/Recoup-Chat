@@ -5,8 +5,8 @@ import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { useUserProvider } from "@/providers/UserProvder";
 import { SETTING_MODE } from "@/types/Setting";
-import { STEP_OF_ANALYSIS } from "@/types/Twitter";
-import { useParams, useRouter } from "next/navigation";
+import { STEP_OF_ANALYSIS } from "@/types/TikTok";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { v4 as uuidV4 } from "uuid";
 import useSaveTiktokArtist from "./useSaveTiktokArtist";
@@ -24,7 +24,6 @@ const useTikTokAnalysisChain = () => {
   const [progress, setProgress] = useState(0);
   const [segments, setSegments] = useState<Array<any>>([]);
   const { saveTiktokArtist } = useSaveTiktokArtist();
-  const { chat_id: chatId } = useParams();
   const { push } = useRouter();
   const { isPrepared } = useUserProvider();
   const { trackTikTokAnalysisChat } = useConversationsProvider();
@@ -40,11 +39,8 @@ const useTikTokAnalysisChain = () => {
       if (!isPrepared()) return;
       setIsLoading(true);
       if (!username || isLoading) return;
-      let newId = "";
-      if (!chatId) {
-        newId = uuidV4();
-        push(`/funnels/tiktok-account-analysis/${newId}`);
-      }
+      const newId = uuidV4();
+      push(`/funnels/tiktok-account-analysis/${newId}`);
       const handle = username.replaceAll("@", "");
       const artistSelected = artists.find(
         (artist) => handle === getArtistTikTokHandle(artist),
@@ -53,7 +49,7 @@ const useTikTokAnalysisChain = () => {
         const analysisCache = await getTikTokAnalysisByArtistId(
           artistSelected?.id || "",
         );
-        trackTikTokAnalysisChat(
+        await trackTikTokAnalysisChat(
           username,
           artistSelected?.id,
           analysisCache?.chat_id,
@@ -113,7 +109,7 @@ const useTikTokAnalysisChain = () => {
         id: newAnalaysisId,
         ...profileWithComments,
       });
-      trackTikTokAnalysisChat(username, artistId, newId);
+      await trackTikTokAnalysisChat(username, artistId, newId);
       setThought(STEP_OF_ANALYSIS.FINISHED);
     } catch (error) {
       setThought(STEP_OF_ANALYSIS.ERROR);
