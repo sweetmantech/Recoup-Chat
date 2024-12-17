@@ -28,7 +28,7 @@ const useChat = () => {
     if (conversationId) return;
     const newId = uuidV4();
     conversationRef.current = newId;
-    trackGeneralChat(content, newId, is_tiktok_report);
+    await trackGeneralChat(content, newId, is_tiktok_report);
     push(`/${newId}${is_tiktok_report ? "?report=enabled" : ""}`);
   };
 
