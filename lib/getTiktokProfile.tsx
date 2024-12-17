@@ -1,4 +1,4 @@
-import { STEP_OF_ANALYSIS } from "@/types/Twitter";
+import { STEP_OF_ANALYSIS } from "@/types/TikTok";
 import { AGENT_API } from "./consts";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -1,3 +1,20 @@
+export enum ERRORS {
+  UNKNOWN_PROFILE_ERROR = "This profile/hashtag does not exist.",
+}
+
+export enum STEP_OF_ANALYSIS {
+  INITITAL,
+  ERROR,
+  FINISHED,
+  UNKNOWN_PROFILE,
+  PROFILE,
+  POSTURLS,
+  VIDEO_COMMENTS,
+  SEGMENTS,
+  CREATING_ARTIST,
+  SAVING_ANALYSIS,
+}
+
 export type Comment = {
   videoWebUrl: string;
   submittedVideoUrl: string | null;
