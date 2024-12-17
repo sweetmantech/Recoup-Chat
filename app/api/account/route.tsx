@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
 
     await client.from("credits_usage").insert({
       account_id: newAccount.id,
-      remaining_credits: 1,
+      remaining_credits: 0,
     });
     return Response.json({ data: newAccount }, { status: 200 });
   } catch (error) {

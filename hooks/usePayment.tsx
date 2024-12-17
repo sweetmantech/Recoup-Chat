@@ -35,7 +35,7 @@ const usePayment = () => {
   };
 
   const creditUsed = async () => {
-    if (!credits || subscriptionActive) return;
+    if (credits <= 0 || subscriptionActive) return;
     await decreaseCredits(userData?.id);
     setCredits(credits - 1);
   };
