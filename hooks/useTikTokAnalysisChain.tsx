@@ -5,7 +5,7 @@ import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { useUserProvider } from "@/providers/UserProvder";
 import { SETTING_MODE } from "@/types/Setting";
-import { STEP_OF_ANALYSIS } from "@/types/Twitter";
+import { STEP_OF_ANALYSIS } from "@/types/TikTok";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { v4 as uuidV4 } from "uuid";

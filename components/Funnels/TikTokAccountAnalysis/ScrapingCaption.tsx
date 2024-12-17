@@ -1,5 +1,5 @@
 import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
-import { STEP_OF_ANALYSIS } from "@/types/Twitter";
+import { STEP_OF_ANALYSIS } from "@/types/TikTok";
 import Completion from "./Completion";
 
 const ScrapingCaption = () => {
