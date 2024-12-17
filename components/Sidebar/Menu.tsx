@@ -13,7 +13,6 @@ const Menu = ({ toggleMenuExpanded }: { toggleMenuExpanded: () => void }) => {
   const activeClasses = "bg-background-dark";
   const itemClasses = "flex gap-3 items-center rounded-md px-3 py-2";
   const isAgents = pathname.includes("/agents");
-  const isDashboard = pathname.includes("/dashboard");
   const isArtists = pathname.includes("/artists");
 
   const goToItem = (link?: string) => {
@@ -37,15 +36,7 @@ const Menu = ({ toggleMenuExpanded }: { toggleMenuExpanded: () => void }) => {
         {email ? "New Chat" : "Sign In"}
       </button>
       <button
-        type="button"
-        onClick={() => goToItem("dashboard")}
-        className={`${itemClasses} ${isDashboard && activeClasses} mt-6`}
-      >
-        <MenuItemIcon name="dashboard" />
-        Dashboard
-      </button>
-      <button
-        className={`${itemClasses} ${isArtists && activeClasses}`}
+        className={`${itemClasses} ${isArtists && activeClasses} md:mt-2`}
         type="button"
         onClick={() => goToItem("artists")}
       >
