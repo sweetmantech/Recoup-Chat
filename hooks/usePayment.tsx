@@ -49,6 +49,7 @@ const usePayment = () => {
     }
 
     setHasCredits(false);
+    setSubscriptionActive(false);
     setIsLoadingCredits(false);
   }, [userData]);
 
