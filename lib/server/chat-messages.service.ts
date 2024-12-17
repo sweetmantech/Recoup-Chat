@@ -20,17 +20,22 @@ export function createChatMessagesService() {
 class ChatMessagesService {
   constructor() {}
 
-  async getChatSettings(question: string, email: string, artistId: string) {
+  async getChatSettings(
+    question: string,
+    email: string,
+    artistId: string,
+    funnelContext: string,
+  ) {
     const context = await this.fetchRelevantContext(email, artistId);
     const tools = this.fetchRelevantTools(question, email, artistId);
 
     const systemMessage = `
 *****
-[Context]: ${context}
+[Context]: ${funnelContext || context}
 *****
 [Question]: ${question}
 *****
-[Instruction]: ${instructions.get_campaign}
+${funnelContext ? "" : `[Instruction]: ${instructions.get_campaign}`}
 ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
 `;
 
