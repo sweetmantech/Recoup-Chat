@@ -36,12 +36,12 @@ const Segments = () => {
     if (!isPrepared()) return;
     if (isLoadingCredits) return;
     if (credits || subscriptionActive) {
-      setSuccessCallbackParams(new URLSearchParams({ segmentName }).toString());
-      toggleModal();
+      await creditUsed();
+      handleGenerateReport(segmentName);
       return;
     }
-    await creditUsed();
-    handleGenerateReport(segmentName);
+    setSuccessCallbackParams(new URLSearchParams({ segmentName }).toString());
+    toggleModal();
   };
 
   return (
