@@ -12,6 +12,7 @@ const usePayment = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [successCallbackParams, setSuccessCallbackParams] = useState("");
   const [credits, setCredits] = useState(0);
+  const [subscriptionActive, setSubscriptionActive] = useState(false);
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
@@ -34,7 +35,7 @@ const usePayment = () => {
   };
 
   const creditUsed = async () => {
-    if (!credits) return;
+    if (!credits || subscriptionActive) return;
     await decreaseCredits(userData?.id);
     setCredits(credits - 1);
   };
@@ -43,7 +44,7 @@ const usePayment = () => {
     if (!userData) return;
     const subscriptions = await getActiveSubscription(userData?.id);
     if (subscriptions?.length) {
-      setCredits(Number.MAX_SAFE_INTEGER);
+      setSubscriptionActive(true);
       setIsLoadingCredits(false);
       return;
     }
@@ -65,6 +66,7 @@ const usePayment = () => {
     toggleModal,
     credits,
     creditUsed,
+    subscriptionActive,
   };
 };
 
