@@ -1,4 +1,4 @@
-import { STEP_OF_ANALYSIS } from "@/types/Twitter";
+import { STEP_OF_ANALYSIS } from "@/types/TikTok";
 import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
 import ThoughtSteps from "./ThoughtSteps";
 import AnalysisPlan from "./AnalysisPlan";
