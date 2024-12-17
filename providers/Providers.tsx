@@ -11,6 +11,7 @@ import { PaymentProvider } from "./PaymentProvider";
 import { InitialMessagesProvider } from "./InititalMessagesProvider";
 import { MessagesProvider } from "./MessagesProvider";
 import { InitialChatProvider } from "./InitialChatProvider";
+import { PromptsProvider } from "./PromptsProvider";
 
 const queryClient = new QueryClient();
 
@@ -21,15 +22,17 @@ const Providers = ({ children }: { children: React.ReactNode }) => (
         <TikTokReportProvider>
           <ArtistProvider>
             <ConversationsProvider>
-              <InitialMessagesProvider>
-                <MessagesProvider>
-                  <InitialChatProvider>
-                    <ChatProvider>
-                      <PaymentProvider>{children}</PaymentProvider>
-                    </ChatProvider>
-                  </InitialChatProvider>
-                </MessagesProvider>
-              </InitialMessagesProvider>
+              <PromptsProvider>
+                <InitialMessagesProvider>
+                  <MessagesProvider>
+                    <InitialChatProvider>
+                      <ChatProvider>
+                        <PaymentProvider>{children}</PaymentProvider>
+                      </ChatProvider>
+                    </InitialChatProvider>
+                  </MessagesProvider>
+                </InitialMessagesProvider>
+              </PromptsProvider>
             </ConversationsProvider>
           </ArtistProvider>
         </TikTokReportProvider>

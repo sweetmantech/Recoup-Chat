@@ -1,13 +1,13 @@
 import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
 import Segments from "./Segments";
 import { useEffect } from "react";
-import { useMessagesProvider } from "@/providers/MessagesProvider";
+import { usePromptsProvider } from "@/providers/PromptsProvider";
 
 const Completion = () => {
   const { username, result, segments, handleRetry } =
     useTikTokAnalysisProvider();
   const artistHandle = username.replaceAll("@", "");
-  const { getPrompts } = useMessagesProvider();
+  const { getPrompts } = usePromptsProvider();
 
   useEffect(() => {
     if (result) getPrompts(JSON.stringify(result), true);

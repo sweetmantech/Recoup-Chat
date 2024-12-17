@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import usePrompts from "./usePrompts";
 import { Message, useChat as useAiChat } from "ai/react";
 import { useCsrfToken } from "@/packages/shared/src/hooks";
 import { useParams } from "next/navigation";
@@ -11,10 +10,10 @@ import { useInitialMessagesProvider } from "@/providers/InititalMessagesProvider
 import trackNewMessage from "@/lib/stack/trackNewMessage";
 import { Address } from "viem";
 import formattedContent from "@/lib/formattedContent";
+import { usePromptsProvider } from "@/providers/PromptsProvider";
 
 const useMessages = () => {
-  const { currentQuestion, suggestions, setCurrentQuestion, getPrompts } =
-    usePrompts();
+  const { currentQuestion, setCurrentQuestion } = usePromptsProvider();
   const csrfToken = useCsrfToken();
   const { initialMessages } = useInitialMessagesProvider();
   const { conversationRef } = useConversationsProvider();
@@ -100,10 +99,7 @@ const useMessages = () => {
     messagesRef,
     pending,
     toolCall,
-    suggestions,
-    setCurrentQuestion,
     finalCallback,
-    getPrompts,
   };
 };
 
