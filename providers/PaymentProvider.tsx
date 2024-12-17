@@ -14,7 +14,7 @@ const PaymentProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <PaymentContext.Provider value={value}>
-      {!payment.isCreditChecking && (
+      {!payment.isLoadingCredits && (
         <UnlockProModal
           isModalOpen={payment.isModalOpen}
           toggleModal={payment.toggleModal}

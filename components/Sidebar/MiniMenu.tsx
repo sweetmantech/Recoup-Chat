@@ -37,19 +37,6 @@ const MiniMenu = ({
             <Icon name="plus" />
           </button>
         </Tooltip>
-        <Tooltip
-          id={"dashboard-tooltip"}
-          message="Dashboard"
-          className="!z-[100]"
-        >
-          <button
-            type="button"
-            className=" p-2 rounded-md"
-            onClick={() => goToItem("dashboard")}
-          >
-            <Icon name="dashboard" />
-          </button>
-        </Tooltip>
         {selectedArtist && <ArtistSetting />}
         <Tooltip id={"agents-tooltip"} message="Agents" className="!z-[100]">
           <button
