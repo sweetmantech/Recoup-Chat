@@ -5,6 +5,7 @@ import Thinking from "./Thinking";
 import Message from "./Message";
 import { Message as AIMessage } from "ai";
 import { ToolCallProvider } from "@/providers/ToolCallProvider";
+import { useMessagesProvider } from "@/providers/MessagesProvider";
 
 const Messages = ({
   scroll,
@@ -15,7 +16,9 @@ const Messages = ({
   className?: string;
   children?: React.ReactNode;
 }) => {
-  const { messages, pending, suggestions, reportEnabled } = useChatProvider();
+  const { reportEnabled } = useChatProvider();
+  const { messages, pending, suggestions } = useMessagesProvider();
+
   const scrollTo = () => scroll({ smooth: true, y: Number.MAX_SAFE_INTEGER });
 
   useEffect(() => {

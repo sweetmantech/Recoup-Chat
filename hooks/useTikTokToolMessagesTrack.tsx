@@ -1,7 +1,9 @@
 import getPdfReport from "@/lib/getPdfReport";
 import saveTikTokReport from "@/lib/saveTikTokReport";
 import getTikTokReport from "@/lib/tiktok/getTikTokReport";
+import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useChatProvider } from "@/providers/ChatProvider";
+import { useMessagesProvider } from "@/providers/MessagesProvider";
 import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
 import { useToolCallProvider } from "@/providers/ToolCallProvider";
 import { Tools } from "@/types/Tool";
@@ -12,8 +14,10 @@ import { v4 as uuidV4 } from "uuid";
 const useTikTokToolMessagesTrack = () => {
   const { question, toolName, loading, messages, message } =
     useToolCallProvider();
-  const { finalCallback, clearQuery } = useChatProvider();
+  const { finalCallback } = useMessagesProvider();
+  const { clearQuery } = useChatProvider();
   const { conversation: conversationId } = useParams();
+  const { artists } = useArtistProvider();
   const {
     tiktokRawReportContent,
     tiktokNextSteps,
@@ -21,6 +25,8 @@ const useTikTokToolMessagesTrack = () => {
     setTiktokNextSteps,
     setTiktokRawReportContent,
     setTiktokReportContent,
+    setBannerArtistName,
+    setBannerImage,
   } = useTikTokReportProvider();
   const [tiktokTracking, setTikTokTracking] = useState(true);
 
@@ -63,6 +69,11 @@ const useTikTokToolMessagesTrack = () => {
     const init = async () => {
       setTikTokTracking(true);
       const response = await getTikTokReport(message.metadata.referenceId);
+      const bannerArtist = artists.find(
+        (artist) => artist.id === message.metadata?.artistId,
+      );
+      setBannerImage(bannerArtist?.image || "");
+      setBannerArtistName(bannerArtist?.name || "");
       setTikTokSummary(response.summary);
       setTiktokRawReportContent(response.report);
       setTiktokReportContent(getPdfReport(response.report));

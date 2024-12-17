@@ -13,6 +13,8 @@ const useTikTokReport = () => {
   const [tiktokReportContent, setTiktokReportContent] = useState("");
   const [tiktokRawReportContent, setTiktokRawReportContent] = useState("");
   const [tiktokSummary, setTikTokSummary] = useState("");
+  const [bannerImage, setBannerImage] = useState("");
+  const [bannerArtistName, setBannerArtistName] = useState("");
 
   useEffect(() => {
     const init = async () => {
@@ -63,6 +65,10 @@ const useTikTokReport = () => {
     tiktokSummary,
     setTikTokSummary,
     clearReportCache,
+    bannerImage,
+    bannerArtistName,
+    setBannerArtistName,
+    setBannerImage,
   };
 };
 

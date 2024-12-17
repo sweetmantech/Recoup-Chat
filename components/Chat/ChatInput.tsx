@@ -2,9 +2,11 @@ import SubmitButton from "./SubmitButton";
 import { useChatProvider } from "@/providers/ChatProvider";
 import { useEffect, useRef } from "react";
 import SideSuggestions from "./SideSuggestions";
+import { useMessagesProvider } from "@/providers/MessagesProvider";
 
 const ChatInput: React.FC = () => {
-  const { input, handleInputChange, handleSubmit } = useChatProvider();
+  const { handleSubmit } = useChatProvider();
+  const { input, handleInputChange } = useMessagesProvider();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {

@@ -1,13 +1,13 @@
 import getIpfsLink from "@/lib/ipfs/getIpfsLink";
 import { uploadFile } from "@/lib/ipfs/uploadToIpfs";
 import { useParams } from "next/navigation";
-import { useChatProvider } from "@/providers/ChatProvider";
 import { useRef, useState } from "react";
 import { ArtistRecord } from "@/types/Artist";
 import { v4 as uuidV4 } from "uuid";
+import { useMessagesProvider } from "@/providers/MessagesProvider";
 
 const useArtistSetting = () => {
-  const { finalCallback } = useChatProvider();
+  const { finalCallback } = useMessagesProvider();
   const { conversation: conversationId } = useParams();
   const imageRef = useRef() as any;
   const baseRef = useRef() as any;

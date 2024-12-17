@@ -7,7 +7,8 @@ const ReportSummaryNote = () => {
     tiktokNextSteps,
     tiktokReportContent,
     isGeneratingReport,
-    tiktokAnalysis,
+    bannerImage,
+    bannerArtistName,
   } = useTikTokReportProvider();
   const { downloadReport } = useDownloadReport();
   return (
@@ -32,19 +33,19 @@ const ReportSummaryNote = () => {
         <div className="bg-white w-full min-h-screen fixed top-[99999999px] left-0 flex justify-center z-[99999999]">
           <div
             id="segment-report"
-            className="flex flex-col text-black max-w-[9.5in] w-full bg-white p-[0.3in] text-[11pt] leading-normal relative box-border min-h-[11in]"
+            className="flex flex-col text-black min-h-[11in] max-w-[9.5in] w-full bg-white p-[0.3in] text-[11pt] leading-normal relative box-border"
           >
-            <div className="grow w-full">
+            <div className="w-full">
               <div className="w-full aspect-[757/146] rounded-lg flex items-center justify-center overflow-hidden relative mb-6">
                 {/* eslint-disable-next-line  @next/next/no-img-element */}
                 <img
-                  src={tiktokAnalysis?.avatar || ""}
+                  src={bannerImage || ""}
                   alt="not found pic"
                   className="w-full"
                 />
                 <div className="absolute left-0 top-0 size-full flex items-center justify-end pr-3 gap-2">
                   <p className="text-white font-bold text-[40px]">
-                    {tiktokAnalysis?.nickname}
+                    {bannerArtistName}
                   </p>
                   <div className="pt-9">
                     <Icon name="logo-xl" />
@@ -58,8 +59,8 @@ const ReportSummaryNote = () => {
                 }}
               />
             </div>
-            <div className="w-full flex justify-center">
-              <Icon name="logo-xl" />
+            <div className="grow w-full flex items-end justify-center mt-10">
+              <Icon name="logo-black" />
             </div>
           </div>
         </div>

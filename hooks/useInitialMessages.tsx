@@ -10,6 +10,7 @@ const useInitialMessages = () => {
   const [initialMessages, setInitialMessages] = useState<StackMessage[]>([]);
   const { address } = useUserProvider();
   const { conversation: pathId } = useParams();
+  const [titleMessage, setTitleMessage] = useState<any>(null);
 
   useEffect(() => {
     if (address) {
@@ -21,7 +22,11 @@ const useInitialMessages = () => {
     try {
       const convId = pathId as string;
       if (!convId) return;
-      const messages = await getInitialMessages(walletAddress, convId);
+      const { messages, titleMessage } = await getInitialMessages(
+        walletAddress,
+        convId,
+      );
+      setTitleMessage(titleMessage);
       const sortedMessages = sortMessages(messages);
       const flattenedMessages = flattenMessagePairs(sortedMessages);
       setInitialMessages(flattenedMessages);
@@ -32,7 +37,12 @@ const useInitialMessages = () => {
     }
   };
 
-  return { initialMessages, fetchInitialMessages, setInitialMessages };
+  return {
+    initialMessages,
+    fetchInitialMessages,
+    setInitialMessages,
+    titleMessage,
+  };
 };
 
 export default useInitialMessages;

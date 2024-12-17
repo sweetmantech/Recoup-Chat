@@ -5,8 +5,8 @@ import { useEffect } from "react";
 import { STEP_OF_ANALYSIS } from "@/types/TikTok";
 import addArtist from "@/lib/addArtist";
 import useTikTokAnalysisChain from "./useTikTokAnalysisChain";
-import { useChatProvider } from "@/providers/ChatProvider";
 import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
+import { useMessagesProvider } from "@/providers/MessagesProvider";
 
 const useTikTokAnalysis = () => {
   const tiktokAnalysisChain = useTikTokAnalysisChain();
@@ -14,7 +14,7 @@ const useTikTokAnalysis = () => {
   const { chat_id: chatId } = useParams();
   const { push } = useRouter();
   const { email } = useUserProvider();
-  const { clearMessagesCache } = useChatProvider();
+  const { clearMessagesCache } = useMessagesProvider();
   const { clearReportCache } = useTikTokReportProvider();
 
   useEffect(() => {

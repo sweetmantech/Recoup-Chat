@@ -5,9 +5,11 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { v4 as uuidV4 } from "uuid";
 import { Tools } from "@/types/Tool";
+import { useMessagesProvider } from "@/providers/MessagesProvider";
 
 const useToolMessages = (question?: string, toolName?: any) => {
-  const { finalCallback, clearQuery } = useChatProvider();
+  const { clearQuery } = useChatProvider();
+  const { finalCallback } = useMessagesProvider();
   const { conversation: conversationId } = useParams();
   const {
     tiktokTrends,
