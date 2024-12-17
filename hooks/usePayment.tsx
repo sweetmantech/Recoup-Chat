@@ -4,14 +4,14 @@ import { useUserProvider } from "@/providers/UserProvder";
 import { v4 as uuidV4 } from "uuid";
 import getCredits from "@/lib/supabase/getCredits";
 import { getActiveSubscription } from "@/lib/stripe/getActiveSubscription";
+import decreaseCredits from "@/lib/supabase/decreaseCredits";
 
 const usePayment = () => {
   const [isLoadingCredits, setIsLoadingCredits] = useState(true);
   const { userData } = useUserProvider();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [successCallbackParams, setSuccessCallbackParams] = useState("");
-  const [hasCredits, setHasCredits] = useState(false);
-  const [subscriptionActive, setSubscriptionActive] = useState(false);
+  const [credits, setCredits] = useState(0);
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
@@ -33,23 +33,22 @@ const usePayment = () => {
     window.open(sessionResponse.url, "_self");
   };
 
+  const creditUsed = async () => {
+    if (!credits) return;
+    await decreaseCredits(userData?.id);
+    setCredits(credits - 1);
+  };
+
   const checkCredits = useCallback(async () => {
     if (!userData) return;
     const subscriptions = await getActiveSubscription(userData?.id);
     if (subscriptions?.length) {
+      setCredits(Number.MAX_SAFE_INTEGER);
       setIsLoadingCredits(false);
-      setSubscriptionActive(true);
       return;
     }
     const credits = await getCredits(userData?.id);
-    if (credits?.remaining_credits) {
-      setHasCredits(true);
-      setIsLoadingCredits(false);
-      return;
-    }
-
-    setHasCredits(false);
-    setSubscriptionActive(false);
+    setCredits(credits?.remaining_credits);
     setIsLoadingCredits(false);
   }, [userData]);
 
@@ -64,9 +63,8 @@ const usePayment = () => {
     isModalOpen,
     setIsModalOpen,
     toggleModal,
-    checkCredits,
-    hasCredits,
-    subscriptionActive,
+    credits,
+    creditUsed,
   };
 };
 

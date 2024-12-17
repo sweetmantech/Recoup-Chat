@@ -12,12 +12,11 @@ export async function GET(req: NextRequest) {
       .eq("account_id", accountId);
 
     if (found?.length) {
-      const newCredit = found[0].remaining_credits - 1;
       await client
         .from("credits_usage")
         .update({
           ...found[0],
-          remaining_credits: 0 || newCredit,
+          remaining_credits: found[0].remaining_credits - 1,
         })
         .eq("account_id", accountId);
       return Response.json({ success: true }, { status: 200 });
