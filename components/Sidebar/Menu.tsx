@@ -62,7 +62,7 @@ const Menu = ({ toggleMenuExpanded }: { toggleMenuExpanded: () => void }) => {
       </button>
       {email && <RecentChats toggleModal={toggleMenuExpanded} />}
       <div className="grow flex flex-col gap-1 md:gap-3 justify-end">
-        <UnlockPro />
+        {email && <UnlockPro />}
         <UserInfo toggleMenuExpanded={toggleMenuExpanded} />
       </div>
     </div>
