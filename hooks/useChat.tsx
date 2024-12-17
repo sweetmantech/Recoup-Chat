@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import useMessages from "./useMessages";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
+import { useMemo } from "react";
 
 const useChat = () => {
   const { login, address } = useUserProvider();
@@ -18,13 +19,14 @@ const useChat = () => {
     appendAiChat,
     handleAiChatSubmit,
     handleInputChange,
-    messagesRef,
+    messages,
     pending,
     fetchInitialMessages,
     toolCall,
     suggestions,
     finalCallback,
     setCurrentQuestion,
+    clearMessagesCache,
   } = useMessages();
 
   const goToNewConversation = async (
@@ -34,7 +36,7 @@ const useChat = () => {
     if (conversationId) return;
     const newId = uuidV4();
     conversationRef.current = newId;
-    trackGeneralChat(content, newId, is_tiktok_report);
+    await trackGeneralChat(content, newId, is_tiktok_report);
     push(`/${newId}${is_tiktok_report ? "?report=enabled" : ""}`);
   };
 
@@ -74,7 +76,7 @@ const useChat = () => {
 
   return {
     suggestions,
-    messages: messagesRef.current,
+    messages,
     input,
     handleInputChange,
     handleSubmit,
@@ -84,6 +86,7 @@ const useChat = () => {
     clearQuery,
     toolCall,
     reportEnabled,
+    clearMessagesCache,
   };
 };
 
