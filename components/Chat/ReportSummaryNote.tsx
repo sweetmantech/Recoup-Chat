@@ -13,17 +13,7 @@ const ReportSummaryNote = () => {
   const { downloadReport } = useDownloadReport();
   return (
     <>
-      <button
-        type="button"
-        className="text-purple-dark mt-6"
-        onClick={downloadReport}
-        disabled={isGeneratingReport}
-      >
-        {isGeneratingReport
-          ? "Generating Report..."
-          : `[Download Full Report PDF]`}
-      </button>
-      <p className="pt-4 pb-2 text-[20px]">Next Steps</p>
+      <p className="pt-4 text-[18px]">Next Steps</p>
       <div
         dangerouslySetInnerHTML={{
           __html: tiktokNextSteps,
@@ -65,6 +55,16 @@ const ReportSummaryNote = () => {
           </div>
         </div>
       )}
+      <button
+        type="button"
+        className="text-purple-dark mt-2"
+        onClick={downloadReport}
+        disabled={isGeneratingReport}
+      >
+        {isGeneratingReport
+          ? "Generating Report..."
+          : `[Download Full Report PDF]`}
+      </button>
     </>
   );
 };
