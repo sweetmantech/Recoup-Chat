@@ -19,6 +19,7 @@ const Segments = () => {
     hasCredits,
     subscriptionActive,
     isLoadingCredits,
+    checkCredits,
   } = usePaymentProvider();
 
   const handleGenerateReport = (segmentName: string) => {
@@ -40,7 +41,10 @@ const Segments = () => {
       toggleModal();
       return;
     }
-    if (!subscriptionActive) await decreaseCredits(userData?.id);
+    if (!subscriptionActive) {
+      await decreaseCredits(userData?.id);
+      await checkCredits();
+    }
     handleGenerateReport(segmentName);
   };
 
