@@ -22,9 +22,9 @@ const trackChatTitle = async (
       account: address,
       uniqueId,
       metadata: {
-        ...metadata,
         conversationId: conversationId,
         artistId,
+        ...metadata,
       },
     });
   } catch (error) {
