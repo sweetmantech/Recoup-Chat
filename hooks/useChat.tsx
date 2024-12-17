@@ -5,20 +5,17 @@ import { useUserProvider } from "@/providers/UserProvder";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
 import { useInitialMessagesProvider } from "@/providers/InititalMessagesProvider";
+import { usePromptsProvider } from "@/providers/PromptsProvider";
 
 const useChat = () => {
   const { login, address } = useUserProvider();
   const { push } = useRouter();
-  const { conversationId, trackGeneralChat } = useConversationsProvider();
+  const { conversationId, trackGeneralChat, conversationRef } =
+    useConversationsProvider();
   const searchParams = useSearchParams();
   const reportEnabled = searchParams.get("report");
-  const {
-    conversationRef,
-    input,
-    appendAiChat,
-    handleAiChatSubmit,
-    setCurrentQuestion,
-  } = useMessagesProvider();
+  const { input, appendAiChat, handleAiChatSubmit } = useMessagesProvider();
+  const { setCurrentQuestion } = usePromptsProvider();
   const { fetchInitialMessages } = useInitialMessagesProvider();
 
   const goToNewConversation = async (

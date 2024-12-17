@@ -89,7 +89,6 @@ const useMessages = () => {
   };
 
   return {
-    conversationRef,
     appendAiChat,
     handleAiChatSubmit,
     handleInputChange,
