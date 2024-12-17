@@ -42,7 +42,13 @@ const usePayment = () => {
       return;
     }
     const credits = await getCredits(userData?.id);
-    if (credits?.remaining_credits) setHasCredits(true);
+    if (credits?.remaining_credits) {
+      setHasCredits(true);
+      setIsLoadingCredits(false);
+      return;
+    }
+
+    setHasCredits(false);
     setIsLoadingCredits(false);
   }, [userData]);
 
