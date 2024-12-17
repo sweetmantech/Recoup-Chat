@@ -4,16 +4,14 @@ import { useRouter, useSearchParams } from "next/navigation";
 import useMessages from "./useMessages";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
-import getAiTitle from "@/lib/getAiTitle";
-import { useState } from "react";
+import { useMemo } from "react";
 
 const useChat = () => {
   const { login, address } = useUserProvider();
   const { push } = useRouter();
-  const { conversationId, trackNewTitle } = useConversationsProvider();
+  const { conversationId, trackGeneralChat } = useConversationsProvider();
   const searchParams = useSearchParams();
   const reportEnabled = searchParams.get("report");
-  const [quotaExceeded, setQuotaExceeded] = useState(false);
 
   const {
     conversationRef,
@@ -21,34 +19,25 @@ const useChat = () => {
     appendAiChat,
     handleAiChatSubmit,
     handleInputChange,
-    messagesRef,
+    messages,
     pending,
     fetchInitialMessages,
     toolCall,
     suggestions,
     finalCallback,
     setCurrentQuestion,
+    clearMessagesCache,
   } = useMessages();
 
   const goToNewConversation = async (
     content: string,
-    reportedActive: boolean = false,
+    is_tiktok_report: boolean = false,
   ) => {
     if (conversationId) return;
     const newId = uuidV4();
     conversationRef.current = newId;
-    const response = await getAiTitle(content);
-    if (response?.error) {
-      setQuotaExceeded(true);
-      push("/");
-      return;
-    }
-    setQuotaExceeded(false);
-    trackNewTitle(
-      { title: response.replaceAll(`\"`, ""), reportedActive },
-      newId,
-    );
-    push(`/${newId}${reportedActive ? "?report=enabled" : ""}`);
+    await trackGeneralChat(content, newId, is_tiktok_report);
+    push(`/${newId}${is_tiktok_report ? "?report=enabled" : ""}`);
   };
 
   const clearQuery = async () => {
@@ -63,11 +52,14 @@ const useChat = () => {
     return true;
   };
 
-  const append = async (message: Message, reportedActive: boolean = false) => {
+  const append = async (
+    message: Message,
+    is_tiktok_report: boolean = false,
+  ) => {
     if (!isPrepared()) return;
     setCurrentQuestion(message);
     appendAiChat(message);
-    goToNewConversation(message.content, reportedActive);
+    goToNewConversation(message.content, is_tiktok_report);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -84,7 +76,7 @@ const useChat = () => {
 
   return {
     suggestions,
-    messages: messagesRef.current,
+    messages,
     input,
     handleInputChange,
     handleSubmit,
@@ -94,8 +86,7 @@ const useChat = () => {
     clearQuery,
     toolCall,
     reportEnabled,
-    quotaExceeded,
-    setQuotaExceeded,
+    clearMessagesCache,
   };
 };
 

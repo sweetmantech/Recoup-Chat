@@ -1,10 +1,10 @@
-import { useChatProvider } from "@/providers/ChatProvider";
 import { useRouter } from "next/navigation";
 import Icon from "../Icon";
+import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 
 const AIError = () => {
   const { push } = useRouter();
-  const { setQuotaExceeded } = useChatProvider();
+  const { setQuotaExceeded } = useConversationsProvider();
 
   return (
     <div className="grow h-screen overflow-hidden w-full p-4 bg-background">

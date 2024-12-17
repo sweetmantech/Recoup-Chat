@@ -31,6 +31,13 @@ const useTikTokReport = () => {
     setTiktokVideos({});
   };
 
+  const clearReportCache = () => {
+    setTiktokNextSteps("");
+    setTikTokSummary("");
+    setTiktokRawReportContent("");
+    setTiktokReportContent("");
+  };
+
   return {
     initReport,
     isSearchingTrends,
@@ -55,6 +62,7 @@ const useTikTokReport = () => {
     tiktokRawReportContent,
     tiktokSummary,
     setTikTokSummary,
+    clearReportCache,
   };
 };
 

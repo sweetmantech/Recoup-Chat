@@ -34,25 +34,13 @@ const getConversations = async (walletAddress: Address) => {
     events = events.concat(data);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const chats = events.filter((event: any) => event?.metadata?.conversationId);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const aggregation: any = {};
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  chats.forEach((item: any) => {
-    const event = item.event;
+  const chats = events.filter(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (event: any) => event?.metadata?.conversationId && event?.metadata.title,
+  );
 
-    aggregation[event] = aggregation[event] || {
-      ...item,
-      title: "",
-      isTikTokAnalysis: false,
-    };
-    aggregation[event].title = item.metadata?.title ?? aggregation[event].title;
-    aggregation[event].isTikTokAnalysis =
-      item.metadata?.isTikTokAnalysis ?? aggregation[event].isTikTokAnalysis;
-  });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return Object.values(aggregation) as any;
+  return Object.values(chats) as any;
 };
 
 export default getConversations;

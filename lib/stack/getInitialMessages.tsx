@@ -33,6 +33,7 @@ const getInitialMessages = async (
     return data;
   });
   messages.sort((a, b) => a.createdAt!.getTime() - b.createdAt!.getTime());
+
   return messages;
 };
 

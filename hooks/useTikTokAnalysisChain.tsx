@@ -6,7 +6,7 @@ import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { useUserProvider } from "@/providers/UserProvder";
 import { SETTING_MODE } from "@/types/Setting";
 import { STEP_OF_ANALYSIS } from "@/types/Thought";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { v4 as uuidV4 } from "uuid";
 import useSaveTiktokArtist from "./useSaveTiktokArtist";
@@ -15,8 +15,8 @@ import getSegments from "@/lib/getSegments";
 import getArtistTikTokHandle from "@/lib/getArtistTikTokHandle";
 import getTikTokAnalysisByArtistId from "@/lib/getTikTokAnalysisByArtistId";
 
-const useChainOfThought = () => {
-  const { setSettingMode, selectedArtist, artists } = useArtistProvider();
+const useTikTokAnalysisChain = () => {
+  const { setSettingMode, artists } = useArtistProvider();
   const [username, setUsername] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [thought, setThought] = useState(STEP_OF_ANALYSIS.INITITAL);
@@ -24,27 +24,17 @@ const useChainOfThought = () => {
   const [progress, setProgress] = useState(0);
   const [segments, setSegments] = useState<Array<any>>([]);
   const { saveTiktokArtist } = useSaveTiktokArtist();
-  const { trackNewTitle } = useConversationsProvider();
-  const { chat_id: chatId } = useParams();
   const { push } = useRouter();
   const { isPrepared } = useUserProvider();
+  const { trackTikTokAnalysisChat } = useConversationsProvider();
 
   const handleAnalyze = async () => {
     try {
       if (!isPrepared()) return;
       setIsLoading(true);
       if (!username || isLoading) return;
-      let newId = "";
-      if (!chatId) {
-        newId = uuidV4();
-        push(`/funnels/tiktok-account-analysis/${newId}`);
-      }
-      trackNewTitle(
-        {
-          title: `TikTok Analysis: ${username}`,
-        },
-        newId,
-      );
+      const newId = uuidV4();
+      push(`/funnels/tiktok-account-analysis/${newId}`);
       const handle = username.replaceAll("@", "");
       const artistSelected = artists.find(
         (artist) => handle === getArtistTikTokHandle(artist),
@@ -52,6 +42,11 @@ const useChainOfThought = () => {
       if (artistSelected) {
         const analysisCache = await getTikTokAnalysisByArtistId(
           artistSelected?.id || "",
+        );
+        await trackTikTokAnalysisChat(
+          username,
+          artistSelected?.id,
+          analysisCache?.chat_id,
         );
         if (analysisCache) {
           setResult(analysisCache);
@@ -93,13 +88,18 @@ const useChainOfThought = () => {
       setThought(STEP_OF_ANALYSIS.CREATING_ARTIST);
       const artistId = await saveTiktokArtist(profileWithComments);
       setThought(STEP_OF_ANALYSIS.SAVING_ANALYSIS);
-      const result = await saveTiktokAnalysis(
-        profileWithComments,
-        fanSegmentsWithIcons,
+      const analysis = {
+        ...profileWithComments,
+        segments: [...fanSegmentsWithIcons],
+        chat_id: newId,
         artistId,
-        newId,
-      );
-      setResult(result);
+      };
+      const newAnalaysisId = await saveTiktokAnalysis(analysis);
+      setResult({
+        id: newAnalaysisId,
+        ...profileWithComments,
+      });
+      await trackTikTokAnalysisChat(username, artistId, newId);
       setThought(STEP_OF_ANALYSIS.FINISHED);
     } catch (error) {
       console.error("Analysis failed:", error);
@@ -124,4 +124,4 @@ const useChainOfThought = () => {
   };
 };
 
-export default useChainOfThought;
+export default useTikTokAnalysisChain;
