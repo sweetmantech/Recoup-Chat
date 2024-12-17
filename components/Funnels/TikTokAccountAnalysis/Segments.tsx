@@ -1,7 +1,6 @@
 import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
 import Icon from "@/components/Icon";
 import LucideIcon from "@/components/LucideIcon";
-import decreaseCredits from "@/lib/supabase/decreaseCredits";
 import { useUserProvider } from "@/providers/UserProvder";
 import { v4 as uuidV4 } from "uuid";
 import { useChatProvider } from "@/providers/ChatProvider";
@@ -11,14 +10,15 @@ import { usePaymentProvider } from "@/providers/PaymentProvider";
 const Segments = () => {
   const { append } = useChatProvider();
   const { segments, result } = useTikTokAnalysisProvider();
-  const { userData, isPrepared } = useUserProvider();
+  const { isPrepared } = useUserProvider();
   useCredits();
   const {
     toggleModal,
     setSuccessCallbackParams,
-    hasCredits,
-    subscriptionActive,
     isLoadingCredits,
+    creditUsed,
+    credits,
+    subscriptionActive,
   } = usePaymentProvider();
 
   const handleGenerateReport = (segmentName: string) => {
@@ -35,13 +35,13 @@ const Segments = () => {
   const payNow = async (segmentName: string) => {
     if (!isPrepared()) return;
     if (isLoadingCredits) return;
-    if (!hasCredits && !subscriptionActive) {
-      setSuccessCallbackParams(new URLSearchParams({ segmentName }).toString());
-      toggleModal();
+    if (credits > 0 || subscriptionActive) {
+      await creditUsed();
+      handleGenerateReport(segmentName);
       return;
     }
-    if (!subscriptionActive) await decreaseCredits(userData?.id);
-    handleGenerateReport(segmentName);
+    setSuccessCallbackParams(new URLSearchParams({ segmentName }).toString());
+    toggleModal();
   };
 
   return (
