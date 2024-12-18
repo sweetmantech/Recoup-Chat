@@ -7,13 +7,13 @@ import { useUserProvider } from "@/providers/UserProvder";
 import { SETTING_MODE } from "@/types/Setting";
 import { STEP_OF_ANALYSIS } from "@/types/TikTok";
 import { useRouter } from "next/navigation";
+import { v4 as uuidV4 } from "uuid";
 import useSaveTiktokArtist from "./useSaveTiktokArtist";
 import saveTiktokAnalysis from "@/lib/saveTiktokAnalysis";
 import getSegments from "@/lib/getSegments";
 import getArtistTikTokHandle from "@/lib/getArtistTikTokHandle";
 import getTikTokAnalysisByArtistId from "@/lib/getTikTokAnalysisByArtistId";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
-import { v4 as uuidV4 } from "uuid";
 
 const useTikTokAnalysisChain = () => {
   const { setSettingMode, artists } = useArtistProvider();
@@ -106,7 +106,7 @@ const useTikTokAnalysisChain = () => {
         id: newAnalaysisId,
         ...profileWithComments,
       });
-      await trackTikTokAnalysisChat(username, artistId, newId as string);
+      await trackTikTokAnalysisChat(username, artistId, newId);
       setThought(STEP_OF_ANALYSIS.FINISHED);
     } catch (error) {
       setThought(STEP_OF_ANALYSIS.ERROR);
