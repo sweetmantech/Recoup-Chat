@@ -19,7 +19,7 @@ const useTwitterAnalysisChain = () => {
     setSegments,
   } = useFunnelAnalysisProvider();
   const { saveFunnelArtist } = useSaveFunnelArtist();
-  const { saveSetting, setSettingMode } = useArtistProvider();
+  const { setSettingMode } = useArtistProvider();
   const { isPrepared } = useUserProvider();
 
   const handleAnalyze = async () => {

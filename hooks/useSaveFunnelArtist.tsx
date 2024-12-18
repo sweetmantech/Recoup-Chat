@@ -8,7 +8,10 @@ const useSaveFunnelArtist = () => {
   const { funnelType } = useFunnelAnalysisProvider();
 
   const saveFunnelArtist = async (profileWithComments: any) => {
-    const socialUrls = {} as any;
+    const socialUrls = {
+      twitter_url: "",
+      tiktok_url: "",
+    } as any;
     const url = `https://tiktok.com/@${profileWithComments.name}`;
     if (funnelType === Funnel_Type.TIKTOK) socialUrls.tiktok_url = url;
     if (funnelType === Funnel_Type.TWITTER) socialUrls.twitter_url = url;
