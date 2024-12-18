@@ -24,6 +24,7 @@ const useTikTokAnalysisChain = () => {
     setResult,
     setProgress,
     setSegments,
+    artistHandle,
   } = useFunnelAnalysisProvider();
   const { saveTiktokArtist } = useSaveTiktokArtist();
   const { isPrepared } = useUserProvider();
@@ -35,9 +36,8 @@ const useTikTokAnalysisChain = () => {
       if (!isPrepared()) return;
       setIsLoading(true);
       if (!username || isLoading) return;
-      const handle = username.replaceAll("@", "");
       const artistSelected = artists.find(
-        (artist) => handle === getArtistTikTokHandle(artist),
+        (artist) => artistHandle === getArtistTikTokHandle(artist),
       );
       if (artistSelected) {
         const analysisCache = await getTikTokAnalysisByArtistId(
