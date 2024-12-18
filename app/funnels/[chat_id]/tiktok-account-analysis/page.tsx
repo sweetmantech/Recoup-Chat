@@ -1,10 +1,12 @@
-import TikTokAccountAnalysis from "@/components/Funnels/TikTokAccountAnalysis";
-import { TikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
+import FunnelAccountAnalysis from "@/components/Funnels/FunnelAccountAnalysis";
+import { Metadata } from "next";
 
-const TikTokAccountAnalysisFunnel = () => (
-  <TikTokAnalysisProvider>
-    <TikTokAccountAnalysis />
-  </TikTokAnalysisProvider>
-);
+export const metadata: Metadata = {
+  title: "TikTok Account Analysis | Recoup",
+  description:
+    "Get instant insights about any TikTok account's performance and content",
+};
+
+const TikTokAccountAnalysisFunnel = () => <FunnelAccountAnalysis />;
 
 export default TikTokAccountAnalysisFunnel;

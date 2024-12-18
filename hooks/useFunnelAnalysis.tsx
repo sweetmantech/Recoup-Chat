@@ -1,7 +1,7 @@
 import { Funnel_Type } from "@/types/Funnel";
 import { STEP_OF_ANALYSIS } from "@/types/TikTok";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { v4 as uuidV4 } from "uuid";
 
 const useFunnelAnalysis = () => {
@@ -20,6 +20,11 @@ const useFunnelAnalysis = () => {
     if (pathname.includes("tiktok")) setFunnelType(Funnel_Type.TIKTOK);
     if (pathname.includes("twitter")) setFunnelType(Funnel_Type.TWITTER);
   }, [pathname]);
+
+  const funnelName = useMemo(() => {
+    if (funnelType === Funnel_Type.TIKTOK) return "TikTok";
+    return funnelType;
+  }, [funnelType]);
 
   const handleRetry = () => {
     setResult(null);
@@ -54,6 +59,7 @@ const useFunnelAnalysis = () => {
     funnelType,
     handleRetry,
     initialize,
+    funnelName,
   };
 };
 

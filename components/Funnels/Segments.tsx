@@ -9,7 +9,7 @@ import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const Segments = () => {
   const { append } = useChatProvider();
-  const { segments, result } = useFunnelAnalysisProvider();
+  const { segments, result, funnelType } = useFunnelAnalysisProvider();
   const { isPrepared } = useUserProvider();
   useCredits();
   const {
@@ -26,7 +26,7 @@ const Segments = () => {
       {
         id: uuidV4(),
         role: "user",
-        content: `Please create a tiktok fan segment report for ${result.id} using this segment ${segmentName}.`,
+        content: `Please create a ${funnelType} fan segment report for ${result.id} using this segment ${segmentName}.`,
       },
       true,
     );

@@ -1,4 +1,4 @@
-import getTikTokProfile from "@/lib/getTiktokProfile";
+import getTikTokProfile from "@/lib/tiktok/getTiktokProfile";
 import getVideoComments from "@/lib/getVideoComments";
 import uploadPfp from "@/lib/uploadPfp";
 import { useArtistProvider } from "@/providers/ArtistProvider";
