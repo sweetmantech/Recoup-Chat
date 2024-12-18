@@ -7,15 +7,15 @@ import { useUserProvider } from "@/providers/UserProvder";
 import { SETTING_MODE } from "@/types/Setting";
 import { STEP_OF_ANALYSIS } from "@/types/TikTok";
 import useSaveFunnelArtist from "./useSaveFunnelArtist";
-import { useRouter } from "next/navigation";
+import saveFunnelAnalysis from "@/lib/saveFunnelAnalysis";
 import { v4 as uuidV4 } from "uuid";
-import saveTiktokAnalysis from "@/lib/saveTiktokAnalysis";
 import getSegments from "@/lib/getSegments";
 import getArtistTikTokHandle from "@/lib/getArtistTikTokHandle";
 import getTikTokAnalysisByArtistId from "@/lib/getTikTokAnalysisByArtistId";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
+import { useRouter } from "next/navigation";
 
-const useTikTokAnalysisChain = () => {
+const useTikTokAnalysis = () => {
   const { setSettingMode, artists } = useArtistProvider();
   const {
     setIsLoading,
@@ -26,12 +26,14 @@ const useTikTokAnalysisChain = () => {
     setProgress,
     setSegments,
     artistHandle,
+    funnelName,
     funnelType,
   } = useFunnelAnalysisProvider();
   const { saveFunnelArtist } = useSaveFunnelArtist();
   const { isPrepared } = useUserProvider();
-  const { trackTikTokAnalysisChat } = useConversationsProvider();
+  const { trackFunnelAnalysisChat } = useConversationsProvider();
   const { push } = useRouter();
+
   const handleAnalyze = async () => {
     try {
       if (!isPrepared()) return;
@@ -46,10 +48,11 @@ const useTikTokAnalysisChain = () => {
         const analysisCache = await getTikTokAnalysisByArtistId(
           artistSelected?.id || "",
         );
-        await trackTikTokAnalysisChat(
+        await trackFunnelAnalysisChat(
           username,
           artistSelected?.id,
           analysisCache?.chat_id,
+          funnelName,
         );
         if (analysisCache) {
           setResult(analysisCache);
@@ -101,12 +104,12 @@ const useTikTokAnalysisChain = () => {
         chat_id: newId,
         artistId,
       };
-      const newAnalaysisId = await saveTiktokAnalysis(analysis);
+      const newAnalaysisId = await saveFunnelAnalysis(analysis);
       setResult({
         id: newAnalaysisId,
         ...profileWithComments,
       });
-      await trackTikTokAnalysisChat(username, artistId, newId);
+      await trackFunnelAnalysisChat(username, artistId, newId, funnelName);
       setThought(STEP_OF_ANALYSIS.FINISHED);
     } catch (error) {
       setThought(STEP_OF_ANALYSIS.ERROR);
@@ -118,4 +121,4 @@ const useTikTokAnalysisChain = () => {
   };
 };
 
-export default useTikTokAnalysisChain;
+export default useTikTokAnalysis;

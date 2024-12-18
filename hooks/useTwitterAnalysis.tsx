@@ -7,10 +7,12 @@ import getSegments from "@/lib/getSegments";
 import { SETTING_MODE } from "@/types/Setting";
 import useSaveFunnelArtist from "./useSaveFunnelArtist";
 import { useArtistProvider } from "@/providers/ArtistProvider";
+import saveFunnelAnalysis from "@/lib/saveFunnelAnalysis";
+import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { useRouter } from "next/navigation";
 import { v4 as uuidV4 } from "uuid";
 
-const useTwitterAnalysisChain = () => {
+const useTwitterAnalysis = () => {
   const {
     setIsLoading,
     setThought,
@@ -19,11 +21,13 @@ const useTwitterAnalysisChain = () => {
     setResult,
     artistHandle,
     setSegments,
+    funnelName,
     funnelType,
   } = useFunnelAnalysisProvider();
   const { saveFunnelArtist } = useSaveFunnelArtist();
   const { setSettingMode } = useArtistProvider();
   const { isPrepared } = useUserProvider();
+  const { trackFunnelAnalysisChat } = useConversationsProvider();
   const { push } = useRouter();
 
   const handleAnalyze = async () => {
@@ -59,7 +63,22 @@ const useTwitterAnalysisChain = () => {
       setResult(profileWithComments);
       setSettingMode(SETTING_MODE.CREATE);
       setThought(STEP_OF_ANALYSIS.CREATING_ARTIST);
-      await saveFunnelArtist(profileWithComments);
+      const artistId = await saveFunnelArtist(profileWithComments);
+      setThought(STEP_OF_ANALYSIS.SAVING_ANALYSIS);
+      const analysis = {
+        ...profile,
+        videos: comments,
+        total_video_comments_count: comments?.length,
+        segments: [...fanSegmentsWithIcons],
+        chat_id: newId,
+        artistId,
+      };
+      const newAnalaysisId = await saveFunnelAnalysis(analysis);
+      setResult({
+        id: newAnalaysisId,
+        ...analysis,
+      });
+      await trackFunnelAnalysisChat(username, artistId, newId, funnelName);
       setThought(STEP_OF_ANALYSIS.FINISHED);
     } catch (error) {
       setThought(STEP_OF_ANALYSIS.ERROR);
@@ -71,4 +90,4 @@ const useTwitterAnalysisChain = () => {
   };
 };
 
-export default useTwitterAnalysisChain;
+export default useTwitterAnalysis;

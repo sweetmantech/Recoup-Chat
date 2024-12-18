@@ -63,15 +63,16 @@ const useConversations = () => {
     fetchConversations(address);
   };
 
-  const trackTikTokAnalysisChat = async (
+  const trackFunnelAnalysisChat = async (
     username: string,
     artistId: string,
     chatId: string,
+    funnelName: string,
   ) => {
     await trackNewTitle(
       {
-        title: `TikTok Analysis: ${username}`,
-        is_tiktok_analysis: true,
+        title: `${funnelName} Analysis: ${username}`,
+        is_funnel_analysis: true,
         artistId,
       },
       chatId,
@@ -118,7 +119,7 @@ const useConversations = () => {
     streamingTitle,
     trackNewTitle,
     streaming,
-    trackTikTokAnalysisChat,
+    trackFunnelAnalysisChat,
     setQuotaExceeded,
     quotaExceeded,
     trackGeneralChat,
