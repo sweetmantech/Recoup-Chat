@@ -6,7 +6,8 @@ import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { useUserProvider } from "@/providers/UserProvder";
 import { SETTING_MODE } from "@/types/Setting";
 import { STEP_OF_ANALYSIS } from "@/types/TikTok";
-import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { v4 as uuidV4 } from "uuid";
 import useSaveTiktokArtist from "./useSaveTiktokArtist";
 import saveTiktokAnalysis from "@/lib/saveTiktokAnalysis";
 import getSegments from "@/lib/getSegments";
@@ -25,17 +26,19 @@ const useTikTokAnalysisChain = () => {
     setProgress,
     setSegments,
     artistHandle,
+    funnelType,
   } = useFunnelAnalysisProvider();
   const { saveTiktokArtist } = useSaveTiktokArtist();
   const { isPrepared } = useUserProvider();
   const { trackTikTokAnalysisChat } = useConversationsProvider();
-  const { chat_id: chatId } = useParams();
-
+  const { push } = useRouter();
   const handleAnalyze = async () => {
     try {
       if (!isPrepared()) return;
       setIsLoading(true);
       if (!username || isLoading) return;
+      const newId = uuidV4();
+      push(`/funnels/${funnelType}/${newId}`);
       const artistSelected = artists.find(
         (artist) => artistHandle === getArtistTikTokHandle(artist),
       );
@@ -95,7 +98,7 @@ const useTikTokAnalysisChain = () => {
       const analysis = {
         ...profileWithComments,
         segments: [...fanSegmentsWithIcons],
-        chat_id: chatId,
+        chat_id: newId,
         artistId,
       };
       const newAnalaysisId = await saveTiktokAnalysis(analysis);
@@ -103,7 +106,7 @@ const useTikTokAnalysisChain = () => {
         id: newAnalaysisId,
         ...profileWithComments,
       });
-      await trackTikTokAnalysisChat(username, artistId, chatId as string);
+      await trackTikTokAnalysisChat(username, artistId, newId);
       setThought(STEP_OF_ANALYSIS.FINISHED);
     } catch (error) {
       setThought(STEP_OF_ANALYSIS.ERROR);
