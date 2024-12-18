@@ -2,10 +2,19 @@ import { useUserProvider } from "@/providers/UserProvder";
 import { STEP_OF_ANALYSIS } from "@/types/TikTok";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import getTwitterProfile from "@/lib/twitter/getTwitterProfile";
+import getComments from "@/lib/twitter/getComments";
+import getSegments from "@/lib/getSegments";
 
 const useTwitterAnalysisChain = () => {
-  const { setIsLoading, setThought, username, isLoading, setResult } =
-    useFunnelAnalysisProvider();
+  const {
+    setIsLoading,
+    setThought,
+    username,
+    isLoading,
+    setResult,
+    artistHandle,
+    setSegments,
+  } = useFunnelAnalysisProvider();
   const { isPrepared } = useUserProvider();
 
   const handleAnalyze = async () => {
@@ -15,27 +24,28 @@ const useTwitterAnalysisChain = () => {
       if (!username || isLoading) return;
       await new Promise((resolve) => setTimeout(resolve, 1900));
       setThought(STEP_OF_ANALYSIS.PROFILE);
-      const profile = await getTwitterProfile(username.replaceAll("@", ""));
+      const profile = await getTwitterProfile(artistHandle);
       if (profile?.error) {
         setThought(STEP_OF_ANALYSIS.UNKNOWN_PROFILE);
         return;
       }
-      setResult({
+      const comments = await getComments(artistHandle);
+      const profileWithComments = {
         ...profile,
-        videos: [
-          {
-            comments: [
-              {
-                comment: "“Keep goin ladies”🤣",
-                username: "dio.band0",
-                created_at: 1722444727,
-              },
-            ],
-            videoWebUrl:
-              "https://www.tiktok.com/@officialluhtyler/video/7396112820015828267",
-          },
-        ],
-      });
+        comments,
+        total_comments_count: comments?.length,
+      };
+      let fanSegmentsWithIcons = [];
+      if (comments.length > 0) {
+        setThought(STEP_OF_ANALYSIS.SEGMENTS);
+        fanSegmentsWithIcons = await getSegments(profileWithComments);
+        if (fanSegmentsWithIcons?.error) {
+          setThought(STEP_OF_ANALYSIS.ERROR);
+          return;
+        }
+        setSegments([...fanSegmentsWithIcons]);
+      }
+      setResult(profileWithComments);
       setThought(STEP_OF_ANALYSIS.FINISHED);
     } catch (error) {
       setThought(STEP_OF_ANALYSIS.ERROR);

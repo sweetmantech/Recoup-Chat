@@ -5,7 +5,7 @@ import useToolMessages from "./useToolMessages";
 import { useParams } from "next/navigation";
 import getToolCallMessage from "@/lib/getToolCallMessage";
 import useToolCallParams from "./useToolCallParams";
-import getVideoComments from "@/lib/getVideoComments";
+import getVideoComments from "@/lib/tiktok/getVideoComments";
 import isActiveToolCallTrigger from "@/lib/isActiveToolCallTrigger";
 import getTikTokProfile from "@/lib/tiktok/getTiktokProfile";
 import { Tools } from "@/types/Tool";

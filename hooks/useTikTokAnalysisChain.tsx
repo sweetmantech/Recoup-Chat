@@ -1,5 +1,5 @@
 import getTikTokProfile from "@/lib/tiktok/getTiktokProfile";
-import getVideoComments from "@/lib/getVideoComments";
+import getVideoComments from "@/lib/tiktok/getVideoComments";
 import uploadPfp from "@/lib/uploadPfp";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";

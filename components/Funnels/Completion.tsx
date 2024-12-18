@@ -15,7 +15,7 @@ const Completion = () => {
 
   return (
     <div>
-      {result?.videos?.length ? (
+      {result?.videos?.length || result?.comments?.length ? (
         <>
           <p className="text-xl font-bold pb-4">
             <span className="capitalize">{funnelName}</span> Analysis complete✅
