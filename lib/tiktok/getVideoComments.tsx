@@ -1,5 +1,5 @@
 import { STEP_OF_ANALYSIS } from "@/types/TikTok";
-import { AGENT_API } from "./consts";
+import { AGENT_API } from "../consts";
 
 const getVideoComments = async (
   videoUrls: string,

@@ -1,5 +1,5 @@
 import getTikTokProfile from "@/lib/tiktok/getTiktokProfile";
-import getVideoComments from "@/lib/getVideoComments";
+import getVideoComments from "@/lib/tiktok/getVideoComments";
 import uploadPfp from "@/lib/uploadPfp";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
@@ -25,6 +25,7 @@ const useTikTokAnalysisChain = () => {
     setResult,
     setProgress,
     setSegments,
+    artistHandle,
     funnelType,
   } = useFunnelAnalysisProvider();
   const { saveTiktokArtist } = useSaveTiktokArtist();
@@ -38,9 +39,8 @@ const useTikTokAnalysisChain = () => {
       if (!username || isLoading) return;
       const newId = uuidV4();
       push(`/funnels/${funnelType}/${newId}`);
-      const handle = username.replaceAll("@", "");
       const artistSelected = artists.find(
-        (artist) => handle === getArtistTikTokHandle(artist),
+        (artist) => artistHandle === getArtistTikTokHandle(artist),
       );
       if (artistSelected) {
         const analysisCache = await getTikTokAnalysisByArtistId(
