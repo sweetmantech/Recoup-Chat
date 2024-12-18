@@ -24,7 +24,7 @@ const useTikTokReport = () => {
       setTiktokRawReportContent(rawContent);
       setIsGeneratingReport(false);
     };
-    if (!tiktokAnalysis?.segmentName) return;
+    if (!tiktokAnalysis?.segment_name) return;
     init();
   }, [tiktokAnalysis]);
 
