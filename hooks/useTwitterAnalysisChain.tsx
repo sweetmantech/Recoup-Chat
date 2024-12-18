@@ -4,6 +4,9 @@ import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import getTwitterProfile from "@/lib/twitter/getTwitterProfile";
 import getComments from "@/lib/twitter/getComments";
 import getSegments from "@/lib/getSegments";
+import { SETTING_MODE } from "@/types/Setting";
+import useSaveFunnelArtist from "./useSaveFunnelArtist";
+import { useArtistProvider } from "@/providers/ArtistProvider";
 
 const useTwitterAnalysisChain = () => {
   const {
@@ -15,6 +18,8 @@ const useTwitterAnalysisChain = () => {
     artistHandle,
     setSegments,
   } = useFunnelAnalysisProvider();
+  const { saveFunnelArtist } = useSaveFunnelArtist();
+  const { saveSetting, setSettingMode } = useArtistProvider();
   const { isPrepared } = useUserProvider();
 
   const handleAnalyze = async () => {
@@ -46,6 +51,9 @@ const useTwitterAnalysisChain = () => {
         setSegments([...fanSegmentsWithIcons]);
       }
       setResult(profileWithComments);
+      setSettingMode(SETTING_MODE.CREATE);
+      setThought(STEP_OF_ANALYSIS.CREATING_ARTIST);
+      await saveFunnelArtist(profileWithComments);
       setThought(STEP_OF_ANALYSIS.FINISHED);
     } catch (error) {
       setThought(STEP_OF_ANALYSIS.ERROR);

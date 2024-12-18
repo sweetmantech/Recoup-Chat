@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import useArtistSetting from "./useArtistSetting";
 import { SETTING_MODE } from "@/types/Setting";
 import { useLocalStorage } from "usehooks-ts";
+import { Funnel_Type } from "@/types/Funnel";
 
 const useArtists = () => {
   const artistSetting = useArtistSetting();
@@ -59,7 +60,10 @@ const useArtists = () => {
   const saveSetting = async (
     name?: string,
     image?: string,
-    tiktokUrl?: string,
+    socialUrls?: {
+      tiktok_url?: string;
+      twitter_url?: string;
+    },
     mode?: string,
   ) => {
     setUpdating(true);
@@ -71,11 +75,11 @@ const useArtists = () => {
         body: JSON.stringify({
           name: name || artistSetting.name,
           image: image || artistSetting.image,
-          tiktok_url: tiktokUrl || artistSetting.tiktok,
+          tiktok_url: socialUrls?.tiktok_url || artistSetting.tiktok,
           youtube_url: artistSetting.youtube,
           apple_url: artistSetting.appleUrl,
           instagram_url: artistSetting.instagram,
-          twitter_url: artistSetting.twitter,
+          twitter_url: socialUrls?.twitter_url || artistSetting.twitter,
           spotify_url: artistSetting.spotifyUrl,
           instruction: artistSetting.instruction,
           label: artistSetting.label,
