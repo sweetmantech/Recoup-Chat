@@ -78,12 +78,7 @@ const useTwitterAnalysis = () => {
         id: newAnalaysisId,
         ...analysis,
       });
-      await trackFunnelAnalysisChat(
-        username,
-        artistId,
-        newId,
-        funnelName,
-      );
+      await trackFunnelAnalysisChat(username, artistId, newId, funnelName);
       setThought(STEP_OF_ANALYSIS.FINISHED);
     } catch (error) {
       setThought(STEP_OF_ANALYSIS.ERROR);

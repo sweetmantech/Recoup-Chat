@@ -27,12 +27,12 @@ const useTikTokAnalysis = () => {
     setSegments,
     artistHandle,
     funnelName,
-    funnelType
+    funnelType,
   } = useFunnelAnalysisProvider();
   const { saveFunnelArtist } = useSaveFunnelArtist();
   const { isPrepared } = useUserProvider();
   const { trackFunnelAnalysisChat } = useConversationsProvider();
-  const { push } = useRouter()
+  const { push } = useRouter();
 
   const handleAnalyze = async () => {
     try {
@@ -109,12 +109,7 @@ const useTikTokAnalysis = () => {
         id: newAnalaysisId,
         ...profileWithComments,
       });
-      await trackFunnelAnalysisChat(
-        username,
-        artistId,
-        newId,
-        funnelName,
-      );
+      await trackFunnelAnalysisChat(username, artistId, newId, funnelName);
       setThought(STEP_OF_ANALYSIS.FINISHED);
     } catch (error) {
       setThought(STEP_OF_ANALYSIS.ERROR);

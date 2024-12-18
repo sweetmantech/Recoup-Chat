@@ -27,7 +27,7 @@ const useFunnelAnalysis = () => {
   const { clearReportCache, setTiktokAnalysis } = useTikTokReportProvider();
 
   const funnelName = useMemo(() => {
-    if (!funnelType) return ""
+    if (!funnelType) return "";
     if (funnelType === Funnel_Type.TIKTOK) return "TikTok";
     return capitalize(funnelType as string);
   }, [funnelType]);
