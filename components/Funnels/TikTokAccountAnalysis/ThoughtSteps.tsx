@@ -4,8 +4,8 @@ import StreamingThought from "./StreamThought";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const ThoughtSteps = () => {
-  const { thought, progress, username } = useFunnelAnalysisProvider();
-  const artistHandle = username.replaceAll("@", "");
+  const { thought, progress, username, artistHandle } =
+    useFunnelAnalysisProvider();
 
   return (
     <div className="font-bold">

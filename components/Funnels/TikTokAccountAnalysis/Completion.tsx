@@ -4,9 +4,8 @@ import { usePromptsProvider } from "@/providers/PromptsProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const Completion = () => {
-  const { username, result, segments, handleRetry } =
+  const { result, segments, handleRetry, artistHandle } =
     useFunnelAnalysisProvider();
-  const artistHandle = username.replaceAll("@", "");
   const { getPrompts } = usePromptsProvider();
 
   useEffect(() => {
