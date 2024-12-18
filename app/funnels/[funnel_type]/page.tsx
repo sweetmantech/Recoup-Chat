@@ -1,10 +1,5 @@
-import TikTokAccountAnalysis from "@/components/Funnels/TikTokAccountAnalysis";
-import { TikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
+import FunnelAccountAnalysis from "@/components/Funnels/FunnelAccountAnalysis";
 
-const AccountAnalysisFunnel = () => (
-  <TikTokAnalysisProvider>
-    <TikTokAccountAnalysis />
-  </TikTokAnalysisProvider>
-);
+const FunnelAccountAnalysisFunnel = () => <FunnelAccountAnalysis />;
 
-export default AccountAnalysisFunnel;
+export default FunnelAccountAnalysisFunnel;
