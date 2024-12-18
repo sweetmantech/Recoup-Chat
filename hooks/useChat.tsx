@@ -13,7 +13,7 @@ const useChat = () => {
   const { conversationId, trackGeneralChat, conversationRef } =
     useConversationsProvider();
   const searchParams = useSearchParams();
-  const reportEnabled = searchParams.get("tiktok_report");
+  const reportEnabled = searchParams.get("funnel_report");
   const { input, appendAiChat, handleAiChatSubmit } = useMessagesProvider();
   const { setCurrentQuestion } = usePromptsProvider();
   const { fetchInitialMessages } = useInitialMessagesProvider();
