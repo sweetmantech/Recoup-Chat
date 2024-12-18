@@ -14,7 +14,7 @@ const RecentChats = ({ toggleModal }: { toggleModal: () => void }) => {
     if (isMobile) toggleModal();
     if (conversation.metadata.is_tiktok_analysis) {
       push(
-        `/funnels/tiktok-account-analysis/${conversation.metadata.conversationId}`,
+        `/funnels/${conversation.metadata.conversationId}/tiktok-account-analysis`,
       );
       return;
     }

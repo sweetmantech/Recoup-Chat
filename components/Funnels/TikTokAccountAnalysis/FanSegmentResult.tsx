@@ -1,12 +1,12 @@
 import { STEP_OF_ANALYSIS } from "@/types/TikTok";
-import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
 import ThoughtSteps from "./ThoughtSteps";
 import AnalysisPlan from "./AnalysisPlan";
 import Icon from "@/components/Icon";
 import ScrapingCaption from "./ScrapingCaption";
+import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const FanSegmentResult = () => {
-  const { thought } = useTikTokAnalysisProvider();
+  const { thought } = useFunnelAnalysisProvider();
 
   return (
     <>

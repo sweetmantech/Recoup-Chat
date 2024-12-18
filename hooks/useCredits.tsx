@@ -1,7 +1,7 @@
 import { checkSession } from "@/lib/stripe/checkSession";
 import { getSession } from "@/lib/stripe/getSession";
 import { useChatProvider } from "@/providers/ChatProvider";
-import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
+import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
@@ -13,7 +13,7 @@ const useCredits = () => {
   const segmentName = searchParams.get("segmentName");
   const initialized = useRef(false);
   const { append } = useChatProvider();
-  const { result } = useTikTokAnalysisProvider();
+  const { result, funnelType } = useFunnelAnalysisProvider();
   const { email } = useUserProvider();
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const useCredits = () => {
             {
               id: uuidV4(),
               role: "user",
-              content: `Please create a tiktok fan segment report for ${result.id} using this segment ${segmentName}.`,
+              content: `Please create a ${funnelType} fan segment report for ${result.id} using this segment ${segmentName}.`,
             },
             true,
           );
