@@ -13,7 +13,7 @@ import getSegments from "@/lib/getSegments";
 import getArtistTikTokHandle from "@/lib/getArtistTikTokHandle";
 import getTikTokAnalysisByArtistId from "@/lib/getTikTokAnalysisByArtistId";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
-import { v4 as uuidV4 } from "uuid"
+import { v4 as uuidV4 } from "uuid";
 
 const useTikTokAnalysisChain = () => {
   const { setSettingMode, artists } = useArtistProvider();
@@ -25,19 +25,19 @@ const useTikTokAnalysisChain = () => {
     setResult,
     setProgress,
     setSegments,
+    funnelType,
   } = useFunnelAnalysisProvider();
   const { saveTiktokArtist } = useSaveTiktokArtist();
   const { isPrepared } = useUserProvider();
   const { trackTikTokAnalysisChat } = useConversationsProvider();
   const { push } = useRouter();
-
   const handleAnalyze = async () => {
     try {
       if (!isPrepared()) return;
       setIsLoading(true);
       if (!username || isLoading) return;
       const newId = uuidV4();
-      push(`/funnels/tiktok-account-analysis/${newId}`);
+      push(`/funnels/${funnelType}/${newId}`);
       const handle = username.replaceAll("@", "");
       const artistSelected = artists.find(
         (artist) => handle === getArtistTikTokHandle(artist),
