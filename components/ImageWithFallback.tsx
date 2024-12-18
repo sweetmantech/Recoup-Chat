@@ -23,7 +23,7 @@ const ImageWithFallback = ({
       <img
         src={currentSrc}
         onError={handleError}
-        className={`${className} object-cover w-full`}
+        className={`${className} object-cover w-full aspect-[1/1]`}
         alt="not found pic"
       />
     </div>

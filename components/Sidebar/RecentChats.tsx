@@ -13,9 +13,7 @@ const RecentChats = ({ toggleModal }: { toggleModal: () => void }) => {
   const handleClick = (conversation: Conversation) => {
     if (isMobile) toggleModal();
     if (conversation.metadata.is_funnel_analysis) {
-      push(
-        `/funnels/${conversation.metadata.conversationId}/${conversation.metadata.funnel_name.toLowerCase()}-account-analysis`,
-      );
+      push(`/funnels/${conversation.metadata.funnel_name.toLowerCase()}/${conversation.metadata.conversationId}`);
       return;
     }
     push(
