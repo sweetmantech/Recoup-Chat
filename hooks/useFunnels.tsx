@@ -3,7 +3,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const useFunnels = () => {
-  const { tiktokRawReportContent } = useTikTokReportProvider();
+  const { tiktokRawReportContent, tiktokAnalysis } = useTikTokReportProvider();
   const pathname = usePathname();
   const [funnelContext, setFunnelContext] = useState("");
   const searchParams = useSearchParams();
@@ -11,7 +11,7 @@ const useFunnels = () => {
 
   useEffect(() => {
     if (pathname.includes("tiktok-account-analysis") || tiktok_report) {
-      setFunnelContext(tiktokRawReportContent);
+      setFunnelContext(tiktokRawReportContent || tiktokAnalysis);
     }
   }, [pathname]);
 

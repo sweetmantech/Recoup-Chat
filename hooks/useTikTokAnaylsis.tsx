@@ -15,7 +15,7 @@ const useTikTokAnalysis = () => {
   const { push } = useRouter();
   const { email } = useUserProvider();
   const { clearMessagesCache } = useInitialChatProvider();
-  const { clearReportCache } = useTikTokReportProvider();
+  const { clearReportCache, setTiktokAnalysis } = useTikTokReportProvider();
 
   useEffect(() => {
     const init = async () => {
@@ -28,6 +28,7 @@ const useTikTokAnalysis = () => {
           await addArtist(email || "", data.data.artistId);
           await getArtists();
         }
+        setTiktokAnalysis(data.data);
         tiktokAnalysisChain.setResult(data.data);
         tiktokAnalysisChain.setSegments(data.data.segments);
         tiktokAnalysisChain.setIsLoading(true);
