@@ -11,7 +11,9 @@ const useFunnels = () => {
 
   useEffect(() => {
     if (pathname.includes("tiktok-account-analysis") || tiktok_report) {
-      setFunnelContext(tiktokRawReportContent || tiktokAnalysis);
+      setFunnelContext(
+        tiktokRawReportContent || JSON.stringify(tiktokAnalysis),
+      );
     }
   }, [pathname]);
 
