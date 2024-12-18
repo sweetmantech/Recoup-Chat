@@ -2,12 +2,12 @@ import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { useInitialMessagesProvider } from "@/providers/InititalMessagesProvider";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
 import { usePromptsProvider } from "@/providers/PromptsProvider";
-import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
+import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 const useInitialChat = () => {
-  const { tiktokRawReportContent } = useTikTokReportProvider();
+  const { funnelRawReportContent } = useFunnelReportProvider();
   const pathname = usePathname();
   const isNewChat = pathname === "/";
   const { setInitialMessages, initialMessages } = useInitialMessagesProvider();
@@ -25,7 +25,7 @@ const useInitialChat = () => {
       messagesRef.current = messages;
       if (!pending) getPrompts(messages[messages.length - 1]?.content);
     }
-  }, [messages, tiktokRawReportContent, pending]);
+  }, [messages, funnelRawReportContent, pending]);
   useEffect(() => {
     if (initialMessages.length) setMessages(initialMessages);
   }, [initialMessages]);

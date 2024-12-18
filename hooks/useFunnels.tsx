@@ -1,21 +1,21 @@
-import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
+import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const useFunnels = () => {
-  const { tiktokRawReportContent, tiktokAnalysis } = useTikTokReportProvider();
-  const pathname = usePathname();
+  const { funnelRawReportContent, funnelAnalysis } = useFunnelReportProvider();
   const [funnelContext, setFunnelContext] = useState("");
   const searchParams = useSearchParams();
-  const tiktok_report = searchParams.get("tiktok_report");
+  const funnel_report = searchParams.get("funnel_report");
+  const pathname = usePathname()
 
   useEffect(() => {
-    if (pathname.includes("tiktok") || tiktok_report) {
+    if (pathname.includes("tiktok") || pathname.includes("twitter") || funnel_report) {
       setFunnelContext(
-        tiktokRawReportContent || JSON.stringify(tiktokAnalysis),
+        funnelRawReportContent || JSON.stringify(funnelAnalysis),
       );
     }
-  }, [pathname]);
+  }, [pathname, funnel_report]);
 
   return {
     funnelContext,

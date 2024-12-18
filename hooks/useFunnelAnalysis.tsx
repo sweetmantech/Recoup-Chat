@@ -2,7 +2,7 @@ import addArtist from "@/lib/addArtist";
 import capitalize from "@/lib/capitalize";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useInitialChatProvider } from "@/providers/InitialChatProvider";
-import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
+import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useParams, useRouter } from "next/navigation";
 import { STEP_OF_ANALYSIS } from "@/types/TikTok";
@@ -24,7 +24,7 @@ const useFunnelAnalysis = () => {
   const { chat_id: chatId } = useParams();
   const { email } = useUserProvider();
   const { clearMessagesCache } = useInitialChatProvider();
-  const { clearReportCache, setTiktokAnalysis } = useTikTokReportProvider();
+  const { clearReportCache, setFunnelAnalysis } = useFunnelReportProvider();
 
   const funnelName = useMemo(() => {
     if (!funnelType) return "";
@@ -43,7 +43,7 @@ const useFunnelAnalysis = () => {
           await addArtist(email || "", data.data.artistId);
           await getArtists();
         }
-        setTiktokAnalysis(data.data);
+        setFunnelAnalysis(data.data);
         setResult(data.data);
         setSegments(data.data.segments);
         setIsLoading(true);

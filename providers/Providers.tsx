@@ -6,7 +6,7 @@ import PrivyProvider from "./PrivyProvider";
 import { UserProvider } from "./UserProvder";
 import { ArtistProvider } from "./ArtistProvider";
 import { ConversationsProvider } from "./ConverstaionsProvider";
-import { TikTokReportProvider } from "./TikTokReportProvider";
+import { FunnelReportProvider } from "./FunnelReportProvider";
 import { PaymentProvider } from "./PaymentProvider";
 import { InitialMessagesProvider } from "./InititalMessagesProvider";
 import { MessagesProvider } from "./MessagesProvider";
@@ -19,7 +19,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => (
   <QueryClientProvider client={queryClient}>
     <PrivyProvider>
       <UserProvider>
-        <TikTokReportProvider>
+        <FunnelReportProvider>
           <ArtistProvider>
             <ConversationsProvider>
               <PromptsProvider>
@@ -35,7 +35,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => (
               </PromptsProvider>
             </ConversationsProvider>
           </ArtistProvider>
-        </TikTokReportProvider>
+        </FunnelReportProvider>
       </UserProvider>
     </PrivyProvider>
   </QueryClientProvider>

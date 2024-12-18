@@ -3,7 +3,7 @@ import sendReportEmail from "@/lib/sendReportEmail";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { useInitialMessagesProvider } from "@/providers/InititalMessagesProvider";
-import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
+import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useState } from "react";
 
@@ -11,7 +11,7 @@ const useDownloadReport = () => {
   const [downloading, setDownloading] = useState(false);
   const { streamingTitle } = useConversationsProvider();
   const { email } = useUserProvider();
-  const { tiktokRawReportContent } = useTikTokReportProvider();
+  const { funnelRawReportContent } = useFunnelReportProvider();
   const { selectedArtist } = useArtistProvider();
   const { titleMessage } = useInitialMessagesProvider();
 
@@ -20,7 +20,7 @@ const useDownloadReport = () => {
     try {
       const reportTitle = streamingTitle || titleMessage?.metadata?.title;
       sendReportEmail(
-        tiktokRawReportContent,
+        funnelRawReportContent,
         selectedArtist?.image || "",
         selectedArtist?.name || "",
         email || "",

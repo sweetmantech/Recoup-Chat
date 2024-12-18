@@ -15,11 +15,12 @@ export type Conversation = {
     uniqueId: string;
     conversationId: string;
     referenceId: string;
-    is_tiktok_report: boolean;
-    is_tiktok_analysis: boolean;
     title: string;
     cached_id: string;
     artistId?: string;
+    is_funnel_analysis: boolean;
+    funnel_name: string;
+    is_funnel_report: boolean;
   };
   points: number;
   timestamp: string;

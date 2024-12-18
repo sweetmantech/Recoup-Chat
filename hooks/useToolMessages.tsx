@@ -1,5 +1,5 @@
 import { useChatProvider } from "@/providers/ChatProvider";
-import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
+import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { Message, useChat } from "ai/react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -12,16 +12,16 @@ const useToolMessages = (question?: string, toolName?: any) => {
   const { finalCallback } = useMessagesProvider();
   const { conversation: conversationId } = useParams();
   const {
-    tiktokTrends,
-    tiktokVideos,
-    tiktokAnalysis,
+    funnelTrends,
+    funnelVideos,
+    funnelAnalysis,
     initReport,
     isSearchingTrends,
-  } = useTikTokReportProvider();
+  } = useFunnelReportProvider();
   const toolCallContext = {
-    ...(tiktokTrends !== null && { ...tiktokTrends }),
-    ...tiktokVideos,
-    ...(tiktokAnalysis !== null && { ...tiktokAnalysis }),
+    ...(funnelTrends !== null && { ...funnelTrends }),
+    ...funnelVideos,
+    ...(funnelAnalysis !== null && { ...funnelAnalysis }),
   };
   const [beginCall, setBeginCall] = useState(false);
   const {

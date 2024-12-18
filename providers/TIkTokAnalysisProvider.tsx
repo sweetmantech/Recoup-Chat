@@ -12,9 +12,9 @@ const TikTokAnalysisProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const tiktokAnalysis = useTikTokAnalysis();
+  const funnelAnalysis = useTikTokAnalysis();
 
-  const value = useMemo(() => ({ ...tiktokAnalysis }), [tiktokAnalysis]);
+  const value = useMemo(() => ({ ...funnelAnalysis }), [funnelAnalysis]);
 
   return (
     <TikTokAnalysisContext.Provider value={value}>
