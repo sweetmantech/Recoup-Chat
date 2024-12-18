@@ -2,8 +2,9 @@ import { AI_MODEL } from "@/lib/consts";
 import { NextRequest } from "next/server";
 import OpenAI from "openai";
 
-export async function GET(req: NextRequest) {
-  const answer = req.nextUrl.searchParams.get("answer");
+export async function POST(req: NextRequest) {
+  const body = await req.json();
+  const answer = body.answer;
 
   try {
     const openai = new OpenAI();
