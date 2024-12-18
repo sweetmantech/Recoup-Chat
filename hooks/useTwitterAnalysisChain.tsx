@@ -4,6 +4,9 @@ import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import getTwitterProfile from "@/lib/twitter/getTwitterProfile";
 import getComments from "@/lib/twitter/getComments";
 import getSegments from "@/lib/getSegments";
+import { SETTING_MODE } from "@/types/Setting";
+import useSaveFunnelArtist from "./useSaveFunnelArtist";
+import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useRouter } from "next/navigation";
 import { v4 as uuidV4 } from "uuid";
 
@@ -18,6 +21,8 @@ const useTwitterAnalysisChain = () => {
     setSegments,
     funnelType,
   } = useFunnelAnalysisProvider();
+  const { saveFunnelArtist } = useSaveFunnelArtist();
+  const { setSettingMode } = useArtistProvider();
   const { isPrepared } = useUserProvider();
   const { push } = useRouter();
 
@@ -52,6 +57,9 @@ const useTwitterAnalysisChain = () => {
         setSegments([...fanSegmentsWithIcons]);
       }
       setResult(profileWithComments);
+      setSettingMode(SETTING_MODE.CREATE);
+      setThought(STEP_OF_ANALYSIS.CREATING_ARTIST);
+      await saveFunnelArtist(profileWithComments);
       setThought(STEP_OF_ANALYSIS.FINISHED);
     } catch (error) {
       setThought(STEP_OF_ANALYSIS.ERROR);

@@ -6,9 +6,9 @@ import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { useUserProvider } from "@/providers/UserProvder";
 import { SETTING_MODE } from "@/types/Setting";
 import { STEP_OF_ANALYSIS } from "@/types/TikTok";
+import useSaveFunnelArtist from "./useSaveFunnelArtist";
 import { useRouter } from "next/navigation";
 import { v4 as uuidV4 } from "uuid";
-import useSaveTiktokArtist from "./useSaveTiktokArtist";
 import saveTiktokAnalysis from "@/lib/saveTiktokAnalysis";
 import getSegments from "@/lib/getSegments";
 import getArtistTikTokHandle from "@/lib/getArtistTikTokHandle";
@@ -28,7 +28,7 @@ const useTikTokAnalysisChain = () => {
     artistHandle,
     funnelType,
   } = useFunnelAnalysisProvider();
-  const { saveTiktokArtist } = useSaveTiktokArtist();
+  const { saveFunnelArtist } = useSaveFunnelArtist();
   const { isPrepared } = useUserProvider();
   const { trackTikTokAnalysisChat } = useConversationsProvider();
   const { push } = useRouter();
@@ -93,7 +93,7 @@ const useTikTokAnalysisChain = () => {
       }
       setSettingMode(SETTING_MODE.CREATE);
       setThought(STEP_OF_ANALYSIS.CREATING_ARTIST);
-      const artistId = await saveTiktokArtist(profileWithComments);
+      const artistId = await saveFunnelArtist(profileWithComments);
       setThought(STEP_OF_ANALYSIS.SAVING_ANALYSIS);
       const analysis = {
         ...profileWithComments,
