@@ -7,9 +7,10 @@ import getSegments from "@/lib/getSegments";
 import { SETTING_MODE } from "@/types/Setting";
 import useSaveFunnelArtist from "./useSaveFunnelArtist";
 import { useArtistProvider } from "@/providers/ArtistProvider";
-import { useParams } from "next/navigation";
 import saveFunnelAnalysis from "@/lib/saveFunnelAnalysis";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
+import { useRouter } from "next/navigation";
+import { v4 as uuidV4 } from "uuid";
 
 const useTwitterAnalysis = () => {
   const {
@@ -21,18 +22,21 @@ const useTwitterAnalysis = () => {
     artistHandle,
     setSegments,
     funnelName,
+    funnelType,
   } = useFunnelAnalysisProvider();
   const { saveFunnelArtist } = useSaveFunnelArtist();
   const { setSettingMode } = useArtistProvider();
   const { isPrepared } = useUserProvider();
-  const { chat_id: chatId } = useParams();
   const { trackFunnelAnalysisChat } = useConversationsProvider();
+  const { push } = useRouter();
 
   const handleAnalyze = async () => {
     try {
       if (!isPrepared()) return;
       setIsLoading(true);
       if (!username || isLoading) return;
+      const newId = uuidV4();
+      push(`/funnels/${funnelType}/${newId}`);
       await new Promise((resolve) => setTimeout(resolve, 1900));
       setThought(STEP_OF_ANALYSIS.PROFILE);
       const profile = await getTwitterProfile(artistHandle);
@@ -66,7 +70,7 @@ const useTwitterAnalysis = () => {
         videos: comments,
         total_video_comments_count: comments?.length,
         segments: [...fanSegmentsWithIcons],
-        chat_id: chatId,
+        chat_id: newId,
         artistId,
       };
       const newAnalaysisId = await saveFunnelAnalysis(analysis);
@@ -77,7 +81,7 @@ const useTwitterAnalysis = () => {
       await trackFunnelAnalysisChat(
         username,
         artistId,
-        chatId as string,
+        newId,
         funnelName,
       );
       setThought(STEP_OF_ANALYSIS.FINISHED);

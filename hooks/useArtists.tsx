@@ -61,7 +61,7 @@ const useArtists = () => {
         instagram_url: artistSetting.instagram,
         twitter_url: socialUrls
           ? socialUrls?.twitter_url
-          : artistSetting.tiktok,
+          : artistSetting.twitter,
         spotify_url: artistSetting.spotifyUrl,
         instruction: artistSetting.instruction,
         label: artistSetting.label,

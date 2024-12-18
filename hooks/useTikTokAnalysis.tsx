@@ -6,13 +6,14 @@ import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { useUserProvider } from "@/providers/UserProvder";
 import { SETTING_MODE } from "@/types/Setting";
 import { STEP_OF_ANALYSIS } from "@/types/TikTok";
-import { useParams } from "next/navigation";
 import useSaveFunnelArtist from "./useSaveFunnelArtist";
 import saveFunnelAnalysis from "@/lib/saveFunnelAnalysis";
+import { v4 as uuidV4 } from "uuid";
 import getSegments from "@/lib/getSegments";
 import getArtistTikTokHandle from "@/lib/getArtistTikTokHandle";
 import getTikTokAnalysisByArtistId from "@/lib/getTikTokAnalysisByArtistId";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
+import { useRouter } from "next/navigation";
 
 const useTikTokAnalysis = () => {
   const { setSettingMode, artists } = useArtistProvider();
@@ -26,17 +27,20 @@ const useTikTokAnalysis = () => {
     setSegments,
     artistHandle,
     funnelName,
+    funnelType
   } = useFunnelAnalysisProvider();
   const { saveFunnelArtist } = useSaveFunnelArtist();
   const { isPrepared } = useUserProvider();
   const { trackFunnelAnalysisChat } = useConversationsProvider();
-  const { chat_id: chatId } = useParams();
+  const { push } = useRouter()
 
   const handleAnalyze = async () => {
     try {
       if (!isPrepared()) return;
       setIsLoading(true);
       if (!username || isLoading) return;
+      const newId = uuidV4();
+      push(`/funnels/${funnelType}/${newId}`);
       const artistSelected = artists.find(
         (artist) => artistHandle === getArtistTikTokHandle(artist),
       );
@@ -97,7 +101,7 @@ const useTikTokAnalysis = () => {
       const analysis = {
         ...profileWithComments,
         segments: [...fanSegmentsWithIcons],
-        chat_id: chatId,
+        chat_id: newId,
         artistId,
       };
       const newAnalaysisId = await saveFunnelAnalysis(analysis);
@@ -108,7 +112,7 @@ const useTikTokAnalysis = () => {
       await trackFunnelAnalysisChat(
         username,
         artistId,
-        chatId as string,
+        newId,
         funnelName,
       );
       setThought(STEP_OF_ANALYSIS.FINISHED);

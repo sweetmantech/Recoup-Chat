@@ -12,7 +12,7 @@ const useSaveFunnelArtist = () => {
       twitter_url: "",
       tiktok_url: "",
     } as any;
-    const url = `https://tiktok.com/@${profileWithComments.name}`;
+    const url = `https://${funnelType === Funnel_Type.TWITTER ? "x" : funnelType}.com/@${profileWithComments.name}`;
     if (funnelType === Funnel_Type.TIKTOK) socialUrls.tiktok_url = url;
     if (funnelType === Funnel_Type.TWITTER) socialUrls.twitter_url = url;
 
