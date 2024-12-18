@@ -1,7 +1,7 @@
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
-const HandleInput = ({ funnelType }: { funnelType: string }) => {
-  const { username, setUsername } = useFunnelAnalysisProvider();
+const HandleInput = () => {
+  const { username, setUsername, funnelType } = useFunnelAnalysisProvider();
   return (
     <input
       type="text"

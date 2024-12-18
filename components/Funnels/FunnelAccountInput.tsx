@@ -1,14 +1,11 @@
 "use client";
 
-import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
-import AnalysisButton from "../AnalysisButton";
-import FunnelMarkUp from "../FunnelMarkUp";
-import FunnelBrand from "../FunnelBrand";
-import HandleInput from "../HandleInput";
+import AnalysisButton from "./AnalysisButton";
+import FunnelMarkUp from "./FunnelMarkUp";
+import FunnelBrand from "./FunnelBrand";
+import HandleInput from "./HandleInput";
 
-const TikTokAccountInput = () => {
-  const { handleAnalyze } = useTikTokAnalysisProvider();
-
+const FunnelAccountInput = () => {
   return (
     <main className="flex-1 md:p-4 bg-background">
       <div className="h-[calc(100vh-64px)] md:h-full flex flex-col items-center justify-center px-4 sm:px-6 text-center bg-white rounded-xl">
@@ -33,21 +30,17 @@ const TikTokAccountInput = () => {
               duration-200
             "
           >
-            <HandleInput funnelType="tiktok" />
+            <HandleInput />
             <AnalysisButton
               className="absolute right-2 top-1/2 -translate-y-1/2"
               containerClasses="md:block hidden"
-              onClick={handleAnalyze}
             />
           </div>
-          <AnalysisButton
-            containerClasses="md:hidden block"
-            onClick={handleAnalyze}
-          />
+          <AnalysisButton containerClasses="md:hidden block" />
         </div>
       </div>
     </main>
   );
 };
 
-export default TikTokAccountInput;
+export default FunnelAccountInput;

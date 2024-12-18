@@ -1,7 +1,8 @@
 import { STEP_OF_ANALYSIS } from "@/types/TikTok";
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { v4 as uuidV4 } from "uuid";
+import { Funnel_Type } from "@/types/Funnel";
 
 const useFunnelAnalysis = () => {
   const [username, setUsername] = useState("");
@@ -13,6 +14,11 @@ const useFunnelAnalysis = () => {
   const artistHandle = username.replaceAll("@", "");
   const { funnel_type: funnelType } = useParams();
   const { push } = useRouter();
+
+  const funnelName = useMemo(() => {
+    if (funnelType === Funnel_Type.TIKTOK) return "TikTok";
+    return funnelType;
+  }, [funnelType]);
 
   const handleRetry = () => {
     setResult(null);
@@ -47,6 +53,7 @@ const useFunnelAnalysis = () => {
     funnelType,
     handleRetry,
     initialize,
+    funnelName,
   };
 };
 

@@ -1,5 +1,5 @@
 import { STEP_OF_ANALYSIS } from "@/types/TikTok";
-import { AGENT_API } from "./consts";
+import { AGENT_API } from "../consts";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getTikTokProfile = async (handle: string, setThought?: any) => {

@@ -4,8 +4,8 @@ import Loading from "@/components/Loading";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const ScrapingCaption = () => {
-  const { initialize } = useFunnelAnalysisProvider();
-  const { thought, artistHandle } = useFunnelAnalysisProvider();
+  const { thought, artistHandle, initialize, funnelName } =
+    useFunnelAnalysisProvider();
 
   return (
     <p className="text-sm">
@@ -14,7 +14,7 @@ const ScrapingCaption = () => {
         `I’m diving into @${artistHandle}’s account to uncover insights about their content, audience, and fan engagement.`}
       {thought === STEP_OF_ANALYSIS.UNKNOWN_PROFILE && (
         <p>
-          TikTok handle invalid.{" "}
+          <span className="capitalize">{funnelName}</span> handle invalid.{" "}
           <a
             className="underline text-purple-dark cursor-pointer"
             onClick={initialize}

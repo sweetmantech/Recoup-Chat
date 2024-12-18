@@ -4,7 +4,7 @@ import { usePromptsProvider } from "@/providers/PromptsProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const Completion = () => {
-  const { result, segments, handleRetry, artistHandle } =
+  const { result, segments, handleRetry, artistHandle, funnelName } =
     useFunnelAnalysisProvider();
   const { getPrompts } = usePromptsProvider();
 
@@ -17,7 +17,9 @@ const Completion = () => {
     <div>
       {result?.videos?.length ? (
         <>
-          <p className="text-xl font-bold pb-4">TikTok Analysis complete✅</p>
+          <p className="text-xl font-bold pb-4">
+            <span className="capitalize">{funnelName}</span> Analysis complete✅
+          </p>
           {`${result?.nickname} has ${result?.fans} followers. \nPlease select a fan segmentation below to generate a report for brand partnership deals.`}
           <p className="text-xl font-bold py-4"> Fan Segments</p>
           {`We categorized ${result?.name}'s fans into ${Object.keys(segments).length} different segments - click any to explore. The agent is running in the background and will notify you of new insights!`}

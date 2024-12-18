@@ -7,7 +7,7 @@ import getToolCallMessage from "@/lib/getToolCallMessage";
 import useToolCallParams from "./useToolCallParams";
 import getVideoComments from "@/lib/getVideoComments";
 import isActiveToolCallTrigger from "@/lib/isActiveToolCallTrigger";
-import getTikTokProfile from "@/lib/getTiktokProfile";
+import getTikTokProfile from "@/lib/tiktok/getTiktokProfile";
 import { Tools } from "@/types/Tool";
 import getReportNextSteps from "@/lib/getReportNextSteps";
 import { ArtistRecord } from "@/types/Artist";
