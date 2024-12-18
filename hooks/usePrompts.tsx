@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import removeHtmlTags from "@/lib/removeHTMLTags";
-import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
+import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 
 const usePrompts = () => {
   const { selectedArtist } = useArtistProvider();
@@ -12,7 +12,7 @@ const usePrompts = () => {
   const [currentQuestion, setCurrentQuestion] = useState<Message | null>(null);
   const pathname = usePathname();
   const isNewChat = pathname === "/";
-  const { tiktokRawReportContent } = useTikTokReportProvider();
+  const { funnelRawReportContent } = useFunnelReportProvider();
 
   useEffect(() => {
     if (selectedArtist) {
@@ -26,7 +26,7 @@ const usePrompts = () => {
   }, [isNewChat, selectedArtist, selectedArtist]);
 
   const getPrompts = async (content: string, isTikTokAnalysis?: boolean) => {
-    if (content === "TikTok Report") content = tiktokRawReportContent;
+    if (content === "TikTok Report") content = funnelRawReportContent;
     if (!content) return;
     const response = await fetch(
       isTikTokAnalysis ? "/api/prompts/tiktok_analysis" : "/api/prompts",

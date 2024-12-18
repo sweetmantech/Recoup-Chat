@@ -12,14 +12,14 @@ const RecentChats = ({ toggleModal }: { toggleModal: () => void }) => {
 
   const handleClick = (conversation: Conversation) => {
     if (isMobile) toggleModal();
-    if (conversation.metadata.is_tiktok_analysis) {
+    if (conversation.metadata.is_funnel_analysis) {
       push(
-        `/funnels/${conversation.metadata.conversationId}/tiktok-account-analysis`,
+        `/funnels/${conversation.metadata.conversationId}/${conversation.metadata.funnel_name.toLowerCase()}-account-analysis`,
       );
       return;
     }
     push(
-      `/${conversation.metadata.conversationId}${conversation.metadata?.is_tiktok_report ? "?tiktok_report=true" : ""}`,
+      `/${conversation.metadata.conversationId}${conversation.metadata?.is_funnel_report ? "?funnel_report=true" : ""}`,
     );
   };
 

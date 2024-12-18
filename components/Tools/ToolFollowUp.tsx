@@ -5,12 +5,12 @@ import { useEffect } from "react";
 import Answer from "./Answer";
 import getStatusMessage from "@/lib/getStatusMessage";
 import { Tools } from "@/types/Tool";
-import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
+import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 
 const ToolFollowUp = ({ message }: { message: AIMessage }) => {
   const { loading, answer, toolName, context } = useToolCallProvider();
   const { isSearchingTrends, isGettingVideos, isGettingAnalysis } =
-    useTikTokReportProvider();
+    useFunnelReportProvider();
   const content = message.content || answer;
   const isThinking =
     loading || isSearchingTrends || isGettingVideos || isGettingAnalysis;

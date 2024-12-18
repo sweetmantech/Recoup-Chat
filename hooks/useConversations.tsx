@@ -43,7 +43,7 @@ const useConversations = () => {
   const trackGeneralChat = async (
     content: string,
     chatId: string,
-    is_tiktok_report: boolean,
+    is_funnel_report: boolean,
   ) => {
     const response = await getAiTitle(content);
     if (response?.error) {
@@ -55,7 +55,7 @@ const useConversations = () => {
     await trackNewTitle(
       {
         title: response.replaceAll(`\"`, ""),
-        is_tiktok_report,
+        is_funnel_report,
         artistId: selectedArtist?.id,
       },
       chatId,
@@ -74,6 +74,7 @@ const useConversations = () => {
         title: `${funnelName} Analysis: ${username}`,
         is_funnel_analysis: true,
         artistId,
+        funnel_name: funnelName,
       },
       chatId,
     );

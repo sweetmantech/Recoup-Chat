@@ -20,13 +20,13 @@ const useChat = () => {
 
   const goToNewConversation = async (
     content: string,
-    is_tiktok_report: boolean = false,
+    is_funnel_report: boolean = false,
   ) => {
     if (conversationId) return;
     const newId = uuidV4();
     conversationRef.current = newId;
-    await trackGeneralChat(content, newId, is_tiktok_report);
-    push(`/${newId}${is_tiktok_report ? "?tiktok_report=true" : ""}`);
+    await trackGeneralChat(content, newId, is_funnel_report);
+    push(`/${newId}${is_funnel_report ? "?funnel_report=true" : ""}`);
   };
 
   const clearQuery = async () => {
@@ -43,12 +43,12 @@ const useChat = () => {
 
   const append = async (
     message: Message,
-    is_tiktok_report: boolean = false,
+    is_funnel_report: boolean = false,
   ) => {
     if (!isPrepared()) return;
     setCurrentQuestion(message);
     appendAiChat(message);
-    goToNewConversation(message.content, is_tiktok_report);
+    goToNewConversation(message.content, is_funnel_report);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

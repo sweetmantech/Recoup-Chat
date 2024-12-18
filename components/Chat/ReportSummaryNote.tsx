@@ -1,25 +1,25 @@
 import Icon from "../Icon";
 import useDownloadReport from "@/hooks/useDownloadReport";
-import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
+import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 
 const ReportSummaryNote = () => {
   const {
-    tiktokNextSteps,
-    tiktokReportContent,
+    funnelNextSteps,
+    funnelReportContent,
     isGeneratingReport,
     bannerImage,
     bannerArtistName,
-  } = useTikTokReportProvider();
+  } = useFunnelReportProvider();
   const { downloadReport } = useDownloadReport();
   return (
     <>
       <p className="pt-4 text-[18px]">Next Steps</p>
       <div
         dangerouslySetInnerHTML={{
-          __html: tiktokNextSteps,
+          __html: funnelNextSteps,
         }}
       />
-      {tiktokReportContent && (
+      {funnelReportContent && (
         <div className="bg-white w-full min-h-screen fixed top-[99999999px] left-0 flex justify-center z-[99999999]">
           <div
             id="segment-report"
@@ -45,7 +45,7 @@ const ReportSummaryNote = () => {
               </div>
               <div
                 dangerouslySetInnerHTML={{
-                  __html: tiktokReportContent,
+                  __html: funnelReportContent,
                 }}
               />
             </div>

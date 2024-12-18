@@ -12,7 +12,7 @@ import { Tools } from "@/types/Tool";
 import getReportNextSteps from "@/lib/getReportNextSteps";
 import { ArtistRecord } from "@/types/Artist";
 import { useArtistProvider } from "@/providers/ArtistProvider";
-import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
+import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
 
 const useToolCall = (message: Message) => {
@@ -25,16 +25,16 @@ const useToolCall = (message: Message) => {
     toolName,
   );
   const { setSelectedArtist, artists } = useArtistProvider();
-  const { setBannerArtistName, setBannerImage } = useTikTokReportProvider();
+  const { setBannerArtistName, setBannerImage } = useFunnelReportProvider();
   const {
     setIsSearchingTrends,
-    setTiktokNextSteps,
-    setTiktokTrends,
+    setFunnelNextSteps,
+    setFunnelTrends,
     setIsGettingAnalysis,
     setIsGettingVideos,
-    setTiktokAnalysis,
-    setTiktokVideos,
-  } = useTikTokReportProvider();
+    setFunnelAnalysis,
+    setFunnelVideos,
+  } = useFunnelReportProvider();
 
   useEffect(() => {
     const init = async () => {
@@ -59,7 +59,7 @@ const useToolCall = (message: Message) => {
           const videoComments = await getVideoComments(
             encodeURIComponent(JSON.stringify(profile?.videos)),
           );
-          setTiktokTrends({
+          setFunnelTrends({
             ...profile,
             videos: videoComments.videos,
             total_video_comments_count:
@@ -71,7 +71,7 @@ const useToolCall = (message: Message) => {
           setIsGettingVideos(true);
           const videoUrls = encodeURIComponent(`["${context.videoUrl}"]`);
           const data = await getVideoComments(videoUrls);
-          setTiktokVideos(data);
+          setFunnelVideos(data);
           setIsGettingVideos(false);
         }
         if (toolName === Tools.getSegmentsReport) {
@@ -82,11 +82,11 @@ const useToolCall = (message: Message) => {
             setSelectedArtist(activeArtist);
           }
           setIsGettingAnalysis(true);
-          setTiktokAnalysis(context?.analysis);
+          setFunnelAnalysis(context?.analysis);
           setBannerImage(context?.analysis?.avatar);
           setBannerArtistName(context?.analysis?.nickname);
           const nextSteps = await getReportNextSteps(context?.analysis);
-          setTiktokNextSteps(nextSteps);
+          setFunnelNextSteps(nextSteps);
           setIsGettingAnalysis(false);
         }
         setBeginCall(true);
