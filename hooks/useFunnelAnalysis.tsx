@@ -1,8 +1,8 @@
-import { Funnel_Type } from "@/types/Funnel";
 import { STEP_OF_ANALYSIS } from "@/types/TikTok";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { v4 as uuidV4 } from "uuid";
+import { Funnel_Type } from "@/types/Funnel";
 
 const useFunnelAnalysis = () => {
   const [username, setUsername] = useState("");
@@ -12,14 +12,8 @@ const useFunnelAnalysis = () => {
   const [progress, setProgress] = useState(0);
   const [segments, setSegments] = useState<Array<any>>([]);
   const artistHandle = username.replaceAll("@", "");
-  const [funnelType, setFunnelType] = useState(Funnel_Type.NONE);
-  const pathname = usePathname();
+  const { funnel_type: funnelType } = useParams();
   const { push } = useRouter();
-
-  useEffect(() => {
-    if (pathname.includes("tiktok")) setFunnelType(Funnel_Type.TIKTOK);
-    if (pathname.includes("twitter")) setFunnelType(Funnel_Type.TWITTER);
-  }, [pathname]);
 
   const funnelName = useMemo(() => {
     if (funnelType === Funnel_Type.TIKTOK) return "TikTok";
@@ -33,13 +27,13 @@ const useFunnelAnalysis = () => {
     setProgress(0);
     setUsername("");
     setIsLoading(false);
-    push(`/funnels/${uuidV4()}/${funnelType}-account-analysis`);
+    push(`/funnels/${funnelType}/${uuidV4()}`);
   };
 
   const initialize = () => {
     setIsLoading(false);
     setThought(STEP_OF_ANALYSIS.INITITAL);
-    push(`/funnels/${uuidV4()}/${funnelType}-account-analysis`);
+    push(`/funnels/${funnelType}/${uuidV4()}`);
   };
 
   return {

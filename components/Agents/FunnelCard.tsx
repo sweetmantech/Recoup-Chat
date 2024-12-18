@@ -1,5 +1,4 @@
 import { useRouter } from "next/navigation";
-import { v4 as uuidV4 } from "uuid";
 
 const FunnelCard = ({ funnelName }: { funnelName: string }) => {
   const { push } = useRouter();
@@ -8,9 +7,7 @@ const FunnelCard = ({ funnelName }: { funnelName: string }) => {
     <button
       type="button"
       className="w-[335px] h-[162px] overflow-hidden rounded-xl"
-      onClick={() =>
-        push(`/funnels/${uuidV4()}/${funnelName}-account-analysis`)
-      }
+      onClick={() => push(`/funnels/${funnelName}/`)}
     >
       <div className="relative bg-[url('/tiktok.png')] bg-cover size-full flex flex-col items-start justify-end pb-4 pl-4">
         <p className="text-white text-2xl text-left capitalize">
