@@ -25,19 +25,24 @@ const usePrompts = () => {
     setSuggestions(SUGGESTIONS);
   }, [isNewChat, selectedArtist, selectedArtist]);
 
-  const getPrompts = async (message: any) => {
-    let content = message?.content;
-    if (message.content === "TikTok Report") content = tiktokRawReportContent;
+  const getPrompts = async (content: string, isTikTokAnalysis?: boolean) => {
+    const tiktok_report = content === "TikTok Report";
+    if (tiktok_report) content = tiktokRawReportContent;
     if (!content) return;
-    const response = await fetch("/api/prompts", {
-      method: "POST",
-      headers: {
-        "Content-Type": "applications/json",
+    const response = await fetch(
+      isTikTokAnalysis || tiktok_report
+        ? "/api/prompts/tiktok_analysis"
+        : "/api/prompts",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "applications/json",
+        },
+        body: JSON.stringify({
+          answer: removeHtmlTags(content),
+        }),
       },
-      body: JSON.stringify({
-        answer: removeHtmlTags(content),
-      }),
-    });
+    );
     const data = await response.json();
     if (!data?.questions) return;
     setSuggestions(() => [...data.questions]);

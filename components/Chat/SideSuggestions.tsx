@@ -6,14 +6,14 @@ import { v4 as uuidV4 } from "uuid";
 import Slider from "../Slider";
 import { Mousewheel } from "swiper/modules";
 import Swiper from "swiper";
-import { useMessagesProvider } from "@/providers/MessagesProvider";
+import { usePromptsProvider } from "@/providers/PromptsProvider";
 
 Swiper.use([Mousewheel]);
 
 const SideSuggestions = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const { append } = useChatProvider();
-  const { suggestions } = useMessagesProvider();
+  const { suggestions } = usePromptsProvider();
   const { selectedArtist } = useArtistProvider();
 
   return (

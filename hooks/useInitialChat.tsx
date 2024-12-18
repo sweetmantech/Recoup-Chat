@@ -1,6 +1,7 @@
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { useInitialMessagesProvider } from "@/providers/InititalMessagesProvider";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
+import { usePromptsProvider } from "@/providers/PromptsProvider";
 import { useTikTokReportProvider } from "@/providers/TikTokReportProvider";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
@@ -10,8 +11,8 @@ const useInitialChat = () => {
   const pathname = usePathname();
   const isNewChat = pathname === "/";
   const { setInitialMessages, initialMessages } = useInitialMessagesProvider();
-  const { setMessages, messagesRef, messages, pending, getPrompts } =
-    useMessagesProvider();
+  const { setMessages, messagesRef, messages, pending } = useMessagesProvider();
+  const { getPrompts } = usePromptsProvider();
   const { conversationRef } = useConversationsProvider();
 
   const clearMessagesCache = () => {
@@ -22,7 +23,7 @@ const useInitialChat = () => {
   useEffect(() => {
     if (messages.length) {
       messagesRef.current = messages;
-      if (!pending) getPrompts(messages[messages.length - 1]);
+      if (!pending) getPrompts(messages[messages.length - 1]?.content);
     }
   }, [messages, tiktokRawReportContent, pending]);
   useEffect(() => {

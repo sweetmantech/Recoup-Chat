@@ -1,10 +1,18 @@
 import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
 import Segments from "./Segments";
+import { useEffect } from "react";
+import { usePromptsProvider } from "@/providers/PromptsProvider";
 
 const Completion = () => {
   const { username, result, segments, handleRetry } =
     useTikTokAnalysisProvider();
   const artistHandle = username.replaceAll("@", "");
+  const { getPrompts } = usePromptsProvider();
+
+  useEffect(() => {
+    if (result) getPrompts(JSON.stringify(result), true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [result]);
 
   return (
     <div>
