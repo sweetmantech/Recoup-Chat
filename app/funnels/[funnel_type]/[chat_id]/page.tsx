@@ -7,6 +7,6 @@ export const metadata: Metadata = {
     "Get instant insights about any TikTok account's performance and content",
 };
 
-const TikTokAccountAnalysisFunnel = () => <FunnelAccountAnalysis />;
+const FunnelAccountAnalysisFunnel = () => <FunnelAccountAnalysis />;
 
-export default TikTokAccountAnalysisFunnel;
+export default FunnelAccountAnalysisFunnel;
