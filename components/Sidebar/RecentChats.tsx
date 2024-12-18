@@ -19,7 +19,7 @@ const RecentChats = ({ toggleModal }: { toggleModal: () => void }) => {
       return;
     }
     push(
-      `/${conversation.metadata.conversationId}${conversation.metadata?.is_tiktok_report ? "?report=enabled" : ""}`,
+      `/${conversation.metadata.conversationId}${conversation.metadata?.is_tiktok_report ? "?tiktok_report=true" : ""}`,
     );
   };
 

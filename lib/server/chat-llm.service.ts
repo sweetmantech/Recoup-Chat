@@ -20,6 +20,7 @@ export const ChatMessagesSchema = z.object({
 export const StreamResponseSchema = ChatMessagesSchema.extend({
   email: z.string(),
   artistId: z.string(),
+  funnelContext: z.string(),
 });
 
 /**
@@ -45,6 +46,7 @@ class ChatLLMService {
     messages,
     email,
     artistId,
+    funnelContext,
   }: z.infer<typeof StreamResponseSchema>) {
     // use a normal service instance using the current user RLS
     const chatMessagesService = createChatMessagesService();
@@ -64,6 +66,7 @@ class ChatLLMService {
       lastMessage.content,
       email,
       artistId,
+      funnelContext,
     );
     const systemMessage = settings.systemMessage;
     const maxTokens = settings.maxTokens;

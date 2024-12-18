@@ -11,6 +11,7 @@ import trackNewMessage from "@/lib/stack/trackNewMessage";
 import { Address } from "viem";
 import formattedContent from "@/lib/formattedContent";
 import { usePromptsProvider } from "@/providers/PromptsProvider";
+import useFunnels from "./useFunnels";
 
 const useMessages = () => {
   const { currentQuestion, setCurrentQuestion } = usePromptsProvider();
@@ -22,6 +23,7 @@ const useMessages = () => {
   const [toolCall, setToolCall] = useState<any>(null);
   const { selectedArtist } = useArtistProvider();
   const { conversation: pathId } = useParams();
+  const { funnelContext } = useFunnels();
 
   const {
     messages,
@@ -39,6 +41,7 @@ const useMessages = () => {
     body: {
       email,
       artistId: selectedArtist?.id || "",
+      funnelContext,
     },
     initialMessages,
     onToolCall: ({ toolCall }) => {

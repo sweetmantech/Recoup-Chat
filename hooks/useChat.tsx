@@ -13,7 +13,7 @@ const useChat = () => {
   const { conversationId, trackGeneralChat, conversationRef } =
     useConversationsProvider();
   const searchParams = useSearchParams();
-  const reportEnabled = searchParams.get("report");
+  const reportEnabled = searchParams.get("tiktok_report");
   const { input, appendAiChat, handleAiChatSubmit } = useMessagesProvider();
   const { setCurrentQuestion } = usePromptsProvider();
   const { fetchInitialMessages } = useInitialMessagesProvider();
@@ -26,7 +26,7 @@ const useChat = () => {
     const newId = uuidV4();
     conversationRef.current = newId;
     await trackGeneralChat(content, newId, is_tiktok_report);
-    push(`/${newId}${is_tiktok_report ? "?report=enabled" : ""}`);
+    push(`/${newId}${is_tiktok_report ? "?tiktok_report=true" : ""}`);
   };
 
   const clearQuery = async () => {
