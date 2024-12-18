@@ -7,40 +7,37 @@ import { useUserProvider } from "@/providers/UserProvder";
 import { SETTING_MODE } from "@/types/Setting";
 import { STEP_OF_ANALYSIS } from "@/types/TikTok";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { v4 as uuidV4 } from "uuid";
 import useSaveTiktokArtist from "./useSaveTiktokArtist";
 import saveTiktokAnalysis from "@/lib/saveTiktokAnalysis";
 import getSegments from "@/lib/getSegments";
 import getArtistTikTokHandle from "@/lib/getArtistTikTokHandle";
 import getTikTokAnalysisByArtistId from "@/lib/getTikTokAnalysisByArtistId";
+import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const useTikTokAnalysisChain = () => {
   const { setSettingMode, artists } = useArtistProvider();
-  const [username, setUsername] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [thought, setThought] = useState(STEP_OF_ANALYSIS.INITITAL);
-  const [result, setResult] = useState<any>(null);
-  const [progress, setProgress] = useState(0);
-  const [segments, setSegments] = useState<Array<any>>([]);
+  const {
+    setIsLoading,
+    setThought,
+    username,
+    isLoading,
+    setResult,
+    setProgress,
+    setSegments,
+    funnelType,
+  } = useFunnelAnalysisProvider();
   const { saveTiktokArtist } = useSaveTiktokArtist();
-  const { push } = useRouter();
   const { isPrepared } = useUserProvider();
   const { trackTikTokAnalysisChat } = useConversationsProvider();
-
-  const initialize = () => {
-    setIsLoading(false);
-    setThought(STEP_OF_ANALYSIS.INITITAL);
-    push("/funnels/tiktok-account-analysis/");
-  };
-
+  const { push } = useRouter();
   const handleAnalyze = async () => {
     try {
       if (!isPrepared()) return;
       setIsLoading(true);
       if (!username || isLoading) return;
       const newId = uuidV4();
-      push(`/funnels/tiktok-account-analysis/${newId}`);
+      push(`/funnels/${funnelType}/${newId}`);
       const handle = username.replaceAll("@", "");
       const artistSelected = artists.find(
         (artist) => handle === getArtistTikTokHandle(artist),
@@ -118,19 +115,6 @@ const useTikTokAnalysisChain = () => {
 
   return {
     handleAnalyze,
-    username,
-    setUsername,
-    isLoading,
-    setIsLoading,
-    thought,
-    result,
-    setResult,
-    progress,
-    setProgress,
-    segments,
-    setThought,
-    setSegments,
-    initialize,
   };
 };
 

@@ -1,12 +1,11 @@
-import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
 import Segments from "./Segments";
 import { useEffect } from "react";
 import { usePromptsProvider } from "@/providers/PromptsProvider";
+import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const Completion = () => {
-  const { username, result, segments, handleRetry } =
-    useTikTokAnalysisProvider();
-  const artistHandle = username.replaceAll("@", "");
+  const { result, segments, handleRetry, artistHandle } =
+    useFunnelAnalysisProvider();
   const { getPrompts } = usePromptsProvider();
 
   useEffect(() => {

@@ -1,18 +1,20 @@
-import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
+import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const AnalysisButton = ({
   className,
   containerClasses,
+  onClick,
 }: {
   className?: string;
   containerClasses?: string;
+  onClick: () => void;
 }) => {
-  const { username, handleAnalyze } = useTikTokAnalysisProvider();
+  const { username } = useFunnelAnalysisProvider();
 
   return (
     <div className={`space-y-3 ${containerClasses}`}>
       <button
-        onClick={handleAnalyze}
+        onClick={onClick}
         disabled={!username}
         className={`bg-black rounded-[10px] pl-5 pr-4 h-9 z-20 flex items-center gap-2 justify-center
         transition-all text-[15px] font-medium text-white hover:bg-black active:bg-white/80

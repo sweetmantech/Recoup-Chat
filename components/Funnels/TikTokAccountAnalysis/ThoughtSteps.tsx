@@ -1,11 +1,11 @@
 import getThoughtStatus from "@/lib/getThoughtStatus";
-import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
 import { STEP_OF_ANALYSIS } from "@/types/TikTok";
 import StreamingThought from "./StreamThought";
+import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const ThoughtSteps = () => {
-  const { thought, progress, username } = useTikTokAnalysisProvider();
-  const artistHandle = username.replaceAll("@", "");
+  const { thought, progress, username, artistHandle } =
+    useFunnelAnalysisProvider();
 
   return (
     <div className="font-bold">

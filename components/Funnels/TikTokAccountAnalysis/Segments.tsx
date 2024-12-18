@@ -1,4 +1,3 @@
-import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
 import Icon from "@/components/Icon";
 import LucideIcon from "@/components/LucideIcon";
 import { useUserProvider } from "@/providers/UserProvder";
@@ -6,10 +5,11 @@ import { v4 as uuidV4 } from "uuid";
 import { useChatProvider } from "@/providers/ChatProvider";
 import useCredits from "@/hooks/useCredits";
 import { usePaymentProvider } from "@/providers/PaymentProvider";
+import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const Segments = () => {
   const { append } = useChatProvider();
-  const { segments, result } = useTikTokAnalysisProvider();
+  const { segments, result } = useFunnelAnalysisProvider();
   const { isPrepared } = useUserProvider();
   useCredits();
   const {

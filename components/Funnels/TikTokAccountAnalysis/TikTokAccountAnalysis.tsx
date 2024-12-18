@@ -1,11 +1,11 @@
 "use client";
 
-import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
 import TikTokAccountInput from "./Input";
 import AnalysisChat from "./AnalysisChat";
+import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const TikTokAccountAnalysis = () => {
-  const { isLoading } = useTikTokAnalysisProvider();
+  const { isLoading } = useFunnelAnalysisProvider();
   return <>{isLoading ? <AnalysisChat /> : <TikTokAccountInput />}</>;
 };
 

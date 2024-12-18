@@ -1,11 +1,11 @@
-import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
 import { STEP_OF_ANALYSIS } from "@/types/TikTok";
 import Completion from "./Completion";
 import Loading from "@/components/Loading";
+import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const ScrapingCaption = () => {
-  const { thought, username, initialize } = useTikTokAnalysisProvider();
-  const artistHandle = username.replaceAll("@", "");
+  const { initialize } = useFunnelAnalysisProvider();
+  const { thought, artistHandle } = useFunnelAnalysisProvider();
 
   return (
     <p className="text-sm">

@@ -1,4 +1,4 @@
-import { TikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
+import { FunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <div className="grow h-screen flex">
-      <TikTokAnalysisProvider>{children}</TikTokAnalysisProvider>
+      <FunnelAnalysisProvider>{children}</FunnelAnalysisProvider>
     </div>
   );
 }
