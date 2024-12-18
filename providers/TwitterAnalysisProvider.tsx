@@ -1,6 +1,6 @@
 "use client";
 
-import useTwitterAnalysis from "@/hooks/useTwitterAnaylsis";
+import useTwitterAnalysis from "@/hooks/useTwitterAnalysis";
 import React, { createContext, useContext, useMemo } from "react";
 
 const TwitterAnalysisContext = createContext<

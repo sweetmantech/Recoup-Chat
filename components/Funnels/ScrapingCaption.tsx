@@ -46,7 +46,7 @@ const ScrapingCaption = () => {
       )}
       {thought > STEP_OF_ANALYSIS.UNKNOWN_PROFILE && (
         <div className="flex gap-2 items-center">
-          Scraping @{artistHandle}’s TikTok...
+          Scraping @{artistHandle}’s {funnelName}...
           <Loading />
         </div>
       )}

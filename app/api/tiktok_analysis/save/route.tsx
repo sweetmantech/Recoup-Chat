@@ -12,6 +12,7 @@ export async function POST(req: NextRequest) {
       })
       .select("*")
       .single();
+    console.log("ZIAD ERROR", error);
     if (error)
       return Response.json({ id: null, success: false }, { status: 500 });
     return Response.json({ success: true, id: data?.id }, { status: 200 });

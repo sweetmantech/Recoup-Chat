@@ -8,13 +8,13 @@ import { SETTING_MODE } from "@/types/Setting";
 import { STEP_OF_ANALYSIS } from "@/types/TikTok";
 import { useParams } from "next/navigation";
 import useSaveFunnelArtist from "./useSaveFunnelArtist";
-import saveTiktokAnalysis from "@/lib/saveTiktokAnalysis";
+import saveFunnelAnalysis from "@/lib/saveFunnelAnalysis";
 import getSegments from "@/lib/getSegments";
 import getArtistTikTokHandle from "@/lib/getArtistTikTokHandle";
 import getTikTokAnalysisByArtistId from "@/lib/getTikTokAnalysisByArtistId";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
-const useTikTokAnalysisChain = () => {
+const useTikTokAnalysis = () => {
   const { setSettingMode, artists } = useArtistProvider();
   const {
     setIsLoading,
@@ -25,10 +25,11 @@ const useTikTokAnalysisChain = () => {
     setProgress,
     setSegments,
     artistHandle,
+    funnelName,
   } = useFunnelAnalysisProvider();
   const { saveFunnelArtist } = useSaveFunnelArtist();
   const { isPrepared } = useUserProvider();
-  const { trackTikTokAnalysisChat } = useConversationsProvider();
+  const { trackFunnelAnalysisChat } = useConversationsProvider();
   const { chat_id: chatId } = useParams();
 
   const handleAnalyze = async () => {
@@ -43,10 +44,11 @@ const useTikTokAnalysisChain = () => {
         const analysisCache = await getTikTokAnalysisByArtistId(
           artistSelected?.id || "",
         );
-        await trackTikTokAnalysisChat(
+        await trackFunnelAnalysisChat(
           username,
           artistSelected?.id,
           analysisCache?.chat_id,
+          funnelName,
         );
         if (analysisCache) {
           setResult(analysisCache);
@@ -98,12 +100,17 @@ const useTikTokAnalysisChain = () => {
         chat_id: chatId,
         artistId,
       };
-      const newAnalaysisId = await saveTiktokAnalysis(analysis);
+      const newAnalaysisId = await saveFunnelAnalysis(analysis);
       setResult({
         id: newAnalaysisId,
         ...profileWithComments,
       });
-      await trackTikTokAnalysisChat(username, artistId, chatId as string);
+      await trackFunnelAnalysisChat(
+        username,
+        artistId,
+        chatId as string,
+        funnelName,
+      );
       setThought(STEP_OF_ANALYSIS.FINISHED);
     } catch (error) {
       setThought(STEP_OF_ANALYSIS.ERROR);
@@ -115,4 +122,4 @@ const useTikTokAnalysisChain = () => {
   };
 };
 
-export default useTikTokAnalysisChain;
+export default useTikTokAnalysis;

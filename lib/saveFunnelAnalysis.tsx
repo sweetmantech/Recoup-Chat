@@ -1,6 +1,6 @@
 import saveAnalysis from "./saveAnalysis";
 
-const saveTiktokAnalysis = async (
+const saveFunnelAnalysis = async (
   //   eslint-disable-next-line @typescript-eslint/no-explicit-any
   analysis: any,
 ) => {
@@ -10,4 +10,4 @@ const saveTiktokAnalysis = async (
   }
 };
 
-export default saveTiktokAnalysis;
+export default saveFunnelAnalysis;

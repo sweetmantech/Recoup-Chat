@@ -4,7 +4,7 @@ import StreamingThought from "./StreamThought";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const ThoughtSteps = () => {
-  const { thought, progress, username, artistHandle } =
+  const { thought, progress, username, artistHandle, funnelName } =
     useFunnelAnalysisProvider();
 
   return (
@@ -22,7 +22,7 @@ const ThoughtSteps = () => {
       )}
       {thought === STEP_OF_ANALYSIS.SEGMENTS && (
         <StreamingThought
-          text={`Grouping all of the @${username}'s TikTok Fans into the segments.`}
+          text={`Grouping all of the @${username}'s ${funnelName} Fans into the segments.`}
         />
       )}
       {thought === STEP_OF_ANALYSIS.SAVING_ANALYSIS && (

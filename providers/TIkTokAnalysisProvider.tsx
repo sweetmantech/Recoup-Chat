@@ -1,6 +1,6 @@
 "use client";
 
-import useTikTokAnalysis from "@/hooks/useTikTokAnaylsis";
+import useTikTokAnalysis from "@/hooks/useTikTokAnalysis";
 import React, { createContext, useContext, useMemo } from "react";
 
 const TikTokAnalysisContext = createContext<
