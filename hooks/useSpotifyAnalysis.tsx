@@ -78,8 +78,8 @@ const useSpotifyAnalysis = () => {
       setThought(STEP_OF_ANALYSIS.SAVING_ANALYSIS);
       const analysis = {
         ...profile,
-        videos: [],
-        total_video_comments_count: 0,
+        videos: [...albums, ...tracks],
+        total_video_comments_count: tracks.length,
         segments: [...fanSegmentsWithIcons],
         chat_id: newId,
         artistId,
