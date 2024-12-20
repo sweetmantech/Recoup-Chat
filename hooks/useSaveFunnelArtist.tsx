@@ -15,7 +15,7 @@ const useSaveFunnelArtist = () => {
     const socialUrls = {
       twitter_url: "",
       tiktok_url: "",
-      spoitfy_url: "",
+      spotify_url: "",
       instagram_url: "",
     } as any;
     if (funnelType === Funnel_Type.TIKTOK) socialUrls.tiktok_url = url;

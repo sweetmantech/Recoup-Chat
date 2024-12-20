@@ -77,8 +77,10 @@ const useInstagramAnalysis = () => {
         setThought,
         setProgress,
       );
+      const avatar = await uploadPfp(profile?.avatar);
       const profileWithComments = {
         ...profile,
+        avatar,
         videos: reelsComments,
         total_video_comments_count: reelsComments.length,
       };
