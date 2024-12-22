@@ -12,10 +12,10 @@ const getPostComments = async (
 ) => {
   const response = await fetch(`${AGENT_API}/api/get_instagram_comments`, {
     method: "POST",
-    body: JSON.stringify({ directUrls }),
     headers: {
-      "Content-Type": "applications/json",
+      "Content-Type": "application/json",
     },
+    body: JSON.stringify({ directUrls }),
   });
   if (!response.ok) throw Error("failed!");
   const data = await response.json();
