@@ -45,28 +45,28 @@ const useInstagramAnalysis = () => {
       if (!username || isLoading) return;
       const newId = uuidV4();
       push(`/funnels/${funnelType}/${newId}`);
-      // const artistSelected = artists.find(
-      //   (artist) =>
-      //     artistHandle ===
-      //     getArtistFunnelHandle(artist, Funnel_Type.INSTAGRAM.toUpperCase()),
-      // );
-      // if (artistSelected) {
-      //   const analysisCache = await getFunnelAnalysisByArtistId(
-      //     artistSelected?.id || "",
-      //   );
-      //   await trackFunnelAnalysisChat(
-      //     username,
-      //     artistSelected?.id,
-      //     analysisCache?.chat_id,
-      //     funnelName,
-      //   );
-      //   if (analysisCache) {
-      //     setResult(analysisCache);
-      //     setSegments(analysisCache.segments);
-      //     setThought(STEP_OF_ANALYSIS.FINISHED);
-      //     return;
-      //   }
-      // }
+      const artistSelected = artists.find(
+        (artist) =>
+          artistHandle ===
+          getArtistFunnelHandle(artist, Funnel_Type.INSTAGRAM.toUpperCase()),
+      );
+      if (artistSelected) {
+        const analysisCache = await getFunnelAnalysisByArtistId(
+          artistSelected?.id || "",
+        );
+        await trackFunnelAnalysisChat(
+          username,
+          artistSelected?.id,
+          analysisCache?.chat_id,
+          funnelName,
+        );
+        if (analysisCache) {
+          setResult(analysisCache);
+          setSegments(analysisCache.segments);
+          setThought(STEP_OF_ANALYSIS.FINISHED);
+          return;
+        }
+      }
 
       await new Promise((resolve) => setTimeout(resolve, 1900));
       const data = await getInstagramProfile(artistHandle, setThought);
