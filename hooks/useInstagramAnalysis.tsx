@@ -81,16 +81,20 @@ const useInstagramAnalysis = () => {
         setThought,
         setProgress,
       );
+      if (!postsComments?.videos) {
+        setThought(STEP_OF_ANALYSIS.ERROR);
+        return;
+      }
       const avatar = await uploadPfp(profile?.avatar);
       const profileWithComments = {
         ...profile,
         avatar,
-        videos: postsComments,
-        total_video_comments_count: postsComments.length,
+        videos: postsComments?.videos,
+        total_video_comments_count: postsComments?.videos?.length,
       };
       setResult(profileWithComments);
       let fanSegmentsWithIcons = [];
-      if (postsComments.length > 0) {
+      if (postsComments?.videos?.length > 0) {
         setThought(STEP_OF_ANALYSIS.SEGMENTS);
         fanSegmentsWithIcons = await getSegments(profileWithComments);
         if (fanSegmentsWithIcons?.error) {

@@ -1,6 +1,6 @@
 import { STEP_OF_ANALYSIS } from "@/types/TikTok";
 import { AGENT_API } from "../consts";
-import getFormattedReelsComments from "./getFormattedReelsComments";
+import getFormattedPostsComments from "./getFormattedPostsComments";
 
 const getPostComments = async (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -43,7 +43,7 @@ const getPostComments = async (
     const status = statusInfo.data;
     if (status === "SUCCEEDED" || progress > 95) {
       updateProgress(100);
-      return getFormattedReelsComments(commentsInfo);
+      return getFormattedPostsComments(commentsInfo);
     }
   }
 };
