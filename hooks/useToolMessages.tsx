@@ -17,11 +17,12 @@ const useToolMessages = (question?: string, toolName?: any) => {
     funnelAnalysis,
     initReport,
     isSearchingTrends,
+    funnelRawReportContent,
   } = useFunnelReportProvider();
   const toolCallContext = {
     ...(funnelTrends !== null && { ...funnelTrends }),
     ...funnelVideos,
-    ...(funnelAnalysis !== null && { ...funnelAnalysis }),
+    ...(funnelRawReportContent !== null && { report: funnelRawReportContent }),
   };
   const [beginCall, setBeginCall] = useState(false);
   const {
