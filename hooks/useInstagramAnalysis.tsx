@@ -16,6 +16,8 @@ import { useRouter } from "next/navigation";
 import { Funnel_Type } from "@/types/Funnel";
 import getInstagramProfile from "@/lib/instagram/getInstagramProfile";
 import getReelsComments from "@/lib/instagram/getReelsComments";
+import getPostComments from "@/lib/instagram/getPostComment";
+import getDirectUrls from "@/lib/instagram/getDirectUrls";
 
 const useInstagramAnalysis = () => {
   const { setSettingMode, artists } = useArtistProvider();
@@ -43,37 +45,39 @@ const useInstagramAnalysis = () => {
       if (!username || isLoading) return;
       const newId = uuidV4();
       push(`/funnels/${funnelType}/${newId}`);
-      const artistSelected = artists.find(
-        (artist) =>
-          artistHandle ===
-          getArtistFunnelHandle(artist, Funnel_Type.INSTAGRAM.toUpperCase()),
-      );
-      if (artistSelected) {
-        const analysisCache = await getFunnelAnalysisByArtistId(
-          artistSelected?.id || "",
-        );
-        await trackFunnelAnalysisChat(
-          username,
-          artistSelected?.id,
-          analysisCache?.chat_id,
-          funnelName,
-        );
-        if (analysisCache) {
-          setResult(analysisCache);
-          setSegments(analysisCache.segments);
-          setThought(STEP_OF_ANALYSIS.FINISHED);
-          return;
-        }
-      }
+      // const artistSelected = artists.find(
+      //   (artist) =>
+      //     artistHandle ===
+      //     getArtistFunnelHandle(artist, Funnel_Type.INSTAGRAM.toUpperCase()),
+      // );
+      // if (artistSelected) {
+      //   const analysisCache = await getFunnelAnalysisByArtistId(
+      //     artistSelected?.id || "",
+      //   );
+      //   await trackFunnelAnalysisChat(
+      //     username,
+      //     artistSelected?.id,
+      //     analysisCache?.chat_id,
+      //     funnelName,
+      //   );
+      //   if (analysisCache) {
+      //     setResult(analysisCache);
+      //     setSegments(analysisCache.segments);
+      //     setThought(STEP_OF_ANALYSIS.FINISHED);
+      //     return;
+      //   }
+      // }
 
       await new Promise((resolve) => setTimeout(resolve, 1900));
-      const profile = await getInstagramProfile(artistHandle, setThought);
-      if (profile?.error) {
+      const data = await getInstagramProfile(artistHandle, setThought);
+      if (data?.error) {
         setThought(STEP_OF_ANALYSIS.UNKNOWN_PROFILE);
         return;
       }
-      const reelsComments = await getReelsComments(
-        artistHandle,
+      const profile = data?.profile;
+      const directUrls = getDirectUrls(data?.latestPosts);
+      const postsComments = await getPostComments(
+        directUrls,
         setThought,
         setProgress,
       );
@@ -81,12 +85,12 @@ const useInstagramAnalysis = () => {
       const profileWithComments = {
         ...profile,
         avatar,
-        videos: reelsComments,
-        total_video_comments_count: reelsComments.length,
+        videos: postsComments,
+        total_video_comments_count: postsComments.length,
       };
       setResult(profileWithComments);
       let fanSegmentsWithIcons = [];
-      if (reelsComments.length > 0) {
+      if (postsComments.length > 0) {
         setThought(STEP_OF_ANALYSIS.SEGMENTS);
         fanSegmentsWithIcons = await getSegments(profileWithComments);
         if (fanSegmentsWithIcons?.error) {
