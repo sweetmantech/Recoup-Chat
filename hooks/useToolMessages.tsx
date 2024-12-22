@@ -2,7 +2,7 @@ import { useChatProvider } from "@/providers/ChatProvider";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { Message, useChat } from "ai/react";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { v4 as uuidV4 } from "uuid";
 import { Tools } from "@/types/Tool";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
@@ -18,11 +18,13 @@ const useToolMessages = (question?: string, toolName?: any) => {
     isSearchingTrends,
     funnelRawReportContent,
   } = useFunnelReportProvider();
-  const toolCallContext = {
-    ...(funnelTrends !== null && { ...funnelTrends }),
-    ...funnelVideos,
-    ...(funnelRawReportContent !== null && { report: funnelRawReportContent }),
-  };
+
+  const toolCallContext = useMemo(() => {
+    if (funnelTrends) return funnelTrends;
+    if (funnelVideos) return funnelVideos;
+    if (funnelRawReportContent) return funnelRawReportContent;
+    return null;
+  }, [funnelTrends, funnelVideos, funnelRawReportContent]);
 
   const [beginCall, setBeginCall] = useState(false);
   const {
@@ -66,9 +68,9 @@ const useToolMessages = (question?: string, toolName?: any) => {
       initReport();
       setBeginCall(false);
     };
-    if (!beginCall || !question) return;
+    if (!beginCall || !question || !toolCallContext) return;
     init();
-  }, [beginCall, question]);
+  }, [beginCall, question, toolCallContext]);
 
   return {
     messages,

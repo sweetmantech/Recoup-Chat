@@ -6,7 +6,7 @@ const useFunnelReport = () => {
   const [isGettingVideos, setIsGettingVideos] = useState(false);
   const [isGettingAnalysis, setIsGettingAnalysis] = useState(false);
   const [isGeneratingReport, setIsGeneratingReport] = useState(false);
-  const [funnelVideos, setFunnelVideos] = useState<any>({});
+  const [funnelVideos, setFunnelVideos] = useState<any>(null);
   const [funnelAnalysis, setFunnelAnalysis] = useState<any>(null);
   const [funnelNextSteps, setFunnelNextSteps] = useState("");
   const [funnelReportContent, setFunnelReportContent] = useState("");
