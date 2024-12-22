@@ -16,17 +16,17 @@ const useFunnelReport = () => {
   const [bannerImage, setBannerImage] = useState("");
   const [bannerArtistName, setBannerArtistName] = useState("");
 
-  useEffect(() => {
-    const init = async () => {
-      setIsGeneratingReport(true);
-      const { reportContent, rawContent } = await getFullReport(funnelAnalysis);
-      setFunnelReportContent(reportContent);
-      setFunnelRawReportContent(rawContent);
-      setIsGeneratingReport(false);
-    };
-    if (!funnelAnalysis?.segment_name) return;
-    init();
-  }, [funnelAnalysis]);
+  // useEffect(() => {
+  //   const init = async () => {
+  //     setIsGeneratingReport(true);
+  //     const { reportContent, rawContent } = await getFullReport(funnelAnalysis);
+  //     setFunnelReportContent(reportContent);
+  //     setFunnelRawReportContent(rawContent);
+  //     setIsGeneratingReport(false);
+  //   };
+  //   if (!funnelAnalysis?.segment_name) return;
+  //   init();
+  // }, [funnelAnalysis]);
 
   const initReport = () => {
     setFunnelTrends(null);

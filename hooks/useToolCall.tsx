@@ -14,6 +14,7 @@ import { ArtistRecord } from "@/types/Artist";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
+import getFullReport from "@/lib/getFullReport";
 
 const useToolCall = (message: Message) => {
   const { finalCallback } = useMessagesProvider();
@@ -34,6 +35,8 @@ const useToolCall = (message: Message) => {
     setIsGettingVideos,
     setFunnelAnalysis,
     setFunnelVideos,
+    setFunnelReportContent,
+    setFunnelRawReportContent,
   } = useFunnelReportProvider();
 
   useEffect(() => {
@@ -87,6 +90,11 @@ const useToolCall = (message: Message) => {
           setBannerArtistName(context?.analysis?.nickname);
           const nextSteps = await getReportNextSteps(context?.analysis);
           setFunnelNextSteps(nextSteps);
+          const { reportContent, rawContent } = await getFullReport(
+            context?.analysis,
+          );
+          setFunnelReportContent(reportContent);
+          setFunnelRawReportContent(rawContent);
           setIsGettingAnalysis(false);
         }
         setBeginCall(true);
