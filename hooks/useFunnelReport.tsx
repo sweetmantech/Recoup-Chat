@@ -1,5 +1,4 @@
-import getFullReport from "@/lib/getFullReport";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const useFunnelReport = () => {
   const [funnelTrends, setFunnelTrends] = useState<any>(null);
@@ -15,18 +14,6 @@ const useFunnelReport = () => {
   const [funnelSummary, setFunnelSummary] = useState("");
   const [bannerImage, setBannerImage] = useState("");
   const [bannerArtistName, setBannerArtistName] = useState("");
-
-  // useEffect(() => {
-  //   const init = async () => {
-  //     setIsGeneratingReport(true);
-  //     const { reportContent, rawContent } = await getFullReport(funnelAnalysis);
-  //     setFunnelReportContent(reportContent);
-  //     setFunnelRawReportContent(rawContent);
-  //     setIsGeneratingReport(false);
-  //   };
-  //   if (!funnelAnalysis?.segment_name) return;
-  //   init();
-  // }, [funnelAnalysis]);
 
   const initReport = () => {
     setFunnelTrends(null);

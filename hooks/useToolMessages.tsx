@@ -23,7 +23,7 @@ const useToolMessages = (question?: string, toolName?: any) => {
     ...funnelVideos,
     ...(funnelRawReportContent !== null && { report: funnelRawReportContent }),
   };
-  console.log("ZIAD", toolCallContext, funnelRawReportContent);
+
   const [beginCall, setBeginCall] = useState(false);
   const {
     messages,

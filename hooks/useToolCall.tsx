@@ -37,6 +37,7 @@ const useToolCall = (message: Message) => {
     setFunnelVideos,
     setFunnelReportContent,
     setFunnelRawReportContent,
+    isGettingAnalysis,
   } = useFunnelReportProvider();
 
   useEffect(() => {
@@ -77,7 +78,7 @@ const useToolCall = (message: Message) => {
           setFunnelVideos(data);
           setIsGettingVideos(false);
         }
-        if (toolName === Tools.getSegmentsReport) {
+        if (toolName === Tools.getSegmentsReport && !isGettingAnalysis) {
           const activeArtist = artists.find(
             (artist: ArtistRecord) => artist.id === context?.analysis?.artistId,
           );
