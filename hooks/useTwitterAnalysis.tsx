@@ -91,7 +91,7 @@ const useTwitterAnalysis = () => {
       const artistId = await saveFunnelArtist(
         profile?.nickname,
         profile?.avatar,
-        `https://x.com/@${artistHandle}`,
+        `https://x.com/${artistHandle}`,
       );
       setThought(STEP_OF_ANALYSIS.SAVING_ANALYSIS);
       const analysis = {
