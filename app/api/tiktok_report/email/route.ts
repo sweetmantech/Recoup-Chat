@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const data = {
-      from: "hello@recoupable.com",
+      from: "Recoup <hello@recoupable.com>",
       to: email,
       subject,
       html: template,
