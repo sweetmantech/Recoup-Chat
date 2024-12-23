@@ -11,7 +11,7 @@ const useDownloadReport = () => {
   const [downloading, setDownloading] = useState(false);
   const { streamingTitle } = useConversationsProvider();
   const { email } = useUserProvider();
-  const { funnelRawReportContent } = useFunnelReportProvider();
+  const { funnelRawReportContent, funnelAnalysis } = useFunnelReportProvider();
   const { selectedArtist } = useArtistProvider();
   const { titleMessage } = useInitialMessagesProvider();
 
@@ -21,8 +21,10 @@ const useDownloadReport = () => {
       const reportTitle = streamingTitle || titleMessage?.metadata?.title;
       sendReportEmail(
         funnelRawReportContent,
-        selectedArtist?.image || "",
-        selectedArtist?.name || "",
+        funnelAnalysis?.image || selectedArtist?.image,
+        funnelAnalysis?.nickname ||
+          selectedArtist?.name ||
+          funnelAnalysis?.nickname,
         email || "",
         reportTitle,
       );

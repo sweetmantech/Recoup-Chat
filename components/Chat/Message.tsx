@@ -6,13 +6,13 @@ import { useChatProvider } from "@/providers/ChatProvider";
 import Icon from "../Icon";
 import ReportSummaryNote from "./ReportSummaryNote";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
-import Answer from "../Tools/Answer";
 import { useTrackToolMessageProvider } from "@/providers/TrackToolMessageProvider";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
+import Report from "./Report";
 
 const Message = ({ message, index }: { message: AIMessage; index: number }) => {
   const { context, loading } = useToolCallProvider();
-  const { funnelNextSteps, funnelSummary } = useFunnelReportProvider();
+  const { funnelNextSteps, funnelRawReportContent } = useFunnelReportProvider();
   const { reportEnabled } = useChatProvider();
   const { pending, messages } = useMessagesProvider();
   const { tiktokTracking } = useTrackToolMessageProvider();
@@ -37,8 +37,8 @@ const Message = ({ message, index }: { message: AIMessage; index: number }) => {
           <p> ...</p>
         ) : (
           <>
-            {funnelSummary && index === 0 ? (
-              <Answer content={funnelSummary} role="assistant" />
+            {funnelRawReportContent && index === 0 ? (
+              <Report />
             ) : (
               <ToolFollowUp message={message} />
             )}
