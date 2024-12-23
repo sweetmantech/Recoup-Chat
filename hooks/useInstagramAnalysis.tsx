@@ -99,7 +99,7 @@ const useInstagramAnalysis = () => {
       setThought(STEP_OF_ANALYSIS.CREATING_ARTIST);
       const artistId = await saveFunnelArtist(
         profile?.nickname,
-        profile?.avatar,
+        avatar,
         `https://instagram.com/${artistHandle}`,
       );
       setThought(STEP_OF_ANALYSIS.SAVING_ANALYSIS);
