@@ -24,7 +24,12 @@ const useFunnelAnalysis = () => {
   const { chat_id: chatId } = useParams();
   const { email } = useUserProvider();
   const { clearMessagesCache } = useInitialChatProvider();
-  const { clearReportCache, setFunnelAnalysis } = useFunnelReportProvider();
+  const {
+    clearReportCache,
+    setFunnelAnalysis,
+    setBannerArtistName,
+    setBannerImage,
+  } = useFunnelReportProvider();
 
   const funnelName = useMemo(() => {
     if (!funnelType) return "";
@@ -43,6 +48,8 @@ const useFunnelAnalysis = () => {
           await addArtist(email || "", data.data.artistId);
           await getArtists();
         }
+        setBannerImage(data.data.avatar);
+        setBannerArtistName(data.data?.nickname);
         setFunnelAnalysis(data.data);
         setResult(data.data);
         setSegments(data.data.segments);
