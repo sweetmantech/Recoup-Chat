@@ -16,6 +16,8 @@ import { useRouter } from "next/navigation";
 import { Funnel_Type } from "@/types/Funnel";
 import getInstagramProfile from "@/lib/instagram/getInstagramProfile";
 import getReelsComments from "@/lib/instagram/getReelsComments";
+import getPostComments from "@/lib/instagram/getPostComment";
+import getDirectUrls from "@/lib/instagram/getDirectUrls";
 
 const useInstagramAnalysis = () => {
   const { setSettingMode, artists } = useArtistProvider();
@@ -67,26 +69,32 @@ const useInstagramAnalysis = () => {
       }
 
       await new Promise((resolve) => setTimeout(resolve, 1900));
-      const profile = await getInstagramProfile(artistHandle, setThought);
-      if (profile?.error) {
+      const data = await getInstagramProfile(artistHandle, setThought);
+      if (data?.error) {
         setThought(STEP_OF_ANALYSIS.UNKNOWN_PROFILE);
         return;
       }
-      const reelsComments = await getReelsComments(
-        artistHandle,
+      const profile = data?.profile;
+      const directUrls = getDirectUrls(data?.latestPosts);
+      const postsComments = await getPostComments(
+        directUrls,
         setThought,
         setProgress,
       );
+      if (!postsComments?.videos) {
+        setThought(STEP_OF_ANALYSIS.ERROR);
+        return;
+      }
       const avatar = await uploadPfp(profile?.avatar);
       const profileWithComments = {
         ...profile,
         avatar,
-        videos: reelsComments,
-        total_video_comments_count: reelsComments.length,
+        videos: postsComments?.videos,
+        total_video_comments_count: postsComments?.videos?.length,
       };
       setResult(profileWithComments);
       let fanSegmentsWithIcons = [];
-      if (reelsComments.length > 0) {
+      if (postsComments?.videos?.length > 0) {
         setThought(STEP_OF_ANALYSIS.SEGMENTS);
         fanSegmentsWithIcons = await getSegments(profileWithComments);
         if (fanSegmentsWithIcons?.error) {
