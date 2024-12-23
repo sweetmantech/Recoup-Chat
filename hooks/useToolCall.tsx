@@ -14,6 +14,7 @@ import { ArtistRecord } from "@/types/Artist";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
+import getFullReport from "@/lib/getFullReport";
 
 const useToolCall = (message: Message) => {
   const { finalCallback } = useMessagesProvider();
@@ -34,6 +35,9 @@ const useToolCall = (message: Message) => {
     setIsGettingVideos,
     setFunnelAnalysis,
     setFunnelVideos,
+    setFunnelReportContent,
+    setFunnelRawReportContent,
+    isGettingAnalysis,
   } = useFunnelReportProvider();
 
   useEffect(() => {
@@ -74,7 +78,7 @@ const useToolCall = (message: Message) => {
           setFunnelVideos(data);
           setIsGettingVideos(false);
         }
-        if (toolName === Tools.getSegmentsReport) {
+        if (toolName === Tools.getSegmentsReport && !isGettingAnalysis) {
           const activeArtist = artists.find(
             (artist: ArtistRecord) => artist.id === context?.analysis?.artistId,
           );
@@ -87,6 +91,11 @@ const useToolCall = (message: Message) => {
           setBannerArtistName(context?.analysis?.nickname);
           const nextSteps = await getReportNextSteps(context?.analysis);
           setFunnelNextSteps(nextSteps);
+          const { reportContent, rawContent } = await getFullReport(
+            context?.analysis,
+          );
+          setFunnelReportContent(reportContent);
+          setFunnelRawReportContent(rawContent);
           setIsGettingAnalysis(false);
         }
         setBeginCall(true);
