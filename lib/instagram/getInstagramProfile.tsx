@@ -33,15 +33,12 @@ const getInstagramProfile = async (handle: string, setThought?: any) => {
     const status = statusInfo.data;
     if (profileInfo && status === "SUCCEEDED")
       return {
-        profile: {
-          nickname: profileInfo?.[0]?.fullName,
-          name: profileInfo?.[0]?.username,
-          bio: profileInfo?.[0]?.biography,
-          fans: profileInfo?.[0]?.followersCount,
-          following: profileInfo?.[0]?.followersCount,
-          avatar: profileInfo?.[0]?.profilePicUrl,
-        },
-        latestPosts: profileInfo?.[0]?.latestPosts,
+        nickname: profileInfo?.[0]?.fullName,
+        name: profileInfo?.[0]?.username,
+        bio: profileInfo?.[0]?.biography,
+        fans: profileInfo?.[0]?.followersCount,
+        following: profileInfo?.[0]?.followersCount,
+        avatar: profileInfo?.[0]?.profilePicUrl,
       };
   }
 };

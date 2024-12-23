@@ -36,7 +36,7 @@ const usePrompts = () => {
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "applications/json",
         },
         body: JSON.stringify({
           answer: removeHtmlTags(content),
