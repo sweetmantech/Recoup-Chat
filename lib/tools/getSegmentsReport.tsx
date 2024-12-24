@@ -24,13 +24,13 @@ For Example:
         };
 
       const tiktok_analysis = await getTikTokAnalysis(analysis_id);
-      const segment1 = tiktok_analysis.segments.find(
+      const segment1 = tiktok_analysis?.segments?.find(
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (item: any) => item.name === segment_name,
       );
 
       const funnel_analysis = await getFunnelAnalysis(analysis_id);
-      const segment2 = funnel_analysis.funnel_analytics_segments.find(
+      const segment2 = funnel_analysis?.funnel_analytics_segments?.find(
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (item: any) => item.name === segment_name,
       );
