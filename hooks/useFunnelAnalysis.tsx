@@ -48,7 +48,7 @@ const useFunnelAnalysis = () => {
     const funnel_analysis: any = await getFunnelAnalysis(chatId as string);
     if (funnel_analysis) {
       if (funnel_analysis.status === STEP_OF_ANALYSIS.FINISHED) {
-        setUsername(funnel_analysis.funnel_analytics_profile?.[0]?.handle);
+        setUsername(funnel_analysis.handle || "");
         setSegments(funnel_analysis.funnel_analytics_segments);
         setResult({
           segments: funnel_analysis.funnel_analytics_segments,
