@@ -9,7 +9,7 @@ import { v4 as uuidV4 } from "uuid";
 const useAgentSocket = () => {
   const [socketId, setSocketId] = useState<any>(undefined);
   const { chat_id: chatId } = useParams();
-  const { artistHandle, setThought, setIsLoading, getAnalysis } =
+  const { artistHandle, setThought, setIsLoading, getAnalysis, setProgress } =
     useFunnelAnalysisProvider();
   const { push } = useRouter();
   const { userData, address, isPrepared } = useUserProvider();
@@ -28,6 +28,7 @@ const useAgentSocket = () => {
         setIsLoading(true);
         if (dataGot.status === STEP_OF_ANALYSIS.FINISHED) await getAnalysis();
         setThought(dataGot?.status);
+        setProgress(dataGot?.progress || 0);
       }
     });
   }, [chatId]);
