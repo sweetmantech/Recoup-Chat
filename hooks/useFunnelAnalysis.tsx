@@ -9,6 +9,7 @@ import { STEP_OF_ANALYSIS } from "@/types/TikTok";
 import { useEffect, useMemo, useState } from "react";
 import { v4 as uuidV4 } from "uuid";
 import { Funnel_Type } from "@/types/Funnel";
+import getFunnelAnalysis from "@/lib/getFunnelAnalysis";
 
 const useFunnelAnalysis = () => {
   const [username, setUsername] = useState("");
@@ -41,6 +42,19 @@ const useFunnelAnalysis = () => {
     const init = async () => {
       clearReportCache();
       clearMessagesCache();
+      const funnel_analysis: any = await getFunnelAnalysis(chatId as string);
+      if (funnel_analysis) {
+        if (funnel_analysis.status === STEP_OF_ANALYSIS.FINISHED) {
+          setSegments(funnel_analysis.funnel_analytics_segments);
+          setResult({
+            segments: funnel_analysis.funnel_analytics_segments,
+            ...funnel_analysis.funnel_analytics_profile?.[0],
+          });
+        }
+        setThought(funnel_analysis.status);
+        setIsLoading(true);
+        return;
+      }
       const response = await fetch(`/api/tiktok_analysis?chatId=${chatId}`);
       const data = await response.json();
       if (data?.data) {

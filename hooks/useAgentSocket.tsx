@@ -8,9 +8,10 @@ import { v4 as uuidV4 } from "uuid";
 const useAgentSocket = () => {
   const [socketId, setSocketId] = useState<any>(undefined);
   const { chat_id: chatId } = useParams();
-  const { artistHandle } = useFunnelAnalysisProvider();
+  const { artistHandle, setThought, setIsLoading } =
+    useFunnelAnalysisProvider();
   const { push } = useRouter();
-  const { userData } = useUserProvider();
+  const { userData, address } = useUserProvider();
 
   useEffect(() => {
     socketIo.on("connect", () => {
@@ -22,7 +23,10 @@ const useAgentSocket = () => {
     if (!chatId) return;
     socketIo.removeAllListeners(chatId as string);
     socketIo.on(chatId as string, (dataGot) => {
-      console.log("ZIAD", dataGot);
+      if (typeof dataGot?.status === "number") {
+        setIsLoading(true);
+        setThought(dataGot?.status);
+      }
     });
   }, [chatId]);
 
@@ -32,6 +36,7 @@ const useAgentSocket = () => {
       handle: artistHandle,
       chat_id: newChatId,
       account_id: userData?.id,
+      address,
     });
     push(`/funnels/tiktok/${newChatId}`);
   };
