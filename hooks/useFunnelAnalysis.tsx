@@ -54,7 +54,7 @@ const useFunnelAnalysis = () => {
           ...funnel_analysis.funnel_analytics_profile?.[0],
         });
         setSelectedArtist(
-          funnel_analysis.funnel_analytics_profile?.[0]?.artists?.[0],
+          funnel_analysis.funnel_analytics_profile?.[0]?.artists,
         );
         fetchConversations(address);
       }
