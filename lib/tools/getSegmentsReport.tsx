@@ -2,7 +2,7 @@ import { z } from "zod";
 import { tool } from "ai";
 import getTikTokAnalysis from "../chat/getTikTokAnalysis";
 import { ArtistToolResponse } from "@/types/Tool";
-import getFunnelAnalysis from "../getFunnelAnalysis";
+import getFunnelAnalysis from "../chat/getFunnelAnalysis";
 
 const getSegmentsReport = (question: string) =>
   tool({
