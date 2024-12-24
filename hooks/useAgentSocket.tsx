@@ -12,7 +12,7 @@ const useAgentSocket = () => {
   const { artistHandle, setThought, setIsLoading, getAnalysis } =
     useFunnelAnalysisProvider();
   const { push } = useRouter();
-  const { userData, address } = useUserProvider();
+  const { userData, address, isPrepared } = useUserProvider();
 
   useEffect(() => {
     socketIo.on("connect", () => {
@@ -33,6 +33,7 @@ const useAgentSocket = () => {
   }, [chatId]);
 
   const openTikTokAgent = () => {
+    if (!isPrepared()) return;
     const newChatId = uuidV4();
     socketIo.emit("TiktokAnalysis", socketId, {
       handle: artistHandle,

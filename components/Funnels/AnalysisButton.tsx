@@ -2,7 +2,6 @@ import { useAgentSocketProvider } from "@/providers/AgentSocketProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import { useInstagramAnalysisProvider } from "@/providers/InstagramAnalysisProvider";
 import { useSpotifyAnalysisProvider } from "@/providers/SpotifyAnalysisProvider";
-// import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
 import { useTwitterAnalysisProvider } from "@/providers/TwitterAnalysisProvider";
 import { Funnel_Type } from "@/types/Funnel";
 
@@ -14,7 +13,6 @@ const AnalysisButton = ({
   containerClasses?: string;
 }) => {
   const { username, funnelType } = useFunnelAnalysisProvider();
-  // const { handleAnalyze: handleTiktokAnalysis } = useTikTokAnalysisProvider();
   const { handleAnalyze: handleTwitterAnalysis } = useTwitterAnalysisProvider();
   const { handleAnalyze: handleSpotifyAnalysis } = useSpotifyAnalysisProvider();
   const { handleAnalyze: handleInstagramAnalysis } =
