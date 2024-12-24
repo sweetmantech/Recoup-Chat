@@ -5,9 +5,7 @@ import useToolMessages from "./useToolMessages";
 import { useParams } from "next/navigation";
 import getToolCallMessage from "@/lib/getToolCallMessage";
 import useToolCallParams from "./useToolCallParams";
-import getVideoComments from "@/lib/tiktok/getVideoComments";
 import isActiveToolCallTrigger from "@/lib/isActiveToolCallTrigger";
-import getTikTokProfile from "@/lib/tiktok/getTiktokProfile";
 import { Tools } from "@/types/Tool";
 import getReportNextSteps from "@/lib/getReportNextSteps";
 import { ArtistRecord } from "@/types/Artist";
@@ -57,27 +55,6 @@ const useToolCall = (message: Message) => {
       if (!isAssistant || isCalled) return;
       setIsCalled(true);
       if (isActiveToolCallTrigger(toolName, context?.status)) {
-        if (toolName === Tools.getArtistAnalysis) {
-          setIsSearchingTrends(true);
-          const profile = await getTikTokProfile(context?.username);
-          const videoComments = await getVideoComments(
-            encodeURIComponent(JSON.stringify(profile?.videos)),
-          );
-          setFunnelTrends({
-            ...profile,
-            videos: videoComments.videos,
-            total_video_comments_count:
-              videoComments.total_video_comments_count,
-          });
-          setIsSearchingTrends(false);
-        }
-        if (toolName === Tools.getVideosInfo) {
-          setIsGettingVideos(true);
-          const videoUrls = encodeURIComponent(`["${context.videoUrl}"]`);
-          const data = await getVideoComments(videoUrls);
-          setFunnelVideos(data);
-          setIsGettingVideos(false);
-        }
         if (toolName === Tools.getSegmentsReport && !isGettingAnalysis) {
           const activeArtist = artists.find(
             (artist: ArtistRecord) => artist.id === context?.analysis?.artistId,
