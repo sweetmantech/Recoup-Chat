@@ -16,7 +16,10 @@ export async function GET(req: NextRequest) {
         funnel_analytics_profile (
           *,
           artists (
-            *
+            *,
+            artist_social_links (
+              *
+            )
           )
         )`,
       )

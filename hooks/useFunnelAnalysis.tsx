@@ -48,10 +48,16 @@ const useFunnelAnalysis = () => {
     const funnel_analysis: any = await getFunnelAnalysis(chatId as string);
     if (funnel_analysis) {
       if (funnel_analysis.status === STEP_OF_ANALYSIS.FINISHED) {
+        setBannerImage(funnel_analysis.funnel_analytics_profile?.[0]?.avatar);
+        setBannerArtistName(
+          funnel_analysis.funnel_analytics_profile?.[0]?.nickname,
+        );
         setSegments(funnel_analysis.funnel_analytics_segments);
         setResult({
           segments: funnel_analysis.funnel_analytics_segments,
           ...funnel_analysis.funnel_analytics_profile?.[0],
+          id: funnel_analysis.id,
+          handle: funnel_analysis.handle,
         });
         setSelectedArtist(
           funnel_analysis.funnel_analytics_profile?.[0]?.artists,
