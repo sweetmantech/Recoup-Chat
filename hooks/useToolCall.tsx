@@ -64,8 +64,14 @@ const useToolCall = (message: Message) => {
           }
           setIsGettingAnalysis(true);
           setFunnelAnalysis(context?.analysis);
-          setBannerImage(context?.analysis?.avatar);
-          setBannerArtistName(context?.analysis?.nickname);
+          setBannerImage(
+            context?.analysis?.avatar ||
+              context?.analysis?.funnel_analytics_profile?.[0]?.avatar,
+          );
+          setBannerArtistName(
+            context?.analysis?.nickname ||
+              context?.analysis?.funnel_analytics_profile?.[0]?.nickname,
+          );
           const nextSteps = await getReportNextSteps(context?.analysis);
           setFunnelNextSteps(nextSteps);
           const { reportContent, rawContent } = await getFullReport(
