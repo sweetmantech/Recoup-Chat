@@ -33,21 +33,21 @@ const useAgentSocket = () => {
     });
   }, [chatId]);
 
-  const openTikTokAgent = () => {
+  const openAgentSocket = (funnelType: string) => {
     if (!isPrepared()) return;
     const newChatId = uuidV4();
-    socketIo.emit("TiktokAnalysis", socketId, {
+    socketIo.emit(`${funnelType.toUpperCase()}_ANALYSIS`, socketId, {
       handle: artistHandle,
       chat_id: newChatId,
       account_id: userData?.id,
       address,
     });
-    push(`/funnels/tiktok/${newChatId}`);
+    push(`/funnels/${funnelType}/${newChatId}`);
   };
 
   return {
     socketId,
-    openTikTokAgent,
+    openAgentSocket,
   };
 };
 

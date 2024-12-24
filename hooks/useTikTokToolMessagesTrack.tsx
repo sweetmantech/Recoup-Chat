@@ -85,7 +85,7 @@ const useTikTokToolMessagesTrack = () => {
       return;
     }
     init();
-  }, [message]);
+  }, [message, artists]);
 
   return {
     tiktokTracking,
