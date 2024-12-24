@@ -6,10 +6,11 @@ import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useParams, useRouter } from "next/navigation";
 import { STEP_OF_ANALYSIS } from "@/types/TikTok";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { v4 as uuidV4 } from "uuid";
 import { Funnel_Type } from "@/types/Funnel";
 import getFunnelAnalysis from "@/lib/getFunnelAnalysis";
+import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 
 const useFunnelAnalysis = () => {
   const [username, setUsername] = useState("");
@@ -21,7 +22,7 @@ const useFunnelAnalysis = () => {
   const artistHandle = username.replaceAll("@", "");
   const { funnel_type: funnelType } = useParams();
   const { push } = useRouter();
-  const { getArtists } = useArtistProvider();
+  const { getArtists, setSelectedArtist } = useArtistProvider();
   const { chat_id: chatId } = useParams();
   const { email } = useUserProvider();
   const { clearMessagesCache } = useInitialChatProvider();
@@ -31,6 +32,8 @@ const useFunnelAnalysis = () => {
     setBannerArtistName,
     setBannerImage,
   } = useFunnelReportProvider();
+  const { fetchConversations } = useConversationsProvider();
+  const { address } = useUserProvider();
 
   const funnelName = useMemo(() => {
     if (!funnelType) return "";
@@ -38,23 +41,38 @@ const useFunnelAnalysis = () => {
     return capitalize(funnelType as string);
   }, [funnelType]);
 
+  const getAnalysis = useCallback(async () => {
+    if (!chatId) return;
+    clearReportCache();
+    clearMessagesCache();
+    const funnel_analysis: any = await getFunnelAnalysis(chatId as string);
+    if (funnel_analysis) {
+      if (funnel_analysis.status === STEP_OF_ANALYSIS.FINISHED) {
+        setSegments(funnel_analysis.funnel_analytics_segments);
+        setResult({
+          segments: funnel_analysis.funnel_analytics_segments,
+          ...funnel_analysis.funnel_analytics_profile?.[0],
+        });
+        setSelectedArtist(
+          funnel_analysis.funnel_analytics_profile?.[0]?.artists?.[0],
+        );
+        fetchConversations(address);
+      }
+      setThought(funnel_analysis.status);
+      setIsLoading(true);
+      return;
+    }
+  }, [chatId]);
+
+  useEffect(() => {
+    getAnalysis();
+  }, [getAnalysis]);
+
   useEffect(() => {
     const init = async () => {
       clearReportCache();
       clearMessagesCache();
-      const funnel_analysis: any = await getFunnelAnalysis(chatId as string);
-      if (funnel_analysis) {
-        if (funnel_analysis.status === STEP_OF_ANALYSIS.FINISHED) {
-          setSegments(funnel_analysis.funnel_analytics_segments);
-          setResult({
-            segments: funnel_analysis.funnel_analytics_segments,
-            ...funnel_analysis.funnel_analytics_profile?.[0],
-          });
-        }
-        setThought(funnel_analysis.status);
-        setIsLoading(true);
-        return;
-      }
+
       const response = await fetch(`/api/tiktok_analysis?chatId=${chatId}`);
       const data = await response.json();
       if (data?.data) {
@@ -109,6 +127,7 @@ const useFunnelAnalysis = () => {
     handleRetry,
     initialize,
     funnelName,
+    getAnalysis,
   };
 };
 

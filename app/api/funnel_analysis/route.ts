@@ -14,7 +14,10 @@ export async function GET(req: NextRequest) {
           *
         ),
         funnel_analytics_profile (
-          *
+          *,
+          artists (
+            *
+          )
         )`,
       )
       .eq("chat_id", chatId)
