@@ -52,6 +52,8 @@ const useFunnelAnalysis = () => {
         setResult({
           segments: funnel_analysis.funnel_analytics_segments,
           ...funnel_analysis.funnel_analytics_profile?.[0],
+          id: funnel_analysis.id,
+          handle: funnel_analysis.handle,
         });
         setSelectedArtist(
           funnel_analysis.funnel_analytics_profile?.[0]?.artists,
