@@ -61,7 +61,7 @@ const Segments = () => {
           )}
 
           <p className="font-bold text-xs text-center">
-            {segment?.name} {`(${segment?.count})`}
+            {segment?.name} {`(${segment?.count || segment?.size})`}
           </p>
         </button>
       ))}

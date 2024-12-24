@@ -1,4 +1,3 @@
-import getVideoComments from "@/lib/tiktok/getVideoComments";
 import uploadPfp from "@/lib/uploadPfp";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
@@ -15,7 +14,6 @@ import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import { useRouter } from "next/navigation";
 import { Funnel_Type } from "@/types/Funnel";
 import getInstagramProfile from "@/lib/instagram/getInstagramProfile";
-import getReelsComments from "@/lib/instagram/getReelsComments";
 import getPostComments from "@/lib/instagram/getPostComment";
 import getDirectUrls from "@/lib/instagram/getDirectUrls";
 
