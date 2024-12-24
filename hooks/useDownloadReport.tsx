@@ -21,7 +21,9 @@ const useDownloadReport = () => {
       const reportTitle = streamingTitle || titleMessage?.metadata?.title;
       sendReportEmail(
         funnelRawReportContent,
-        funnelAnalysis?.image || selectedArtist?.image,
+        funnelAnalysis?.image ||
+          funnelAnalysis?.avatar ||
+          selectedArtist?.image,
         funnelAnalysis?.nickname ||
           selectedArtist?.name ||
           funnelAnalysis?.nickname,
