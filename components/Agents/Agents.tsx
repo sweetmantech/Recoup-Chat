@@ -10,11 +10,26 @@ const Agents = () => {
           agents.
         </p>
         <div className="pt-8 flex flex-col md:flex-row md:flex-wrap gap-8">
-          <FunnelCard funnelName="wrapped" />
-          <FunnelCard funnelName="instagram" />
-          <FunnelCard funnelName="spotify" />
-          <FunnelCard funnelName="twitter" />
+          <button
+            type="button"
+            className="w-full max-w-[1069px] h-[162px] overflow-hidden rounded-xl"
+          >
+            <div className="relative bg-[url('/wrapped.png')] bg-cover bg-center size-full flex flex-col items-start justify-end pb-4 pl-4">
+              <p className="text-white text-[40px] text-left font-plus_jakarta_sans_bold">
+                Your Fan base Wrapped
+              </p>
+              <p className="text-white text-left text-[15px]">
+                Get a 360° breakdown of your fanbase across all platforms.
+                Analyze <br /> trends, segment audiences, and see how your fans
+                evolved in 2024.
+              </p>
+              <div className="bg-white w-[62px] h-[25px] rounded-full flex items-center justify-center text-green absolute right-4 top-4">
+                NEW
+              </div>
+            </div>
+          </button>
           <FunnelCard funnelName="tiktok" />
+          <FunnelCard funnelName="twitter" />
           <button
             type="button"
             className="w-[335px] h-[162px] overflow-hidden rounded-xl"
@@ -32,6 +47,8 @@ const Agents = () => {
               <div className="bg-[#00000000] size-full absolute left-0 top-0 backdrop-blur-[1px]" />
             </div>
           </button>
+          <FunnelCard funnelName="spotify" icon="white-spotify" />
+          <FunnelCard funnelName="instagram" icon="white-instagram" />
         </div>
       </div>
     </div>
