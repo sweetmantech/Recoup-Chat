@@ -1,7 +1,6 @@
 import { useAgentSocketProvider } from "@/providers/AgentSocketProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import { useSpotifyAnalysisProvider } from "@/providers/SpotifyAnalysisProvider";
-import { useTwitterAnalysisProvider } from "@/providers/TwitterAnalysisProvider";
 import { Funnel_Type } from "@/types/Funnel";
 
 const AnalysisButton = ({
@@ -12,13 +11,13 @@ const AnalysisButton = ({
   containerClasses?: string;
 }) => {
   const { username, funnelType } = useFunnelAnalysisProvider();
-  const { handleAnalyze: handleTwitterAnalysis } = useTwitterAnalysisProvider();
   const { handleAnalyze: handleSpotifyAnalysis } = useSpotifyAnalysisProvider();
   const { openAgentSocket } = useAgentSocketProvider();
 
   const handleClick = () => {
     if (funnelType === Funnel_Type.TIKTOK) openAgentSocket(Funnel_Type.TIKTOK);
-    if (funnelType === Funnel_Type.TWITTER) handleTwitterAnalysis();
+    if (funnelType === Funnel_Type.TWITTER)
+      openAgentSocket(Funnel_Type.TWITTER);
     if (funnelType === Funnel_Type.SPOTIFY) handleSpotifyAnalysis();
     if (funnelType === Funnel_Type.INSTAGRAM)
       openAgentSocket(Funnel_Type.INSTAGRAM);
