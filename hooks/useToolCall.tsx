@@ -13,6 +13,8 @@ import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
 import getFullReport from "@/lib/getFullReport";
+import sendReportEmail from "@/lib/sendReportEmail";
+import { useUserProvider } from "@/providers/UserProvder";
 
 const useToolCall = (message: Message) => {
   const { finalCallback } = useMessagesProvider();
@@ -23,20 +25,17 @@ const useToolCall = (message: Message) => {
     question,
     toolName,
   );
-  const { setSelectedArtist, artists } = useArtistProvider();
+  const { setSelectedArtist, artists, selectedArtist } = useArtistProvider();
   const { setBannerArtistName, setBannerImage } = useFunnelReportProvider();
   const {
-    setIsSearchingTrends,
     setFunnelNextSteps,
-    setFunnelTrends,
     setIsGettingAnalysis,
-    setIsGettingVideos,
     setFunnelAnalysis,
-    setFunnelVideos,
     setFunnelReportContent,
     setFunnelRawReportContent,
     isGettingAnalysis,
   } = useFunnelReportProvider();
+  const { email } = useUserProvider();
 
   useEffect(() => {
     const init = async () => {
@@ -65,12 +64,10 @@ const useToolCall = (message: Message) => {
           setIsGettingAnalysis(true);
           setFunnelAnalysis(context?.analysis);
           setBannerImage(
-            context?.analysis?.avatar ||
-              context?.analysis?.funnel_analytics_profile?.[0]?.avatar,
+            context?.analysis?.funnel_analytics_profile?.[0]?.avatar,
           );
           setBannerArtistName(
-            context?.analysis?.nickname ||
-              context?.analysis?.funnel_analytics_profile?.[0]?.nickname,
+            context?.analysis?.funnel_analytics_profile?.[0]?.nickname,
           );
           const nextSteps = await getReportNextSteps(context?.analysis);
           setFunnelNextSteps(nextSteps);
@@ -79,6 +76,13 @@ const useToolCall = (message: Message) => {
           );
           setFunnelReportContent(reportContent);
           setFunnelRawReportContent(rawContent);
+          sendReportEmail(
+            rawContent,
+            selectedArtist?.image || "",
+            selectedArtist?.name || "",
+            email || "",
+            `${context?.analysis?.segment_name} Report`,
+          );
           setIsGettingAnalysis(false);
         }
         setBeginCall(true);
