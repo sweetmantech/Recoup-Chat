@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { tool } from "ai";
-import getTikTokAnalysis from "../chat/getTikTokAnalysis";
 import { ArtistToolResponse } from "@/types/Tool";
 import getFunnelAnalysis from "../chat/getFunnelAnalysis";
 
@@ -23,28 +22,21 @@ For Example:
           question,
         };
 
-      const tiktok_analysis = await getTikTokAnalysis(analysis_id);
-      const segment1 = tiktok_analysis?.segments?.find(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (item: any) => item.name === segment_name,
-      );
-
       const funnel_analysis = await getFunnelAnalysis(analysis_id);
-      const segment2 = funnel_analysis?.funnel_analytics_segments?.find(
+      const segment = funnel_analysis?.funnel_analytics_segments?.find(
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (item: any) => item.name === segment_name,
       );
 
-      const data = tiktok_analysis || funnel_analysis;
-      const segment = segment1 || segment2;
+      const data = funnel_analysis;
 
       return {
         context: {
-          status: ArtistToolResponse.TIKTOK_SEGMENT_REPORT,
+          status: ArtistToolResponse.FUNNEL_SEGMENT_REPORT,
           analysis: {
             ...data,
             segment_name: segment_name,
-            segment_size: segment?.count || segment?.size,
+            segment_size: segment?.size,
           },
         },
         question,

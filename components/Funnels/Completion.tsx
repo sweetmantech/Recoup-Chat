@@ -13,11 +13,7 @@ const Completion = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [result]);
 
-  const isFinishedAnalsysis =
-    result?.videos?.length ||
-    result?.comments?.length ||
-    result?.tracks?.length ||
-    result?.segments?.length;
+  const isFinishedAnalsysis = result?.segments?.length;
 
   return (
     <div>
