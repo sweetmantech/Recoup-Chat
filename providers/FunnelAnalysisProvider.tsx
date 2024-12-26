@@ -2,7 +2,6 @@
 
 import useFunnelAnalysis from "@/hooks/useFunnelAnalysis";
 import React, { createContext, useContext, useMemo } from "react";
-import { TwitterAnalysisProvider } from "./TwitterAnalysisProvider";
 import { SpotifyAnalysisProvider } from "./SpotifyAnalysisProvider";
 import { AgentSocketProvider } from "./AgentSocketProvider";
 
@@ -22,9 +21,7 @@ const FunnelAnalysisProvider = ({
   return (
     <FunnelAnalysisContext.Provider value={value}>
       <AgentSocketProvider>
-        <SpotifyAnalysisProvider>
-          <TwitterAnalysisProvider>{children}</TwitterAnalysisProvider>
-        </SpotifyAnalysisProvider>
+        <SpotifyAnalysisProvider>{children}</SpotifyAnalysisProvider>
       </AgentSocketProvider>
     </FunnelAnalysisContext.Provider>
   );
