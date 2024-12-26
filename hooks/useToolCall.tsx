@@ -69,8 +69,6 @@ const useToolCall = (message: Message) => {
           setBannerArtistName(
             context?.analysis?.funnel_analytics_profile?.[0]?.nickname,
           );
-          const nextSteps = await getReportNextSteps(context?.analysis);
-          setFunnelNextSteps(nextSteps);
           const { reportContent, rawContent } = await getFullReport(
             context?.analysis,
           );
@@ -83,6 +81,8 @@ const useToolCall = (message: Message) => {
             email || "",
             `${context?.analysis?.segment_name} Report`,
           );
+          const nextSteps = await getReportNextSteps(context?.analysis);
+          setFunnelNextSteps(nextSteps);
           setIsGettingAnalysis(false);
         }
         setBeginCall(true);
