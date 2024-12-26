@@ -1,4 +1,3 @@
-import addArtist from "@/lib/addArtist";
 import capitalize from "@/lib/capitalize";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useInitialChatProvider } from "@/providers/InitialChatProvider";
@@ -22,16 +21,11 @@ const useFunnelAnalysis = () => {
   const artistHandle = username.replaceAll("@", "");
   const { funnel_type: funnelType } = useParams();
   const { push } = useRouter();
-  const { getArtists, setSelectedArtist } = useArtistProvider();
+  const { setSelectedArtist } = useArtistProvider();
   const { chat_id: chatId } = useParams();
-  const { email } = useUserProvider();
   const { clearMessagesCache } = useInitialChatProvider();
-  const {
-    clearReportCache,
-    setFunnelAnalysis,
-    setBannerArtistName,
-    setBannerImage,
-  } = useFunnelReportProvider();
+  const { clearReportCache, setBannerArtistName, setBannerImage } =
+    useFunnelReportProvider();
   const { fetchConversations } = useConversationsProvider();
   const { address } = useUserProvider();
 
@@ -74,31 +68,6 @@ const useFunnelAnalysis = () => {
   useEffect(() => {
     getAnalysis();
   }, [getAnalysis]);
-
-  useEffect(() => {
-    const init = async () => {
-      clearReportCache();
-      clearMessagesCache();
-
-      const response = await fetch(`/api/tiktok_analysis?chatId=${chatId}`);
-      const data = await response.json();
-      if (data?.data) {
-        if (email) {
-          await addArtist(email || "", data.data.artistId);
-          await getArtists();
-        }
-        setBannerImage(data.data.avatar);
-        setBannerArtistName(data.data?.nickname);
-        setFunnelAnalysis(data.data);
-        setResult(data.data);
-        setSegments(data.data.segments);
-        setIsLoading(true);
-        setThought(STEP_OF_ANALYSIS.FINISHED);
-      }
-    };
-    if (!chatId) return;
-    init();
-  }, [chatId, email]);
 
   const handleRetry = () => {
     setResult(null);
