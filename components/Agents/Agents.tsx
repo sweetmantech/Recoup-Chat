@@ -9,10 +9,10 @@ const Agents = () => {
           Unlock the potential of your artist with intelligent, task-focused
           agents.
         </p>
-        <div className="pt-8 flex flex-col md:flex-row md:flex-wrap gap-3">
+        <div className="pt-8 flex flex-col md:flex-row md:flex-wrap gap-8">
           <button
             type="button"
-            className="w-full max-w-[1069px] h-[162px] overflow-hidden rounded-xl"
+            className="w-full w-full h-[162px] overflow-hidden rounded-xl"
           >
             <div className="relative bg-[url('/wrapped.png')] bg-cover bg-center size-full flex flex-col items-start justify-end pb-4 pl-4">
               <p className="text-white text-2xl md:text-[40px] text-left font-plus_jakarta_sans_bold">
@@ -28,27 +28,31 @@ const Agents = () => {
               </div>
             </div>
           </button>
-          <FunnelCard funnelName="tiktok" />
-          <FunnelCard funnelName="twitter" />
-          <button
-            type="button"
-            className="w-full md:w-[300px] h-[162px] overflow-hidden rounded-xl"
-          >
-            <div className="relative bg-[url('/campaign.png')] bg-cover size-full flex flex-col items-start justify-end pb-4 pl-4">
-              <p className="text-white text-2xl text-left">Campaign Creator</p>
-              <p className="text-white text-left text-[15px]">
-                Promote your music and capture <br />{" "}
-                {`fan data with Recoup's
-                Webplayer.`}
-              </p>
-              <div className="bg-white w-[62px] h-[25px] rounded-full flex items-center justify-center text-purple absolute right-4 top-4">
-                SOON
+          <div className="grid grid-cols-3 gap-8 w-full">
+            <FunnelCard funnelName="tiktok" />
+            <FunnelCard funnelName="twitter" />
+            <button
+              type="button"
+              className="w-full h-[162px] overflow-hidden rounded-xl"
+            >
+              <div className="relative bg-[url('/campaign.png')] bg-cover size-full flex flex-col items-start justify-end pb-4 pl-4">
+                <p className="text-white text-2xl text-left">
+                  Campaign Creator
+                </p>
+                <p className="text-white text-left text-[15px]">
+                  Promote your music and capture <br />{" "}
+                  {`fan data with Recoup's
+                  Webplayer.`}
+                </p>
+                <div className="bg-white w-[62px] h-[25px] rounded-full flex items-center justify-center text-purple absolute right-4 top-4">
+                  SOON
+                </div>
+                <div className="bg-[#00000000] size-full absolute left-0 top-0 backdrop-blur-[1px]" />
               </div>
-              <div className="bg-[#00000000] size-full absolute left-0 top-0 backdrop-blur-[1px]" />
-            </div>
-          </button>
-          <FunnelCard funnelName="spotify" icon="white-spotify" />
-          <FunnelCard funnelName="instagram" icon="white-instagram" />
+            </button>
+            <FunnelCard funnelName="spotify" icon="white-spotify" />
+            <FunnelCard funnelName="instagram" icon="white-instagram" />
+          </div>
         </div>
       </div>
     </div>
