@@ -13,7 +13,7 @@ const FunnelCard = ({
   return (
     <button
       type="button"
-      className="w-[335px] h-[162px] overflow-hidden rounded-xl"
+      className="w-full md:w-[300px] h-[162px] overflow-hidden rounded-xl"
       onClick={() => push(`/funnels/${funnelName}/`)}
     >
       <div
@@ -30,7 +30,7 @@ const FunnelCard = ({
           <span className="capitalize">
             {funnelName === Funnel_Type.TWITTER ? "X" : funnelName}
           </span>{" "}
-          fans to uncover trends, interests, and growth oppertunities.
+          fans to uncover trends, interests, and growth opportunities.
         </p>
         {icon && (
           <div className="absolute right-4 top-4">
