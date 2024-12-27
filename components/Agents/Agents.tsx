@@ -15,7 +15,7 @@ const Agents = () => {
             className="w-full w-full h-[162px] overflow-hidden rounded-xl"
           >
             <div className="relative bg-[url('/wrapped.png')] bg-cover bg-center size-full flex flex-col items-start justify-end pb-4 pl-4">
-              <p className="text-white text-2xl md:text-[40px] text-left font-plus_jakarta_sans_bold">
+              <p className="text-white text-2xl md:text-[40px] pb-1 md:pb-2 text-left font-plus_jakarta_sans_bold">
                 Your Fanbase Wrapped
               </p>
               <p className="text-white text-left text-[13px] md:text-[15px] pr-1 md:pr-0">
@@ -28,7 +28,7 @@ const Agents = () => {
               </div>
             </div>
           </button>
-          <div className="grid grid-cols-3 gap-8 w-full">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
             <FunnelCard funnelName="tiktok" />
             <FunnelCard funnelName="twitter" />
             <button
