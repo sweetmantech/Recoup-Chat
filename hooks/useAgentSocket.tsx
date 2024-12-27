@@ -1,4 +1,5 @@
 import socketIo from "@/lib/socket/client";
+import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import { useUserProvider } from "@/providers/UserProvder";
 import { STEP_OF_ANALYSIS } from "@/types/TikTok";
@@ -13,6 +14,7 @@ const useAgentSocket = () => {
     useFunnelAnalysisProvider();
   const { push } = useRouter();
   const { userData, address, isPrepared } = useUserProvider();
+  const { setSelectedArtist } = useArtistProvider();
 
   useEffect(() => {
     socketIo.on("connect", () => {
@@ -26,6 +28,8 @@ const useAgentSocket = () => {
     socketIo.on(chatId as string, async (dataGot) => {
       if (typeof dataGot?.status === "number") {
         setIsLoading(true);
+        if (dataGot.status === STEP_OF_ANALYSIS.CREATED_ARTIST)
+          setSelectedArtist(dataGot.extra_data);
         if (dataGot.status === STEP_OF_ANALYSIS.FINISHED) await getAnalysis();
         setThought(dataGot?.status);
         setProgress(dataGot?.progress || 0);
