@@ -13,7 +13,6 @@ import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
 import getFullReport from "@/lib/getFullReport";
-import sendReportEmail from "@/lib/sendReportEmail";
 import { useUserProvider } from "@/providers/UserProvder";
 
 const useToolCall = (message: Message) => {
@@ -25,7 +24,7 @@ const useToolCall = (message: Message) => {
     question,
     toolName,
   );
-  const { setSelectedArtist, artists, selectedArtist } = useArtistProvider();
+  const { setSelectedArtist, artists } = useArtistProvider();
   const { setBannerArtistName, setBannerImage } = useFunnelReportProvider();
   const {
     setFunnelNextSteps,
@@ -69,18 +68,12 @@ const useToolCall = (message: Message) => {
           setBannerArtistName(
             context?.analysis?.funnel_analytics_profile?.[0]?.nickname,
           );
-          const { reportContent, rawContent } = await getFullReport(
-            context?.analysis,
-          );
+          const { reportContent, rawContent } = await getFullReport({
+            ...context?.analysis,
+            email,
+          });
           setFunnelReportContent(reportContent);
           setFunnelRawReportContent(rawContent);
-          sendReportEmail(
-            rawContent,
-            selectedArtist?.image || "",
-            selectedArtist?.name || "",
-            email || "",
-            `${context?.analysis?.segment_name} Report`,
-          );
           const nextSteps = await getReportNextSteps(context?.analysis);
           setFunnelNextSteps(nextSteps);
           setIsGettingAnalysis(false);
