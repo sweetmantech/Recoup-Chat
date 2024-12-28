@@ -10,6 +10,7 @@ import { Tools } from "@/types/Tool";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { v4 as uuidV4 } from "uuid";
+import getArtist from "@/lib/getArtist";
 
 const useTikTokToolMessagesTrack = () => {
   const { question, toolName, loading, messages, message } =
@@ -69,11 +70,9 @@ const useTikTokToolMessagesTrack = () => {
     const init = async () => {
       setTikTokTracking(true);
       const response = await getTikTokReport(message.metadata.referenceId);
-      const bannerArtist = artists.find(
-        (artist) => artist.id === message.metadata?.artistId,
-      );
-      setBannerImage(bannerArtist?.image || "");
-      setBannerArtistName(bannerArtist?.name || "");
+      const artist = await getArtist(message.metadata?.artistId);
+      setBannerImage(artist?.image || "");
+      setBannerArtistName(artist?.name || "");
       setFunnelSummary(response.summary);
       setFunnelRawReportContent(response.report);
       setFunnelReportContent(getPdfReport(response.report));
