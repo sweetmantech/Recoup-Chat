@@ -15,6 +15,7 @@ export enum STEP_OF_ANALYSIS {
   SEGMENTS,
   CREATING_ARTIST,
   SAVING_ANALYSIS,
+  CREATED_ARTIST,
 }
 
 export type Comment = {
