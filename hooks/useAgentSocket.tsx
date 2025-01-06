@@ -1,3 +1,4 @@
+import getHandles from "@/lib/getHandles";
 import socketIo from "@/lib/socket/client";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
@@ -10,7 +11,7 @@ import { v4 as uuidV4 } from "uuid";
 const useAgentSocket = () => {
   const [socketId, setSocketId] = useState<any>(undefined);
   const { chat_id: chatId } = useParams();
-  const { artistHandle, setThought, setIsLoading, getAnalysis, setProgress } =
+  const { artistHandle, setIsLoading, getAnalysis, setThoughts, thoughts } =
     useFunnelAnalysisProvider();
   const { push } = useRouter();
   const { userData, address, isPrepared } = useUserProvider();
@@ -23,7 +24,7 @@ const useAgentSocket = () => {
   }, []);
 
   useEffect(() => {
-    if (!chatId) return;
+    if (!chatId || !thoughts) return;
     socketIo.removeAllListeners();
     socketIo.on(chatId as string, async (dataGot) => {
       if (typeof dataGot?.status === "number") {
@@ -31,21 +32,48 @@ const useAgentSocket = () => {
         if (dataGot.status === STEP_OF_ANALYSIS.CREATED_ARTIST)
           setSelectedArtist(dataGot.extra_data);
         if (dataGot.status === STEP_OF_ANALYSIS.FINISHED) await getAnalysis();
-        setThought(dataGot?.status);
-        setProgress(dataGot?.progress || 0);
+        const tempThoughts: any = { ...thoughts };
+        tempThoughts[`${dataGot.funnel_type}`].status = dataGot?.status;
+        tempThoughts[`${dataGot.funnel_type}`].progress = dataGot?.progress;
+        setThoughts(tempThoughts);
       }
     });
-  }, [chatId]);
+  }, [chatId, thoughts]);
 
-  const openAgentSocket = (funnelType: string) => {
+  const openAgentSocket = async (funnelType: string) => {
     if (!isPrepared()) return;
     const newChatId = uuidV4();
-    socketIo.emit(`${funnelType.toUpperCase()}_ANALYSIS`, socketId, {
-      handle: artistHandle,
-      chat_id: newChatId,
-      account_id: userData?.id,
-      address,
-    });
+    if (funnelType === "wrapped") {
+      const handles = await getHandles(artistHandle);
+      setThoughts({
+        twitter: { status: STEP_OF_ANALYSIS.INITITAL },
+        spotify: { status: STEP_OF_ANALYSIS.INITITAL },
+        tiktok: { status: STEP_OF_ANALYSIS.INITITAL },
+        instagram: { status: STEP_OF_ANALYSIS.INITITAL },
+      });
+      const funnels = ["twitter", "spotify", "tiktok", "instagram"];
+      funnels.map((funnel) => {
+        socketIo.emit(`${funnel.toUpperCase()}_ANALYSIS`, socketId, {
+          handle: handles[`${funnel}`].replaceAll("@", ""),
+          chat_id: newChatId,
+          account_id: userData?.id,
+          address,
+          isWrapped: true,
+        });
+      });
+    } else {
+      setThoughts({
+        [`${funnelType}`]: {
+          status: STEP_OF_ANALYSIS.INITITAL,
+        },
+      });
+      socketIo.emit(`${funnelType.toUpperCase()}_ANALYSIS`, socketId, {
+        handle: artistHandle,
+        chat_id: newChatId,
+        account_id: userData?.id,
+        address,
+      });
+    }
     push(`/funnels/${funnelType}/${newChatId}`);
   };
 

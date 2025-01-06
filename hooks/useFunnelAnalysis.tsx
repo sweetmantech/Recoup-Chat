@@ -14,9 +14,8 @@ import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 const useFunnelAnalysis = () => {
   const [username, setUsername] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [thought, setThought] = useState(STEP_OF_ANALYSIS.INITITAL);
+  const [thoughts, setThoughts] = useState<any>(null);
   const [result, setResult] = useState<any>(null);
-  const [progress, setProgress] = useState(0);
   const [segments, setSegments] = useState<Array<any>>([]);
   const artistHandle = username.replaceAll("@", "");
   const { funnel_type: funnelType } = useParams();
@@ -29,6 +28,24 @@ const useFunnelAnalysis = () => {
   const { fetchConversations } = useConversationsProvider();
   const { address } = useUserProvider();
 
+  const isFinished =
+    thoughts &&
+    Object.values(thoughts).every(
+      (value: any) =>
+        value.status === STEP_OF_ANALYSIS.FINISHED ||
+        value.status === STEP_OF_ANALYSIS.ERROR,
+    );
+  const scrapping =
+    thoughts &&
+    Object.values(thoughts).some(
+      (value: any) => value.status > STEP_OF_ANALYSIS.UNKNOWN_PROFILE,
+    );
+  const isInitial =
+    thoughts &&
+    Object.values(thoughts).every(
+      (value: any) => value.status === STEP_OF_ANALYSIS.INITITAL,
+    );
+
   const funnelName = useMemo(() => {
     if (!funnelType) return "";
     if (funnelType === Funnel_Type.TIKTOK) return "TikTok";
@@ -39,30 +56,43 @@ const useFunnelAnalysis = () => {
     if (!chatId) return;
     clearReportCache();
     clearMessagesCache();
-    const funnel_analysis: any = await getFunnelAnalysis(chatId as string);
-    if (funnel_analysis) {
+    const funnel_analysises: any = await getFunnelAnalysis(chatId as string);
+    if (!funnel_analysises) return;
+    const analytics_segments: any = [];
+    const tempThoughts: any = {};
+    let tempHandles = "";
+    let tempProfile: any = {};
+    funnel_analysises.map((funnel_analysis: any) => {
       if (funnel_analysis.status === STEP_OF_ANALYSIS.FINISHED) {
         setBannerImage(funnel_analysis.funnel_analytics_profile?.[0]?.avatar);
         setBannerArtistName(
           funnel_analysis.funnel_analytics_profile?.[0]?.nickname,
         );
-        setSegments(funnel_analysis.funnel_analytics_segments);
-        setResult({
-          segments: funnel_analysis.funnel_analytics_segments,
-          ...funnel_analysis.funnel_analytics_profile?.[0],
-          id: funnel_analysis.id,
-          handle: funnel_analysis.handle,
-        });
+        analytics_segments.push(funnel_analysis.funnel_analytics_segments);
         setSelectedArtist(
           funnel_analysis.funnel_analytics_profile?.[0]?.artists,
         );
-        fetchConversations(address);
       }
       setUsername(funnel_analysis.handle || "");
-      setThought(funnel_analysis.status);
-      setIsLoading(true);
-      return;
-    }
+      tempThoughts[`${funnel_analysis.type.toLowerCase()}`] = {
+        status: funnel_analysis.status,
+      };
+      setThoughts(tempThoughts);
+      tempProfile = {
+        ...tempProfile,
+        ...funnel_analysis.funnel_analytics_profile?.[0],
+      };
+      tempHandles = funnel_analysis.handle;
+    });
+
+    setSegments(analytics_segments.flat());
+    setResult({
+      segments: analytics_segments.flat(),
+      ...tempProfile,
+      handle: tempHandles,
+    });
+    setIsLoading(true);
+    fetchConversations(address);
   }, [chatId]);
 
   useEffect(() => {
@@ -72,8 +102,7 @@ const useFunnelAnalysis = () => {
   const handleRetry = () => {
     setResult(null);
     setSegments([]);
-    setThought(STEP_OF_ANALYSIS.POSTURLS);
-    setProgress(0);
+    setThoughts(null);
     setUsername("");
     setIsLoading(false);
     push(`/funnels/${funnelType}/${uuidV4()}`);
@@ -81,7 +110,7 @@ const useFunnelAnalysis = () => {
 
   const initialize = () => {
     setIsLoading(false);
-    setThought(STEP_OF_ANALYSIS.INITITAL);
+    setThoughts(null);
     push(`/funnels/${funnelType}/${uuidV4()}`);
   };
 
@@ -90,13 +119,9 @@ const useFunnelAnalysis = () => {
     setUsername,
     isLoading,
     setIsLoading,
-    thought,
     result,
     setResult,
-    progress,
-    setProgress,
     segments,
-    setThought,
     setSegments,
     artistHandle,
     funnelType,
@@ -104,6 +129,11 @@ const useFunnelAnalysis = () => {
     initialize,
     funnelName,
     getAnalysis,
+    thoughts,
+    setThoughts,
+    isFinished,
+    scrapping,
+    isInitial,
   };
 };
 
