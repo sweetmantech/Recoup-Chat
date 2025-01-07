@@ -69,6 +69,8 @@ const useToolCall = (message: Message) => {
           setBannerArtistName(bannerArtist?.nickname);
           const { reportContent, rawContent } = await getFullReport({
             ...context?.analysis,
+            artistImage: bannerArtist?.avatar,
+            artistName: bannerArtist?.nickname,
             email,
           });
           setFunnelReportContent(reportContent);
