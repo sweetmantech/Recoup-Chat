@@ -26,7 +26,7 @@ const Segments = () => {
       {
         id: uuidV4(),
         role: "user",
-        content: `Please create a ${funnelType} fan segment report for ${result.id} using this segment ${segmentName}.`,
+        content: `Please create a ${funnelType} fan segment report for ${result.chatId} using this segment ${segmentName}.`,
       },
       true,
     );
