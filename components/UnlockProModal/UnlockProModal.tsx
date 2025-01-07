@@ -16,7 +16,7 @@ const UnlockProModal = ({
 }) => {
   const isMobile = useIsMobile();
   const { isPrepared } = useUserProvider();
-  const { createCheckoutSession } = usePaymentProvider();
+  const { createCheckoutSession, wrappedActive } = usePaymentProvider();
 
   const pay = async (productName: string, isSubscription: boolean) => {
     if (!isPrepared()) return;
@@ -84,9 +84,15 @@ const UnlockProModal = ({
               <button
                 className="font-inter_medium italic text-xs text-left"
                 type="button"
-                onClick={() => pay("1 Credit", false)}
+                onClick={() =>
+                  pay(
+                    `${wrappedActive ? 5 : 1} Credit${wrappedActive ? "s" : ""}`,
+                    false,
+                  )
+                }
               >
-                Or unlock individual fan segment reports for $2
+                Or unlock individual fan segment reports for $$
+                {wrappedActive ? "10" : "2"}
               </button>
             </div>
           </div>

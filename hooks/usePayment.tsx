@@ -13,8 +13,12 @@ const usePayment = () => {
   const [successCallbackParams, setSuccessCallbackParams] = useState("");
   const [credits, setCredits] = useState(0);
   const [subscriptionActive, setSubscriptionActive] = useState(false);
+  const [wrappedActive, setWrappedActive] = useState(false);
 
-  const toggleModal = () => setIsModalOpen(!isModalOpen);
+  const toggleModal = (wrapped: boolean = false) => {
+    setWrappedActive(!isModalOpen && wrapped);
+    setIsModalOpen(!isModalOpen);
+  };
 
   const createCheckoutSession = async (
     productName: string,
@@ -26,6 +30,7 @@ const usePayment = () => {
       productName,
       referenceId,
       isSubscription,
+      wrappedActive ? 495 : 99,
       {
         accountId: userData?.id,
       },
@@ -67,6 +72,7 @@ const usePayment = () => {
     credits,
     creditUsed,
     subscriptionActive,
+    wrappedActive,
   };
 };
 

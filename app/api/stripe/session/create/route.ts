@@ -8,10 +8,11 @@ export async function POST(req: NextRequest) {
   const metadata = body.metadata;
   const isSubscription = body.isSubscription;
   const productName = body.productName;
+  const totalPrice = body.totalPrice;
 
   const priceData = {
     currency: "usd",
-    unit_amount: isSubscription ? 2000 : 99,
+    unit_amount: isSubscription ? 2000 : totalPrice,
     product_data: {
       name: productName,
     },

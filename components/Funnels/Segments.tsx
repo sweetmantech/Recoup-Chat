@@ -42,7 +42,7 @@ const Segments = () => {
       return;
     }
     setSuccessCallbackParams(new URLSearchParams({ segmentName }).toString());
-    toggleModal();
+    toggleModal(minimumCredits === 5);
   };
 
   return (
