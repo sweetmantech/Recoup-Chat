@@ -2,12 +2,12 @@ import getThoughtStatus from "@/lib/getThoughtStatus";
 import { STEP_OF_ANALYSIS } from "@/types/TikTok";
 import StreamingThought from "./StreamThought";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
-import { useRouter } from "next/navigation";
+import { useArtistProvider } from "@/providers/ArtistProvider";
 
 const ThoughtSteps = () => {
   const { artistHandle, funnelName, thoughts, funnelType, isFinished } =
     useFunnelAnalysisProvider();
-  const { push } = useRouter();
+  const { toggleSettingModal } = useArtistProvider();
 
   return (
     <div
@@ -54,7 +54,7 @@ const ThoughtSteps = () => {
             )}
             {thought.status === STEP_OF_ANALYSIS.ERROR && !isFinished && (
               <span
-                onClick={() => push(`/funnel/${key.toLowerCase()}`)}
+                onClick={toggleSettingModal}
                 className="underline cursor-pointer"
               >
                 Click here to retry.
