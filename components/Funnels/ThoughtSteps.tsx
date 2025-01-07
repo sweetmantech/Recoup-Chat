@@ -60,6 +60,11 @@ const ThoughtSteps = () => {
                 Click here to retry.
               </span>
             )}
+            {thought.status === STEP_OF_ANALYSIS.FINISHED && !isFinished && (
+              <StreamingThought
+                text={`${key} analysis complete ✅`}
+              ></StreamingThought>
+            )}
           </div>
         ))}
     </div>

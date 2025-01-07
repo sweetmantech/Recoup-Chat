@@ -44,13 +44,14 @@ const useAgentSocket = () => {
     if (!isPrepared()) return;
     const newChatId = uuidV4();
     if (funnelType === "wrapped") {
-      const handles = await getHandles(artistHandle);
       setThoughts({
         twitter: { status: STEP_OF_ANALYSIS.INITITAL },
         spotify: { status: STEP_OF_ANALYSIS.INITITAL },
         tiktok: { status: STEP_OF_ANALYSIS.INITITAL },
         instagram: { status: STEP_OF_ANALYSIS.INITITAL },
       });
+      setIsLoading(true);
+      const handles = await getHandles(artistHandle);
       const funnels = ["twitter", "spotify", "tiktok", "instagram"];
       funnels.map((funnel) => {
         socketIo.emit(`${funnel.toUpperCase()}_ANALYSIS`, socketId, {

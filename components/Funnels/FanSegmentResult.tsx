@@ -19,8 +19,7 @@ const FanSegmentResult = () => {
         <ScrapingCaption />
       </div>
       <div className="pl-11 pt-2">
-        <ThoughtSteps />
-        {isInitial && <AnalysisPlan />}
+        {isInitial ? <AnalysisPlan /> : <ThoughtSteps />}
       </div>
     </>
   );
