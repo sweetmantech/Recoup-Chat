@@ -3,7 +3,7 @@ import { getSession } from "@/lib/stripe/getSession";
 import { useChatProvider } from "@/providers/ChatProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import { useUserProvider } from "@/providers/UserProvder";
-import { useSearchParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { v4 as uuidV4 } from "uuid";
 
@@ -13,8 +13,9 @@ const useCredits = () => {
   const segmentName = searchParams.get("segmentName");
   const initialized = useRef(false);
   const { append } = useChatProvider();
-  const { result, funnelType } = useFunnelAnalysisProvider();
+  const { funnelType } = useFunnelAnalysisProvider();
   const { email } = useUserProvider();
+  const { chat_id: chatId } = useParams();
 
   useEffect(() => {
     const init = async () => {
@@ -29,17 +30,17 @@ const useCredits = () => {
             {
               id: uuidV4(),
               role: "user",
-              content: `Please create a ${funnelType} fan segment report for ${result.id} using this segment ${segmentName}.`,
+              content: `Please create a ${funnelType} fan segment report for ${chatId} using this segment ${segmentName}.`,
             },
             true,
           );
         }
       }
     };
-    if (!referenceId || !result?.id || !segmentName || !email) return;
+    if (!referenceId || !chatId || !segmentName || !email) return;
 
     init();
-  }, [referenceId, result, segmentName, email]);
+  }, [referenceId, chatId, segmentName, email]);
 };
 
 export default useCredits;
