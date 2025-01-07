@@ -27,8 +27,11 @@ For Example:
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const segments: any = [];
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const profiles: any = [];
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       funnel_analysises.map((funnel_analysis: any) => {
         segments.push(funnel_analysis.funnel_analytics_segments);
+        profiles.push(funnel_analysis.funnel_analytics_profile?.[0]);
       });
       const segmentsFlatten = segments.flat();
       const segment = segmentsFlatten?.find(
@@ -39,6 +42,7 @@ For Example:
       return {
         context: {
           status: ArtistToolResponse.FUNNEL_SEGMENT_REPORT,
+          profiles,
           analysis: {
             ...funnel_analysises,
             segment_name: segment_name,
