@@ -26,7 +26,7 @@ const UnlockProCard = () => {
         <button
           type="button"
           className="font-inter_bold text-xs bg-black text-white rounded-md px-2 py-1 flex justify-center gap-2 items-center mt-2"
-          onClick={toggleModal}
+          onClick={() => toggleModal(false)}
         >
           Unlock PRO Now
           <ArrowRight className="size-3" />

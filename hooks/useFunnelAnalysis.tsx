@@ -29,7 +29,6 @@ const useFunnelAnalysis = () => {
     const tempThoughts: any = {};
     let tempHandles = "";
     let tempProfile: any = {};
-    let id = null;
     funnel_analyses.map((funnel_analysis: any) => {
       if (funnel_analysis.status === STEP_OF_ANALYSIS.FINISHED) {
         setBannerImage(funnel_analysis.funnel_analytics_profile?.[0]?.avatar);
@@ -40,7 +39,6 @@ const useFunnelAnalysis = () => {
         setSelectedArtist(
           funnel_analysis.funnel_analytics_profile?.[0]?.artists,
         );
-        id = funnel_analysis.id;
       }
       params.setUsername(funnel_analysis.handle || "");
       tempThoughts[`${funnel_analysis.type.toLowerCase()}`] = {
@@ -59,7 +57,6 @@ const useFunnelAnalysis = () => {
       segments: analytics_segments.flat(),
       ...tempProfile,
       handle: tempHandles,
-      id,
     });
     params.setIsLoading(true);
     fetchConversations(address);

@@ -3,6 +3,7 @@ export const createSession = async (
   productName: string,
   referenceId: string,
   isSubscription: boolean,
+  totalPrice: number,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   metadata: any,
 ) => {
@@ -18,6 +19,7 @@ export const createSession = async (
         referenceId,
         isSubscription,
         metadata,
+        totalPrice,
       }),
     });
 

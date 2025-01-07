@@ -3,6 +3,7 @@ import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   const accountId = req.nextUrl.searchParams.get("accountId");
+  const credits = req.nextUrl.searchParams.get("credits");
 
   try {
     const client = getSupabaseServerAdminClient();
@@ -16,7 +17,8 @@ export async function GET(req: NextRequest) {
         .from("credits_usage")
         .update({
           ...found[0],
-          remaining_credits: found[0].remaining_credits - 1,
+          remaining_credits:
+            found[0].remaining_credits - parseInt(credits as string, 10),
         })
         .eq("account_id", accountId);
       return Response.json({ success: true }, { status: 200 });

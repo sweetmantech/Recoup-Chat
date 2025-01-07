@@ -6,10 +6,12 @@ import { useChatProvider } from "@/providers/ChatProvider";
 import useCredits from "@/hooks/useCredits";
 import { usePaymentProvider } from "@/providers/PaymentProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
+import { useParams } from "next/navigation";
 
 const Segments = () => {
   const { append } = useChatProvider();
-  const { segments, result, funnelType } = useFunnelAnalysisProvider();
+  const { segments, funnelType } = useFunnelAnalysisProvider();
+  const { chat_id: chatId } = useParams();
   const { isPrepared } = useUserProvider();
   useCredits();
   const {
@@ -26,7 +28,7 @@ const Segments = () => {
       {
         id: uuidV4(),
         role: "user",
-        content: `Please create a ${funnelType} fan segment report for ${result.id} using this segment ${segmentName}.`,
+        content: `Please create a ${funnelType} fan segment report for ${chatId} using this segment ${segmentName}.`,
       },
       true,
     );
@@ -35,13 +37,14 @@ const Segments = () => {
   const payNow = async (segmentName: string) => {
     if (!isPrepared()) return;
     if (isLoadingCredits) return;
-    if (credits > 0 || subscriptionActive) {
-      await creditUsed();
+    const minimumCredits = funnelType === "wrapped" ? 5 : 1;
+    if (credits >= minimumCredits || subscriptionActive) {
+      if (!subscriptionActive) await creditUsed(minimumCredits);
       handleGenerateReport(segmentName);
       return;
     }
     setSuccessCallbackParams(new URLSearchParams({ segmentName }).toString());
-    toggleModal();
+    toggleModal(minimumCredits === 5);
   };
 
   return (
