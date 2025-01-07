@@ -24,7 +24,7 @@ const Modal = ({ children, onClose, className, containerClasses }: IModal) => (
       <button
         type="button"
         onClick={onClose}
-        className="absolute right-3 md:right-2 top-2"
+        className="absolute right-3 md:right-2 top-2 block md:hidden"
       >
         <X className="size-5 md:size-6" />
       </button>
