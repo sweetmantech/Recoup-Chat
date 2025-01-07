@@ -28,7 +28,7 @@ const useFunnelAnalysisParams = () => {
         value.status === STEP_OF_ANALYSIS.FINISHED ||
         value.status === STEP_OF_ANALYSIS.ERROR,
     );
-  const scrapping =
+  const scraping =
     thoughts &&
     Object.values(thoughts).some(
       (value: any) => value.status > STEP_OF_ANALYSIS.UNKNOWN_PROFILE,
@@ -61,7 +61,7 @@ const useFunnelAnalysisParams = () => {
     segments,
     setSegments,
     isFinished,
-    scrapping,
+    scraping,
     isInitial,
     result,
     setResult,
