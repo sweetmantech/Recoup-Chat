@@ -34,10 +34,10 @@ const usePayment = () => {
     window.open(sessionResponse.url, "_self");
   };
 
-  const creditUsed = async () => {
-    if (credits <= 0 || subscriptionActive) return;
-    await decreaseCredits(userData?.id);
-    setCredits(credits - 1);
+  const creditUsed = async (minimumCredits: number) => {
+    if (credits < minimumCredits || subscriptionActive) return;
+    await decreaseCredits(userData?.id, minimumCredits);
+    setCredits(credits - minimumCredits);
   };
 
   const checkCredits = useCallback(async () => {

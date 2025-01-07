@@ -1,7 +1,7 @@
-const decreaseCredits = async (accountId: string) => {
+const decreaseCredits = async (accountId: string, credits: number) => {
   try {
     const response = await fetch(
-      `/api/credits/decrease?accountId=${accountId}`,
+      `/api/credits/decrease?accountId=${accountId}&credits=${credits}`,
     );
     const data = await response.json();
     return data.data;

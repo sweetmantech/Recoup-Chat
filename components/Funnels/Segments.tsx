@@ -35,8 +35,9 @@ const Segments = () => {
   const payNow = async (segmentName: string) => {
     if (!isPrepared()) return;
     if (isLoadingCredits) return;
-    if (credits > 0 || subscriptionActive) {
-      await creditUsed();
+    const minimumCredits = funnelType === "wrapped" ? 5 : 1;
+    if (credits >= minimumCredits || subscriptionActive) {
+      if (!subscriptionActive) await creditUsed(minimumCredits);
       handleGenerateReport(segmentName);
       return;
     }
