@@ -23,8 +23,7 @@ export async function GET(req: NextRequest) {
           )
         )`,
       )
-      .eq("chat_id", chatId)
-      .single();
+      .eq("chat_id", chatId);
 
     return Response.json({ data }, { status: 200 });
   } catch (error) {
