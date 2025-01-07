@@ -91,7 +91,7 @@ const UnlockProModal = ({
                   )
                 }
               >
-                Or unlock individual fan segment reports for $$
+                Or unlock individual fan segment reports for $
                 {wrappedActive ? "10" : "2"}
               </button>
             </div>
