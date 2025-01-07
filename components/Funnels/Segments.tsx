@@ -6,10 +6,12 @@ import { useChatProvider } from "@/providers/ChatProvider";
 import useCredits from "@/hooks/useCredits";
 import { usePaymentProvider } from "@/providers/PaymentProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
+import { useParams } from "next/navigation";
 
 const Segments = () => {
   const { append } = useChatProvider();
-  const { segments, result, funnelType } = useFunnelAnalysisProvider();
+  const { segments, funnelType } = useFunnelAnalysisProvider();
+  const { chat_id: chatId } = useParams();
   const { isPrepared } = useUserProvider();
   useCredits();
   const {
@@ -26,7 +28,7 @@ const Segments = () => {
       {
         id: uuidV4(),
         role: "user",
-        content: `Please create a ${funnelType} fan segment report for ${result.chatId} using this segment ${segmentName}.`,
+        content: `Please create a ${funnelType} fan segment report for ${chatId} using this segment ${segmentName}.`,
       },
       true,
     );

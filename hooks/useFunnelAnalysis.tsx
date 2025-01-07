@@ -57,7 +57,6 @@ const useFunnelAnalysis = () => {
       segments: analytics_segments.flat(),
       ...tempProfile,
       handle: tempHandles,
-      chatId,
     });
     params.setIsLoading(true);
     fetchConversations(address);
