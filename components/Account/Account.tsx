@@ -21,6 +21,7 @@ const Account = () => {
     organization,
     setOrganization,
     save,
+    signOut,
   } = useUserProvider();
 
   const handleSave = async () => {};
@@ -83,9 +84,10 @@ const Account = () => {
       </button>
       <button
         className="col-span-12 border-grey border-[1px] rounded-md py-1 mb-4"
-        onClick={toggleModal}
+        onClick={signOut}
+        type="button"
       >
-        Close
+        Log Out
       </button>
     </Form>
   );

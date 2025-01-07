@@ -6,7 +6,7 @@ import { uploadFile } from "@/lib/ipfs/uploadToIpfs";
 import getIpfsLink from "@/lib/ipfs/getIpfsLink";
 
 const useUser = () => {
-  const { login, user } = usePrivy();
+  const { login, user, logout } = usePrivy();
   const address = user?.wallet?.address as Address;
   const email = user?.email?.address;
   const [userData, setUserData] = useState<any>(null);
@@ -63,6 +63,16 @@ const useUser = () => {
     return true;
   };
 
+  const signOut = () => {
+    setIsModalOpen(false);
+    setUserData(null);
+    setName("");
+    setInstruction("");
+    setImage("");
+    setOrganization("");
+    logout();
+  };
+
   useEffect(() => {
     const init = async () => {
       const config = {
@@ -114,6 +124,7 @@ const useUser = () => {
     save,
     organization,
     setOrganization,
+    signOut,
   };
 };
 
