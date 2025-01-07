@@ -23,13 +23,13 @@ const useFunnelAnalysis = () => {
     if (!chatId) return;
     clearReportCache();
     clearMessagesCache();
-    const funnel_analysises: any = await getFunnelAnalysis(chatId as string);
-    if (!funnel_analysises) return;
+    const funnel_analyses: any = await getFunnelAnalysis(chatId as string);
+    if (!funnel_analyses) return;
     const analytics_segments: any = [];
     const tempThoughts: any = {};
     let tempHandles = "";
     let tempProfile: any = {};
-    funnel_analysises.map((funnel_analysis: any) => {
+    funnel_analyses.map((funnel_analysis: any) => {
       if (funnel_analysis.status === STEP_OF_ANALYSIS.FINISHED) {
         setBannerImage(funnel_analysis.funnel_analytics_profile?.[0]?.avatar);
         setBannerArtistName(

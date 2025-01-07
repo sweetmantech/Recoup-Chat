@@ -63,7 +63,7 @@ const useToolCall = (message: Message) => {
           setIsGettingAnalysis(true);
           setFunnelAnalysis(context?.analysis);
           const bannerArtist = context?.profiles?.find(
-            (profile: any) => profile.nickname && profile.avatar,
+            (profile: any) => profile?.nickname && profile?.avatar,
           );
           setBannerImage(bannerArtist?.avatar);
           setBannerArtistName(bannerArtist?.nickname);
