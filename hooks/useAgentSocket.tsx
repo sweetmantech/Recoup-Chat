@@ -34,6 +34,7 @@ const useAgentSocket = () => {
         if (dataGot.status === STEP_OF_ANALYSIS.CREATED_ARTIST)
           setSelectedArtist({
             ...dataGot.extra_data,
+            ...selectedArtist,
             artist_social_links: getAggregatedSocials([
               ...dataGot?.extra_data?.artist_social_links,
               ...(selectedArtist?.artist_social_links || []),
