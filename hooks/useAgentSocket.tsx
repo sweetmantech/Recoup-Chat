@@ -51,6 +51,7 @@ const useAgentSocket = () => {
         instagram: { status: STEP_OF_ANALYSIS.INITITAL },
       });
       setIsLoading(true);
+      push(`/funnels/${funnelType}/${newChatId}`);
       const handles = await getHandles(artistHandle);
       const funnels = ["twitter", "spotify", "tiktok", "instagram"];
       funnels.map((funnel) => {
@@ -74,8 +75,8 @@ const useAgentSocket = () => {
         account_id: userData?.id,
         address,
       });
+      push(`/funnels/${funnelType}/${newChatId}`);
     }
-    push(`/funnels/${funnelType}/${newChatId}`);
   };
 
   return {

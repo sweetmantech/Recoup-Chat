@@ -37,13 +37,12 @@ const useFunnelAnalysis = () => {
       if (funnel_analysis.status === STEP_OF_ANALYSIS.FINISHED) {
         analytics_segments.push(funnel_analysis.funnel_analytics_segments);
       }
-      params.setUsername(funnel_analysis.handle || "");
       tempThoughts[`${funnel_analysis.type.toLowerCase()}`] = {
         status: funnel_analysis.status,
       };
       params.setThoughts(tempThoughts);
     });
-
+    params.setUsername(artist.handle || "");
     params.setSegments(analytics_segments.flat());
     params.setResult({
       segments: analytics_segments.flat(),
