@@ -1,3 +1,4 @@
+import getExistedHandles from "@/lib/getExistedHandles";
 import getHandles from "@/lib/getHandles";
 import socketIo from "@/lib/socket/client";
 import { useArtistProvider } from "@/providers/ArtistProvider";
@@ -15,7 +16,7 @@ const useAgentSocket = () => {
     useFunnelAnalysisProvider();
   const { push } = useRouter();
   const { userData, address, isPrepared } = useUserProvider();
-  const { setSelectedArtist } = useArtistProvider();
+  const { setSelectedArtist, selectedArtist } = useArtistProvider();
 
   useEffect(() => {
     socketIo.on("connect", () => {
@@ -50,13 +51,16 @@ const useAgentSocket = () => {
         tiktok: { status: STEP_OF_ANALYSIS.INITITAL },
         instagram: { status: STEP_OF_ANALYSIS.INITITAL },
       });
+      const existed_handles = getExistedHandles(selectedArtist);
       setIsLoading(true);
-      push(`/funnels/${funnelType}/${newChatId}`);
       const handles = await getHandles(artistHandle);
       const funnels = ["twitter", "spotify", "tiktok", "instagram"];
       funnels.map((funnel) => {
         socketIo.emit(`${funnel.toUpperCase()}_ANALYSIS`, socketId, {
-          handle: handles[`${funnel}`].replaceAll("@", ""),
+          handle:
+            existed_handles[`${funnel}`] ||
+            handles[`${funnel}`].replaceAll("@", "") ||
+            artistHandle,
           chat_id: newChatId,
           account_id: userData?.id,
           address,
@@ -75,8 +79,8 @@ const useAgentSocket = () => {
         account_id: userData?.id,
         address,
       });
-      push(`/funnels/${funnelType}/${newChatId}`);
     }
+    push(`/funnels/${funnelType}/${newChatId}`);
   };
 
   return {
