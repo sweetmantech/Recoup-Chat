@@ -42,16 +42,3 @@ body {
 .no_typecursor .Typewriter__cursor {
   display: none;
 }
-
-.segment-report {
-  font-size: 14px !important;
-}
-
-.segment-report div {
-  padding: 2px !important;
-}
-
-.segment-report ul {
-  list-style: inside !important;
-  padding-left: 12px !important;
-}

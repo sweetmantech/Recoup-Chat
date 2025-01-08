@@ -6,7 +6,7 @@ const ThoughtSteps = () => {
 
   return (
     <div
-      className={`font-bold ${funnelType === "wrapped" || !funnelType ? "text-sm" : "text-md"}`}
+      className={`font-bold ${funnelType === "wrapped" ? "text-sm" : "text-md"}`}
     >
       {thoughts &&
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
