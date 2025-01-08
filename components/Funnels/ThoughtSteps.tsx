@@ -3,11 +3,12 @@ import { STEP_OF_ANALYSIS } from "@/types/TikTok";
 import StreamingThought from "./StreamThought";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import { useArtistProvider } from "@/providers/ArtistProvider";
+import { SOCIAL_LINK } from "@/types/Agent";
 
 const ThoughtSteps = () => {
   const { artistHandle, funnelName, thoughts, funnelType, isFinished } =
     useFunnelAnalysisProvider();
-  const { toggleSettingModal } = useArtistProvider();
+  const { toggleSettingModal, selectedArtist } = useArtistProvider();
 
   return (
     <div
@@ -52,19 +53,30 @@ const ThoughtSteps = () => {
             {thought.status === STEP_OF_ANALYSIS.CREATING_ARTIST && (
               <StreamingThought text={`Setting up artist mode.`} />
             )}
-            {thought.status === STEP_OF_ANALYSIS.ERROR && !isFinished && (
-              <span
-                onClick={toggleSettingModal}
-                className="underline cursor-pointer"
-              >
-                Click here to retry.
-              </span>
-            )}
-            {thought.status === STEP_OF_ANALYSIS.FINISHED && !isFinished && (
-              <StreamingThought
-                text={`${key} analysis complete ✅`}
-              ></StreamingThought>
-            )}
+            {thought.status === STEP_OF_ANALYSIS.ERROR &&
+              !isFinished &&
+              !selectedArtist?.artist_social_links?.find(
+                (social: SOCIAL_LINK) =>
+                  social.type === key.toUpperCase() && social.link,
+              ) && (
+                <span
+                  onClick={toggleSettingModal}
+                  className="underline cursor-pointer"
+                >
+                  Click here to retry.
+                </span>
+              )}
+            {(thought.status === STEP_OF_ANALYSIS.FINISHED ||
+              (selectedArtist?.artist_social_links?.find(
+                (social: SOCIAL_LINK) =>
+                  social.type === key.toUpperCase() && social.link,
+              ) &&
+                thought.status === STEP_OF_ANALYSIS.ERROR)) &&
+              !isFinished && (
+                <StreamingThought
+                  text={`${key} analysis complete ✅`}
+                ></StreamingThought>
+              )}
           </div>
         ))}
     </div>
