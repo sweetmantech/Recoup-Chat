@@ -9,11 +9,10 @@ import getFunnelAnalysis from "@/lib/getFunnelAnalysis";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import useFunnelAnalysisParams from "./useFunnelAnalysisParams";
 import getAggregatedArtist from "@/lib/agent/getAggregatedArtist";
-import { ArtistRecord } from "@/types/Artist";
 
 const useFunnelAnalysis = () => {
   const params = useFunnelAnalysisParams();
-  const { setSelectedArtist } = useArtistProvider();
+  const { setSelectedArtist, selectedArtist } = useArtistProvider();
   const { chat_id: chatId } = useParams();
   const { clearMessagesCache } = useInitialChatProvider();
   const { clearReportCache, setBannerArtistName, setBannerImage } =
@@ -28,7 +27,10 @@ const useFunnelAnalysis = () => {
     const funnel_analyses: any = await getFunnelAnalysis(chatId as string);
     if (!funnel_analyses) return;
     const artist: any = getAggregatedArtist(funnel_analyses);
-    setSelectedArtist(artist);
+    setSelectedArtist({
+      ...artist,
+      ...selectedArtist,
+    });
     setBannerImage(artist.image);
     setBannerArtistName(artist.name);
     const analytics_segments: any = [];

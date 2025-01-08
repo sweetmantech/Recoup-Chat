@@ -31,7 +31,10 @@ const useAgentSocket = () => {
       if (typeof dataGot?.status === "number") {
         setIsLoading(true);
         if (dataGot.status === STEP_OF_ANALYSIS.CREATED_ARTIST)
-          setSelectedArtist(dataGot.extra_data);
+          setSelectedArtist({
+            ...dataGot.extra_data,
+            ...selectedArtist,
+          });
         if (dataGot.status === STEP_OF_ANALYSIS.FINISHED) await getAnalysis();
         const tempThoughts: any = { ...thoughts };
         tempThoughts[`${dataGot.funnel_type}`].status = dataGot?.status;
@@ -51,9 +54,10 @@ const useAgentSocket = () => {
         tiktok: { status: STEP_OF_ANALYSIS.INITITAL },
         instagram: { status: STEP_OF_ANALYSIS.INITITAL },
       });
-      const existed_handles = getExistedHandles(selectedArtist);
       setIsLoading(true);
-      const handles = await getHandles(artistHandle);
+      push(`/funnels/${funnelType}/${newChatId}`);
+      const existed_handles = getExistedHandles(selectedArtist);
+      const handles = await getHandles(selectedArtist?.name || artistHandle);
       const funnels = ["twitter", "spotify", "tiktok", "instagram"];
       funnels.map((funnel) => {
         socketIo.emit(`${funnel.toUpperCase()}_ANALYSIS`, socketId, {
@@ -79,8 +83,8 @@ const useAgentSocket = () => {
         account_id: userData?.id,
         address,
       });
+      push(`/funnels/${funnelType}/${newChatId}`);
     }
-    push(`/funnels/${funnelType}/${newChatId}`);
   };
 
   return {
