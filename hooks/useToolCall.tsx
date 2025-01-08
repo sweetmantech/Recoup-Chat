@@ -73,16 +73,13 @@ const useToolCall = (message: Message) => {
             artistName: bannerArtist?.nickname,
             email,
           });
-          setFunnelRawReportContent(rawContent);
+          setFunnelReportContent(reportContent);
           const chunkSize = parseInt(
-            Number(reportContent.length / 10).toFixed(0),
+            Number(rawContent.length / 20).toFixed(0),
             10,
           );
-          const result = [];
-          for (let i = 0; i < reportContent.length; i += chunkSize) {
-            result.push(reportContent.substring(i, i + chunkSize));
-            setFunnelReportContent(result.join(""));
-          }
+          for (let i = 0; i < rawContent.length; i += chunkSize)
+            setFunnelRawReportContent(rawContent.substring(0, i));
           const nextSteps = await getReportNextSteps(context?.analysis);
           setFunnelNextSteps(nextSteps);
           setIsGettingAnalysis(false);
