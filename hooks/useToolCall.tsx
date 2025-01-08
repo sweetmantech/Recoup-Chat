@@ -33,6 +33,7 @@ const useToolCall = (message: Message) => {
     setFunnelReportContent,
     setFunnelRawReportContent,
     isGettingAnalysis,
+    setIsReportStreamed,
   } = useFunnelReportProvider();
   const { email } = useUserProvider();
 
@@ -74,12 +75,8 @@ const useToolCall = (message: Message) => {
             email,
           });
           setFunnelReportContent(reportContent);
-          const chunkSize = parseInt(
-            Number(rawContent.length / 100).toFixed(0),
-            10,
-          );
-          for (let i = 0; i < rawContent.length; i += chunkSize)
-            setFunnelRawReportContent(rawContent.substring(0, i));
+          setFunnelRawReportContent(rawContent);
+          setIsReportStreamed(rawContent);
           const nextSteps = await getReportNextSteps(context?.analysis);
           setFunnelNextSteps(nextSteps);
           setIsGettingAnalysis(false);
