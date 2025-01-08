@@ -1,5 +1,6 @@
 import Icon from "../Icon";
 import useDownloadReport from "@/hooks/useDownloadReport";
+import addPageBreak from "@/lib/pdf/addPageBreak";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 
 const ReportSummaryNote = () => {
@@ -46,7 +47,7 @@ const ReportSummaryNote = () => {
               </div>
               <div
                 dangerouslySetInnerHTML={{
-                  __html: funnelReportContent,
+                  __html: addPageBreak(funnelReportContent),
                 }}
               />
             </div>
