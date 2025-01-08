@@ -53,4 +53,5 @@ body {
 
 .segment-report ul {
   list-style: inside !important;
+  padding-left: 12px !important;
 }
