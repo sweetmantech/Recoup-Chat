@@ -28,7 +28,7 @@ const ReportSummaryNote = () => {
             className="flex flex-col text-black min-h-[11in] max-w-[9.5in] w-full bg-white p-[0.3in] text-[11pt] leading-normal relative box-border"
           >
             <div className="w-full">
-              <div className="w-full aspect-[757/146] rounded-lg flex items-center justify-center overflow-hidden relative mb-2">
+              <div className="w-full aspect-[757/146] rounded-lg flex items-center justify-center overflow-hidden relative mb-1">
                 {/* eslint-disable-next-line  @next/next/no-img-element */}
                 <img
                   src={bannerImage || ""}
