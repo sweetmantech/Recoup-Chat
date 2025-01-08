@@ -28,15 +28,18 @@ const useFunnelAnalysis = () => {
     const funnel_analyses: any = await getFunnelAnalysis(chatId as string);
     if (!funnel_analyses) return;
     const artist: any = getAggregatedArtist(funnel_analyses);
-    setSelectedArtist({
-      ...artist,
-      ...selectedArtist,
-      artist_social_links: getAggregatedSocials([
-        ...artist?.artist_social_links,
-        ...(selectedArtist?.artist_social_links || []),
-      ]),
-      isWrapped: true,
-    });
+    if (params.funnelType === "wrapped") {
+      setSelectedArtist({
+        ...artist,
+        ...selectedArtist,
+        artist_social_links: getAggregatedSocials([
+          ...artist?.artist_social_links,
+          ...(selectedArtist?.artist_social_links || []),
+        ]),
+        isWrapped: true,
+      });
+    } else setSelectedArtist(artist);
+
     setBannerImage(artist.image);
     setBannerArtistName(artist.name);
     const analytics_segments: any = [];
