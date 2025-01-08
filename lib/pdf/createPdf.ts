@@ -14,7 +14,7 @@ export const createPdf = async ({
       return;
     }
     const options = {
-      margin: [0.3, 0.1],
+      margin: [0.5, 0.3],
       filename: name,
       image: { type: "jpeg", quality: 1 },
       html2canvas: {
@@ -24,7 +24,11 @@ export const createPdf = async ({
         letterRendering: true,
       },
       jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
-      pagebreak: { before: ".html2pdf__page-break" },
+      resolution: {
+        height: 1920,
+        width: 1080,
+      },
+      pagebreak: { before: "#page2el" },
     };
 
     const pdf = html2pdf().from(element).set(options).toPdf().get("pdf");
