@@ -21,8 +21,14 @@ export const createPdf = async ({
         scale: 2,
         useCORS: true,
         allowTaint: true,
+        letterRendering: true,
       },
       jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
+      resolution: {
+        height: 1920,
+        width: 1080,
+      },
+      pagebreak: { before: "#page2el" },
     };
 
     const pdf = html2pdf().from(element).set(options).toPdf().get("pdf");
