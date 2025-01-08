@@ -40,7 +40,6 @@ const Thought = ({ funnel, thought }: { funnel: string; thought: any }) => {
           Click here to retry.
         </span>
       )}
-
       {isComplete && !isFinished && (
         <StreamingThought
           text={`${funnel} analysis complete ✅`}
