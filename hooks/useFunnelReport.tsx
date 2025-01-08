@@ -20,7 +20,7 @@ const useFunnelReport = () => {
     if (isReportStreamed)
       setTimeout(() => {
         setIsReportStreamed(false);
-      }, 5000);
+      }, 8000);
   }, [isReportStreamed]);
 
   const initReport = () => {
