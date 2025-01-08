@@ -75,7 +75,7 @@ const useToolCall = (message: Message) => {
           });
           setFunnelReportContent(reportContent);
           const chunkSize = parseInt(
-            Number(rawContent.length / 20).toFixed(0),
+            Number(rawContent.length / 100).toFixed(0),
             10,
           );
           for (let i = 0; i < rawContent.length; i += chunkSize)
