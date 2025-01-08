@@ -62,13 +62,13 @@ const useAgentSocket = () => {
       });
       setIsLoading(true);
       push(`/funnels/${funnelType}/${newChatId}`);
-      const existed_handles = getExistingHandles(selectedArtist);
+      const existingHandles = getExistingHandles(selectedArtist);
       const handles = await getHandles(selectedArtist?.name || artistHandle);
       const funnels = ["twitter", "spotify", "tiktok", "instagram"];
       funnels.map((funnel) => {
         socketIo.emit(`${funnel.toUpperCase()}_ANALYSIS`, socketId, {
           handle:
-            existed_handles[`${funnel}`] ||
+            existingHandles[`${funnel}`] ||
             handles[`${funnel}`].replaceAll("@", "") ||
             artistHandle,
           chat_id: newChatId,
