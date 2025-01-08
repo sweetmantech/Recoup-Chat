@@ -27,7 +27,6 @@ const Thought = ({ funnel, thought }: { funnel: string; thought: any }) => {
     [STEP_OF_ANALYSIS.SEGMENTS]: `Grouping all of the @${handle}'s ${funnelName} Fans into the segments.`,
     [STEP_OF_ANALYSIS.SAVING_ANALYSIS]: `Saving video comments scrapped data.`,
     [STEP_OF_ANALYSIS.CREATING_ARTIST]: `Setting up artist mode.`,
-    [STEP_OF_ANALYSIS.FINISHED]: `${funnel} analysis complete ✅`,
   };
 
   return (
@@ -35,7 +34,7 @@ const Thought = ({ funnel, thought }: { funnel: string; thought: any }) => {
       <span>
         {funnelType === "wrapped" && !isFinished && `${funnel.toUpperCase()}: `}
       </span>
-      <StreamingThought text={statusMessages[thought.status]} />
+      <StreamingThought text={statusMessages[thought.status] || ""} />
       {isError && !isFinished && !socialLink && (
         <span onClick={toggleSettingModal} className="underline cursor-pointer">
           Click here to retry.
