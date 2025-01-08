@@ -1,7 +1,7 @@
 import { SOCIAL_LINK } from "@/types/Agent";
 import { ArtistRecord } from "@/types/Artist";
 
-const getExistedHandles = (artist: ArtistRecord | null) => {
+const getExistingHandles = (artist: ArtistRecord | null) => {
   if (!artist) return null;
 
   const socials = artist.artist_social_links.filter(
@@ -21,4 +21,4 @@ const getExistedHandles = (artist: ArtistRecord | null) => {
   return handles;
 };
 
-export default getExistedHandles;
+export default getExistingHandles;

@@ -9,6 +9,7 @@ import getFunnelAnalysis from "@/lib/getFunnelAnalysis";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import useFunnelAnalysisParams from "./useFunnelAnalysisParams";
 import getAggregatedArtist from "@/lib/agent/getAggregatedArtist";
+import getAggregatedSocials from "@/lib/agent/getAggregatedSocials";
 
 const useFunnelAnalysis = () => {
   const params = useFunnelAnalysisParams();
@@ -30,6 +31,11 @@ const useFunnelAnalysis = () => {
     setSelectedArtist({
       ...artist,
       ...selectedArtist,
+      artist_social_links: getAggregatedSocials([
+        ...artist?.artist_social_links,
+        ...(selectedArtist?.artist_social_links || []),
+      ]),
+      isWrapped: true,
     });
     setBannerImage(artist.image);
     setBannerArtistName(artist.name);

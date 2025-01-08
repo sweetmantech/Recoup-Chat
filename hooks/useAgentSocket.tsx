@@ -1,4 +1,5 @@
-import getExistedHandles from "@/lib/getExistedHandles";
+import getAggregatedSocials from "@/lib/agent/getAggregatedSocials";
+import getExistingHandles from "@/lib/getExistingHandles";
 import getHandles from "@/lib/getHandles";
 import socketIo from "@/lib/socket/client";
 import { useArtistProvider } from "@/providers/ArtistProvider";
@@ -33,7 +34,11 @@ const useAgentSocket = () => {
         if (dataGot.status === STEP_OF_ANALYSIS.CREATED_ARTIST)
           setSelectedArtist({
             ...dataGot.extra_data,
-            ...selectedArtist,
+            artist_social_links: getAggregatedSocials([
+              ...dataGot?.extra_data?.artist_social_links,
+              ...(selectedArtist?.artist_social_links || []),
+            ]),
+            isWrapped: true,
           });
         if (dataGot.status === STEP_OF_ANALYSIS.FINISHED) await getAnalysis();
         const tempThoughts: any = { ...thoughts };
@@ -56,7 +61,7 @@ const useAgentSocket = () => {
       });
       setIsLoading(true);
       push(`/funnels/${funnelType}/${newChatId}`);
-      const existed_handles = getExistedHandles(selectedArtist);
+      const existed_handles = getExistingHandles(selectedArtist);
       const handles = await getHandles(selectedArtist?.name || artistHandle);
       const funnels = ["twitter", "spotify", "tiktok", "instagram"];
       funnels.map((funnel) => {
