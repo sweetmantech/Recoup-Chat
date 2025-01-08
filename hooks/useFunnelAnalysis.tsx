@@ -9,7 +9,6 @@ import getFunnelAnalysis from "@/lib/getFunnelAnalysis";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import useFunnelAnalysisParams from "./useFunnelAnalysisParams";
 import getAggregatedArtist from "@/lib/agent/getAggregatedArtist";
-import { ArtistRecord } from "@/types/Artist";
 
 const useFunnelAnalysis = () => {
   const params = useFunnelAnalysisParams();

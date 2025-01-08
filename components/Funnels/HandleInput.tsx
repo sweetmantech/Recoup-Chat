@@ -5,7 +5,7 @@ const HandleInput = () => {
   return (
     <input
       type="text"
-      placeholder={`@${funnelType}username`}
+      placeholder={`@${funnelType || ""}username`}
       value={username}
       onChange={(e) => setUsername(e.target.value)}
       className="
