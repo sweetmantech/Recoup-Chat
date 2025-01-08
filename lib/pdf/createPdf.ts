@@ -14,15 +14,17 @@ export const createPdf = async ({
       return;
     }
     const options = {
-      margin: [0.5, 0.3],
+      margin: [0.3, 0.1],
       filename: name,
       image: { type: "jpeg", quality: 1 },
       html2canvas: {
         scale: 2,
         useCORS: true,
         allowTaint: true,
+        letterRendering: true,
       },
       jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
+      pagebreak: { before: ".html2pdf__page-break" },
     };
 
     const pdf = html2pdf().from(element).set(options).toPdf().get("pdf");

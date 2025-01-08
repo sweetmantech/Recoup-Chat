@@ -8,6 +8,8 @@ import { useCallback, useEffect } from "react";
 import getFunnelAnalysis from "@/lib/getFunnelAnalysis";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import useFunnelAnalysisParams from "./useFunnelAnalysisParams";
+import getAggregatedArtist from "@/lib/agent/getAggregatedArtist";
+import { ArtistRecord } from "@/types/Artist";
 
 const useFunnelAnalysis = () => {
   const params = useFunnelAnalysisParams();
@@ -23,40 +25,29 @@ const useFunnelAnalysis = () => {
     if (!chatId) return;
     clearReportCache();
     clearMessagesCache();
-    const funnel_analysises: any = await getFunnelAnalysis(chatId as string);
-    if (!funnel_analysises) return;
+    const funnel_analyses: any = await getFunnelAnalysis(chatId as string);
+    if (!funnel_analyses) return;
+    const artist: any = getAggregatedArtist(funnel_analyses);
+    setSelectedArtist(artist);
+    setBannerImage(artist.image);
+    setBannerArtistName(artist.name);
     const analytics_segments: any = [];
     const tempThoughts: any = {};
-    let tempHandles = "";
-    let tempProfile: any = {};
-    funnel_analysises.map((funnel_analysis: any) => {
+    funnel_analyses.map((funnel_analysis: any) => {
       if (funnel_analysis.status === STEP_OF_ANALYSIS.FINISHED) {
-        setBannerImage(funnel_analysis.funnel_analytics_profile?.[0]?.avatar);
-        setBannerArtistName(
-          funnel_analysis.funnel_analytics_profile?.[0]?.nickname,
-        );
         analytics_segments.push(funnel_analysis.funnel_analytics_segments);
-        setSelectedArtist(
-          funnel_analysis.funnel_analytics_profile?.[0]?.artists,
-        );
       }
-      params.setUsername(funnel_analysis.handle || "");
       tempThoughts[`${funnel_analysis.type.toLowerCase()}`] = {
         status: funnel_analysis.status,
       };
       params.setThoughts(tempThoughts);
-      tempProfile = {
-        ...tempProfile,
-        ...funnel_analysis.funnel_analytics_profile?.[0],
-      };
-      tempHandles = funnel_analysis.handle;
     });
-
+    params.setUsername(artist.handle || "");
     params.setSegments(analytics_segments.flat());
     params.setResult({
       segments: analytics_segments.flat(),
-      ...tempProfile,
-      handle: tempHandles,
+      ...artist.profile,
+      handle: artist.handle,
     });
     params.setIsLoading(true);
     fetchConversations(address);

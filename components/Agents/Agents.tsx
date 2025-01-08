@@ -1,9 +1,23 @@
 import { useRouter } from "next/navigation";
 import FunnelCard from "./FunnelCard";
+import { useArtistProvider } from "@/providers/ArtistProvider";
+import { useAgentSocketProvider } from "@/providers/AgentSocketProvider";
+import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const Agents = () => {
   const { push } = useRouter();
+  const { selectedArtist } = useArtistProvider();
+  const { setUsername } = useFunnelAnalysisProvider();
+  const { openAgentSocket } = useAgentSocketProvider();
 
+  const handleClickWrapped = () => {
+    if (selectedArtist?.isWrapped) {
+      setUsername(selectedArtist?.handle || selectedArtist?.name);
+      openAgentSocket("wrapped");
+      return;
+    }
+    push(`/funnels/wrapped`);
+  };
   return (
     <div className="grow h-screen overflow-hidden md:bg-background md:p-4">
       <div className="size-full bg-white overflow-y-auto pb-20 md:pb-0 rounded-xl flex flex-col items-center md:items-start gap-3 pt-6 md:pt-10 px-4 md:px-10">
@@ -16,7 +30,7 @@ const Agents = () => {
           <button
             type="button"
             className="w-full w-full h-[162px] overflow-hidden rounded-xl"
-            onClick={() => push(`/funnels/wrapped`)}
+            onClick={handleClickWrapped}
           >
             <div className="relative bg-[url('/wrapped.png')] bg-cover bg-center size-full flex flex-col items-start justify-end pb-4 pl-4">
               <p className="text-white text-2xl md:text-[40px] pb-1 md:pb-2 text-left font-plus_jakarta_sans_bold">

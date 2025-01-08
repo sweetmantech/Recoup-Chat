@@ -1,5 +1,6 @@
 import Icon from "../Icon";
 import useDownloadReport from "@/hooks/useDownloadReport";
+import addPageBreak from "@/lib/pdf/addPageBreak";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 
 const ReportSummaryNote = () => {
@@ -11,6 +12,7 @@ const ReportSummaryNote = () => {
     bannerArtistName,
   } = useFunnelReportProvider();
   const { downloadReport } = useDownloadReport();
+
   return (
     <>
       <p className="pt-4 text-[18px]">Next Steps</p>
@@ -26,7 +28,7 @@ const ReportSummaryNote = () => {
             className="flex flex-col text-black min-h-[11in] max-w-[9.5in] w-full bg-white p-[0.3in] text-[11pt] leading-normal relative box-border"
           >
             <div className="w-full">
-              <div className="w-full aspect-[757/146] rounded-lg flex items-center justify-center overflow-hidden relative mb-6">
+              <div className="w-full aspect-[757/146] rounded-lg flex items-center justify-center overflow-hidden relative">
                 {/* eslint-disable-next-line  @next/next/no-img-element */}
                 <img
                   src={bannerImage || ""}
@@ -45,7 +47,7 @@ const ReportSummaryNote = () => {
               </div>
               <div
                 dangerouslySetInnerHTML={{
-                  __html: funnelReportContent,
+                  __html: addPageBreak(funnelReportContent),
                 }}
               />
             </div>

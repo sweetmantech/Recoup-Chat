@@ -21,6 +21,8 @@ export type ArtistRecord = {
     link: string;
     type: string;
   }>;
+  isWrapped?: boolean;
+  handle?: string;
 };
 
 export type CampaignRecord = {

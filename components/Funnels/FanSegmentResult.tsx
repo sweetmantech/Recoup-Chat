@@ -5,12 +5,12 @@ import ScrapingCaption from "./ScrapingCaption";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const FanSegmentResult = () => {
-  const { scrapping, isInitial } = useFunnelAnalysisProvider();
+  const { scraping, isInitial } = useFunnelAnalysisProvider();
 
   return (
     <>
       <div
-        className={`flex gap-3 ${!scrapping ? "items-start" : "items-center"}`}
+        className={`flex gap-3 ${!scraping ? "items-start" : "items-center"}`}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <div className="border border-gray rounded-full p-2">
