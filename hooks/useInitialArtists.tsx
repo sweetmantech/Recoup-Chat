@@ -43,11 +43,11 @@ const useInitialArtists = (
 
   useEffect(() => {
     if (selectedArtist && artists.length > 0) {
-      const currentArtist = artists.filter(
+      const currentArtist = artists.find(
         (artist: ArtistRecord) => artist.id === selectedArtist.id,
       );
-      if (currentArtist?.length) {
-        setSelectedArtist(currentArtist[0]);
+      if (currentArtist && !selectedArtist?.isWrapped) {
+        setSelectedArtist(currentArtist);
       }
     }
   }, [artists, selectedArtist]);

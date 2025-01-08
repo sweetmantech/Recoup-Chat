@@ -38,7 +38,7 @@ const getAggregatedArtist = (funnel_analyses: Array<FUNNEL_ANALYSIS>) => {
       funnel_analyses.find((fa) => fa.funnel_analytics_profile?.[0]?.avatar) ||
       {}
     ).funnel_analytics_profile?.[0]?.artistId ||
-    funnel_analyses[0].funnel_analytics_profile?.[0]?.artistId;
+    funnel_analyses?.[0]?.funnel_analytics_profile?.[0]?.artistId;
 
   return {
     image,
