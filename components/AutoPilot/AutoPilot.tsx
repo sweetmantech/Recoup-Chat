@@ -31,8 +31,9 @@ const AutoPilot = () => {
             transition-all text-[15px] font-medium text-white hover:bg-black active:bg-white/80
             disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={runRESTAgent}
+            disabled={polling}
           >
-            Run Agent
+            {polling ? "Running..." : "Run Agent"}
           </button>
           {polling && <ThoughtSteps />}
           {result?.segments?.length > 0 && !polling && <Segments />}

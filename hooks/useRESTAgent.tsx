@@ -48,6 +48,7 @@ const useRestAgent = () => {
   };
 
   const runRESTAgent = async () => {
+    setPolling(true);
     if (agentType === "wrapped") {
       setThoughts({
         twitter: { status: STEP_OF_ANALYSIS.INITITAL },
@@ -64,7 +65,6 @@ const useRestAgent = () => {
     }
 
     const pilotId = await callAgents(username, agentType);
-    setPolling(true);
     while (1) {
       const isFinished = await pollingAgent(pilotId);
       if (isFinished) {
