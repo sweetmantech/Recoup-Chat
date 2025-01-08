@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const useFunnelReport = () => {
   const [funnelTrends, setFunnelTrends] = useState<any>(null);
@@ -14,14 +14,6 @@ const useFunnelReport = () => {
   const [funnelSummary, setFunnelSummary] = useState("");
   const [bannerImage, setBannerImage] = useState("");
   const [bannerArtistName, setBannerArtistName] = useState("");
-  const [isReportStreamed, setIsReportStreamed] = useState(false);
-
-  useEffect(() => {
-    if (isReportStreamed)
-      setTimeout(() => {
-        setIsReportStreamed(false);
-      }, 8000);
-  }, [isReportStreamed]);
 
   const initReport = () => {
     setFunnelTrends(null);
@@ -64,8 +56,6 @@ const useFunnelReport = () => {
     bannerArtistName,
     setBannerArtistName,
     setBannerImage,
-    isReportStreamed,
-    setIsReportStreamed,
   };
 };
 

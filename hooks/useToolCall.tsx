@@ -33,7 +33,6 @@ const useToolCall = (message: Message) => {
     setFunnelReportContent,
     setFunnelRawReportContent,
     isGettingAnalysis,
-    setIsReportStreamed,
   } = useFunnelReportProvider();
   const { email } = useUserProvider();
 
@@ -76,7 +75,6 @@ const useToolCall = (message: Message) => {
           });
           setFunnelReportContent(reportContent);
           setFunnelRawReportContent(rawContent);
-          setIsReportStreamed(rawContent);
           const nextSteps = await getReportNextSteps(context?.analysis);
           setFunnelNextSteps(nextSteps);
           setIsGettingAnalysis(false);
