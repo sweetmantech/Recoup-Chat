@@ -5,6 +5,7 @@ const getAnalysisThoughts = (funnel_analyses: Array<FUNNEL_ANALYSIS>) => {
   return funnel_analyses.reduce((acc: any, analysis: FUNNEL_ANALYSIS) => {
     if (analysis.type)
       acc[analysis.type.toLowerCase()] = { status: analysis.status };
+    else acc["wrapped"] = { status: analysis.status };
     return acc;
   }, {});
 };

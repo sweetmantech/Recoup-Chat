@@ -76,6 +76,7 @@ const useAgentSocket = () => {
         spotify: { status: STEP_OF_ANALYSIS.INITITAL },
         tiktok: { status: STEP_OF_ANALYSIS.INITITAL },
         instagram: { status: STEP_OF_ANALYSIS.INITITAL },
+        wrapped: { status: STEP_OF_ANALYSIS.INITITAL },
       });
       setIsLoading(true);
       push(`/funnels/${funnelType}/${newChatId}`);

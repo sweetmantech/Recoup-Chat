@@ -4,19 +4,13 @@ import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const ScrapingCaption = () => {
-  const {
-    artistHandle,
-    funnelName,
-    isFinished,
-    scraping,
-    funnelType,
-    isInitial,
-  } = useFunnelAnalysisProvider();
+  const { artistHandle, funnelName, isFinished, scraping, funnelType } =
+    useFunnelAnalysisProvider();
   const { selectedArtist } = useArtistProvider();
 
   return (
     <p className="text-sm">
-      {isFinished && !isInitial && <Completion />}
+      {isFinished && <Completion />}
       {scraping && (
         <div className="flex gap-2 items-center">
           Scraping @
