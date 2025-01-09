@@ -6,6 +6,7 @@ import domtoimage from "dom-to-image";
 import { uploadFile } from "@/lib/ipfs/uploadToIpfs";
 import getIpfsLink from "@/lib/ipfs/getIpfsLink";
 import { ONE_DAY_MILLISECONDS } from "@/lib/consts";
+import Tooltip from '@uiw/react-tooltip';
 
 const SocialSharing = () => {
   const today = new Date();
@@ -61,6 +62,13 @@ const SocialSharing = () => {
               weekLabels={["", "Mon", "", "Wed", "", "Fri", ""]}
               startDate={new Date(today.getTime() - 330 * ONE_DAY_MILLISECONDS)}
               className="w-full"
+              rectRender={(props, data) => {
+                return (
+                  <Tooltip placement="top" content={`${data.count || 0}`}>
+                    <rect {...props} />
+                  </Tooltip>
+                );
+              }}
             />
           </div>
           <div className="flex gap-2 items-2 w-full justify-end">
