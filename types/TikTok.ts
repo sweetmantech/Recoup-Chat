@@ -16,6 +16,7 @@ export enum STEP_OF_ANALYSIS {
   CREATING_ARTIST,
   SAVING_ANALYSIS,
   CREATED_ARTIST,
+  WRAPPED_COMPLETED,
 }
 
 export type Comment = {

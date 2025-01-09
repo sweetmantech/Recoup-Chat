@@ -51,7 +51,11 @@ const useAgentSocket = () => {
           } else setSelectedArtist(dataGot.extra_data);
         }
 
-        if (dataGot.status === STEP_OF_ANALYSIS.FINISHED) await getAnalysis();
+        if (
+          dataGot.status === STEP_OF_ANALYSIS.FINISHED ||
+          dataGot.status === STEP_OF_ANALYSIS.WRAPPED_COMPLETED
+        )
+          await getAnalysis();
         if (!dataGot?.funnel_type) return;
         const tempThoughts: any = { ...thoughts };
         tempThoughts[`${dataGot.funnel_type}`] = {
