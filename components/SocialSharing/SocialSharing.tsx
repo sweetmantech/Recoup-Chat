@@ -45,9 +45,8 @@ const SocialSharing = () => {
       setBlob(domBlob);
     };
     if (!heatmap.current) return;
-
     init();
-  }, [heatmap]);
+  }, [heatmap.current]);
 
   return (
     <div className="w-full mt-4">
