@@ -16,7 +16,7 @@ import getAggregatedSocialProfile from "@/lib/agent/getAggregatedSocialProfile";
 
 const useFunnelAnalysis = () => {
   const params = useFunnelAnalysisParams();
-  const { setSelectedArtist, selectedArtist } = useArtistProvider();
+  const { setSelectedArtist, selectedArtist, getArtists } = useArtistProvider();
   const { chat_id: chatId } = useParams();
   const { clearMessagesCache } = useInitialChatProvider();
   const { clearReportCache, setBannerArtistName, setBannerImage } =
@@ -40,6 +40,7 @@ const useFunnelAnalysis = () => {
     const artistProfile = wrappedAnalysis
       ? wrappedAnalysis?.funnel_analytics_profile?.[0]?.artists
       : aggregatedArtistProfile;
+    getArtists();
     setSelectedArtist(artistProfile);
     setBannerImage(artistProfile?.image);
     setBannerArtistName(artistProfile?.name);
