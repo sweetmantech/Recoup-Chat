@@ -19,6 +19,7 @@ const Thought = ({ funnel, thought }: { funnel: string; thought: any }) => {
   const handle = funnelType === "wrapped" ? selectedArtist?.name : artistHandle;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const statusMessages: any = {
+    [STEP_OF_ANALYSIS.INITITAL]: `Looking at ${handle}'s profile.`,
     [STEP_OF_ANALYSIS.PROFILE]: `Looking at ${handle}'s profile.`,
     [STEP_OF_ANALYSIS.TRACKS]: `Looking at ${handle}'s tracks.`,
     [STEP_OF_ANALYSIS.ALBUMS]: `Looking at ${handle}'s albums.`,
