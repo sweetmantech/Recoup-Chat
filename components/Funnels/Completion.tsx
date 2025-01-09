@@ -29,7 +29,7 @@ const Completion = () => {
         </>
       ) : (
         <>
-          {`The account @${artistHandle || result?.name} does not have any engagement. Please try again with a TikTok handle with at least one comment on its videos. `}
+          {`The account @${artistHandle || result?.name} does not have any engagement. Please try again with a handle with at least one comment on its videos. `}
           <span onClick={handleRetry} className="underline cursor-pointer">
             Click here to retry.
           </span>

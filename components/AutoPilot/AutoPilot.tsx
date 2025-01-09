@@ -1,28 +1,35 @@
-import { Funnel_Type } from "@/types/Funnel";
-import HandleInput from "../Funnels/HandleInput";
+"use client";
+
+import { Terminal } from "lucide-react";
+import CurrentState from "./CurrentState";
 
 const AutoPilot = () => {
   return (
     <div className="grow h-screen overflow-hidden md:bg-background md:p-4">
-      <div className="size-full bg-white overflow-y-auto pb-20 md:pb-0 rounded-xl flex flex-col justify-center gap-3 pt-6 md:pt-10 px-4 md:px-10">
-        <div className="mx-auto space-y-2">
-          <select className="h-10 bg-transparent px-5 text-md rounded-md !outline-none border w-full">
-            <option value={Funnel_Type.TWITTER}>Twitter</option>
-            <option value={Funnel_Type.TIKTOK}>TikTok</option>
-            <option value={Funnel_Type.INSTAGRAM}>Instagram</option>
-            <option value={Funnel_Type.SPOTIFY}>Spotify</option>
-            <option value={Funnel_Type.WRAPPED}>Wrapped</option>
-          </select>
-          <div className="h-10">
-            <HandleInput />
+      <div className="size-full bg-white overflow-y-auto rounded-xl flex flex-col justify-center gap-3 p-4 md:p-10">
+        <div className="h-full bg-black text-green-400 font-mono p-4 rounded-lg border border-green-900">
+          <div className="flex items-center gap-2 mb-4 pb-4 border-b border-green-900">
+            <Terminal className="h-5 w-5" />
+            <h1 className="text-lg font-bold">Peek Into Recoup&apos; Brain</h1>
+            <div className="ml-auto flex gap-2">
+              <div className="h-3 w-3 rounded-full bg-red-500" />
+              <div className="h-3 w-3 rounded-full bg-yellow-500" />
+              <div className="h-3 w-3 rounded-full bg-green-500" />
+            </div>
           </div>
-          <button
-            className="w-full bg-black rounded-[10px] pl-5 pr-4 h-9 z-20 flex items-center gap-2 justify-center
-            transition-all text-[15px] font-medium text-white hover:bg-black active:bg-white/80
-            disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Run Agent
-          </button>
+
+          <div className="space-y-4">
+            <CurrentState />
+            <div className="bg-black/50 p-4 rounded border border-green-900">
+              <h2 className="text-sm font-bold mb-2">EVENT_LOG</h2>
+              <div className="space-y-2"></div>
+            </div>
+
+            <div className="flex items-center gap-2 text-sm text-green-600">
+              <span className="animate-pulse">{">"}</span>
+              <span>System operational - Press any key to interact</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

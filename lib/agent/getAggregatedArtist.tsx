@@ -1,44 +1,32 @@
 import { FUNNEL_ANALYSIS, SOCIAL_LINK } from "@/types/Agent";
 
 const getAggregatedArtist = (funnel_analyses: Array<FUNNEL_ANALYSIS>) => {
-  const socialLinks: Array<SOCIAL_LINK> = [];
-  const profile =
-    funnel_analyses.find(
-      (funnel_analysis: FUNNEL_ANALYSIS) =>
-        funnel_analysis.funnel_analytics_profile?.[0],
-    ) || {};
-  funnel_analyses.forEach((funnel_analysis: FUNNEL_ANALYSIS) => {
-    const artistProfile = funnel_analysis.funnel_analytics_profile;
-    if (artistProfile.length > 0) {
-      socialLinks.push(...artistProfile[0].artists.artist_social_links);
-    }
-  });
-  const socialLinkMap = new Map<string, SOCIAL_LINK>();
-  socialLinks.forEach((link) => {
+  const socialLinks = funnel_analyses.reduce((acc, fa: FUNNEL_ANALYSIS) => {
+    const profile = fa.funnel_analytics_profile?.[0];
+    return profile && profile.artists && profile.artists.artist_social_links
+      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        acc.concat(profile.artists.artist_social_links as any)
+      : acc;
+  }, []);
+
+  const socialLinkMap = new Map();
+  socialLinks.forEach((link: SOCIAL_LINK) => {
     if (!socialLinkMap.get(link.type) || link.link) {
       socialLinkMap.set(link.type, link);
     }
   });
 
-  const aggregatedLinks: SOCIAL_LINK[] = Array.from(socialLinkMap.values());
+  const aggregatedLinks = Array.from(socialLinkMap.values());
 
-  const image =
-    (
-      funnel_analyses.find((fa) => fa.funnel_analytics_profile?.[0]?.avatar) ||
-      {}
-    ).funnel_analytics_profile?.[0]?.avatar || "";
-  const name =
-    (
-      funnel_analyses.find(
-        (fa) => fa.funnel_analytics_profile?.[0]?.nickname,
-      ) || {}
-    ).funnel_analytics_profile?.[0]?.nickname || "";
-  const id =
-    (
-      funnel_analyses.find((fa) => fa.funnel_analytics_profile?.[0]?.avatar) ||
-      {}
-    ).funnel_analytics_profile?.[0]?.artistId ||
-    funnel_analyses?.[0]?.funnel_analytics_profile?.[0]?.artistId;
+  const { image, name } = funnel_analyses.reduce(
+    (acc, fa) => {
+      const profile = fa.funnel_analytics_profile?.[0] || {};
+      acc.image = profile.avatar || acc.image || "";
+      acc.name = profile.nickname || acc.name || "";
+      return acc;
+    },
+    { image: "", name: "" },
+  );
 
   return {
     image,
@@ -48,9 +36,6 @@ const getAggregatedArtist = (funnel_analyses: Array<FUNNEL_ANALYSIS>) => {
     artist_social_links: aggregatedLinks,
     bases: [],
     knowledges: [],
-    id,
-    profile,
-    handle: funnel_analyses[0]?.handle || "",
   };
 };
 
