@@ -32,7 +32,7 @@ const SocialSharing = () => {
     const fileType = "image/png";
     const mapFile = new File([blob], fileName, { type: fileType });
     const { cid } = await uploadFile(mapFile);
-    const tweetLink = `https://x.com/intent/tweet?text=${encodeURIComponent(getIpfsLink(cid))}`;
+    const tweetLink = `https://x.com/intent/tweet?text=${encodeURIComponent(getIpfsLink(`ipfs://${cid}`))}`;
     window.open(tweetLink, "_blank");
     setLoading(false);
   };
