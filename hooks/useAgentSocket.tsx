@@ -76,6 +76,7 @@ const useAgentSocket = () => {
       setIsLoading(true);
       push(`/funnels/${funnelType}/${newChatId}`);
       const existingHandles = getExistingHandles(selectedArtist);
+      const handle = selectedArtist?.name || artistHandle;
       const handles = await getHandles(selectedArtist?.name || artistHandle);
       const funnels = ["twitter", "spotify", "tiktok", "instagram"];
       funnels.map((funnel) => {
@@ -83,7 +84,7 @@ const useAgentSocket = () => {
           handle:
             existingHandles[`${funnel}`] ||
             handles[`${funnel}`].replaceAll("@", "") ||
-            artistHandle,
+            handle,
           chat_id: newChatId,
           account_id: userData?.id,
           address,
