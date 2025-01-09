@@ -2,7 +2,13 @@ import { SOCIAL_LINK } from "@/types/Agent";
 import { ArtistRecord } from "@/types/Artist";
 
 const getExistingHandles = (artist: ArtistRecord | null) => {
-  if (!artist) return null;
+  if (!artist)
+    return {
+      twitter: "",
+      spotify: "",
+      tiktok: "",
+      instagram: "",
+    };
 
   const socials = artist.artist_social_links.filter(
     (link: SOCIAL_LINK) => link.type !== "YOUTUBE" && link.type !== "APPLE",
