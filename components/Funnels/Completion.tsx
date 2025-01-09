@@ -2,6 +2,7 @@ import Segments from "./Segments";
 import { useEffect } from "react";
 import { usePromptsProvider } from "@/providers/PromptsProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
+import SocialSharing from "../SocialSharing";
 
 const Completion = () => {
   const { result, segments, handleRetry, artistHandle, funnelName } =
@@ -26,6 +27,7 @@ const Completion = () => {
           <p className="text-xl font-bold py-4"> Fan Segments</p>
           {`We categorized ${result?.name}'s fans into ${Object.keys(segments).length} different segments - click any to explore. The agent is running in the background and will notify you of new insights!`}
           {segments?.length > 0 && <Segments />}
+          <SocialSharing />
         </>
       ) : (
         <>
