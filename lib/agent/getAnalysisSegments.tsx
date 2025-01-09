@@ -4,7 +4,7 @@ import getWrappedAnalysis from "./getWrappedAnalysis";
 
 const getAnalysisSegments = (funnel_analyses: Array<FUNNEL_ANALYSIS>) => {
   const wrappedAnalysis = getWrappedAnalysis(funnel_analyses);
-  if (wrappedAnalysis) return wrappedAnalysis.funnel_analytics_profile;
+  if (wrappedAnalysis) return wrappedAnalysis.funnel_analytics_segments;
 
   return funnel_analyses
     .filter(
