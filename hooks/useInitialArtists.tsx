@@ -13,6 +13,7 @@ const useInitialArtists = (
 
   useEffect(() => {
     if (selectedArtist) {
+      setArtistCookie(selectedArtist);
       artistSetting.setName(selectedArtist?.name || "");
       artistSetting.setImage(selectedArtist?.image || "");
       artistSetting.setLabel(selectedArtist?.label || "");
@@ -46,10 +47,8 @@ const useInitialArtists = (
       const currentArtist = artists.find(
         (artist: ArtistRecord) => artist.id === selectedArtist.id,
       );
-      if (currentArtist && !selectedArtist?.isWrapped) {
+      if (currentArtist && !selectedArtist?.isWrapped)
         setSelectedArtist(currentArtist);
-        setArtistCookie(currentArtist);
-      }
     }
   }, [artists, selectedArtist]);
 
