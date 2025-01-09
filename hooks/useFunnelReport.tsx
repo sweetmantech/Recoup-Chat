@@ -25,6 +25,8 @@ const useFunnelReport = () => {
     setFunnelSummary("");
     setFunnelRawReportContent("");
     setFunnelReportContent("");
+    setBannerArtistName("");
+    setBannerImage("");
   };
 
   return {
