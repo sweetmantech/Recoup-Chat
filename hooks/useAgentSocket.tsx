@@ -52,6 +52,7 @@ const useAgentSocket = () => {
         }
 
         if (dataGot.status === STEP_OF_ANALYSIS.FINISHED) await getAnalysis();
+        if (!dataGot?.funnel_type) return;
         const tempThoughts: any = { ...thoughts };
         tempThoughts[`${dataGot.funnel_type}`] = {
           status: dataGot?.status,

@@ -11,6 +11,7 @@ import getAggregatedArtist from "@/lib/agent/getAggregatedArtist";
 import getAggregatedProfile from "@/lib/agent/getAggregatedProfile";
 import getAnalysisSegments from "@/lib/agent/getAnalysisSegments";
 import getAnalysisThoughts from "@/lib/agent/getAnalaysisThoughts";
+import { FUNNEL_ANALYSIS } from "@/types/Agent";
 
 const useFunnelAnalysis = () => {
   const params = useFunnelAnalysisParams();
@@ -28,13 +29,20 @@ const useFunnelAnalysis = () => {
     clearMessagesCache();
     const funnel_analyses: any = await getFunnelAnalysis(chatId as string);
     if (!funnel_analyses) return;
+    const wrappedAnalysis = funnel_analyses.find(
+      (funnel_analysis: FUNNEL_ANALYSIS) => !funnel_analysis.type,
+    );
     const artist: any = getAggregatedArtist(funnel_analyses);
     const aggregatedArtistProfile: any = getAggregatedProfile(
       params.funnelType as string,
       artist,
       selectedArtist,
     );
-    setSelectedArtist(aggregatedArtistProfile);
+    setSelectedArtist(
+      wrappedAnalysis
+        ? wrappedAnalysis?.funnel_analytics_profile?.[0]?.artists
+        : aggregatedArtistProfile,
+    );
     setBannerImage(aggregatedArtistProfile.image);
     setBannerArtistName(aggregatedArtistProfile.name);
     const analyticsSegments = getAnalysisSegments(funnel_analyses);
@@ -44,10 +52,15 @@ const useFunnelAnalysis = () => {
       ...aggregatedThoughts,
     });
     params.setUsername(aggregatedArtistProfile.handle || "");
-    params.setSegments(analyticsSegments);
+    const fanSegments = wrappedAnalysis
+      ? wrappedAnalysis?.funnel_analytics_segments
+      : analyticsSegments;
+    params.setSegments(fanSegments);
     params.setResult({
-      segments: analyticsSegments,
-      ...aggregatedArtistProfile,
+      segments: fanSegments,
+      ...(wrappedAnalysis
+        ? wrappedAnalysis.funnel_analytics_profile?.[0]
+        : aggregatedArtistProfile),
       handle: artist.handle,
     });
     params.setIsLoading(true);
