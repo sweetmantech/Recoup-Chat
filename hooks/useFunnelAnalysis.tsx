@@ -49,7 +49,6 @@ const useFunnelAnalysis = () => {
       ...params.thoughts,
       ...aggregatedThoughts,
     });
-    params.setUsername(artistProfile?.name || "");
     params.setSegments(analyticsSegments);
     const aggregatedArtistSocialProfile =
       getAggregatedSocialProfile(funnel_analyses);
