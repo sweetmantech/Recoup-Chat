@@ -12,8 +12,8 @@ const getAggregatedProfile = (
           ...artist,
           ...existingArtist,
           artist_social_links: getAggregatedSocials([
-            ...artist.artist_social_links,
             ...(existingArtist.artist_social_links || []),
+            ...artist.artist_social_links,
           ]),
           isWrapped: true,
         }
