@@ -14,8 +14,10 @@ const ScrapingCaption = () => {
       {scraping && (
         <div className="flex gap-2 items-center">
           Scraping @
-          {funnelType === "wrapped" ? selectedArtist?.name : artistHandle}’s{" "}
-          {funnelName}...
+          {funnelType === "wrapped"
+            ? selectedArtist?.name || artistHandle
+            : artistHandle}
+          ’s {funnelName}...
           <Loading />
         </div>
       )}

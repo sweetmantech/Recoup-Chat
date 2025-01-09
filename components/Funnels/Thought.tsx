@@ -16,7 +16,10 @@ const Thought = ({ funnel, thought }: { funnel: string; thought: any }) => {
   const isError = thought.status === STEP_OF_ANALYSIS.ERROR;
   const isComplete =
     thought.status === STEP_OF_ANALYSIS.FINISHED || (socialLink && isError);
-  const handle = funnelType === "wrapped" ? selectedArtist?.name : artistHandle;
+  const handle =
+    funnelType === "wrapped"
+      ? selectedArtist?.name || artistHandle
+      : artistHandle;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const statusMessages: any = {
     [STEP_OF_ANALYSIS.INITITAL]: `Looking at ${handle}'s profile.`,
