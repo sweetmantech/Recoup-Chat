@@ -5,6 +5,13 @@ const getHandles = async (handle: string) => {
     const response = await fetch(
       `${AGENT_API}/api/get_social_handles?handle=${encodeURIComponent(handle)}`,
     );
+    if (!response.ok)
+      return {
+        spotify: "",
+        twitter: "",
+        instagram: "",
+        tiktok: "",
+      };
     const data = await response.json();
     return data.data;
   } catch (error) {
