@@ -22,9 +22,9 @@ const useFunnelAnalysis = () => {
   const { address } = useUserProvider();
 
   const getAnalysis = useCallback(async () => {
-    if (!chatId) return;
     clearReportCache();
     clearMessagesCache();
+    if (!chatId) return;
     const funnel_analyses: any = await getFunnelAnalysis(chatId as string);
     if (!funnel_analyses) return;
     const artist: any = getAggregatedArtist(funnel_analyses);
