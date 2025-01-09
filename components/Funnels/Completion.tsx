@@ -20,12 +20,15 @@ const Completion = () => {
     <div>
       {isFinishedAnalsysis ? (
         <>
-          <p className="text-xl font-bold pb-4">
+          <p className="text-lg md:text-xl font-bold pb-4">
             <span className="capitalize">{funnelName}</span> Analysis complete✅
           </p>
-          {`${result?.nickname} has ${result?.fans || result?.followers} followers. \nPlease select a fan segmentation below to generate a report for brand partnership deals.`}
-          <p className="text-xl font-bold py-4"> Fan Segments</p>
-          {`We categorized ${result?.name}'s fans into ${Object.keys(segments).length} different segments - click any to explore. The agent is running in the background and will notify you of new insights!`}
+          <p>{`${result?.nickname} has ${result?.fans || result?.followers} followers. Please select a fan segmentation below to generate a report for brand partnership deals.`}</p>
+          <p className="text-lg md:text-xl text-xl font-bold py-4">
+            {" "}
+            Fan Segments
+          </p>
+          <p>{`We categorized ${result?.name}'s fans into ${Object.keys(segments).length} different segments - click any to explore. The agent is running in the background and will notify you of new insights!`}</p>
           {segments?.length > 0 && <Segments />}
           <SocialSharing />
         </>

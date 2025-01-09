@@ -13,6 +13,7 @@ const useInitialArtists = (
 
   useEffect(() => {
     if (selectedArtist) {
+      setArtistCookie(selectedArtist);
       artistSetting.setName(selectedArtist?.name || "");
       artistSetting.setImage(selectedArtist?.image || "");
       artistSetting.setLabel(selectedArtist?.label || "");
@@ -39,16 +40,15 @@ const useInitialArtists = (
     if (Object.keys(artistCookie).length > 0) {
       setSelectedArtist(artistCookie as any);
     }
-  }, [artistCookie]);
+  }, []);
 
   useEffect(() => {
     if (selectedArtist && artists.length > 0) {
       const currentArtist = artists.find(
         (artist: ArtistRecord) => artist.id === selectedArtist.id,
       );
-      if (currentArtist && !selectedArtist?.isWrapped) {
+      if (currentArtist && !selectedArtist?.isWrapped)
         setSelectedArtist(currentArtist);
-      }
     }
   }, [artists, selectedArtist]);
 
