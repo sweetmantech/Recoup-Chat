@@ -41,15 +41,15 @@ const useFunnelAnalysis = () => {
       ? wrappedAnalysis?.funnel_analytics_profile?.[0]?.artists
       : aggregatedArtistProfile;
     setSelectedArtist(artistProfile);
-    setBannerImage(artistProfile.image);
-    setBannerArtistName(artistProfile.name);
+    setBannerImage(artistProfile?.image);
+    setBannerArtistName(artistProfile?.name);
     const analyticsSegments = getAnalysisSegments(funnel_analyses);
     const aggregatedThoughts = getAnalysisThoughts(funnel_analyses);
     params.setThoughts({
       ...params.thoughts,
       ...aggregatedThoughts,
     });
-    params.setUsername(artistProfile.name || "");
+    params.setUsername(artistProfile?.name || "");
     params.setSegments(analyticsSegments);
     const aggregatedArtistSocialProfile =
       getAggregatedSocialProfile(funnel_analyses);
