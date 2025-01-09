@@ -67,6 +67,12 @@ const useAgentSocket = () => {
     if (!isPrepared()) return;
     const newChatId = uuidV4();
     if (funnelType === "wrapped") {
+      setThoughts({
+        twitter: { status: STEP_OF_ANALYSIS.INITITAL },
+        spotify: { status: STEP_OF_ANALYSIS.INITITAL },
+        tiktok: { status: STEP_OF_ANALYSIS.INITITAL },
+        instagram: { status: STEP_OF_ANALYSIS.INITITAL },
+      });
       setIsLoading(true);
       push(`/funnels/${funnelType}/${newChatId}`);
       const existingHandles = getExistingHandles(selectedArtist);
@@ -86,6 +92,11 @@ const useAgentSocket = () => {
         });
       });
     } else {
+      setThoughts({
+        [`${funnelType}`]: {
+          status: STEP_OF_ANALYSIS.INITITAL,
+        },
+      });
       socketIo.emit(`${funnelType.toUpperCase()}_ANALYSIS`, socketId, {
         handle: artistHandle,
         chat_id: newChatId,
