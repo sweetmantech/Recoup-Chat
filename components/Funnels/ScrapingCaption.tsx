@@ -9,7 +9,7 @@ const ScrapingCaption = () => {
   const { selectedArtist } = useArtistProvider();
 
   return (
-    <p className="text-sm">
+    <div className="text-sm">
       {isFinished && <Completion />}
       {scraping && (
         <div className="flex gap-2 items-center">
@@ -21,7 +21,7 @@ const ScrapingCaption = () => {
           <Loading />
         </div>
       )}
-    </p>
+    </div>
   );
 };
 
