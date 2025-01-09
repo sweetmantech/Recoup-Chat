@@ -43,8 +43,8 @@ const useAgentSocket = () => {
               ...dataGot.extra_data,
               ...selectedArtist,
               artist_social_links: getAggregatedSocials([
-                ...dataGot?.extra_data?.artist_social_links,
                 ...(selectedArtist?.artist_social_links || []),
+                ...dataGot?.extra_data?.artist_social_links,
               ]),
               isWrapped: true,
             });
