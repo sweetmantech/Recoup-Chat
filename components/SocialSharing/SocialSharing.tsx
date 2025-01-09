@@ -5,9 +5,11 @@ import { Twitter, Download } from "lucide-react";
 import domtoimage from "dom-to-image";
 import { uploadFile } from "@/lib/ipfs/uploadToIpfs";
 import getIpfsLink from "@/lib/ipfs/getIpfsLink";
+import { ONE_DAY_MILLISECONDS } from "@/lib/consts";
 
 const SocialSharing = () => {
-  const { startDate, activities } = useActivities();
+  const today = new Date();
+  const { activities } = useActivities();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const heatmap = useRef() as any;
   const [loading, setLoading] = useState(false);
@@ -46,6 +48,7 @@ const SocialSharing = () => {
     };
     if (!heatmap.current) return;
     init();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [heatmap.current]);
 
   return (
@@ -56,7 +59,7 @@ const SocialSharing = () => {
             <HeatMap
               value={activities}
               weekLabels={["", "Mon", "", "Wed", "", "Fri", ""]}
-              startDate={startDate}
+              startDate={new Date(today.getTime() - 330 * ONE_DAY_MILLISECONDS)}
               className="w-full"
             />
           </div>
