@@ -11,7 +11,8 @@ import getAggregatedArtist from "@/lib/agent/getAggregatedArtist";
 import getAggregatedProfile from "@/lib/agent/getAggregatedProfile";
 import getAnalysisSegments from "@/lib/agent/getAnalysisSegments";
 import getAnalysisThoughts from "@/lib/agent/getAnalaysisThoughts";
-import { FUNNEL_ANALYSIS } from "@/types/Agent";
+import getWrappedAnalysis from "@/lib/agent/getWrappedAnalysis";
+import getAggregatedSocialProfile from "@/lib/agent/getAggregatedSocialProfile";
 
 const useFunnelAnalysis = () => {
   const params = useFunnelAnalysisParams();
@@ -28,40 +29,36 @@ const useFunnelAnalysis = () => {
     clearReportCache();
     clearMessagesCache();
     const funnel_analyses: any = await getFunnelAnalysis(chatId as string);
-    if (!funnel_analyses) return;
-    const wrappedAnalysis = funnel_analyses.find(
-      (funnel_analysis: FUNNEL_ANALYSIS) => !funnel_analysis.type,
-    );
+    if (!funnel_analyses || funnel_analyses?.length === 0) return;
+    const wrappedAnalysis = getWrappedAnalysis(funnel_analyses);
     const artist: any = getAggregatedArtist(funnel_analyses);
     const aggregatedArtistProfile: any = getAggregatedProfile(
       params.funnelType as string,
       artist,
       selectedArtist,
     );
-    setSelectedArtist(
-      wrappedAnalysis
-        ? wrappedAnalysis?.funnel_analytics_profile?.[0]?.artists
-        : aggregatedArtistProfile,
-    );
-    setBannerImage(aggregatedArtistProfile.image);
-    setBannerArtistName(aggregatedArtistProfile.name);
+    const artistProfile = wrappedAnalysis
+      ? wrappedAnalysis?.funnel_analytics_profile?.[0]?.artists
+      : aggregatedArtistProfile;
+    setSelectedArtist(artistProfile);
+    setBannerImage(artistProfile.image);
+    setBannerArtistName(artistProfile.name);
     const analyticsSegments = getAnalysisSegments(funnel_analyses);
     const aggregatedThoughts = getAnalysisThoughts(funnel_analyses);
     params.setThoughts({
       ...params.thoughts,
       ...aggregatedThoughts,
     });
-    params.setUsername(aggregatedArtistProfile.handle || "");
-    const fanSegments = wrappedAnalysis
-      ? wrappedAnalysis?.funnel_analytics_segments
-      : analyticsSegments;
-    params.setSegments(fanSegments);
+    params.setUsername(artistProfile.name || "");
+    params.setSegments(analyticsSegments);
+    const aggregatedArtistSocialProfile =
+      getAggregatedSocialProfile(funnel_analyses);
+    const artistSocialProfile = wrappedAnalysis
+      ? wrappedAnalysis?.funnel_analytics_profile?.[0]
+      : aggregatedArtistSocialProfile;
     params.setResult({
-      segments: fanSegments,
-      ...(wrappedAnalysis
-        ? wrappedAnalysis.funnel_analytics_profile?.[0]
-        : aggregatedArtistProfile),
-      handle: artist.handle,
+      segments: analyticsSegments,
+      ...artistSocialProfile,
     });
     params.setIsLoading(true);
     fetchConversations(address);

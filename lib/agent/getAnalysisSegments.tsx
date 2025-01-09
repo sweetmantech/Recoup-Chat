@@ -1,7 +1,11 @@
 import { FUNNEL_ANALYSIS } from "@/types/Agent";
 import { STEP_OF_ANALYSIS } from "@/types/TikTok";
+import getWrappedAnalysis from "./getWrappedAnalysis";
 
 const getAnalysisSegments = (funnel_analyses: Array<FUNNEL_ANALYSIS>) => {
+  const wrappedAnalysis = getWrappedAnalysis(funnel_analyses);
+  if (wrappedAnalysis) return wrappedAnalysis.funnel_analytics_profile;
+
   return funnel_analyses
     .filter(
       (analysis: FUNNEL_ANALYSIS) =>
