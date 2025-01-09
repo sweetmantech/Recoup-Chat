@@ -9,7 +9,12 @@ const getHandles = async (handle: string) => {
     return data.data;
   } catch (error) {
     console.log(error);
-    return { error };
+    return {
+      spotify: "",
+      twitter: "",
+      instagram: "",
+      tiktok: "",
+    };
   }
 };
 
