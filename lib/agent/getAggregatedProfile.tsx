@@ -11,6 +11,7 @@ const getAggregatedProfile = (
       ? {
           ...artist,
           ...existingArtist,
+          image: artist?.image || existingArtist?.image,
           artist_social_links: getAggregatedSocials([
             ...(existingArtist.artist_social_links || []),
             ...artist.artist_social_links,
