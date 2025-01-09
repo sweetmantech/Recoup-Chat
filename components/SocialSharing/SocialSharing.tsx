@@ -3,15 +3,17 @@ import HeatMap from "@uiw/react-heat-map";
 import useActivities from "@/hooks/useActivities";
 import { Twitter, Download } from "lucide-react";
 import domtoimage from "dom-to-image";
+import { uploadFile } from "@/lib/ipfs/uploadToIpfs";
+import getIpfsLink from "@/lib/ipfs/getIpfsLink";
 
 const SocialSharing = () => {
   const { startDate, activities } = useActivities();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const heatmap = useRef() as any;
-  const [downloading, setDownloading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const download = async () => {
-    setDownloading(true);
+    setLoading(true);
     const blob = await domtoimage.toBlob(heatmap.current);
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -20,7 +22,19 @@ const SocialSharing = () => {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    setDownloading(false);
+    setLoading(false);
+  };
+
+  const tweets = async () => {
+    setLoading(true);
+    const blob = await domtoimage.toBlob(heatmap.current);
+    const fileName = "heatmap.png";
+    const fileType = "image/png";
+    const mapFile = new File([blob], fileName, { type: fileType });
+    const { cid } = await uploadFile(mapFile);
+    const tweetLink = `https://x.com/intent/tweet?text=${encodeURIComponent(getIpfsLink(cid))}`;
+    window.open(tweetLink, "_blank");
+    setLoading(false);
   };
 
   return (
@@ -40,11 +54,16 @@ const SocialSharing = () => {
               type="button"
               className="border p-1.5 rounded-full"
               onClick={download}
-              disabled={downloading}
+              disabled={loading}
             >
               <Download className="size-4" />
             </button>
-            <button type="button" className="border p-1.5 rounded-full">
+            <button
+              type="button"
+              className="border p-1.5 rounded-full"
+              disabled={loading}
+              onClick={tweets}
+            >
               <Twitter className="size-4" />
             </button>
           </div>
