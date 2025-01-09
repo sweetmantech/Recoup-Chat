@@ -6,6 +6,7 @@ export const PAYMENT_CREDITS_POINT = 1;
 export const CHAT_POINT_SYSTEM_ID = 4172;
 export const SCORE_POINT_SYSTEM_ID = 4186;
 export const AGENT_API = "https://api.recoupable.com";
+export const ONE_DAY_MILLISECONDS = 24 * 60 * 60 * 1000;
 
 // Vercel AI SDK
 export const AI_MODEL = "gpt-4o-mini";
