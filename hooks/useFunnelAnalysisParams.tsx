@@ -7,7 +7,7 @@ import { v4 as uuidV4 } from "uuid";
 
 const useFunnelAnalysisParams = () => {
   const [username, setUsername] = useState("");
-  const [thoughts, setThoughts] = useState<any>(null);
+  const [thoughts, setThoughts] = useState<any>({});
   const [result, setResult] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
   const artistHandle = username.replaceAll("@", "");
@@ -21,13 +21,16 @@ const useFunnelAnalysisParams = () => {
     return capitalize(funnelType as string);
   }, [funnelType]);
 
-  const isFinished =
-    thoughts &&
-    Object.values(thoughts).every(
-      (value: any) =>
-        value.status === STEP_OF_ANALYSIS.FINISHED ||
-        value.status === STEP_OF_ANALYSIS.ERROR,
-    );
+  const isFinished = thoughts?.wrapped
+    ? Object.values(thoughts).some(
+        (value: any) => value.status === STEP_OF_ANALYSIS.WRAPPED_COMPLETED,
+      )
+    : Object.values(thoughts).every(
+        (value: any) =>
+          value.status === STEP_OF_ANALYSIS.FINISHED ||
+          value.status === STEP_OF_ANALYSIS.ERROR,
+      );
+
   const scraping =
     thoughts &&
     Object.values(thoughts).some(
@@ -42,15 +45,9 @@ const useFunnelAnalysisParams = () => {
   const handleRetry = () => {
     setResult(null);
     setSegments([]);
-    setThoughts(null);
+    setThoughts({});
     setUsername("");
     setIsLoading(false);
-    push(`/funnels/${funnelType}/${uuidV4()}`);
-  };
-
-  const initialize = () => {
-    setIsLoading(false);
-    setThoughts(null);
     push(`/funnels/${funnelType}/${uuidV4()}`);
   };
 
@@ -71,7 +68,6 @@ const useFunnelAnalysisParams = () => {
     funnelType,
     thoughts,
     handleRetry,
-    initialize,
     username,
   };
 };

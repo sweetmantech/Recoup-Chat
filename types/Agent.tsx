@@ -37,7 +37,7 @@ export type ARTIST_PROFILE = {
   };
   artistId: string;
   nickname: string;
-  followers: string;
+  followers: number;
   followings: number;
   analysis_id: string;
 };
