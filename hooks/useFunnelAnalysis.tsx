@@ -3,13 +3,14 @@ import { useInitialChatProvider } from "@/providers/InitialChatProvider";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useParams } from "next/navigation";
-import { STEP_OF_ANALYSIS } from "@/types/TikTok";
 import { useCallback, useEffect } from "react";
 import getFunnelAnalysis from "@/lib/getFunnelAnalysis";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import useFunnelAnalysisParams from "./useFunnelAnalysisParams";
 import getAggregatedArtist from "@/lib/agent/getAggregatedArtist";
-import getAggregatedSocials from "@/lib/agent/getAggregatedSocials";
+import getAggregatedProfile from "@/lib/agent/getAggregatedProfile";
+import getAnalysisSegments from "@/lib/agent/getAnalysisSegments";
+import getAnalysisThoughts from "@/lib/agent/getAnalaysisThoughts";
 
 const useFunnelAnalysis = () => {
   const params = useFunnelAnalysisParams();
@@ -28,36 +29,25 @@ const useFunnelAnalysis = () => {
     const funnel_analyses: any = await getFunnelAnalysis(chatId as string);
     if (!funnel_analyses) return;
     const artist: any = getAggregatedArtist(funnel_analyses);
-    if (params.funnelType === "wrapped") {
-      setSelectedArtist({
-        ...artist,
-        ...selectedArtist,
-        artist_social_links: getAggregatedSocials([
-          ...artist?.artist_social_links,
-          ...(selectedArtist?.artist_social_links || []),
-        ]),
-        isWrapped: true,
-      });
-    } else setSelectedArtist(artist);
-
-    setBannerImage(artist.image);
-    setBannerArtistName(artist.name);
-    const analytics_segments: any = [];
-    const tempThoughts: any = {};
-    funnel_analyses.map((funnel_analysis: any) => {
-      if (funnel_analysis.status === STEP_OF_ANALYSIS.FINISHED) {
-        analytics_segments.push(funnel_analysis.funnel_analytics_segments);
-      }
-      tempThoughts[`${funnel_analysis.type.toLowerCase()}`] = {
-        status: funnel_analysis.status,
-      };
-      params.setThoughts(tempThoughts);
+    const aggregatedArtistProfile: any = getAggregatedProfile(
+      params.funnelType as string,
+      artist,
+      selectedArtist,
+    );
+    setSelectedArtist(aggregatedArtistProfile);
+    setBannerImage(aggregatedArtistProfile.image);
+    setBannerArtistName(aggregatedArtistProfile.name);
+    const analyticsSegments = getAnalysisSegments(funnel_analyses);
+    const aggregatedThoughts = getAnalysisThoughts(funnel_analyses);
+    params.setThoughts({
+      ...params.thoughts,
+      ...aggregatedThoughts,
     });
-    params.setUsername(artist.handle || "");
-    params.setSegments(analytics_segments.flat());
+    params.setUsername(aggregatedArtistProfile.handle || "");
+    params.setSegments(analyticsSegments);
     params.setResult({
-      segments: analytics_segments.flat(),
-      ...artist.profile,
+      segments: analyticsSegments,
+      ...aggregatedArtistProfile,
       handle: artist.handle,
     });
     params.setIsLoading(true);

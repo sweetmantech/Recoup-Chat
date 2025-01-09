@@ -2,7 +2,7 @@ import capitalize from "@/lib/capitalize";
 import { Funnel_Type } from "@/types/Funnel";
 import { STEP_OF_ANALYSIS } from "@/types/TikTok";
 import { useParams, useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { v4 as uuidV4 } from "uuid";
 
 const useFunnelAnalysisParams = () => {
@@ -48,12 +48,24 @@ const useFunnelAnalysisParams = () => {
     push(`/funnels/${funnelType}/${uuidV4()}`);
   };
 
-  const initialize = () => {
-    setIsLoading(false);
-    setThoughts(null);
-    push(`/funnels/${funnelType}/${uuidV4()}`);
-  };
+  useEffect(() => {
+    if (!funnelType) return;
+    if (funnelType === "wrapped") {
+      setThoughts({
+        twitter: { status: STEP_OF_ANALYSIS.INITITAL },
+        spotify: { status: STEP_OF_ANALYSIS.INITITAL },
+        tiktok: { status: STEP_OF_ANALYSIS.INITITAL },
+        instagram: { status: STEP_OF_ANALYSIS.INITITAL },
+      });
+      return;
+    }
 
+    setThoughts({
+      [`${funnelType}`]: {
+        status: STEP_OF_ANALYSIS.INITITAL,
+      },
+    });
+  }, [funnelType]);
   return {
     isLoading,
     setIsLoading,
@@ -71,7 +83,6 @@ const useFunnelAnalysisParams = () => {
     funnelType,
     thoughts,
     handleRetry,
-    initialize,
     username,
   };
 };
