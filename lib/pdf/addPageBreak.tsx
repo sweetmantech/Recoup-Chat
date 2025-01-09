@@ -1,7 +1,7 @@
 const addPageBreak = (funnelReportContent: string) => {
   const lastIndexOfLessThan = funnelReportContent.lastIndexOf(
     "<",
-    funnelReportContent.indexOf("Closing"),
+    funnelReportContent.indexOf("Content Collaboration"),
   );
   const reportHtml =
     funnelReportContent.slice(0, lastIndexOfLessThan) +

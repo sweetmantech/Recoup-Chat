@@ -2,6 +2,7 @@ import Icon from "../Icon";
 import useDownloadReport from "@/hooks/useDownloadReport";
 import addPageBreak from "@/lib/pdf/addPageBreak";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
+import SocialSharing from "../SocialSharing";
 
 const ReportSummaryNote = () => {
   const {
@@ -15,6 +16,7 @@ const ReportSummaryNote = () => {
 
   return (
     <>
+      <SocialSharing />
       <p className="pt-4 text-[18px]">Next Steps</p>
       <div
         dangerouslySetInnerHTML={{
@@ -51,6 +53,7 @@ const ReportSummaryNote = () => {
                 }}
               />
             </div>
+            <SocialSharing />
             <div className="grow w-full flex items-end justify-center mt-10">
               <Icon name="logo-black" />
             </div>

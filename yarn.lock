@@ -1709,6 +1709,11 @@
     "@typescript-eslint/types" "8.7.0"
     eslint-visitor-keys "^3.4.3"
 
+"@uiw/react-heat-map@^2.3.2":
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/@uiw/react-heat-map/-/react-heat-map-2.3.2.tgz#06fddafcb5e8fc5680f9aee2e3d4dd95e8cf8686"
+  integrity sha512-E09r7Aou9iN0TtkIircVzYeMiU/TIKXBaCpQWW+2maq3zGg1FIqRBRaTyOm8FUo1vUthiT7CjLldjhoRBVEXlw==
+
 "@ungap/structured-clone@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.2.0.tgz#756641adb587851b5ccb3e095daf27ae581c8406"

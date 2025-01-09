@@ -124,6 +124,7 @@ const useConversations = () => {
     setQuotaExceeded,
     quotaExceeded,
     trackGeneralChat,
+    allConverstaions,
   };
 };
 
