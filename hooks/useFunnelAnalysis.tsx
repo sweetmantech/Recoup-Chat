@@ -28,13 +28,13 @@ const useFunnelAnalysis = () => {
     const funnel_analyses: any = await getFunnelAnalysis(chatId as string);
     if (!funnel_analyses) return;
     const artist: any = getAggregatedArtist(funnel_analyses);
-    if (params.funnelType === "wrapped") {
+    if (params.funnelType === "wrapped" && selectedArtist) {
       setSelectedArtist({
         ...artist,
         ...selectedArtist,
         artist_social_links: getAggregatedSocials([
-          ...artist?.artist_social_links,
           ...(selectedArtist?.artist_social_links || []),
+          ...artist?.artist_social_links,
         ]),
         isWrapped: true,
       });
