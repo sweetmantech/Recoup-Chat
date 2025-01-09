@@ -1,7 +1,7 @@
 import getActivities from "@/lib/getActivities";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 
-const useSocialSharing = () => {
+const useActivities = () => {
   const currentYear = new Date().getFullYear();
   const startDate = new Date(`${currentYear}/01/01`);
   const { allConverstaions } = useConversationsProvider();
@@ -13,4 +13,4 @@ const useSocialSharing = () => {
   };
 };
 
-export default useSocialSharing;
+export default useActivities;

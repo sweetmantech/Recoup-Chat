@@ -1,9 +1,9 @@
 import React from "react";
 import HeatMap from "@uiw/react-heat-map";
-import useSocialSharing from "@/hooks/useSocialSharing";
+import useActivities from "@/hooks/useActivities";
 
 const SocialSharing = () => {
-  const { startDate, activities } = useSocialSharing();
+  const { startDate, activities } = useActivities();
   return (
     <div className="w-full mt-4">
       {activities?.length > 0 && (

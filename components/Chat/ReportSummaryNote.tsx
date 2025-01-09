@@ -2,6 +2,7 @@ import Icon from "../Icon";
 import useDownloadReport from "@/hooks/useDownloadReport";
 import addPageBreak from "@/lib/pdf/addPageBreak";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
+import SocialSharing from "../SocialSharing";
 
 const ReportSummaryNote = () => {
   const {
@@ -57,6 +58,7 @@ const ReportSummaryNote = () => {
           </div>
         </div>
       )}
+      <SocialSharing />
       <button
         type="button"
         className="text-purple-dark mt-2"
