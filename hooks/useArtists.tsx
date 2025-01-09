@@ -89,7 +89,7 @@ const useArtists = () => {
 
   useEffect(() => {
     getArtists();
-  }, [getArtists]);
+  }, [getArtists, selectedArtist]);
 
   return {
     artists,
