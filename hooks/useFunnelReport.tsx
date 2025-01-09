@@ -21,7 +21,6 @@ const useFunnelReport = () => {
   };
 
   const clearReportCache = () => {
-    setFunnelAnalysis(null);
     setFunnelNextSteps("");
     setFunnelSummary("");
     setFunnelRawReportContent("");
