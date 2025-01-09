@@ -38,7 +38,7 @@ const useAgentSocket = () => {
       if (typeof dataGot?.status === "number") {
         setIsLoading(true);
         if (dataGot.status === STEP_OF_ANALYSIS.CREATED_ARTIST) {
-          if (funnelType === "wrapped") {
+          if (funnelType === "wrapped" && selectedArtist) {
             setSelectedArtist({
               ...dataGot.extra_data,
               ...selectedArtist,
@@ -48,16 +48,21 @@ const useAgentSocket = () => {
               ]),
               isWrapped: true,
             });
-          } else {
-            setSelectedArtist(dataGot.extra_data);
-          }
+          } else setSelectedArtist(dataGot.extra_data);
         }
 
-        if (dataGot.status === STEP_OF_ANALYSIS.FINISHED) await getAnalysis();
+        if (
+          dataGot.status === STEP_OF_ANALYSIS.FINISHED ||
+          dataGot.status === STEP_OF_ANALYSIS.WRAPPED_COMPLETED
+        )
+          await getAnalysis();
+        if (!dataGot?.funnel_type) return;
         const tempThoughts: any = { ...thoughts };
-        tempThoughts[`${dataGot.funnel_type}`].status = dataGot?.status;
-        tempThoughts[`${dataGot.funnel_type}`].progress = dataGot?.progress;
-        setThoughts(tempThoughts);
+        tempThoughts[`${dataGot.funnel_type}`] = {
+          status: dataGot?.status,
+          progress: dataGot?.progress,
+        };
+        setThoughts({ ...tempThoughts });
       }
     });
   }, [chatId, thoughts]);
@@ -71,10 +76,12 @@ const useAgentSocket = () => {
         spotify: { status: STEP_OF_ANALYSIS.INITITAL },
         tiktok: { status: STEP_OF_ANALYSIS.INITITAL },
         instagram: { status: STEP_OF_ANALYSIS.INITITAL },
+        wrapped: { status: STEP_OF_ANALYSIS.INITITAL },
       });
       setIsLoading(true);
       push(`/funnels/${funnelType}/${newChatId}`);
       const existingHandles = getExistingHandles(selectedArtist);
+      const handle = selectedArtist?.name || artistHandle;
       const handles = await getHandles(selectedArtist?.name || artistHandle);
       const funnels = ["twitter", "spotify", "tiktok", "instagram"];
       funnels.map((funnel) => {
@@ -82,11 +89,12 @@ const useAgentSocket = () => {
           handle:
             existingHandles[`${funnel}`] ||
             handles[`${funnel}`].replaceAll("@", "") ||
-            artistHandle,
+            handle,
           chat_id: newChatId,
           account_id: userData?.id,
           address,
           isWrapped: true,
+          existingArtistId: selectedArtist?.id,
         });
       });
     } else {
