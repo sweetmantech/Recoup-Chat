@@ -55,6 +55,10 @@ const useToolCall = (message: Message) => {
       const isAssistant = message.role === "assistant";
       if (!isAssistant || isCalled) return;
       setIsCalled(true);
+      console.log(
+        "ZIAD HERE",
+        isActiveToolCallTrigger(toolName, context?.status),
+      );
       if (isActiveToolCallTrigger(toolName, context?.status)) {
         if (toolName === Tools.getSegmentsReport && !isGettingAnalysis) {
           const activeArtist = artists.find(
@@ -82,7 +86,7 @@ const useToolCall = (message: Message) => {
           setFunnelNextSteps(nextSteps);
           setIsGettingAnalysis(false);
         }
-        if (toolName === Tools.getPitchReport) {
+        if (toolName === Tools.getPitchReport && !isGettingAnalysis) {
           setIsGettingAnalysis(true);
           setPitchName(context?.pitch_name);
           const { reportContent, rawContent } = await getFullReport({
