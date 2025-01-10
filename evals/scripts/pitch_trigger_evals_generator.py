@@ -8,7 +8,7 @@ content = {
     "input": (
         f"\n"
         f"Question: ${question}\n\n"
-        f"{instruction[""]}"
+        f"{instruction["pitch_report_trigger"]}"
     ),
     "ideal": ideal_value_str
 }
