@@ -14,8 +14,9 @@ content = {
         f"2.What is the listening habits?\n"
         f"3.Analyze a tiktok account.\n\n"
         f"4.Write Celebrity Relationship Commentators Pitch."
-        f"Instruction: {instruction['pitch_report_trigger']}"
-        f"To evaluate the tool's trigger mechanism, Respond only to questions fitting the specified format: '[Full question sentence]: [Pitch Name]'.\n"
+        f"Instruction: {instruction['pitch_report_trigger']}\n\n\n"
+        f"Based on instruction, I am gonna evaluate tool trigger.\n"
+        f"Response the only triggerable questions as this format [question full setence]: [pitch name].\n"
     ),
     "ideal": "Logic Pro, Celebrity Relationship Commentators"
 }
