@@ -4,7 +4,7 @@ const Artists = () => {
   const { artists, setSelectedArtist, toggleCreation } = useArtistProvider();
 
   return (
-    <div className="bg-black/50 p-4 rounded border border-green-900 max-h-[500px] overflow-y-auto">
+    <div className="bg-black/50 p-4 rounded border border-green-900">
       <button
         className="text-sm font-bold mb-2 border border-green-700 rounded-md px-2 py-1"
         onClick={toggleCreation}
@@ -14,7 +14,7 @@ const Artists = () => {
       <h2 className="text-sm font-bold mb-1">
         PLEASE, SELECT AN ARTIST TO ACTIVATE...
       </h2>
-      <div className="gap-1 flex flex-col items-start">
+      <div className="gap-1 flex flex-col items-start max-h-[250px] md:max-h-[500px] overflow-y-auto">
         {artists.map((artist) => (
           <button
             key={artist.id}

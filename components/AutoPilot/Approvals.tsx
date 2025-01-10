@@ -5,7 +5,7 @@ const Approvals = () => {
   const { selectedArtist, toggleCreation } = useArtistProvider();
 
   return (
-    <div className="border border-green-700 p-2 rounded-md flex flex-col">
+    <div className="border border-green-700 p-2 rounded-md flex flex-col grow">
       <div className="flex items-center gap-2 pb-1 border-b border-green-900">
         <Terminal className="h-5 w-5" />
         <h1 className="text-md font-bold">{selectedArtist?.name}</h1>
