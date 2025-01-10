@@ -13,10 +13,10 @@ content = {
         f"[Question List]:\n"
         f"1.How can I best pitch Logic Pro?\n"
         f"2.What is the listening habits?\n"
-        f"3.Analyze a tiktok account.\n\n"
+        f"3.Analyze a tiktok account.\n"
         f"4.Write Celebrity Relationship Commentators Pitch.\n\n\n"
         f"Based on instruction, I will evaluate the tool triggers according to the instructions.\n"
-        f"Please tell use which questions from the list of questions can trigger this tool.\n"
+        f"Please tell us which questions from the list of questions can trigger this tool.\n"
         f"Please answer in the following format: [Full question sentence]: [Pitch name]"
     ),
     "ideal": "Logic Pro, Celebrity Relationship Commentators"
