@@ -1,67 +1,62 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import HeatMap from "@uiw/react-heat-map";
 import useActivities from "@/hooks/useActivities";
 import { Twitter, Download } from "lucide-react";
-import domtoimage from "dom-to-image";
-import { uploadFile } from "@/lib/ipfs/uploadToIpfs";
-import getIpfsLink from "@/lib/ipfs/getIpfsLink";
 import { ONE_DAY_MILLISECONDS } from "@/lib/consts";
+import useShareHeatMap from "@/hooks/useShareHeatMap";
 
 const SocialSharing = () => {
   const today = new Date();
   const { activities } = useActivities();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const heatmap = useRef() as any;
-  const [loading, setLoading] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [blob, setBlob] = useState<any>(null);
-
-  const download = async () => {
-    if (!blob) return;
-    setLoading(true);
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "heatmap.png";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setLoading(false);
-  };
-
-  const tweets = async () => {
-    if (!blob) return;
-    setLoading(true);
-    const fileName = "heatmap.png";
-    const fileType = "image/png";
-    const mapFile = new File([blob], fileName, { type: fileType });
-    const { cid } = await uploadFile(mapFile);
-    const tweetLink = `https://x.com/intent/tweet?text=${encodeURIComponent(getIpfsLink(`ipfs://${cid}`))}`;
-    window.open(tweetLink, "_blank");
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    const init = async () => {
-      const domBlob = await domtoimage.toBlob(heatmap.current);
-      setBlob(domBlob);
-    };
-    if (!heatmap.current) return;
-    init();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [heatmap.current]);
+  const { heatmap, download, tweets, loading } = useShareHeatMap();
+  const [x, setX] = useState(0);
+  const [y, setY] = useState(0);
+  const [tooltipActive, setTooltipActive] = useState(false);
+  const [tooltipContent, setTooltipContent] = useState("");
 
   return (
     <div className="w-full mt-4">
       {activities?.length > 0 && (
         <>
-          <div ref={heatmap}>
+          <div ref={heatmap} className="relative">
             <HeatMap
               value={activities}
+              width={600}
               weekLabels={["", "Mon", "", "Wed", "", "Fri", ""]}
               startDate={new Date(today.getTime() - 330 * ONE_DAY_MILLISECONDS)}
               className="w-full"
+              rectRender={(props, data) => {
+                if (!data.count) return <rect {...props} />;
+                return (
+                  <rect
+                    {...props}
+                    onMouseOver={() => {
+                      setX(Number(props?.x));
+                      setY(Number(props?.y));
+                      setTooltipContent(data.count.toString());
+                      setTooltipActive(true);
+                    }}
+                    onMouseLeave={() => {
+                      setTooltipActive(false);
+                      setX(-1000000);
+                      setY(-1000000);
+                      setTooltipContent("");
+                    }}
+                  />
+                );
+              }}
             />
+            {tooltipActive && (
+              <div
+                className="absolute px-1 bg-black text-white text-[9px] rounded-md"
+                style={{
+                  left: x + 23,
+                  top: y - 2,
+                }}
+              >
+                {tooltipContent}
+              </div>
+            )}
           </div>
           <div className="flex gap-2 items-2 w-full justify-end">
             <button

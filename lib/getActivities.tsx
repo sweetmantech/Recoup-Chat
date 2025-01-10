@@ -10,7 +10,7 @@ const getActivities = (conversations: Array<Conversation>) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const activities = funnelAnalyses.reduce((acc: any, item: any) => {
     const date = new Date(item.timestamp);
-    const formattedDate = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`; //Month is 0-indexed
+    const formattedDate = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const existingEntry: any = acc.find(
