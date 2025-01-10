@@ -9,14 +9,15 @@ instruction = get_instruction()
 content = {
     "input": (
         f"\n"
-        f"Question:\n"
+        f"[Instruction]: {instruction['pitch_report_trigger']}\n\n\n"
+        f"[Question List]:\n"
         f"1.How can I best pitch Logic Pro?\n"
         f"2.What is the listening habits?\n"
         f"3.Analyze a tiktok account.\n\n"
-        f"4.Write Celebrity Relationship Commentators Pitch."
-        f"Instruction: {instruction['pitch_report_trigger']}\n\n\n"
-        f"Based on instruction, I am gonna evaluate tool trigger.\n"
-        f"Response the only triggerable questions as this format [question full setence]: [pitch name].\n"
+        f"4.Write Celebrity Relationship Commentators Pitch.\n\n\n"
+        f"Based on instruction, I will evaluate the tool triggers according to the instructions.\n"
+        f"Please tell use which questions from the list of questions can trigger this tool.\n"
+        f"Please answer in the following format: [Full question sentence]: [Pitch name]"
     ),
     "ideal": "Logic Pro, Celebrity Relationship Commentators"
 }
