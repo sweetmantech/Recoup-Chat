@@ -7,10 +7,10 @@ instruction = get_instruction()
 content = {
     "input": (
         f"\n"
-        f"Question: ${question}\n\n"
+        f"Question: how can I best pitch Logic Pro?\n\n"
         f"{instruction['pitch_report_trigger']}"
     ),
     "ideal": ""
 }
-registry_data = json.dumps(content) + "\n"
+registry_data = json.dumps(content)
 create_data("pitch_question_tool_trigger", registry_data)
