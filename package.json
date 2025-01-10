@@ -20,7 +20,6 @@
     "@types/dom-to-image": "^2.6.7",
     "@types/uuid": "^10.0.0",
     "@uiw/react-heat-map": "^2.3.2",
-    "@uiw/react-tooltip": "^4.22.3",
     "ai": "^3.3.17",
     "apify-client": "^2.9.7",
     "dom-to-image": "^2.6.0",
