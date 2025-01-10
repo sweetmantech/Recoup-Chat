@@ -2,8 +2,13 @@
 
 import { Terminal } from "lucide-react";
 import CurrentState from "./CurrentState";
+import { useArtistProvider } from "@/providers/ArtistProvider";
+import Artists from "./Artists";
+import Events from "./Events";
 
 const AutoPilot = () => {
+  const { selectedArtist } = useArtistProvider();
+
   return (
     <div className="grow h-screen overflow-hidden md:bg-background md:p-4">
       <div className="size-full bg-white overflow-y-auto rounded-xl flex flex-col justify-center gap-3 p-4 md:p-10">
@@ -19,12 +24,14 @@ const AutoPilot = () => {
           </div>
 
           <div className="space-y-4">
-            <CurrentState />
-            <div className="bg-black/50 p-4 rounded border border-green-900">
-              <h2 className="text-sm font-bold mb-2">EVENT_LOG</h2>
-              <div className="space-y-2"></div>
-            </div>
-
+            {selectedArtist ? (
+              <>
+                <CurrentState />
+                <Events />
+              </>
+            ) : (
+              <Artists />
+            )}
             <div className="flex items-center gap-2 text-sm text-green-600">
               <span className="animate-pulse">{">"}</span>
               <span>System operational - Press any key to interact</span>
