@@ -3,7 +3,6 @@ import { Conversation } from "@/types/Stack";
 
 const CurrentState = () => {
   const { conversations } = useConversations();
-  const latestTimestamp = new Date().toLocaleTimeString();
 
   const handleClickState = (conversation: Conversation) => {
     const chatId = conversation.metadata.conversationId;
@@ -22,8 +21,10 @@ const CurrentState = () => {
     <div className="bg-black/50 p-4 rounded border border-green-900">
       <h2 className="text-sm font-bold mb-2 flex gap-2">
         <span>CURRENT_STATE</span>
-        {latestTimestamp && (
-          <span className="text-green-600">@{latestTimestamp}</span>
+        {conversations?.length && (
+          <span className="text-green-600">
+            @{new Date(conversations[0].timestamp).toLocaleTimeString()}
+          </span>
         )}
       </h2>
       <div className="flex items-end gap-2">
