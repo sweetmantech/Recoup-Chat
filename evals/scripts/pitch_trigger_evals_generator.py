@@ -14,7 +14,6 @@ content = {
         f"2.What is the listening habits?\n"
         f"3.Analyze a tiktok account.\n\n"
         f"4.Write Celebrity Relationship Commentators Pitch."
-
         f"Instruction: {instruction['pitch_report_trigger']}"
         f"To evaluate the tool's trigger mechanism, Respond only to questions fitting the specified format: '[Full question sentence]: [Pitch Name]'.\n"
     ),
