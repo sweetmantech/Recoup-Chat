@@ -1,6 +1,7 @@
 from create_yaml_data import create_yaml, create_data
 from create_tiktok_analysis_registry_data import create_tiktok_analysis_registry_data
 from tiktok_analysis_evals_questions_ideals import evals_questions_ideals
+import json
 
 for item in evals_questions_ideals:
     question = item["question"]
