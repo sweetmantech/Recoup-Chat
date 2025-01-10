@@ -40,7 +40,11 @@ const useToolMessages = (question?: string, toolName?: any) => {
     },
     onError: console.error,
     onFinish: async (message) => {
-      if (toolName === Tools.getSegmentsReport) return;
+      if (
+        toolName === Tools.getSegmentsReport ||
+        toolName == Tools.getPitchReport
+      )
+        return;
       await finalCallback(
         message,
         {

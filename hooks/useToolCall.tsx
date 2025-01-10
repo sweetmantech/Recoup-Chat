@@ -25,7 +25,8 @@ const useToolCall = (message: Message) => {
     toolName,
   );
   const { setSelectedArtist, artists } = useArtistProvider();
-  const { setBannerArtistName, setBannerImage } = useFunnelReportProvider();
+  const { setBannerArtistName, setBannerImage, bannerArtistName, bannerImage } =
+    useFunnelReportProvider();
   const {
     setFunnelNextSteps,
     setIsGettingAnalysis,
@@ -33,6 +34,8 @@ const useToolCall = (message: Message) => {
     setFunnelReportContent,
     setFunnelRawReportContent,
     isGettingAnalysis,
+    setPitchName,
+    funnelRawReportContent,
   } = useFunnelReportProvider();
   const { email } = useUserProvider();
 
@@ -71,6 +74,22 @@ const useToolCall = (message: Message) => {
             ...context?.analysis,
             artistImage: bannerArtist?.avatar,
             artistName: bannerArtist?.nickname,
+            email,
+          });
+          setFunnelReportContent(reportContent);
+          setFunnelRawReportContent(rawContent);
+          const nextSteps = await getReportNextSteps(context?.analysis);
+          setFunnelNextSteps(nextSteps);
+          setIsGettingAnalysis(false);
+        }
+        if (toolName === Tools.getPitchReport) {
+          setIsGettingAnalysis(true);
+          setPitchName(context?.pitch_name);
+          const { reportContent, rawContent } = await getFullReport({
+            content: funnelRawReportContent,
+            pitch_name: context?.pitch_name,
+            artistImage: bannerArtistName,
+            artistName: bannerImage,
             email,
           });
           setFunnelReportContent(reportContent);

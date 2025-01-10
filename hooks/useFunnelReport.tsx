@@ -14,6 +14,7 @@ const useFunnelReport = () => {
   const [funnelSummary, setFunnelSummary] = useState("");
   const [bannerImage, setBannerImage] = useState("");
   const [bannerArtistName, setBannerArtistName] = useState("");
+  const [pitchName, setPitchName] = useState("");
 
   const initReport = () => {
     setFunnelTrends(null);
@@ -58,6 +59,8 @@ const useFunnelReport = () => {
     bannerArtistName,
     setBannerArtistName,
     setBannerImage,
+    pitchName,
+    setPitchName,
   };
 };
 
