@@ -8,9 +8,9 @@ content = {
     "input": (
         f"\n"
         f"Question: ${question}\n\n"
-        f"{instruction["pitch_report_trigger"]}"
+        f"{instruction['pitch_report_trigger']}"
     ),
-    "ideal": ideal_value_str
+    "ideal": ""
 }
 registry_data = json.dumps(content) + "\n"
 create_data("pitch_question_tool_trigger", registry_data)
