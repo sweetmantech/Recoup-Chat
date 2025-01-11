@@ -3,7 +3,6 @@ import useSpecificReport from "./useSpecificReport";
 import { v4 as uuidV4 } from "uuid";
 import saveTikTokReport from "@/lib/saveTikTokReport";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
-import { useParams } from "next/navigation";
 import { useChatProvider } from "@/providers/ChatProvider";
 
 const useToolCallParams = (message: Message) => {
@@ -16,10 +15,10 @@ const useToolCallParams = (message: Message) => {
   const toolName = toolInvocationResult?.toolName;
   const specificReportParams = useSpecificReport(message);
   const { finalCallback } = useMessagesProvider();
-  const { conversation: conversationId } = useParams();
   const { clearQuery } = useChatProvider();
 
   const trackReport = async (
+    conversationId: string,
     report: string,
     nextSteps: string,
     isSpecific: boolean = false,

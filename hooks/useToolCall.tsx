@@ -47,7 +47,8 @@ const useToolCall = (message: Message) => {
       if (isActiveToolCallTrigger(toolName, context?.status)) {
         if (
           toolName === Tools.getSegmentsReport &&
-          !funnelReport.isGettingAnalysis
+          !funnelReport.isGettingAnalysis &&
+          conversationId
         ) {
           const activeArtist = artists.find(
             (artist: ArtistRecord) => artist.id === context?.analysis?.artistId,
@@ -72,10 +73,15 @@ const useToolCall = (message: Message) => {
           funnelReport.setFunnelRawReportContent(rawContent);
           const nextSteps = await getReportNextSteps(context?.analysis);
           funnelReport.setFunnelNextSteps(nextSteps);
-          await trackReport(rawContent, nextSteps);
+          await trackReport(
+            conversationId as string,
+            rawContent,
+            nextSteps,
+            false,
+          );
           funnelReport.setIsGettingAnalysis(false);
         }
-        if (toolName === Tools.getPitchReport) {
+        if (toolName === Tools.getPitchReport && conversationId) {
           specificReportParams.setIsGeneratingReport(true);
           const { reportContent, rawContent } = await getPitchReport({
             content: funnelReport.funnelRawReportContent,
@@ -88,7 +94,12 @@ const useToolCall = (message: Message) => {
           specificReportParams.setRawReportContent(rawContent);
           const nextSteps = await getReportNextSteps(context?.analysis);
           specificReportParams.setNextSteps(nextSteps);
-          await trackReport(rawContent, nextSteps, true);
+          await trackReport(
+            conversationId as string,
+            rawContent,
+            nextSteps,
+            true,
+          );
           specificReportParams.setIsGeneratingReport(false);
         }
         setBeginCall(true);
@@ -96,7 +107,7 @@ const useToolCall = (message: Message) => {
     };
     if (!context || !question) return;
     init();
-  }, [question, context, toolName]);
+  }, [question, context, toolName, conversationId]);
 
   return {
     loading,
