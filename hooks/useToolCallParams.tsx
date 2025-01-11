@@ -14,7 +14,7 @@ const useToolCallParams = (message: Message) => {
   const question = toolInvocationResult?.result?.question || "";
   const context = toolInvocationResult?.result?.context || "";
   const toolName = toolInvocationResult?.toolName;
-  const specificReportParams = useSpecificReport();
+  const specificReportParams = useSpecificReport(message);
   const { finalCallback } = useMessagesProvider();
   const { conversation: conversationId } = useParams();
   const { clearQuery } = useChatProvider();

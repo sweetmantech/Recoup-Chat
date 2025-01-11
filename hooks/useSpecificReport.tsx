@@ -3,16 +3,14 @@ import getTikTokReport from "@/lib/tiktok/getTikTokReport";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
-import { useToolCallProvider } from "@/providers/ToolCallProvider";
 import { useEffect, useState } from "react";
 import getArtist from "@/lib/getArtist";
 
-const useSpecificReport = () => {
+const useSpecificReport = (message: any) => {
   const [reportContent, setReportContent] = useState("");
   const [rawReportContent, setRawReportContent] = useState("");
   const [nextSteps, setNextSteps] = useState("");
   const [isGeneratingReport, setIsGeneratingReport] = useState(false);
-  const { message, specificReportParams } = useToolCallProvider();
   const { messages } = useMessagesProvider();
   const { artists } = useArtistProvider();
   const funnelReport = useFunnelReportProvider();
@@ -32,9 +30,9 @@ const useSpecificReport = () => {
         funnelReport.setFunnelReportContent(getPdfReport(response.report));
         funnelReport.setFunnelNextSteps(response.next_steps);
       } else {
-        specificReportParams.setRawReportContent(response.report);
-        specificReportParams.setReportContent(getPdfReport(response.report));
-        specificReportParams.setNextSteps(response.next_steps);
+        setRawReportContent(response.report);
+        setReportContent(getPdfReport(response.report));
+        setNextSteps(response.next_steps);
       }
       setReportTracking(false);
     };
