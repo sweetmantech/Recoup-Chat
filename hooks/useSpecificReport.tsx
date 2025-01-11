@@ -32,9 +32,9 @@ const useSpecificReport = (message: any) => {
     });
     setReportContent(reportContent);
     setRawReportContent(rawContent);
-    const nextSteps = await getReportNextSteps(
-      funnelReport.funnelRawReportContent,
-    );
+    const nextSteps = await getReportNextSteps({
+      content: funnelReport.funnelRawReportContent,
+    });
     setNextSteps(nextSteps);
     setIsGeneratingReport(false);
 
