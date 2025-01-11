@@ -12,9 +12,8 @@ import { useEffect, useState } from "react";
 import { v4 as uuidV4 } from "uuid";
 import getArtist from "@/lib/getArtist";
 
-const useTikTokToolMessagesTrack = () => {
-  const { question, toolName, loading, messages, message } =
-    useToolCallProvider();
+const useReportToolMessagesTrack = () => {
+  const { question, toolName, loading, message } = useToolCallProvider();
   const { finalCallback } = useMessagesProvider();
   const { clearQuery } = useChatProvider();
   const { conversation: conversationId } = useParams();
@@ -33,10 +32,10 @@ const useTikTokToolMessagesTrack = () => {
 
   useEffect(() => {
     const track = async () => {
-      setFunnelSummary(messages[1].content);
+      setFunnelSummary(message.content);
       const stackUniqueId = uuidV4();
       const response = await saveTikTokReport({
-        summary: messages[1].content,
+        summary: message.content,
         next_steps: funnelNextSteps,
         report: funnelRawReportContent,
         stack_unique_id: stackUniqueId,
@@ -61,7 +60,8 @@ const useTikTokToolMessagesTrack = () => {
       !loading &&
       funnelRawReportContent &&
       funnelNextSteps &&
-      toolName === Tools.getSegmentsReport
+      (toolName === Tools.getSegmentsReport ||
+        toolName === Tools.getPitchReport)
     )
       track();
   }, [loading, funnelNextSteps, funnelRawReportContent, toolName]);
@@ -91,4 +91,4 @@ const useTikTokToolMessagesTrack = () => {
   };
 };
 
-export default useTikTokToolMessagesTrack;
+export default useReportToolMessagesTrack;

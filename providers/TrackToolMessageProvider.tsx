@@ -1,21 +1,21 @@
 "use client";
 
-import useTikTokToolMessagesTrack from "@/hooks/useTikTokToolMessagesTrack";
+import useReportToolMessagesTrack from "@/hooks/useReportToolMessagesTrack";
 import React, { createContext, useContext, useMemo } from "react";
 
 const TrackToolMessageContext = createContext<
-  ReturnType<typeof useTikTokToolMessagesTrack>
->({} as ReturnType<typeof useTikTokToolMessagesTrack>);
+  ReturnType<typeof useReportToolMessagesTrack>
+>({} as ReturnType<typeof useReportToolMessagesTrack>);
 
 const TrackToolMessageProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  const tiktokToolMessagesTrack = useTikTokToolMessagesTrack();
+  const reportToolMessagesTrack = useReportToolMessagesTrack();
   const value = useMemo(
-    () => ({ ...tiktokToolMessagesTrack }),
-    [tiktokToolMessagesTrack],
+    () => ({ ...reportToolMessagesTrack }),
+    [reportToolMessagesTrack],
   );
   return (
     <TrackToolMessageContext.Provider value={value}>

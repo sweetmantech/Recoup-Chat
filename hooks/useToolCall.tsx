@@ -55,10 +55,6 @@ const useToolCall = (message: Message) => {
       const isAssistant = message.role === "assistant";
       if (!isAssistant || isCalled) return;
       setIsCalled(true);
-      console.log(
-        "ZIAD HERE",
-        isActiveToolCallTrigger(toolName, context?.status),
-      );
       if (isActiveToolCallTrigger(toolName, context?.status)) {
         if (toolName === Tools.getSegmentsReport && !isGettingAnalysis) {
           const activeArtist = artists.find(
