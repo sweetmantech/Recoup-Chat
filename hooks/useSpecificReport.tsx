@@ -5,6 +5,9 @@ import { useMessagesProvider } from "@/providers/MessagesProvider";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { useEffect, useState } from "react";
 import getArtist from "@/lib/getArtist";
+import getPitchReport from "@/lib/getPitchReport";
+import getReportNextSteps from "@/lib/getReportNextSteps";
+import { useUserProvider } from "@/providers/UserProvder";
 
 const useSpecificReport = (message: any) => {
   const [reportContent, setReportContent] = useState("");
@@ -16,7 +19,30 @@ const useSpecificReport = (message: any) => {
   const funnelReport = useFunnelReportProvider();
   const messageIndex = messages.findIndex((ele) => ele.id === message.id);
   const [reportTracking, setReportTracking] = useState(true);
+  const { email } = useUserProvider();
 
+  const setSpecificReport = async (pitch_name: string) => {
+    setIsGeneratingReport(true);
+    const { reportContent, rawContent } = await getPitchReport({
+      content: funnelReport.funnelRawReportContent,
+      pitch_name: pitch_name,
+      artistImage: funnelReport.bannerArtistName,
+      artistName: funnelReport.bannerImage,
+      email,
+    });
+    setReportContent(reportContent);
+    setRawReportContent(rawContent);
+    const nextSteps = await getReportNextSteps(
+      funnelReport.funnelRawReportContent,
+    );
+    setNextSteps(nextSteps);
+    setIsGeneratingReport(false);
+
+    return {
+      rawContent,
+      nextSteps,
+    };
+  };
   useEffect(() => {
     const init = async () => {
       setReportTracking(true);
@@ -53,6 +79,7 @@ const useSpecificReport = (message: any) => {
     isGeneratingReport,
     setIsGeneratingReport,
     reportTracking,
+    setSpecificReport,
   };
 };
 

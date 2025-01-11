@@ -1,3 +1,6 @@
+import getFullReport from "@/lib/getFullReport";
+import getReportNextSteps from "@/lib/getReportNextSteps";
+import { useUserProvider } from "@/providers/UserProvder";
 import { useState } from "react";
 
 const useFunnelReport = () => {
@@ -14,6 +17,33 @@ const useFunnelReport = () => {
   const [bannerImage, setBannerImage] = useState("");
   const [bannerArtistName, setBannerArtistName] = useState("");
   const [pitchName, setPitchName] = useState("");
+  const { email } = useUserProvider();
+
+  const setFunnelReport = async (analysis: any, profiles: any) => {
+    setIsGettingAnalysis(true);
+    setFunnelAnalysis(analysis);
+    const bannerArtist = profiles?.find(
+      (profile: any) => profile?.nickname && profile?.avatar,
+    );
+    setBannerImage(bannerArtist?.avatar);
+    setBannerArtistName(bannerArtist?.nickname);
+    const { reportContent, rawContent } = await getFullReport({
+      ...analysis,
+      artistImage: bannerArtist?.avatar,
+      artistName: bannerArtist?.nickname,
+      email,
+    });
+    setFunnelReportContent(reportContent);
+    setFunnelRawReportContent(rawContent);
+    const nextSteps = await getReportNextSteps(analysis);
+    setFunnelNextSteps(nextSteps);
+    setIsGettingAnalysis(false);
+
+    return {
+      rawContent,
+      nextSteps,
+    };
+  };
 
   const initReport = () => {
     setFunnelTrends(null);
@@ -31,6 +61,7 @@ const useFunnelReport = () => {
 
   return {
     initReport,
+    setFunnelReport,
     isSearchingTrends,
     setFunnelTrends,
     setIsSearchingTrends,

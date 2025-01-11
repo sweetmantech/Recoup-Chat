@@ -7,14 +7,10 @@ import getToolCallMessage from "@/lib/getToolCallMessage";
 import useToolCallParams from "./useToolCallParams";
 import isActiveToolCallTrigger from "@/lib/isActiveToolCallTrigger";
 import { Tools } from "@/types/Tool";
-import getReportNextSteps from "@/lib/getReportNextSteps";
 import { ArtistRecord } from "@/types/Artist";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
-import getFullReport from "@/lib/getFullReport";
-import { useUserProvider } from "@/providers/UserProvder";
-import getPitchReport from "@/lib/getPitchReport";
 
 const useToolCall = (message: Message) => {
   const { finalCallback } = useMessagesProvider();
@@ -28,7 +24,6 @@ const useToolCall = (message: Message) => {
   );
   const { setSelectedArtist, artists } = useArtistProvider();
   const funnelReport = useFunnelReportProvider();
-  const { email } = useUserProvider();
 
   useEffect(() => {
     const init = async () => {
@@ -56,51 +51,26 @@ const useToolCall = (message: Message) => {
           if (activeArtist) {
             setSelectedArtist(activeArtist);
           }
-          funnelReport.setIsGettingAnalysis(true);
-          funnelReport.setFunnelAnalysis(context?.analysis);
-          const bannerArtist = context?.profiles?.find(
-            (profile: any) => profile?.nickname && profile?.avatar,
+          const { rawContent, nextSteps } = await funnelReport.setFunnelReport(
+            context?.analysis,
+            context?.profiles,
           );
-          funnelReport.setBannerImage(bannerArtist?.avatar);
-          funnelReport.setBannerArtistName(bannerArtist?.nickname);
-          const { reportContent, rawContent } = await getFullReport({
-            ...context?.analysis,
-            artistImage: bannerArtist?.avatar,
-            artistName: bannerArtist?.nickname,
-            email,
-          });
-          funnelReport.setFunnelReportContent(reportContent);
-          funnelReport.setFunnelRawReportContent(rawContent);
-          const nextSteps = await getReportNextSteps(context?.analysis);
-          funnelReport.setFunnelNextSteps(nextSteps);
           await trackReport(
             conversationId as string,
             rawContent,
             nextSteps,
             false,
           );
-          funnelReport.setIsGettingAnalysis(false);
         }
         if (toolName === Tools.getPitchReport && conversationId) {
-          specificReportParams.setIsGeneratingReport(true);
-          const { reportContent, rawContent } = await getPitchReport({
-            content: funnelReport.funnelRawReportContent,
-            pitch_name: context?.pitch_name,
-            artistImage: funnelReport.bannerArtistName,
-            artistName: funnelReport.bannerImage,
-            email,
-          });
-          specificReportParams.setReportContent(reportContent);
-          specificReportParams.setRawReportContent(rawContent);
-          const nextSteps = await getReportNextSteps(context?.analysis);
-          specificReportParams.setNextSteps(nextSteps);
+          const { rawContent, nextSteps } =
+            await specificReportParams.setSpecificReport(context?.pitch_name);
           await trackReport(
             conversationId as string,
             rawContent,
             nextSteps,
             true,
           );
-          specificReportParams.setIsGeneratingReport(false);
         }
         setBeginCall(true);
       }
