@@ -1,13 +1,20 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { usePrivy } from "@privy-io/react-auth";
 import { useState } from "react";
 
 export function StartButton() {
   const [isLoading, setIsLoading] = useState(false);
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
+  const { login, authenticated } = usePrivy();
 
   const handleClick = async () => {
+    if (!authenticated) {
+      login();
+      return;
+    }
+
     try {
       setIsLoading(true);
       const response = await fetch("/api/agentkit/run");
