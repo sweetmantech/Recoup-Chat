@@ -1,3 +1,6 @@
+import getFullReport from "@/lib/getFullReport";
+import getReportNextSteps from "@/lib/getReportNextSteps";
+import { useUserProvider } from "@/providers/UserProvder";
 import { useState } from "react";
 
 const useFunnelReport = () => {
@@ -5,7 +8,6 @@ const useFunnelReport = () => {
   const [isSearchingTrends, setIsSearchingTrends] = useState(false);
   const [isGettingVideos, setIsGettingVideos] = useState(false);
   const [isGettingAnalysis, setIsGettingAnalysis] = useState(false);
-  const [isGeneratingReport, setIsGeneratingReport] = useState(false);
   const [funnelVideos, setFunnelVideos] = useState<any>(null);
   const [funnelAnalysis, setFunnelAnalysis] = useState<any>(null);
   const [funnelNextSteps, setFunnelNextSteps] = useState("");
@@ -14,6 +16,34 @@ const useFunnelReport = () => {
   const [funnelSummary, setFunnelSummary] = useState("");
   const [bannerImage, setBannerImage] = useState("");
   const [bannerArtistName, setBannerArtistName] = useState("");
+  const [pitchName, setPitchName] = useState("");
+  const { email } = useUserProvider();
+
+  const setFunnelReport = async (analysis: any, profiles: any) => {
+    setIsGettingAnalysis(true);
+    setFunnelAnalysis(analysis);
+    const bannerArtist = profiles?.find(
+      (profile: any) => profile?.nickname && profile?.avatar,
+    );
+    setBannerImage(bannerArtist?.avatar);
+    setBannerArtistName(bannerArtist?.nickname);
+    const { reportContent, rawContent } = await getFullReport({
+      ...analysis,
+      artistImage: bannerArtist?.avatar,
+      artistName: bannerArtist?.nickname,
+      email,
+    });
+    setFunnelReportContent(reportContent);
+    setFunnelRawReportContent(rawContent);
+    const nextSteps = await getReportNextSteps(analysis);
+    setFunnelNextSteps(nextSteps);
+    setIsGettingAnalysis(false);
+
+    return {
+      rawContent,
+      nextSteps,
+    };
+  };
 
   const initReport = () => {
     setFunnelTrends(null);
@@ -31,6 +61,7 @@ const useFunnelReport = () => {
 
   return {
     initReport,
+    setFunnelReport,
     isSearchingTrends,
     setFunnelTrends,
     setIsSearchingTrends,
@@ -46,8 +77,6 @@ const useFunnelReport = () => {
     setIsGettingAnalysis,
     isGettingAnalysis,
     setFunnelReportContent,
-    setIsGeneratingReport,
-    isGeneratingReport,
     funnelAnalysis,
     setFunnelRawReportContent,
     funnelRawReportContent,
@@ -58,6 +87,8 @@ const useFunnelReport = () => {
     bannerArtistName,
     setBannerArtistName,
     setBannerImage,
+    pitchName,
+    setPitchName,
   };
 };
 

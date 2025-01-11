@@ -6,21 +6,15 @@ import { useChatProvider } from "@/providers/ChatProvider";
 import Icon from "../Icon";
 import ReportSummaryNote from "./ReportSummaryNote";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
-import { useTrackToolMessageProvider } from "@/providers/TrackToolMessageProvider";
-import { useMessagesProvider } from "@/providers/MessagesProvider";
 import Report from "./Report";
 
 const Message = ({ message, index }: { message: AIMessage; index: number }) => {
-  const { context, loading } = useToolCallProvider();
+  const { context, specificReportParams } = useToolCallProvider();
+  const { rawReportContent, nextSteps, reportContent } = specificReportParams;
   const { funnelNextSteps, funnelRawReportContent } = useFunnelReportProvider();
   const { reportEnabled } = useChatProvider();
-  const { pending, messages } = useMessagesProvider();
-  const { tiktokTracking } = useTrackToolMessageProvider();
   const summaryShown =
-    reportEnabled &&
-    index === 0 &&
-    (messages.length >= 2 || (messages.length === 0 && !pending && !loading)) &&
-    funnelNextSteps;
+    reportEnabled && ((funnelNextSteps && index === 0) || nextSteps);
 
   return (
     <div className="p-3 rounded-lg flex w-full gap-2">
@@ -33,18 +27,23 @@ const Message = ({ message, index }: { message: AIMessage; index: number }) => {
         className={`grow ${message.role === "user" && "flex justify-end"} max-w-[90%]`}
       >
         {context && <ToolContent />}
-        {tiktokTracking ? (
+        {specificReportParams?.reportTracking ? (
           <p> ...</p>
         ) : (
           <>
-            {funnelRawReportContent && index === 0 ? (
-              <Report />
+            {(funnelRawReportContent && index === 0) || nextSteps ? (
+              <Report rawContent={rawReportContent || funnelRawReportContent} />
             ) : (
               <ToolFollowUp message={message} />
             )}
           </>
         )}
-        {summaryShown && <ReportSummaryNote />}
+        {summaryShown && (
+          <ReportSummaryNote
+            reportContent={reportContent || funnelRawReportContent}
+            nextSteps={nextSteps || funnelNextSteps}
+          />
+        )}
       </div>
     </div>
   );

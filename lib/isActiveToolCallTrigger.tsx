@@ -7,6 +7,8 @@ const isActiveToolCallTrigger = (toolName: string, status: string) => {
       status === ArtistToolResponse.TIKTOK_TRENDS) ||
     (toolName === Tools.getVideosInfo &&
       status === ArtistToolResponse.VIDEO_COMMENTS) ||
+    (toolName === Tools.getPitchReport &&
+      status === ArtistToolResponse.FUNNEL_PITCH_REPORT) ||
     (toolName === Tools.getSegmentsReport &&
       status === ArtistToolResponse.FUNNEL_SEGMENT_REPORT)
   );

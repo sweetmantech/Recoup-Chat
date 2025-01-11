@@ -3,7 +3,6 @@
 import useToolCall from "@/hooks/useToolCall";
 import { Message } from "ai";
 import React, { createContext, useContext, useMemo } from "react";
-import { TrackToolMessageProvider } from "./TrackToolMessageProvider";
 
 type ToolCallContextType = ReturnType<typeof useToolCall> & {
   scrollTo: () => void;
@@ -31,7 +30,7 @@ const ToolCallProvider = ({
 
   return (
     <ToolCallContext.Provider value={value}>
-      <TrackToolMessageProvider>{children}</TrackToolMessageProvider>
+      {children}
     </ToolCallContext.Provider>
   );
 };

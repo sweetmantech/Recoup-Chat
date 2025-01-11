@@ -4,14 +4,14 @@ import addPageBreak from "@/lib/pdf/addPageBreak";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import SocialSharing from "../SocialSharing";
 
-const ReportSummaryNote = () => {
-  const {
-    funnelNextSteps,
-    funnelReportContent,
-    isGeneratingReport,
-    bannerImage,
-    bannerArtistName,
-  } = useFunnelReportProvider();
+const ReportSummaryNote = ({
+  nextSteps,
+  reportContent,
+}: {
+  nextSteps: string;
+  reportContent: string;
+}) => {
+  const { bannerImage, bannerArtistName } = useFunnelReportProvider();
   const { downloadReport } = useDownloadReport();
 
   return (
@@ -20,10 +20,10 @@ const ReportSummaryNote = () => {
       <p className="pt-4 text-[18px]">Next Steps</p>
       <div
         dangerouslySetInnerHTML={{
-          __html: funnelNextSteps,
+          __html: nextSteps,
         }}
       />
-      {funnelReportContent && (
+      {reportContent && (
         <div className="bg-white w-full min-h-screen fixed top-[99999999px] left-0 flex justify-center z-[99999999]">
           <div
             id="segment-report"
@@ -49,7 +49,7 @@ const ReportSummaryNote = () => {
               </div>
               <div
                 dangerouslySetInnerHTML={{
-                  __html: addPageBreak(funnelReportContent),
+                  __html: addPageBreak(reportContent),
                 }}
               />
             </div>
@@ -64,11 +64,8 @@ const ReportSummaryNote = () => {
         type="button"
         className="text-purple-dark mt-2"
         onClick={downloadReport}
-        disabled={isGeneratingReport}
       >
-        {isGeneratingReport
-          ? "Generating Report..."
-          : `[Download Full Report PDF]`}
+        {`[Download Full Report PDF]`}
       </button>
     </>
   );

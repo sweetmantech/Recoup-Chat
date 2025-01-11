@@ -13,12 +13,15 @@ export enum ArtistToolResponse {
   MISSING_VIDEO_URL = "MISSING_VIDEO_URL",
   VIDEO_COMMENTS = "VIDEO_COMMENTS",
   MISSING_SEGMENT_NAME_ANALYSIS_ID = "MISSING_SEGMENT_NAME_ANALYSIS_ID",
+  MISSING_PITCH_NAME = "MISSING_PITCH_NAME",
   FUNNEL_SEGMENT_REPORT = "FUNNEL_SEGMENT_REPORT",
+  FUNNEL_PITCH_REPORT = "FUNNEL_PITCH_REPORT",
 }
 
 export enum Tools {
   getScoreInfo = "getScoreInfo",
   getVideosInfo = "getVideosInfo",
   getSegmentsReport = "getSegmentsReport",
+  getPitchReport = "getPitchReport",
   getArtistAnalysis = "getArtistAnalysis",
 }
