@@ -73,9 +73,9 @@ const useReportToolMessagesTrack = () => {
       setTikTokTracking(true);
       const response = await getTikTokReport(message.metadata.referenceId);
       const artist = await getArtist(message.metadata?.artistId);
+      funnelReport.setBannerImage(artist?.image || "");
+      funnelReport.setBannerArtistName(artist?.name || "");
       if (messageIndex === 1) {
-        funnelReport.setBannerImage(artist?.image || "");
-        funnelReport.setBannerArtistName(artist?.name || "");
         funnelReport.setFunnelSummary(response.summary);
         funnelReport.setFunnelRawReportContent(response.report);
         funnelReport.setFunnelReportContent(getPdfReport(response.report));
