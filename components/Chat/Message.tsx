@@ -11,8 +11,9 @@ import Report from "./Report";
 
 const Message = ({ message, index }: { message: AIMessage; index: number }) => {
   const { context, specificReportParams } = useToolCallProvider();
-  const { rawReportContent, nextSteps } = specificReportParams;
-  const { funnelNextSteps, funnelRawReportContent } = useFunnelReportProvider();
+  const { rawReportContent, nextSteps, reportContent } = specificReportParams;
+  const { funnelNextSteps, funnelRawReportContent, funnelReportContent } =
+    useFunnelReportProvider();
   const { reportEnabled } = useChatProvider();
   const { tiktokTracking } = useTrackToolMessageProvider();
   const summaryShown =
@@ -42,7 +43,7 @@ const Message = ({ message, index }: { message: AIMessage; index: number }) => {
         )}
         {summaryShown && (
           <ReportSummaryNote
-            reportContent={funnelRawReportContent || rawReportContent}
+            reportContent={funnelReportContent || reportContent}
             nextSteps={funnelNextSteps || nextSteps}
           />
         )}
