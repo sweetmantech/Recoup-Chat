@@ -14,6 +14,7 @@ import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
 import getFullReport from "@/lib/getFullReport";
 import { useUserProvider } from "@/providers/UserProvder";
+import getPitchReport from "@/lib/getPitchReport";
 
 const useToolCall = (message: Message) => {
   const { finalCallback } = useMessagesProvider();
@@ -75,7 +76,7 @@ const useToolCall = (message: Message) => {
           funnelReport.setIsGettingAnalysis(false);
         }
         if (toolName === Tools.getPitchReport) {
-          const { reportContent, rawContent } = await getFullReport({
+          const { reportContent, rawContent } = await getPitchReport({
             content: funnelReport.funnelRawReportContent,
             pitch_name: context?.pitch_name,
             artistImage: funnelReport.bannerArtistName,
