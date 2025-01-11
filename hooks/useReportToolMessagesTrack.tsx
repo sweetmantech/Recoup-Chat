@@ -20,7 +20,6 @@ const useReportToolMessagesTrack = () => {
   const { conversation: conversationId } = useParams();
   const { artists } = useArtistProvider();
   const funnelReport = useFunnelReportProvider();
-  const [tiktokTracking, setTikTokTracking] = useState(true);
   const isReportTool =
     toolName === Tools.getSegmentsReport || toolName === Tools.getPitchReport;
   const messageIndex = messages.findIndex((ele) => ele.id === message.id);
@@ -32,8 +31,8 @@ const useReportToolMessagesTrack = () => {
     messageIndex === 1
       ? funnelReport.funnelRawReportContent
       : specificReportParams.rawReportContent;
+  const [tiktokTracking, setTikTokTracking] = useState(true);
 
-  if (!report || !nextSteps) return;
   useEffect(() => {
     const track = async () => {
       funnelReport.setFunnelSummary(message.content);
