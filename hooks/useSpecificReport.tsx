@@ -1,10 +1,49 @@
-import { useState } from "react";
+import getPdfReport from "@/lib/getPdfReport";
+import getTikTokReport from "@/lib/tiktok/getTikTokReport";
+import { useArtistProvider } from "@/providers/ArtistProvider";
+import { useMessagesProvider } from "@/providers/MessagesProvider";
+import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
+import { useToolCallProvider } from "@/providers/ToolCallProvider";
+import { useEffect, useState } from "react";
+import getArtist from "@/lib/getArtist";
 
 const useSpecificReport = () => {
   const [reportContent, setReportContent] = useState("");
   const [rawReportContent, setRawReportContent] = useState("");
   const [nextSteps, setNextSteps] = useState("");
   const [isGeneratingReport, setIsGeneratingReport] = useState(false);
+  const { message, specificReportParams } = useToolCallProvider();
+  const { messages } = useMessagesProvider();
+  const { artists } = useArtistProvider();
+  const funnelReport = useFunnelReportProvider();
+  const messageIndex = messages.findIndex((ele) => ele.id === message.id);
+  const [reportTracking, setReportTracking] = useState(true);
+
+  useEffect(() => {
+    const init = async () => {
+      setReportTracking(true);
+      const response = await getTikTokReport(message.metadata.referenceId);
+      if (messageIndex === 1) {
+        const artist = await getArtist(message.metadata?.artistId);
+        funnelReport.setBannerImage(artist?.image || "");
+        funnelReport.setBannerArtistName(artist?.name || "");
+        funnelReport.setFunnelSummary(response.summary);
+        funnelReport.setFunnelRawReportContent(response.report);
+        funnelReport.setFunnelReportContent(getPdfReport(response.report));
+        funnelReport.setFunnelNextSteps(response.next_steps);
+      } else {
+        specificReportParams.setRawReportContent(response.report);
+        specificReportParams.setReportContent(getPdfReport(response.report));
+        specificReportParams.setNextSteps(response.next_steps);
+      }
+      setReportTracking(false);
+    };
+    if (!message?.metadata?.referenceId) {
+      setReportTracking(false);
+      return;
+    }
+    init();
+  }, [message, artists]);
 
   return {
     reportContent,
@@ -15,6 +54,7 @@ const useSpecificReport = () => {
     setNextSteps,
     isGeneratingReport,
     setIsGeneratingReport,
+    reportTracking,
   };
 };
 

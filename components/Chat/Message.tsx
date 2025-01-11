@@ -6,7 +6,6 @@ import { useChatProvider } from "@/providers/ChatProvider";
 import Icon from "../Icon";
 import ReportSummaryNote from "./ReportSummaryNote";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
-import { useTrackToolMessageProvider } from "@/providers/TrackToolMessageProvider";
 import Report from "./Report";
 
 const Message = ({ message, index }: { message: AIMessage; index: number }) => {
@@ -14,7 +13,6 @@ const Message = ({ message, index }: { message: AIMessage; index: number }) => {
   const { rawReportContent, nextSteps, reportContent } = specificReportParams;
   const { funnelNextSteps, funnelRawReportContent } = useFunnelReportProvider();
   const { reportEnabled } = useChatProvider();
-  const { tiktokTracking } = useTrackToolMessageProvider();
   const summaryShown =
     reportEnabled && ((funnelNextSteps && index === 0) || nextSteps);
 
@@ -29,7 +27,7 @@ const Message = ({ message, index }: { message: AIMessage; index: number }) => {
         className={`grow ${message.role === "user" && "flex justify-end"} max-w-[90%]`}
       >
         {context && <ToolContent />}
-        {tiktokTracking ? (
+        {specificReportParams?.reportTracking ? (
           <p> ...</p>
         ) : (
           <>

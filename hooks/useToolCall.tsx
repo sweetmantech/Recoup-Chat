@@ -20,7 +20,7 @@ const useToolCall = (message: Message) => {
   const { finalCallback } = useMessagesProvider();
   const { conversation: conversationId } = useParams();
   const [isCalled, setIsCalled] = useState(false);
-  const { toolName, context, question, specificReportParams } =
+  const { toolName, context, question, specificReportParams, trackReport } =
     useToolCallParams(message);
   const { setBeginCall, answer, loading, messages } = useToolMessages(
     question,
@@ -41,7 +41,6 @@ const useToolCall = (message: Message) => {
         );
         return;
       }
-
       const isAssistant = message.role === "assistant";
       if (!isAssistant || isCalled) return;
       setIsCalled(true);
@@ -73,6 +72,7 @@ const useToolCall = (message: Message) => {
           funnelReport.setFunnelRawReportContent(rawContent);
           const nextSteps = await getReportNextSteps(context?.analysis);
           funnelReport.setFunnelNextSteps(nextSteps);
+          await trackReport(rawContent, nextSteps);
           funnelReport.setIsGettingAnalysis(false);
         }
         if (toolName === Tools.getPitchReport) {
@@ -88,6 +88,7 @@ const useToolCall = (message: Message) => {
           specificReportParams.setRawReportContent(rawContent);
           const nextSteps = await getReportNextSteps(context?.analysis);
           specificReportParams.setNextSteps(nextSteps);
+          await trackReport(rawContent, nextSteps, true);
           specificReportParams.setIsGeneratingReport(false);
         }
         setBeginCall(true);
