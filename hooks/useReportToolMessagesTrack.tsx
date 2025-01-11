@@ -24,20 +24,21 @@ const useReportToolMessagesTrack = () => {
   const isReportTool =
     toolName === Tools.getSegmentsReport || toolName === Tools.getPitchReport;
   const messageIndex = messages.findIndex((ele) => ele.id === message.id);
+  const nextSteps =
+    messageIndex === 1
+      ? funnelReport.funnelNextSteps
+      : specificReportParams.nextSteps;
+  const report =
+    messageIndex === 1
+      ? funnelReport.funnelRawReportContent
+      : specificReportParams.rawReportContent;
 
+  if (!report || !nextSteps) return;
   useEffect(() => {
     const track = async () => {
       funnelReport.setFunnelSummary(message.content);
       const stackUniqueId = uuidV4();
-      const nextSteps =
-        messageIndex === 1
-          ? funnelReport.funnelNextSteps
-          : specificReportParams.nextSteps;
-      const report =
-        messageIndex === 1
-          ? funnelReport.funnelRawReportContent
-          : specificReportParams.rawReportContent;
-      if (!report || !nextSteps) return;
+
       const response = await saveTikTokReport({
         summary: message.content,
         next_steps: nextSteps,
@@ -60,8 +61,8 @@ const useReportToolMessagesTrack = () => {
       );
       clearQuery();
     };
-    if (!loading && isReportTool) track();
-  }, [loading, funnelReport, specificReportParams, isReportTool]);
+    if (!loading && isReportTool && nextSteps && report) track();
+  }, [loading, nextSteps, report, isReportTool]);
 
   useEffect(() => {
     const init = async () => {
