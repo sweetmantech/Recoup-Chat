@@ -11,8 +11,7 @@ const ReportSummaryNote = ({
   nextSteps: string;
   reportContent: string;
 }) => {
-  const { isGeneratingReport, bannerImage, bannerArtistName } =
-    useFunnelReportProvider();
+  const { bannerImage, bannerArtistName } = useFunnelReportProvider();
   const { downloadReport } = useDownloadReport();
 
   return (
@@ -65,11 +64,8 @@ const ReportSummaryNote = ({
         type="button"
         className="text-purple-dark mt-2"
         onClick={downloadReport}
-        disabled={isGeneratingReport}
       >
-        {isGeneratingReport
-          ? "Generating Report..."
-          : `[Download Full Report PDF]`}
+        {`[Download Full Report PDF]`}
       </button>
     </>
   );
