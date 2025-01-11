@@ -13,15 +13,9 @@ import { v4 as uuidV4 } from "uuid";
 import getArtist from "@/lib/getArtist";
 
 const useReportToolMessagesTrack = () => {
-  const {
-    question,
-    toolName,
-    loading,
-    messages,
-    message,
-    specificReportParams,
-  } = useToolCallProvider();
-  const { finalCallback } = useMessagesProvider();
+  const { question, toolName, loading, message, specificReportParams } =
+    useToolCallProvider();
+  const { finalCallback, messages } = useMessagesProvider();
   const { clearQuery } = useChatProvider();
   const { conversation: conversationId } = useParams();
   const { artists } = useArtistProvider();
@@ -43,6 +37,7 @@ const useReportToolMessagesTrack = () => {
         messageIndex === 1
           ? funnelReport.funnelRawReportContent
           : specificReportParams.rawReportContent;
+      if (!report || !nextSteps) return;
       const response = await saveTikTokReport({
         summary: message.content,
         next_steps: nextSteps,
