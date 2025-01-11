@@ -19,29 +19,18 @@ const useToolCall = (message: Message) => {
   const { finalCallback } = useMessagesProvider();
   const { conversation: conversationId } = useParams();
   const [isCalled, setIsCalled] = useState(false);
-  const { toolName, context, question } = useToolCallParams(message);
+  const { toolName, context, question, specificReportParams } =
+    useToolCallParams(message);
   const { setBeginCall, answer, loading, messages } = useToolMessages(
     question,
     toolName,
   );
   const { setSelectedArtist, artists } = useArtistProvider();
-  const { setBannerArtistName, setBannerImage, bannerArtistName, bannerImage } =
-    useFunnelReportProvider();
-  const {
-    setFunnelNextSteps,
-    setIsGettingAnalysis,
-    setFunnelAnalysis,
-    setFunnelReportContent,
-    setFunnelRawReportContent,
-    isGettingAnalysis,
-    setPitchName,
-    funnelRawReportContent,
-  } = useFunnelReportProvider();
+  const funnelReport = useFunnelReportProvider();
   const { email } = useUserProvider();
 
   useEffect(() => {
     const init = async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const newToolCallMessage: any = getToolCallMessage(toolName, context);
       if (newToolCallMessage) {
         finalCallback(
@@ -56,47 +45,47 @@ const useToolCall = (message: Message) => {
       if (!isAssistant || isCalled) return;
       setIsCalled(true);
       if (isActiveToolCallTrigger(toolName, context?.status)) {
-        if (toolName === Tools.getSegmentsReport && !isGettingAnalysis) {
+        if (
+          toolName === Tools.getSegmentsReport &&
+          !funnelReport.isGettingAnalysis
+        ) {
           const activeArtist = artists.find(
             (artist: ArtistRecord) => artist.id === context?.analysis?.artistId,
           );
           if (activeArtist) {
             setSelectedArtist(activeArtist);
           }
-          setIsGettingAnalysis(true);
-          setFunnelAnalysis(context?.analysis);
+          funnelReport.setIsGettingAnalysis(true);
+          funnelReport.setFunnelAnalysis(context?.analysis);
           const bannerArtist = context?.profiles?.find(
             (profile: any) => profile?.nickname && profile?.avatar,
           );
-          setBannerImage(bannerArtist?.avatar);
-          setBannerArtistName(bannerArtist?.nickname);
+          funnelReport.setBannerImage(bannerArtist?.avatar);
+          funnelReport.setBannerArtistName(bannerArtist?.nickname);
           const { reportContent, rawContent } = await getFullReport({
             ...context?.analysis,
             artistImage: bannerArtist?.avatar,
             artistName: bannerArtist?.nickname,
             email,
           });
-          setFunnelReportContent(reportContent);
-          setFunnelRawReportContent(rawContent);
+          funnelReport.setFunnelReportContent(reportContent);
+          funnelReport.setFunnelRawReportContent(rawContent);
           const nextSteps = await getReportNextSteps(context?.analysis);
-          setFunnelNextSteps(nextSteps);
-          setIsGettingAnalysis(false);
+          funnelReport.setFunnelNextSteps(nextSteps);
+          funnelReport.setIsGettingAnalysis(false);
         }
-        if (toolName === Tools.getPitchReport && !isGettingAnalysis) {
-          setIsGettingAnalysis(true);
-          setPitchName(context?.pitch_name);
+        if (toolName === Tools.getPitchReport) {
           const { reportContent, rawContent } = await getFullReport({
-            content: funnelRawReportContent,
+            content: funnelReport.funnelRawReportContent,
             pitch_name: context?.pitch_name,
-            artistImage: bannerArtistName,
-            artistName: bannerImage,
+            artistImage: funnelReport.bannerArtistName,
+            artistName: funnelReport.bannerImage,
             email,
           });
-          setFunnelReportContent(reportContent);
-          setFunnelRawReportContent(rawContent);
+          specificReportParams.setReportContent(reportContent);
+          specificReportParams.setRawReportContent(rawContent);
           const nextSteps = await getReportNextSteps(context?.analysis);
-          setFunnelNextSteps(nextSteps);
-          setIsGettingAnalysis(false);
+          specificReportParams.setNextSteps(nextSteps);
         }
         setBeginCall(true);
       }
@@ -112,6 +101,7 @@ const useToolCall = (message: Message) => {
     question,
     context,
     messages,
+    specificReportParams,
   };
 };
 

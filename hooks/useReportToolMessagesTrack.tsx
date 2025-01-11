@@ -13,37 +13,46 @@ import { v4 as uuidV4 } from "uuid";
 import getArtist from "@/lib/getArtist";
 
 const useReportToolMessagesTrack = () => {
-  const { question, toolName, loading, message } = useToolCallProvider();
+  const {
+    question,
+    toolName,
+    loading,
+    messages,
+    message,
+    specificReportParams,
+  } = useToolCallProvider();
   const { finalCallback } = useMessagesProvider();
   const { clearQuery } = useChatProvider();
   const { conversation: conversationId } = useParams();
   const { artists } = useArtistProvider();
-  const {
-    funnelRawReportContent,
-    funnelNextSteps,
-    setFunnelSummary,
-    setFunnelNextSteps,
-    setFunnelRawReportContent,
-    setFunnelReportContent,
-    setBannerArtistName,
-    setBannerImage,
-  } = useFunnelReportProvider();
+  const funnelReport = useFunnelReportProvider();
   const [tiktokTracking, setTikTokTracking] = useState(true);
+  const isReportTool =
+    toolName === Tools.getSegmentsReport || toolName === Tools.getPitchReport;
+  const messageIndex = messages.findIndex((ele) => ele.id === message.id);
 
   useEffect(() => {
     const track = async () => {
-      setFunnelSummary(message.content);
+      funnelReport.setFunnelSummary(message.content);
       const stackUniqueId = uuidV4();
+      const nextSteps =
+        messageIndex === 1
+          ? funnelReport.funnelNextSteps
+          : specificReportParams.nextSteps;
+      const report =
+        messageIndex === 1
+          ? funnelReport.funnelRawReportContent
+          : specificReportParams.rawReportContent;
       const response = await saveTikTokReport({
         summary: message.content,
-        next_steps: funnelNextSteps,
-        report: funnelRawReportContent,
+        next_steps: nextSteps,
+        report,
         stack_unique_id: stackUniqueId,
       });
       await finalCallback(
         {
           id: stackUniqueId,
-          content: "Funnel Report",
+          content: messageIndex === 1 ? "Funnel Report" : "Specific Report",
           role: "assistant",
         },
         {
@@ -56,27 +65,26 @@ const useReportToolMessagesTrack = () => {
       );
       clearQuery();
     };
-    if (
-      !loading &&
-      funnelRawReportContent &&
-      funnelNextSteps &&
-      (toolName === Tools.getSegmentsReport ||
-        toolName === Tools.getPitchReport)
-    )
-      track();
-  }, [loading, funnelNextSteps, funnelRawReportContent, toolName]);
+    if (!loading && isReportTool) track();
+  }, [loading, funnelReport, specificReportParams, isReportTool]);
 
   useEffect(() => {
     const init = async () => {
       setTikTokTracking(true);
       const response = await getTikTokReport(message.metadata.referenceId);
       const artist = await getArtist(message.metadata?.artistId);
-      setBannerImage(artist?.image || "");
-      setBannerArtistName(artist?.name || "");
-      setFunnelSummary(response.summary);
-      setFunnelRawReportContent(response.report);
-      setFunnelReportContent(getPdfReport(response.report));
-      setFunnelNextSteps(response.next_steps);
+      if (messageIndex === 1) {
+        funnelReport.setBannerImage(artist?.image || "");
+        funnelReport.setBannerArtistName(artist?.name || "");
+        funnelReport.setFunnelSummary(response.summary);
+        funnelReport.setFunnelRawReportContent(response.report);
+        funnelReport.setFunnelReportContent(getPdfReport(response.report));
+        funnelReport.setFunnelNextSteps(response.next_steps);
+      } else {
+        specificReportParams.setRawReportContent(response.report);
+        specificReportParams.setReportContent(getPdfReport(response.report));
+        specificReportParams.setNextSteps(response.next_steps);
+      }
       setTikTokTracking(false);
     };
     if (!message?.metadata?.referenceId) {

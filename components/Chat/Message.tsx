@@ -7,20 +7,16 @@ import Icon from "../Icon";
 import ReportSummaryNote from "./ReportSummaryNote";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { useTrackToolMessageProvider } from "@/providers/TrackToolMessageProvider";
-import { useMessagesProvider } from "@/providers/MessagesProvider";
 import Report from "./Report";
 
 const Message = ({ message, index }: { message: AIMessage; index: number }) => {
-  const { context, loading } = useToolCallProvider();
+  const { context, specificReportParams } = useToolCallProvider();
+  const { rawReportContent, nextSteps } = specificReportParams;
   const { funnelNextSteps, funnelRawReportContent } = useFunnelReportProvider();
   const { reportEnabled } = useChatProvider();
-  const { pending, messages } = useMessagesProvider();
   const { tiktokTracking } = useTrackToolMessageProvider();
   const summaryShown =
-    reportEnabled &&
-    index === 0 &&
-    (messages.length >= 2 || (messages.length === 0 && !pending && !loading)) &&
-    funnelNextSteps;
+    reportEnabled && ((funnelNextSteps && index === 0) || nextSteps);
 
   return (
     <div className="p-3 rounded-lg flex w-full gap-2">
@@ -37,14 +33,19 @@ const Message = ({ message, index }: { message: AIMessage; index: number }) => {
           <p> ...</p>
         ) : (
           <>
-            {funnelRawReportContent && index === 0 ? (
-              <Report />
+            {(funnelRawReportContent && index === 0) || nextSteps ? (
+              <Report rawContent={funnelRawReportContent || rawReportContent} />
             ) : (
               <ToolFollowUp message={message} />
             )}
           </>
         )}
-        {summaryShown && <ReportSummaryNote />}
+        {summaryShown && (
+          <ReportSummaryNote
+            reportContent={funnelRawReportContent || rawReportContent}
+            nextSteps={funnelNextSteps || nextSteps}
+          />
+        )}
       </div>
     </div>
   );
