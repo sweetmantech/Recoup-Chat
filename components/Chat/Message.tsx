@@ -12,8 +12,7 @@ import Report from "./Report";
 const Message = ({ message, index }: { message: AIMessage; index: number }) => {
   const { context, specificReportParams } = useToolCallProvider();
   const { rawReportContent, nextSteps, reportContent } = specificReportParams;
-  const { funnelNextSteps, funnelRawReportContent, funnelReportContent } =
-    useFunnelReportProvider();
+  const { funnelNextSteps, funnelRawReportContent } = useFunnelReportProvider();
   const { reportEnabled } = useChatProvider();
   const { tiktokTracking } = useTrackToolMessageProvider();
   const summaryShown =
@@ -35,7 +34,7 @@ const Message = ({ message, index }: { message: AIMessage; index: number }) => {
         ) : (
           <>
             {(funnelRawReportContent && index === 0) || nextSteps ? (
-              <Report rawContent={funnelRawReportContent || rawReportContent} />
+              <Report rawContent={rawReportContent || funnelRawReportContent} />
             ) : (
               <ToolFollowUp message={message} />
             )}
@@ -43,8 +42,8 @@ const Message = ({ message, index }: { message: AIMessage; index: number }) => {
         )}
         {summaryShown && (
           <ReportSummaryNote
-            reportContent={funnelReportContent || reportContent}
-            nextSteps={funnelNextSteps || nextSteps}
+            reportContent={reportContent || funnelRawReportContent}
+            nextSteps={nextSteps || funnelNextSteps}
           />
         )}
       </div>

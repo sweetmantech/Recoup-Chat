@@ -4,6 +4,7 @@ const useSpecificReport = () => {
   const [reportContent, setReportContent] = useState("");
   const [rawReportContent, setRawReportContent] = useState("");
   const [nextSteps, setNextSteps] = useState("");
+  const [isGeneratingReport, setIsGeneratingReport] = useState(false);
 
   return {
     reportContent,
@@ -12,6 +13,8 @@ const useSpecificReport = () => {
     setReportContent,
     setRawReportContent,
     setNextSteps,
+    isGeneratingReport,
+    setIsGeneratingReport,
   };
 };
 

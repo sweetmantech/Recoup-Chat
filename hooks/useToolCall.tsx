@@ -76,6 +76,7 @@ const useToolCall = (message: Message) => {
           funnelReport.setIsGettingAnalysis(false);
         }
         if (toolName === Tools.getPitchReport) {
+          specificReportParams.setIsGeneratingReport(true);
           const { reportContent, rawContent } = await getPitchReport({
             content: funnelReport.funnelRawReportContent,
             pitch_name: context?.pitch_name,
@@ -87,6 +88,7 @@ const useToolCall = (message: Message) => {
           specificReportParams.setRawReportContent(rawContent);
           const nextSteps = await getReportNextSteps(context?.analysis);
           specificReportParams.setNextSteps(nextSteps);
+          specificReportParams.setIsGeneratingReport(false);
         }
         setBeginCall(true);
       }

@@ -8,12 +8,17 @@ import { Tools } from "@/types/Tool";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 
 const ToolFollowUp = ({ message }: { message: AIMessage }) => {
-  const { loading, answer, toolName, context } = useToolCallProvider();
+  const { loading, answer, toolName, context, specificReportParams } =
+    useToolCallProvider();
   const { isSearchingTrends, isGettingVideos, isGettingAnalysis } =
     useFunnelReportProvider();
   const content = message.content || answer;
   const isThinking =
-    loading || isSearchingTrends || isGettingVideos || isGettingAnalysis;
+    loading ||
+    isSearchingTrends ||
+    isGettingVideos ||
+    isGettingAnalysis ||
+    specificReportParams.isGeneratingReport;
 
   useEffect(() => {
     scrollTo();
@@ -26,6 +31,7 @@ const ToolFollowUp = ({ message }: { message: AIMessage }) => {
     <div>
       {(toolName === Tools.getArtistAnalysis ||
         toolName === Tools.getSegmentsReport ||
+        toolName === Tools.getPitchReport ||
         toolName === Tools.getVideosInfo ||
         toolName === Tools.getVideosInfo) && (
         <>
