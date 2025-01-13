@@ -19,8 +19,12 @@ const useFunnelAnalysis = () => {
   const { setSelectedArtist, selectedArtist, getArtists } = useArtistProvider();
   const { chat_id: chatId } = useParams();
   const { clearMessagesCache } = useInitialChatProvider();
-  const { clearReportCache, setBannerArtistName, setBannerImage } =
-    useFunnelReportProvider();
+  const {
+    clearReportCache,
+    setBannerArtistName,
+    setBannerImage,
+    setFunnelAnalysis,
+  } = useFunnelReportProvider();
   const { fetchConversations } = useConversationsProvider();
   const { address } = useUserProvider();
 
@@ -30,6 +34,7 @@ const useFunnelAnalysis = () => {
     clearMessagesCache();
     const funnel_analyses: any = await getFunnelAnalysis(chatId as string);
     if (!funnel_analyses || funnel_analyses?.length === 0) return;
+    setFunnelAnalysis(funnel_analyses);
     const wrappedAnalysis = getWrappedAnalysis(funnel_analyses);
     const artist: any = getAggregatedArtist(funnel_analyses);
     const aggregatedArtistProfile: any = getAggregatedProfile(
