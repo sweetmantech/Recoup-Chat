@@ -12,7 +12,7 @@ const usePrompts = () => {
   const [currentQuestion, setCurrentQuestion] = useState<Message | null>(null);
   const pathname = usePathname();
   const isNewChat = pathname === "/";
-  const { funnelRawReportContent } = useFunnelReportProvider();
+  const { funnelAnalysis, funnelRawReportContent } = useFunnelReportProvider();
 
   useEffect(() => {
     if (selectedArtist) {
@@ -27,11 +27,11 @@ const usePrompts = () => {
 
   const getPrompts = async (content: string, isTikTokAnalysis?: boolean) => {
     const funnel_report = content === "Funnel Report";
-    if (funnel_report) content = funnelRawReportContent;
+    if (funnel_report) content = funnelAnalysis || funnelRawReportContent;
     if (!content) return;
     const response = await fetch(
       isTikTokAnalysis || funnel_report
-        ? "/api/prompts/tiktok_analysis"
+        ? "/api/prompts/funnel_analysis"
         : "/api/prompts",
       {
         method: "POST",
