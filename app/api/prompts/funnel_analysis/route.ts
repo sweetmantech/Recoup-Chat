@@ -1,7 +1,6 @@
 import { AI_MODEL } from "@/lib/consts";
 import { NextRequest } from "next/server";
 import OpenAI from "openai";
-import instructions from "@/evals/scripts/instructions.json";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -15,7 +14,15 @@ export async function POST(req: NextRequest) {
       messages: [
         {
           role: "user",
-          content: `${instructions.get_analysis_suggestion}
+          content: `Based on the conversation context, generate four helpful follow-up questions.
+            Format your answers using ONLY this structure:
+            Prioritizes segment names with the highest value among segments in a given context.
+            Examples: 
+              - "Write [Segment Name] Pitch" 
+              - "Write [Segment Name] Pitch"
+              - "Create TikTok Content Ideas"
+              - "Do a Deeper Analysis"
+          
           Context:
           ${answer}
           `,
