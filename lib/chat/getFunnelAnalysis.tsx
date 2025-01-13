@@ -9,7 +9,7 @@ const getFunnelAnalysis = async (chat_id: string) => {
       funnel_analytics_segments (
         icon,
         name,
-        size,
+        size
       ),
       funnel_analytics_profile (
         *,
