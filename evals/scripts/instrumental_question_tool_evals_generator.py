@@ -4,7 +4,7 @@ from get_instruction import get_instruction
 from create_yaml_data import create_yaml, create_data
 from get_pitch_report_context import get_pitch_report_context
 
-create_yaml("instrumental_suggestion_trigger", "Answer should include ideal value concept.", "Trigger evaluation of questions related to instrumental styles.")
+create_yaml("instrumental_suggestion_trigger", "Answer should be equal to the ideal value in terms of meaning.", "Trigger evaluation of questions related to instrumental styles.")
 
 instruction = get_instruction()
 context = get_pitch_report_context()
