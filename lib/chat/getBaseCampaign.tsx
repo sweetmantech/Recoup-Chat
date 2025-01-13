@@ -21,16 +21,16 @@ const getBaseCampaign = async (artistId: string, email: string) => {
     0;
   const episodes_names = campaign?.episodes?.map(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (episode: any) => episode.name
+    (episode: any) => episode.name,
   );
   const episodes_descriptions = campaign?.episodes?.map(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (episode: any) => episode.description
+    (episode: any) => episode.description,
   );
   const { average_count, total_count } = await getStreamsCount(
     client,
     artistId,
-    email
+    email,
   );
   const artist_top_song_fans_listening_count =
     await getTopSongListeningFansCount(artistId, email);
