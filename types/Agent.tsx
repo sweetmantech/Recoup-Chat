@@ -7,6 +7,7 @@ export type FUNNEL_ANALYSIS = {
   type: string;
   funnel_analytics_segments: Array<SEGMENT>;
   funnel_analytics_profile: Array<ARTIST_PROFILE>;
+  funnel_analytics_comments: Array<COMMENT>;
 };
 
 export type SEGMENT = {
@@ -16,6 +17,13 @@ export type SEGMENT = {
   size: number;
   created_at: string;
   analysis_id: string;
+};
+
+export type COMMENT = {
+  username: string;
+  post_url: string;
+  type: string;
+  comment: string;
 };
 
 export type ARTIST_PROFILE = {

@@ -4,6 +4,7 @@ import {
   HTML_RESPONSE_FORMAT_INSTRUCTIONS,
   REPORT_SUMMARY_NOTE,
 } from "../consts";
+import { FUNNEL_ANALYSIS } from "@/types/Agent";
 
 // eslint-disable-next-line  @typescript-eslint/no-explicit-any
 const toolSystemMessage = (context: any, question: any, toolName: string) => {
@@ -35,13 +36,24 @@ const toolSystemMessage = (context: any, question: any, toolName: string) => {
     ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
     NOTE: ${REPORT_SUMMARY_NOTE}`;
 
-  if (toolName === "getInstrumentalStyleSuggestions")
+  if (toolName === "getInstrumentalStyleSuggestions") {
+    const comments = context?.map(
+      (analysis: FUNNEL_ANALYSIS) => analysis.funnel_analytics_comments,
+    );
+    const segments = context?.map(
+      (analysis: FUNNEL_ANALYSIS) => analysis.funnel_analytics_segments,
+    );
     return `
-      [Context]: ${JSON.stringify(context)}
+      [Context]: ${JSON.stringify({
+        comments: comments.flat(),
+        segments: segments.flat(),
+      })}
       [Instruction]: ${instructions.instrumental_style_suggestion}
       Make suggestions for instrumental styles based on my audiences existing work.
       ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
+      NOTE: ${REPORT_SUMMARY_NOTE}
     `;
+  }
 
   return "";
 };
