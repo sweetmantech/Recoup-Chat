@@ -33,7 +33,7 @@ const ToolFollowUp = ({ message }: { message: AIMessage }) => {
         toolName === Tools.getSegmentsReport ||
         toolName === Tools.getPitchReport ||
         toolName === Tools.getVideosInfo ||
-        toolName === Tools.getVideosInfo) && (
+        toolName === Tools.getInstrumentalStyleSuggestions) && (
         <>
           {isThinking && !content ? (
             <div className="flex gap-2 items-center">

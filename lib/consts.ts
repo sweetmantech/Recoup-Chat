@@ -33,6 +33,9 @@ export const REPORT_SUMMARY_NOTE = `
   - **Sub-titles** for sections such as **Size**, **Demo**, **Trends**, **Top Brands** should be 14px & font-bold & <span />.
   - **Title** of response should be 18px & font-bold and bottom padding 12px.`;
 
+export const INSTRUMENTAL_STYLE_SUGGESTION_NOTE = `
+  - <a /> tag should have underline inline style!!!`;
+
 export const REPORT_NEXT_STEP_NOTE = `
   - Response should listed using <ul>, <li> tag. 
   - Each section should top padding & bottom padding 8px.
