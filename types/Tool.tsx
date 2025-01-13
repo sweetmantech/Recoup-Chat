@@ -16,6 +16,7 @@ export enum ArtistToolResponse {
   MISSING_PITCH_NAME = "MISSING_PITCH_NAME",
   FUNNEL_SEGMENT_REPORT = "FUNNEL_SEGMENT_REPORT",
   FUNNEL_PITCH_REPORT = "FUNNEL_PITCH_REPORT",
+  INSTRUMENTAL_STYLE_SUGGESTION = "INSTRUMENTAL_STYLE_SUGGESTION",
 }
 
 export enum Tools {
@@ -24,4 +25,5 @@ export enum Tools {
   getSegmentsReport = "getSegmentsReport",
   getPitchReport = "getPitchReport",
   getArtistAnalysis = "getArtistAnalysis",
+  getInstrumentalStyleSuggestions = "getInstrumentalStyleSuggestions",
 }

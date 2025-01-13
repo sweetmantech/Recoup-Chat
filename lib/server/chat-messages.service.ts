@@ -13,6 +13,7 @@ import instructions from "@/evals/scripts/instructions.json";
 import getVideosInfo from "../tools/getVideosInfo";
 import getSegmentsReport from "../tools/getSegmentsReport";
 import getPitchReport from "../tools/getPitchReport";
+import getInstrumentalStyleSuggestions from "../tools/getInstrumentalStyleSuggestions";
 
 export function createChatMessagesService() {
   return new ChatMessagesService();
@@ -79,6 +80,8 @@ ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
         updateArtistInfo: updateArtistInfo(question),
         getSegmentsReport: getSegmentsReport(question),
         getPitchReport: getPitchReport(question),
+        getInstrumentalStyleSuggestions:
+          getInstrumentalStyleSuggestions(question),
       };
     } catch (error) {
       console.error("Error reading or parsing JSON files:", error);

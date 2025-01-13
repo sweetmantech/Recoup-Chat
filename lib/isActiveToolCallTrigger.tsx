@@ -3,6 +3,7 @@ import { ArtistToolResponse, Tools } from "@/types/Tool";
 const isActiveToolCallTrigger = (toolName: string, status: string) => {
   return (
     toolName === Tools.getScoreInfo ||
+    toolName === Tools.getInstrumentalStyleSuggestions ||
     (toolName === Tools.getArtistAnalysis &&
       status === ArtistToolResponse.TIKTOK_TRENDS) ||
     (toolName === Tools.getVideosInfo &&

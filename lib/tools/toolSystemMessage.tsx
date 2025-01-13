@@ -35,6 +35,14 @@ const toolSystemMessage = (context: any, question: any, toolName: string) => {
     ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
     NOTE: ${REPORT_SUMMARY_NOTE}`;
 
+  if (toolName === "getInstrumentalStyleSuggestions")
+    return `
+      Contest: ${JSON.stringify(context)}
+      Question: Make suggestions for instrumental styles based on my audiences existing work.
+      ${instructions.instrumental_style_suggestion}
+      ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
+    `;
+
   return "";
 };
 

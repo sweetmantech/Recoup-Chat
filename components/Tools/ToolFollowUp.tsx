@@ -32,7 +32,6 @@ const ToolFollowUp = ({ message }: { message: AIMessage }) => {
       {(toolName === Tools.getArtistAnalysis ||
         toolName === Tools.getSegmentsReport ||
         toolName === Tools.getPitchReport ||
-        toolName === Tools.getVideosInfo ||
         toolName === Tools.getVideosInfo) && (
         <>
           {isThinking && !content ? (
