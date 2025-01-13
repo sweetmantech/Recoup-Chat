@@ -7,7 +7,9 @@ const getFunnelAnalysis = async (chat_id: string) => {
     .select(
       `*,
       funnel_analytics_segments (
-        *
+        icon,
+        name,
+        size
       ),
       funnel_analytics_profile (
         *,
@@ -17,6 +19,11 @@ const getFunnelAnalysis = async (chat_id: string) => {
             *
           )
         )
+      ),
+      funnel_analytics_comments (
+        post_url,
+        comment,
+        username
       )`,
     )
     .eq("chat_id", chat_id);
