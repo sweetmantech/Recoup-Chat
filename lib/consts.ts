@@ -34,7 +34,7 @@ export const REPORT_SUMMARY_NOTE = `
   - **Title** of response should be 18px & font-bold and bottom padding 12px.`;
 
 export const INSTRUMENTAL_STYLE_SUGGESTION_NOTE = `
-  - <a /> tag should have underline inline style.`;
+  - <a /> tag should have underline inline style!!!`;
 
 export const REPORT_NEXT_STEP_NOTE = `
   - Response should listed using <ul>, <li> tag. 

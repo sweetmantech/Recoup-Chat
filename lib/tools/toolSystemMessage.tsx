@@ -2,6 +2,7 @@ import instructions from "@/evals/scripts/instructions.json";
 
 import {
   HTML_RESPONSE_FORMAT_INSTRUCTIONS,
+  INSTRUMENTAL_STYLE_SUGGESTION_NOTE,
   REPORT_SUMMARY_NOTE,
 } from "../consts";
 import { FUNNEL_ANALYSIS } from "@/types/Agent";
@@ -51,7 +52,7 @@ const toolSystemMessage = (context: any, question: any, toolName: string) => {
       [Instruction]: ${instructions.instrumental_style_suggestion}
       Make suggestions for instrumental styles based on my audiences existing work.
       ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
-      NOTE: ${REPORT_SUMMARY_NOTE}
+      NOTE: ${INSTRUMENTAL_STYLE_SUGGESTION_NOTE}
     `;
   }
 
