@@ -37,9 +37,9 @@ const toolSystemMessage = (context: any, question: any, toolName: string) => {
 
   if (toolName === "getInstrumentalStyleSuggestions")
     return `
-      Contest: ${JSON.stringify(context)}
-      Question: Make suggestions for instrumental styles based on my audiences existing work.
-      ${instructions.instrumental_style_suggestion}
+      [Context]: ${JSON.stringify(context)}
+      [Instruction]: ${instructions.instrumental_style_suggestion}
+      Make suggestions for instrumental styles based on my audiences existing work.
       ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
     `;
 
