@@ -17,6 +17,9 @@ const getFunnelAnalysis = async (chat_id: string) => {
             *
           )
         )
+      ),
+      funnel_analytics_comments (
+        *
       )`,
     )
     .eq("chat_id", chat_id);
