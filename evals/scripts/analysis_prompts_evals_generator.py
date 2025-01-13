@@ -4,7 +4,7 @@ from get_instruction import get_instruction
 from create_yaml_data import create_yaml, create_data
 from get_pitch_report_context import get_pitch_report_context
 
-create_yaml("instrumental_suggestion_trigger", "Answer should include links.", "Trigger evaluation of questions related to instrumental styles.")
+create_yaml("instrumental_suggestion_trigger", "Answer should include ideal value concept.", "Trigger evaluation of questions related to instrumental styles.")
 
 instruction = get_instruction()
 context = get_pitch_report_context()
@@ -23,7 +23,7 @@ content = {
         f"Based on instruction, I will evaluate the tool triggers according to the instructions.\n"
         f"Please tell us which questions from the list of questions can trigger this tool.\n"
     ),
-    "ideal": ""
+    "ideal": "Make suggestions for instrumental styles based on my audiences existing work."
 }
 registry_data = json.dumps(content)
 create_data("instrumental_suggestion_trigger", registry_data)
