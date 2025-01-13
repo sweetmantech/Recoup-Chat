@@ -1,20 +1,15 @@
-import { useArtistProvider } from "@/providers/ArtistProvider";
-import { useChatProvider } from "@/providers/ChatProvider";
-import { ArrowUpRightIcon } from "lucide-react";
 import { useState } from "react";
-import { v4 as uuidV4 } from "uuid";
 import Slider from "../Slider";
 import { Mousewheel } from "swiper/modules";
 import Swiper from "swiper";
 import { usePromptsProvider } from "@/providers/PromptsProvider";
+import SuggestionPill from "./SuggestionPill";
 
 Swiper.use([Mousewheel]);
 
 const SideSuggestions = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const { append } = useChatProvider();
   const { suggestions } = usePromptsProvider();
-  const { selectedArtist } = useArtistProvider();
 
   return (
     <div className="relative py-2">
@@ -47,29 +42,7 @@ const SideSuggestions = () => {
       >
         {[...suggestions, ...suggestions, ...suggestions].map(
           (suggestion: string) => (
-            <button
-              key={suggestion}
-              type="button"
-              className="min-w-[200px] min-h-[66px] border border-grey py-2 px-4 rounded-xl flex gap-1 items-center justify-center text-xs transition-colors hover:bg-grey"
-              onClick={() =>
-                append({
-                  id: uuidV4(),
-                  role: "user",
-                  content: suggestion,
-                })
-              }
-            >
-              <div
-                className="text-center"
-                dangerouslySetInnerHTML={{
-                  __html: suggestion.replaceAll(
-                    selectedArtist?.name || "",
-                    `<span style="color:#aa7fdb;">${selectedArtist?.name || ""}</span>`,
-                  ),
-                }}
-              />
-              <ArrowUpRightIcon className="w-4 h-4 flex-shrink-0" />
-            </button>
+            <SuggestionPill suggestion={suggestion} key={suggestion}/>
           ),
         )}
       </Slider>

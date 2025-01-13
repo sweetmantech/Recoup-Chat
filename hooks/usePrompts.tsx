@@ -26,8 +26,8 @@ const usePrompts = () => {
   }, [isNewChat, selectedArtist, selectedArtist]);
 
   const getPrompts = async (content: string, isTikTokAnalysis?: boolean) => {
-    const funnel_report = content === "Funnel Report";
-    if (funnel_report) content = funnelAnalysis || funnelRawReportContent;
+    const funnel_report = (content === "Funnel Report" || pathname.includes("funnels/"));
+    if (funnel_report) content = (JSON.stringify(funnelAnalysis || {}) || funnelRawReportContent);
     if (!content) return;
     const response = await fetch(
       isTikTokAnalysis || funnel_report
