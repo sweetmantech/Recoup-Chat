@@ -26,8 +26,10 @@ const usePrompts = () => {
   }, [isNewChat, selectedArtist, selectedArtist]);
 
   const getPrompts = async (content: string, isTikTokAnalysis?: boolean) => {
-    const funnel_report = (content === "Funnel Report" || pathname.includes("funnels/"));
-    if (funnel_report) content = (JSON.stringify(funnelAnalysis || {}) || funnelRawReportContent);
+    const funnel_report =
+      content === "Funnel Report" || pathname.includes("funnels/");
+    if (funnel_report)
+      content = JSON.stringify(funnelAnalysis || {}) || funnelRawReportContent;
     if (!content) return;
     const response = await fetch(
       isTikTokAnalysis || funnel_report
@@ -39,7 +41,7 @@ const usePrompts = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          answer: removeHtmlTags(content),
+          answer: content,
         }),
       },
     );

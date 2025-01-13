@@ -19,8 +19,12 @@ const useFunnelAnalysis = () => {
   const { setSelectedArtist, selectedArtist, getArtists } = useArtistProvider();
   const { chat_id: chatId } = useParams();
   const { clearMessagesCache } = useInitialChatProvider();
-  const { clearReportCache, setBannerArtistName, setBannerImage, setFunnelAnalysis } =
-    useFunnelReportProvider();
+  const {
+    clearReportCache,
+    setBannerArtistName,
+    setBannerImage,
+    setFunnelAnalysis,
+  } = useFunnelReportProvider();
   const { fetchConversations } = useConversationsProvider();
   const { address } = useUserProvider();
 

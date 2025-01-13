@@ -42,7 +42,7 @@ const SideSuggestions = () => {
       >
         {[...suggestions, ...suggestions, ...suggestions].map(
           (suggestion: string) => (
-            <SuggestionPill suggestion={suggestion} key={suggestion}/>
+            <SuggestionPill suggestion={suggestion} key={suggestion} />
           ),
         )}
       </Slider>
