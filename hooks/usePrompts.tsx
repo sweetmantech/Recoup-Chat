@@ -3,7 +3,6 @@ import { Message } from "ai";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useArtistProvider } from "@/providers/ArtistProvider";
-import removeHtmlTags from "@/lib/removeHTMLTags";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 
 const usePrompts = () => {
@@ -11,7 +10,6 @@ const usePrompts = () => {
   const [suggestions, setSuggestions] = useState(SUGGESTIONS);
   const [currentQuestion, setCurrentQuestion] = useState<Message | null>(null);
   const pathname = usePathname();
-  const isNewChat = pathname === "/";
   const { funnelAnalysis, funnelRawReportContent } = useFunnelReportProvider();
 
   useEffect(() => {
@@ -23,7 +21,7 @@ const usePrompts = () => {
       return;
     }
     setSuggestions(SUGGESTIONS);
-  }, [isNewChat, selectedArtist, selectedArtist]);
+  }, [selectedArtist, selectedArtist]);
 
   const getPrompts = async (content: string, isTikTokAnalysis?: boolean) => {
     const funnel_report =

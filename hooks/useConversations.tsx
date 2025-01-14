@@ -7,6 +7,7 @@ import { useUserProvider } from "@/providers/UserProvder";
 import trackChatTitle from "@/lib/stack/trackChatTitle";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import getAiTitle from "@/lib/getAiTitle";
+import { v4 as uuidV4 } from "uuid";
 
 let timer: any = null;
 let streamedIndex = 1;
@@ -48,7 +49,7 @@ const useConversations = () => {
     const response = await getAiTitle(content);
     if (response?.error) {
       setQuotaExceeded(true);
-      push("/");
+      push(`/${uuidV4()}`);
       return;
     }
     setQuotaExceeded(false);

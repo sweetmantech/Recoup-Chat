@@ -5,6 +5,7 @@ import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useRouter } from "next/navigation";
 import { ArrowRightFromLine } from "lucide-react";
 import Icon from "../Icon";
+import { v4 as uuidV4 } from "uuid";
 
 const MiniMenu = ({
   toggleMenuExpanded,
@@ -21,7 +22,11 @@ const MiniMenu = ({
   return (
     <div className="w-full h-full pt-10 pb-4 px-2 gap-3 hidden md:flex">
       <div className="flex flex-col items-center gap-3 grow">
-        <button type="button" onClick={() => push("/")} className="p-2">
+        <button
+          type="button"
+          onClick={() => push(`/${uuidV4()}`)}
+          className="p-2"
+        >
           <Icon name="logo" />
         </button>
         <Tooltip

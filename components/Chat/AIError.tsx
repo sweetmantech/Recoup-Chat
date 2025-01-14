@@ -1,6 +1,7 @@
 import { useRouter } from "next/navigation";
 import Icon from "../Icon";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
+import { v4 as uuidV4 } from "uuid";
 
 const AIError = () => {
   const { push } = useRouter();
@@ -30,7 +31,7 @@ const AIError = () => {
               className="underline text-purple-dark cursor-pointer"
               onClick={() => {
                 setQuotaExceeded(false);
-                push("/");
+                push(`/${uuidV4()}`);
               }}
             >
               try again
