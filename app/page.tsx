@@ -1,12 +1,12 @@
 "use client";
 
-import AIError from "@/components/Chat/AIError";
-import InitialChat from "@/components/Chat/InitialChat";
-import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
+import AutoPilot from "@/components/AutoPilot";
+import { ApprovalsProvider } from "@/providers/ApprovalsProvider";
 
-const LandingPage = () => {
-  const { quotaExceeded } = useConversationsProvider();
-  return <>{quotaExceeded ? <AIError /> : <InitialChat />}</>;
-};
+const AutoPilotPage = () => (
+  <ApprovalsProvider>
+    <AutoPilot />
+  </ApprovalsProvider>
+);
 
-export default LandingPage;
+export default AutoPilotPage;
