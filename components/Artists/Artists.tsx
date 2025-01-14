@@ -2,7 +2,7 @@ import { useArtistProvider } from "@/providers/ArtistProvider";
 import Artist from "./Artist";
 
 const Artists = () => {
-  const { artists, toggleCreation } = useArtistProvider();
+  const { artists, toggleCreation, menuVisibleArtistId } = useArtistProvider();
 
   return (
     <div className="grow h-[calc(100vh-64px)] md:h-screen overflow-hidden md:bg-background md:p-4">
@@ -13,7 +13,11 @@ const Artists = () => {
         </p>
         <div className="mt-8 pb-4 space-y-4 md:space-y-0 md:flex md:flex-row gap-8 md:flex-wrap grow overflow-y-auto">
           {artists.map((artist) => (
-            <Artist artist={artist} key={artist.id} />
+            <Artist
+              artist={artist}
+              key={artist.id}
+              isVisibleDropDown={artist.id === menuVisibleArtistId}
+            />
           ))}
           <button
             type="button"

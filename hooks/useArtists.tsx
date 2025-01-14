@@ -23,6 +23,8 @@ const useArtists = () => {
     artistSetting,
     setSelectedArtist,
   );
+  const [menuVisibleArtistId, setMenuVisibleArtistId] = useState<any>("");
+
   const getArtists = useCallback(
     async (artistId?: string) => {
       if (!email) return;
@@ -102,6 +104,8 @@ const useArtists = () => {
     saveSetting,
     ...artistSetting,
     ...artistMode,
+    setMenuVisibleArtistId,
+    menuVisibleArtistId,
   };
 };
 
