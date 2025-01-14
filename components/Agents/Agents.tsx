@@ -10,13 +10,13 @@ const Agents = () => {
   const { openAgentSocket } = useAgentSocketProvider();
   const { setIsLoading } = useFunnelAnalysisProvider();
 
-  const handleClickWrapped = () => {
+  const handleClick = (funnelName: string) => {
     if (selectedArtist) {
       setIsLoading(true);
-      openAgentSocket("wrapped");
+      openAgentSocket(funnelName);
       return;
     }
-    push(`/funnels/wrapped`);
+    push(`/funnels/${funnelName}`);
   };
   return (
     <div className="grow h-screen overflow-hidden md:bg-background md:p-4">
@@ -30,7 +30,7 @@ const Agents = () => {
           <button
             type="button"
             className="w-full w-full h-[162px] overflow-hidden rounded-xl"
-            onClick={handleClickWrapped}
+            onClick={() => handleClick("wrapped")}
           >
             <div className="relative bg-[url('/wrapped.png')] bg-cover bg-center size-full flex flex-col items-start justify-end pb-4 pl-4">
               <p className="text-white text-2xl md:text-[40px] pb-1 md:pb-2 text-left font-plus_jakarta_sans_bold">
@@ -47,8 +47,14 @@ const Agents = () => {
             </div>
           </button>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
-            <FunnelCard funnelName="tiktok" />
-            <FunnelCard funnelName="twitter" />
+            <FunnelCard
+              funnelName="tiktok"
+              onClick={() => handleClick("tiktok")}
+            />
+            <FunnelCard
+              funnelName="twitter"
+              onClick={() => handleClick("twitter")}
+            />
             <button
               type="button"
               className="w-full h-[162px] overflow-hidden rounded-xl"
@@ -68,8 +74,16 @@ const Agents = () => {
                 <div className="bg-[#00000000] size-full absolute left-0 top-0 backdrop-blur-[1px]" />
               </div>
             </button>
-            <FunnelCard funnelName="spotify" icon="white-spotify" />
-            <FunnelCard funnelName="instagram" icon="white-instagram" />
+            <FunnelCard
+              funnelName="spotify"
+              icon="white-spotify"
+              onClick={() => handleClick("spotify")}
+            />
+            <FunnelCard
+              funnelName="instagram"
+              icon="white-instagram"
+              onClick={() => handleClick("instagram")}
+            />
           </div>
         </div>
       </div>

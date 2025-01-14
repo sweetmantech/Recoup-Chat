@@ -1,20 +1,19 @@
 import { Funnel_Type } from "@/types/Funnel";
-import { useRouter } from "next/navigation";
 import Icon, { IconsType } from "../Icon";
 const FunnelCard = ({
   funnelName,
   icon,
+  onClick,
 }: {
   funnelName: string;
   icon?: IconsType;
+  onClick: () => void;
 }) => {
-  const { push } = useRouter();
-
   return (
     <button
       type="button"
       className="w-full h-[162px] overflow-hidden rounded-xl"
-      onClick={() => push(`/funnels/${funnelName}/`)}
+      onClick={onClick}
     >
       <div
         className="relative bg-cover size-full flex flex-col items-start justify-end pb-4 pl-4"
