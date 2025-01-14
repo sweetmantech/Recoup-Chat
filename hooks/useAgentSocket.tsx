@@ -78,7 +78,6 @@ const useAgentSocket = () => {
         instagram: { status: STEP_OF_ANALYSIS.INITITAL },
         wrapped: { status: STEP_OF_ANALYSIS.INITITAL },
       });
-      setIsLoading(true);
       push(`/funnels/${funnelType}/${newChatId}`);
       const existingHandles = getExistingHandles(selectedArtist);
       const handle = selectedArtist?.name || artistHandle;

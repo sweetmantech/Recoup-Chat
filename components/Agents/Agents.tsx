@@ -2,14 +2,17 @@ import { useRouter } from "next/navigation";
 import FunnelCard from "./FunnelCard";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useAgentSocketProvider } from "@/providers/AgentSocketProvider";
+import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const Agents = () => {
   const { push } = useRouter();
   const { selectedArtist } = useArtistProvider();
   const { openAgentSocket } = useAgentSocketProvider();
+  const { setIsLoading } = useFunnelAnalysisProvider();
 
   const handleClickWrapped = () => {
     if (selectedArtist) {
+      setIsLoading(true);
       openAgentSocket("wrapped");
       return;
     }
