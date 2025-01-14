@@ -5,8 +5,16 @@ import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import SocialSharing from "../SocialSharing";
 
 const Completion = () => {
-  const { result, segments, handleRetry, artistHandle, funnelName } =
-    useFunnelAnalysisProvider();
+  const {
+    result,
+    segments,
+    handleRetry,
+    artistHandle,
+    funnelName,
+    isFinished,
+    thoughts,
+    funnelType,
+  } = useFunnelAnalysisProvider();
   const { getPrompts } = usePromptsProvider();
 
   useEffect(() => {
@@ -14,11 +22,11 @@ const Completion = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [result]);
 
-  const isFinishedAnalsysis = result?.segments?.length;
+  const isCompletedAnalysis = result?.segments?.length;
 
   return (
     <div>
-      {isFinishedAnalsysis ? (
+      {isCompletedAnalysis && (
         <>
           <p className="text-lg md:text-xl font-bold pb-4">
             <span className="capitalize">{funnelName}</span> Analysis complete✅
@@ -32,7 +40,8 @@ const Completion = () => {
           {segments?.length > 0 && <Segments />}
           <SocialSharing />
         </>
-      ) : (
+      )}
+      {isFinished && !isCompletedAnalysis && thoughts[`${funnelType}`] && (
         <>
           {`The account @${artistHandle || result?.name} does not have any engagement. Please try again with a handle with at least one comment on its videos. `}
           <span onClick={handleRetry} className="underline cursor-pointer">

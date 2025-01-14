@@ -70,6 +70,10 @@ const useAgentSocket = () => {
   const openAgentSocket = async (funnelType: string) => {
     if (!isPrepared()) return;
     const newChatId = uuidV4();
+    push(`/funnels/${funnelType}/${newChatId}`);
+    const existingHandles = getExistingHandles(selectedArtist);
+    const handle = selectedArtist?.name || artistHandle;
+    const handles = await getHandles(selectedArtist?.name || artistHandle);
     if (funnelType === "wrapped") {
       setThoughts({
         twitter: { status: STEP_OF_ANALYSIS.INITITAL },
@@ -78,11 +82,6 @@ const useAgentSocket = () => {
         instagram: { status: STEP_OF_ANALYSIS.INITITAL },
         wrapped: { status: STEP_OF_ANALYSIS.INITITAL },
       });
-      setIsLoading(true);
-      push(`/funnels/${funnelType}/${newChatId}`);
-      const existingHandles = getExistingHandles(selectedArtist);
-      const handle = selectedArtist?.name || artistHandle;
-      const handles = await getHandles(selectedArtist?.name || artistHandle);
       const funnels = ["twitter", "spotify", "tiktok", "instagram"];
       funnels.map((funnel) => {
         socketIo.emit(`${funnel.toUpperCase()}_ANALYSIS`, socketId, {
@@ -103,13 +102,21 @@ const useAgentSocket = () => {
           status: STEP_OF_ANALYSIS.INITITAL,
         },
       });
+      const agentHandle =
+        existingHandles[`${funnelType}`] ||
+        handles[`${funnelType}`].replaceAll("@", "") ||
+        handle ||
+        "";
+      setSelectedArtist({
+        ...selectedArtist,
+        name: agentHandle,
+      } as any);
       socketIo.emit(`${funnelType.toUpperCase()}_ANALYSIS`, socketId, {
-        handle: artistHandle,
+        handle: agentHandle,
         chat_id: newChatId,
         account_id: userData?.id,
         address,
       });
-      push(`/funnels/${funnelType}/${newChatId}`);
     }
   };
 
