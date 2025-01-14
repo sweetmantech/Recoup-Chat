@@ -1,8 +1,11 @@
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { Terminal } from "lucide-react";
+import ActionBox from "./ActionBox";
+import { useApprovalsProvider } from "@/providers/ApprovalsProvider";
 
 const Approvals = () => {
   const { selectedArtist, toggleCreation } = useArtistProvider();
+  const { socials } = useApprovalsProvider();
 
   return (
     <div className="border border-green-700 p-2 rounded-md flex flex-col grow">
@@ -15,7 +18,12 @@ const Approvals = () => {
           <div className="size-2 rounded-full bg-green-500" />
         </div>
       </div>
-      <div className="flex items-end gap-2 text-xs grow">
+      <div className="grow pt-4 px-2 space-y-1 text-xs">
+        {socials.map((social) => (
+          <ActionBox socialName={social} key={social} />
+        ))}
+      </div>
+      <div className="flex items-end gap-2 text-xs">
         <button
           className="border border-green-700 px-2 py-1 rounded-md"
           onClick={() => window.open(`${location.origin}/`)}
