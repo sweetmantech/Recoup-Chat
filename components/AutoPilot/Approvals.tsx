@@ -26,18 +26,6 @@ const Approvals = () => {
       <div className="flex items-end gap-2 text-xs">
         <button
           className="border border-green-700 px-2 py-1 rounded-md"
-          onClick={() => window.open(`${location.origin}/`)}
-        >
-          + New Chat
-        </button>
-        <button
-          className="border border-green-700 px-2 py-1 rounded-md"
-          onClick={() => window.open(`${location.origin}/funnels/wrapped`)}
-        >
-          + New Agent
-        </button>
-        <button
-          className="border border-green-700 px-2 py-1 rounded-md"
           onClick={toggleCreation}
         >
           + Add Artist
