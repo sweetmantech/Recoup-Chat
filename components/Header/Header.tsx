@@ -8,6 +8,7 @@ import ImageWithFallback from "../ImageWithFallback";
 import useIsMobile from "@/hooks/useIsMobile";
 import { ArtistRecord } from "@/types/Artist";
 import Artist from "./Artist";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
   const [isOpenMobileMenu, setIsOpenMobileMenu] = useState(false);
@@ -28,6 +29,8 @@ const Header = () => {
     toggleSettingModal();
   };
 
+  const pathname = usePathname();
+
   return (
     <div className="z-[10] relative md:fixed md:right-0 md:top-0 w-screen md:w-fit flex p-4 md:pt-8 md:pr-8 items-center justify-between md:justify-end">
       <button
@@ -39,15 +42,17 @@ const Header = () => {
       </button>
       {selectedArtist && (
         <div className="relative">
-          <button
-            type="button"
-            className="w-8 aspect-1/1 rounded-full overflow-hidden flex items-center justify-center"
-            onClick={handleClickPfp}
-            onMouseOver={() => setIsVisibleDropDown(true)}
-            onMouseOut={() => setIsVisibleDropDown(false)}
-          >
-            <ImageWithFallback src={selectedArtist?.image || ""} />
-          </button>
+          {pathname.includes("/autopilot") && (
+            <button
+              type="button"
+              className="w-8 aspect-1/1 rounded-full overflow-hidden flex items-center justify-center"
+              onClick={handleClickPfp}
+              onMouseOver={() => setIsVisibleDropDown(true)}
+              onMouseOut={() => setIsVisibleDropDown(false)}
+            >
+              <ImageWithFallback src={selectedArtist?.image || ""} />
+            </button>
+          )}
           {isVisibleDropDown && (
             <>
               <div
