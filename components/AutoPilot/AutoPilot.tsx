@@ -19,7 +19,7 @@ const AutoPilot = () => {
             <Terminal className="h-5 w-5" />
             <h1 className="text-md md:text-lg font-plus_jakarta_sans_bold">
               {selectedArtist
-                ? `${selectedArtist?.name}'s Active Agents`
+                ? `${selectedArtist?.name}'s Agent`
                 : "Peek Into Recoup's Brain"}
             </h1>
           </div>
