@@ -1,10 +1,8 @@
-import { useArtistProvider } from "@/providers/ArtistProvider";
 import { Terminal } from "lucide-react";
 import ActionBox from "./ActionBox";
 import { useApprovalsProvider } from "@/providers/ApprovalsProvider";
 
 const Approvals = () => {
-  const { toggleCreation } = useArtistProvider();
   const { socials } = useApprovalsProvider();
 
   return (
@@ -17,14 +15,6 @@ const Approvals = () => {
         {socials.map((social) => (
           <ActionBox socialName={social} key={social} />
         ))}
-      </div>
-      <div className="flex items-end gap-2 text-xs">
-        <button
-          className="border px-2 py-1 rounded-md"
-          onClick={toggleCreation}
-        >
-          + Add Artist
-        </button>
       </div>
     </div>
   );
