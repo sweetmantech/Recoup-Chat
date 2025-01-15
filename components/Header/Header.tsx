@@ -42,7 +42,7 @@ const Header = () => {
       </button>
       {selectedArtist && (
         <div className="relative">
-          {pathname.includes("/autopilot") && (
+          {pathname !== "/" && (
             <button
               type="button"
               className="w-8 aspect-1/1 rounded-full overflow-hidden flex items-center justify-center"
