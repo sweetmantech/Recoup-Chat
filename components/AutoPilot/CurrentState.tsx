@@ -18,17 +18,17 @@ const CurrentState = () => {
   };
 
   return (
-    <div className="bg-black/50 p-2 md:p-4 rounded border border-green-900">
+    <div className="p-2 md:p-4 rounded border">
       <h2 className="text-sm font-bold pb-1 md:mb-2 flex gap-2">
         <span>CURRENT_STATE</span>
         {conversations?.length && (
-          <span className="text-green-600">
+          <span>
             @{new Date(conversations[0].timestamp).toLocaleTimeString()}
           </span>
         )}
       </h2>
       <div className="flex items-end gap-2">
-        <span className="text-blue-400">{">"}</span>
+        <span>{">"}</span>
         <p className="text-xs md:text-sm whitespace-pre-line">
           {conversations?.length > 0 ? (
             <button
