@@ -6,6 +6,7 @@ import UnlockPro from "../Sidebar/UnlockPro";
 import UserInfo from "../Sidebar/UserInfo";
 import Logo from "../Logo";
 import MenuItemIcon from "../MenuItemIcon";
+import { v4 as uuidV4 } from "uuid";
 
 const SideMenu = ({
   isVisible,
@@ -19,7 +20,7 @@ const SideMenu = ({
 
   const goToItem = (link?: string) => {
     if (isPrepared()) {
-      push(`/${link || ""}`);
+      push(`/${link || uuidV4()}`);
       toggleModal();
     }
   };
@@ -40,11 +41,14 @@ const SideMenu = ({
       </button>
       <button
         type="button"
-        onClick={() => goToItem("artists")}
+        onClick={() => {
+          push("/");
+          toggleModal();
+        }}
         className="flex gap-3 items-center mb-3 mt-4"
       >
-        <MenuItemIcon name="micval" />
-        Artists
+        <MenuItemIcon name="dashboard" />
+        Autopilot
       </button>
       <button
         type="button"
