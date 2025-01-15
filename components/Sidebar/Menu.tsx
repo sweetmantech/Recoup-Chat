@@ -11,10 +11,10 @@ const Menu = ({ toggleMenuExpanded }: { toggleMenuExpanded: () => void }) => {
   const { push } = useRouter();
   const pathname = usePathname();
   const { email, isPrepared } = useUserProvider();
-  const activeClasses = "bg-background-dark";
+  const activeClasses = "bg-grey";
   const itemClasses = "flex gap-3 items-center rounded-md px-3 py-2";
   const isAgents = pathname.includes("/agents");
-  const isArtists = pathname.includes("/artists");
+  const isAutopilot = pathname === "/";
 
   const goToItem = (link?: string) => {
     if (isPrepared()) {
@@ -37,12 +37,12 @@ const Menu = ({ toggleMenuExpanded }: { toggleMenuExpanded: () => void }) => {
         {email ? "New Chat" : "Sign In"}
       </button>
       <button
-        className={`${itemClasses} ${isArtists && activeClasses} md:mt-2`}
+        className={`${itemClasses} ${isAutopilot && activeClasses} md:mt-2`}
         type="button"
-        onClick={() => goToItem("artists")}
+        onClick={() => push("/")}
       >
-        <MenuItemIcon name="micval" />
-        Artists
+        <MenuItemIcon name="dashboard" />
+        Autopilot
       </button>
       <button
         type="button"

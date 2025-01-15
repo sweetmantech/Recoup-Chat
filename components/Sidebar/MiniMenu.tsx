@@ -1,7 +1,5 @@
 import Tooltip from "../Tooltip";
 import { useUserProvider } from "@/providers/UserProvder";
-import ArtistSetting from "../ArtistSetting";
-import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useRouter } from "next/navigation";
 import { ArrowRightFromLine } from "lucide-react";
 import Icon from "../Icon";
@@ -14,7 +12,6 @@ const MiniMenu = ({
 }) => {
   const { push } = useRouter();
   const { isPrepared } = useUserProvider();
-  const { selectedArtist } = useArtistProvider();
   const goToItem = (link?: string) => {
     if (isPrepared()) push(`/${link || ""}`);
   };
@@ -42,7 +39,19 @@ const MiniMenu = ({
             <Icon name="plus" />
           </button>
         </Tooltip>
-        {selectedArtist && <ArtistSetting />}
+        <Tooltip
+          id={"autopilot-tooltip"}
+          message="Autopilot"
+          className="!z-[100]"
+        >
+          <button
+            type="button"
+            className=" p-2 rounded-md"
+            onClick={() => push("/")}
+          >
+            <Icon name="dashboard" />
+          </button>
+        </Tooltip>
         <Tooltip id={"agents-tooltip"} message="Agents" className="!z-[100]">
           <button
             type="button"
