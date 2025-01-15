@@ -48,26 +48,33 @@ const Header = () => {
             <ImageWithFallback src={selectedArtist?.image || ""} />
           </button>
           {isVisibleDropDown && (
-            <div
-              className="absolute top-[calc(100%-5px)] right-0 space-y-1 max-h-[200px] overflow-y-auto"
-              onMouseOver={() => setIsVisibleDropDown(true)}
-              onMouseOut={() => setIsVisibleDropDown(false)}
-            >
-              <div className="border mt-2 bg-white p-2 rounded-md">
-                {artists.map((artist: ArtistRecord) => (
-                  <button
-                    key={artist.id}
-                    onClick={() => {
-                      setIsVisibleDropDown(false);
-                      setSelectedArtist(artist);
-                    }}
-                    className="border-b w-full text-left"
-                  >
-                    {artist.name}
-                  </button>
-                ))}
+            <>
+              <div
+                className="absolute top-[calc(100%-5px)] right-0 space-y-1 max-h-[200px] overflow-y-auto z-[3]"
+                onMouseOver={() => setIsVisibleDropDown(true)}
+                onMouseOut={() => setIsVisibleDropDown(false)}
+              >
+                <div className="border mt-2 bg-white p-2 rounded-md">
+                  {artists.map((artist: ArtistRecord) => (
+                    <button
+                      key={artist.id}
+                      onClick={() => {
+                        setIsVisibleDropDown(false);
+                        setSelectedArtist(artist);
+                      }}
+                      className="border-b w-full text-left"
+                    >
+                      {artist.name}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+              <div
+                className="absolute top-[calc(100%-20px)] right-full space-y-1 h-[40px] w-[80px] z-[2]"
+                onMouseOver={() => setIsVisibleDropDown(true)}
+                onMouseOut={() => setIsVisibleDropDown(false)}
+              />
+            </>
           )}
         </div>
       )}
