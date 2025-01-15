@@ -1,12 +1,10 @@
 import { ArtistRecord } from "@/types/Artist";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { useLocalStorage } from "usehooks-ts";
-import useArtistSetting from "./useArtistSetting";
 
 const useInitialArtists = (
   artists: ArtistRecord[],
   selectedArtist: ArtistRecord | null,
-  artistSetting: ReturnType<typeof useArtistSetting>,
   setSelectedArtist: Dispatch<SetStateAction<ArtistRecord | null>>,
 ) => {
   const [artistCookie, setArtistCookie] = useLocalStorage("RECOUP_ARTIST", {});
@@ -14,25 +12,6 @@ const useInitialArtists = (
   useEffect(() => {
     if (selectedArtist) {
       setArtistCookie(selectedArtist);
-      artistSetting.setName(selectedArtist?.name || "");
-      artistSetting.setImage(selectedArtist?.image || "");
-      artistSetting.setLabel(selectedArtist?.label || "");
-      artistSetting.setInstruction(selectedArtist?.instruction || "");
-      artistSetting.setBases(selectedArtist?.knowledges || "");
-      const socialMediaTypes = {
-        TWITTER: artistSetting.setTwitter,
-        YOUTUBE: artistSetting.setYoutube,
-        APPLE: artistSetting.setAppleUrl,
-        INSTAGRAM: artistSetting.setInstagram,
-        SPOTIFY: artistSetting.setSpotifyUrl,
-        TIKTOK: artistSetting.setTikTok,
-      };
-      Object.entries(socialMediaTypes).forEach(([type, setter]) => {
-        const link = selectedArtist?.artist_social_links?.find(
-          (item) => item.type === type,
-        )?.link;
-        setter(link || "");
-      });
     }
   }, [selectedArtist]);
 

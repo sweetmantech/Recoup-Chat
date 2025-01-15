@@ -1,7 +1,7 @@
 import getIpfsLink from "@/lib/ipfs/getIpfsLink";
 import { uploadFile } from "@/lib/ipfs/uploadToIpfs";
 import { useParams } from "next/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArtistRecord } from "@/types/Artist";
 import { v4 as uuidV4 } from "uuid";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
@@ -25,6 +25,9 @@ const useArtistSetting = () => {
   const [imageUploading, setImageUploading] = useState(false);
   const [knowledgeUploading, setKnowledgeUploading] = useState(false);
   const [question, setQuestion] = useState("");
+  const [editableArtist, setEditableArtist] = useState<ArtistRecord | null>(
+    null,
+  );
 
   const handleDeleteKnowledge = (index: number) => {
     let temp = [...bases];
@@ -93,6 +96,30 @@ const useArtistSetting = () => {
     setBases([]);
   };
 
+  useEffect(() => {
+    if (editableArtist) {
+      setName(editableArtist?.name || "");
+      setImage(editableArtist?.image || "");
+      setLabel(editableArtist?.label || "");
+      setInstruction(editableArtist?.instruction || "");
+      setBases(editableArtist?.knowledges || "");
+      const socialMediaTypes = {
+        TWITTER: setTwitter,
+        YOUTUBE: setYoutube,
+        APPLE: setAppleUrl,
+        INSTAGRAM: setInstagram,
+        SPOTIFY: setSpotifyUrl,
+        TIKTOK: setTikTok,
+      };
+      Object.entries(socialMediaTypes).forEach(([type, setter]) => {
+        const link = editableArtist?.artist_social_links?.find(
+          (item) => item.type === type,
+        )?.link;
+        setter(link || "");
+      });
+    }
+  }, [editableArtist]);
+
   return {
     handleImageSelected,
     handleKnowledgesSelected,
@@ -127,6 +154,8 @@ const useArtistSetting = () => {
     clearParams,
     knowledgeUploading,
     handleDeleteKnowledge,
+    editableArtist,
+    setEditableArtist,
   };
 };
 

@@ -43,9 +43,12 @@ const config: Config = {
   			grey: {
   				DEFAULT: '#E6E6E6',
   				dark: '#71717A',
+				"dark-1": "#A1A1AA",
   				primary: '#C6C6C6',
   				secondary: '#F8F8F8',
-  				light: '#E0E0E0'
+  				light: '#E0E0E0',
+				"light-1": "#F1F1F1",
+				"light-2": "#EBEBEB"
   			},
   			green: {
   				DEFAULT: '#345A5D'

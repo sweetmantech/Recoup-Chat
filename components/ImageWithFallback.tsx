@@ -16,7 +16,7 @@ const ImageWithFallback = ({
 
   useEffect(() => {
     setKeyValue(keyValue + 1);
-    if (!src) setCurrentSrc(src);
+    if (src) setCurrentSrc(src);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [src]);
 
