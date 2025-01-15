@@ -4,9 +4,9 @@ const Artists = () => {
   const { artists, setSelectedArtist, toggleCreation } = useArtistProvider();
 
   return (
-    <div className="bg-black/50 p-4 rounded border border-green-900">
+    <div className="rounded border p-3">
       <button
-        className="text-sm font-bold mb-2 border border-green-700 rounded-md px-2 py-1"
+        className="text-sm font-bold mb-2 border rounded-md px-2 py-1"
         onClick={toggleCreation}
       >
         CLICK HERE TO CREATE NEW ARTIST
