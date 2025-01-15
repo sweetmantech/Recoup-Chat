@@ -12,8 +12,8 @@ const AutoPilot = () => {
 
   return (
     <div className="grow h-[calc(100vh-56px)] md:h-screen overflow-hidden md:bg-background md:p-4">
-      <div className="size-full bg-white overflow-y-auto rounded-xl flex flex-col p-4 md:p-10">
-        <div className="grow font-mono p-3 md:p-4 rounded-lg flex flex-col shadow-[0px_0px_7px_0px_#80808063]">
+      <div className="size-full bg-white overflow-y-auto md:rounded-xl flex flex-col md:shadow-[0px_0px_7px_0px_#80808063]">
+        <div className="grow font-mono p-3 md:p-4 rounded-lg flex flex-col">
           <div className="flex items-center gap-2 mb-2 md:mb-4 pb-2 md:pb-4">
             <Terminal className="h-5 w-5" />
             <h1 className="text-md md:text-lg font-plus_jakarta_sans_bold">
