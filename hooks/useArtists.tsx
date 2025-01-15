@@ -16,11 +16,13 @@ const useArtists = () => {
   );
   const [updating, setUpdating] = useState(false);
   const loading = artistSetting.imageUploading || updating;
-  const artistMode = useArtistMode(artistSetting, setSelectedArtist);
+  const artistMode = useArtistMode(
+    artistSetting.clearParams,
+    artistSetting.setEditableArtist,
+  );
   const { handleSelectArtist } = useInitialArtists(
     artists,
     selectedArtist,
-    artistSetting,
     setSelectedArtist,
   );
   const [menuVisibleArtistId, setMenuVisibleArtistId] = useState<any>("");
@@ -74,7 +76,10 @@ const useArtists = () => {
         instruction: artistSetting.instruction,
         label: artistSetting.label,
         knowledges: artistSetting.bases,
-        artistId: saveMode === SETTING_MODE.CREATE ? "" : selectedArtist?.id,
+        artistId:
+          saveMode === SETTING_MODE.CREATE
+            ? ""
+            : artistSetting.editableArtist?.id,
         email,
       });
       await getArtists(data.artistInfo?.id);
