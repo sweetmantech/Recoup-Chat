@@ -7,7 +7,7 @@ interface DeleteModalProps {
 
 const DeleteModal = ({ toggleModal }: DeleteModalProps) => {
   const {
-    selectedArtist,
+    editableArtist,
     artists,
     setArtists,
     getArtists,
@@ -16,12 +16,12 @@ const DeleteModal = ({ toggleModal }: DeleteModalProps) => {
 
   const handleDelete = async () => {
     const temp = artists.filter(
-      (artistEle: ArtistRecord) => artistEle.id !== selectedArtist?.id,
+      (artistEle: ArtistRecord) => artistEle.id !== editableArtist?.id,
     );
     setArtists([...temp]);
     toggleModal();
     toggleSettingModal();
-    await fetch(`/api/artist/remove?artistId=${selectedArtist?.id}`);
+    await fetch(`/api/artist/remove?artistId=${editableArtist?.id}`);
     getArtists();
   };
 
