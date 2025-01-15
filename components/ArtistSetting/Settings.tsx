@@ -10,6 +10,8 @@ import Knowledges from "./Knowledges";
 import ImageSelect from "./ImageSelect";
 import KnowledgeSelect from "./KnowledgeSelect";
 import Inputs from "./Inputs";
+import DeleteModal from "./DeleteModal";
+import { useState } from "react";
 
 const Settings = () => {
   const isMobile = useIsMobile();
@@ -20,6 +22,7 @@ const Settings = () => {
     settingMode,
     knowledgeUploading,
   } = useArtistProvider();
+  const [isVisibleDeleteModal, setIsVisibleDeleteModal] = useState(false);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSave = async () => {
@@ -72,11 +75,17 @@ const Settings = () => {
         {updating ? "Saving..." : "Save"}
       </button>
       <button
-        className="col-span-12 border-grey border-[1px] rounded-md py-1 mb-4"
-        onClick={toggleSettingModal}
+        className="col-span-12 border-grey border-[1px] rounded-md py-1 mb-4 text-red-700"
+        onClick={() => setIsVisibleDeleteModal(true)}
+        type="button"
       >
-        Close
+        Delete
       </button>
+      {isVisibleDeleteModal && (
+        <DeleteModal
+          toggleModal={() => setIsVisibleDeleteModal(!isVisibleDeleteModal)}
+        />
+      )}
     </Form>
   );
 };
