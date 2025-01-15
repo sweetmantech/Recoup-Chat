@@ -7,17 +7,17 @@ const ActionBox = ({ socialName }: { socialName: string }) => {
   const { deny } = useApprovalsProvider();
 
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex flex-col gap-1 md:flex-row md:justify-between md:items-center">
       <div className="flex gap-2 items-center">
         <p>
-          <span className="text-blue-400">{`> `}</span>
+          <span>{`> `}</span>
           {socialName}:
         </p>{" "}
         <p>Update {selectedArtist?.name}</p>
       </div>
-      <div className="flex gap-2 items-center">
+      <div className="flex gap-2 items-center ml-auto">
         <button
-          className="border border-green-700 rounded-md py-1 px-2 flex gap-1 items-center"
+          className="border rounded-md py-1 px-2 flex gap-1 items-center"
           onClick={toggleSettingModal}
         >
           <Pencil className="size-4" /> Approve

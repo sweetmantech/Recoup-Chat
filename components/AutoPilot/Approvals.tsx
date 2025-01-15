@@ -8,8 +8,8 @@ const Approvals = () => {
   const { socials } = useApprovalsProvider();
 
   return (
-    <div className="border border-green-700 p-2 rounded-md flex flex-col grow">
-      <div className="flex items-center gap-2 pb-1 border-b border-green-900">
+    <div className="border p-2 rounded-md flex flex-col grow">
+      <div className="flex items-center gap-2 pb-1 border-b">
         <Terminal className="h-5 w-5" />
         <h1 className="text-md font-bold">{selectedArtist?.name}</h1>
         <div className="ml-auto flex gap-2">
@@ -25,7 +25,7 @@ const Approvals = () => {
       </div>
       <div className="flex items-end gap-2 text-xs">
         <button
-          className="border border-green-700 px-2 py-1 rounded-md"
+          className="border px-2 py-1 rounded-md"
           onClick={toggleCreation}
         >
           + Add Artist
