@@ -16,10 +16,9 @@ export async function POST(req: NextRequest) {
           role: "user",
           content: `Based on the conversation context, generate four helpful follow-up questions.
             Format your answers using ONLY this structure:
-            Prioritizes segment names with the highest value among segments in a given context.
             Examples: 
-              - "Write [Brand Name] Pitch" 
-              - "Write [Brand Name] Pitch"
+              - "Write [One of Brand Names of Brand Matchmaking] Pitch" 
+              - "Write [One of Brand Names of Brand Matchmaking] Pitch"
               - "Create The Content Ideas"
               - "Do a Deeper Analysis"
           
