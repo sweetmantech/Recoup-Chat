@@ -23,7 +23,8 @@ const useAgentSocket = () => {
     const existingHandles = getExistingHandles(selectedArtist);
     const handle = selectedArtist?.name || artistHandle;
     const handles = await getHandles(selectedArtist?.name || artistHandle);
-    if (funnelType === "wrapped") {
+    const isWrapped = funnelType === "wrapped";
+    if (isWrapped) {
       setThoughts({
         twitter: { status: STEP_OF_ANALYSIS.INITITAL },
         spotify: { status: STEP_OF_ANALYSIS.INITITAL },
@@ -41,7 +42,7 @@ const useAgentSocket = () => {
           chat_id: newChatId,
           account_id: userData?.id,
           address,
-          isWrapped: true,
+          isWrapped,
           existingArtistId: selectedArtist?.id,
         });
       });
@@ -66,6 +67,8 @@ const useAgentSocket = () => {
         chat_id: newChatId,
         account_id: userData?.id,
         address,
+        isWrapped,
+        existingArtistId: selectedArtist?.id,
       });
     }
   };
