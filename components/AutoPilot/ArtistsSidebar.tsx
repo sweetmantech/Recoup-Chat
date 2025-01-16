@@ -7,14 +7,23 @@ import Artist from "../Header/Artist";
 import { ArtistRecord } from "@/types/Artist";
 import { Plus } from "lucide-react";
 import useIsMobile from "@/hooks/useIsMobile";
+import { useUserProvider } from "@/providers/UserProvder";
 
 const ArtistsSidebar = () => {
   const { artists, toggleCreation, toggleSettingModal } = useArtistProvider();
+  const { isPrepared } = useUserProvider();
   const isMobile = useIsMobile();
 
   const [menuExpanded, setMenuExpanded] = useState(false);
   const animate = { width: menuExpanded ? 220 : 80 };
   const initial = { width: 80 };
+
+  const handleCreate = () => {
+    if (!isPrepared()) return;
+
+    toggleCreation();
+    toggleSettingModal();
+  };
 
   return (
     <motion.div
@@ -37,10 +46,7 @@ const ArtistsSidebar = () => {
       </div>
       <button
         className={`${menuExpanded && "flex px-2 py-1 gap-2 text-sm items-center text-grey-light-1 hover:text-grey-dark-1"}`}
-        onClick={() => {
-          toggleCreation();
-          toggleSettingModal();
-        }}
+        onClick={handleCreate}
       >
         <div className="w-8 flex justify-center">
           <Plus className="size-5 text-grey-dark-1" />
