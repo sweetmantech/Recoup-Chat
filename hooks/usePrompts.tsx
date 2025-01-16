@@ -24,25 +24,26 @@ const usePrompts = () => {
   }, [selectedArtist, selectedArtist]);
 
   const getPrompts = async (content: string, isTikTokAnalysis?: boolean) => {
-    const funnel_report =
-      content === "Funnel Report" || pathname.includes("funnels/");
-    if (funnel_report)
-      content = JSON.stringify(funnelAnalysis || {}) || funnelRawReportContent;
+    const isFunnelReport = content === "Funnel Report";
+    const isAnalaysis = pathname.includes("funnels/");
+    if (isFunnelReport) content = JSON.stringify(funnelRawReportContent);
+    if (isAnalaysis) content = JSON.stringify(funnelAnalysis);
+
     if (!content) return;
-    const response = await fetch(
-      isTikTokAnalysis || funnel_report
-        ? "/api/prompts/funnel_analysis"
-        : "/api/prompts",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          answer: content,
-        }),
+    let promptApiUrl = "/api/prompts";
+    if (isFunnelReport) promptApiUrl = "/api/prompots/funnel_report";
+    if (isTikTokAnalysis || isAnalaysis)
+      promptApiUrl = "/api/prompts/funnel_analysis";
+
+    const response = await fetch(promptApiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify({
+        answer: content,
+      }),
+    });
     const data = await response.json();
     if (!data?.questions) return;
     setSuggestions(() => [...data.questions]);

@@ -18,8 +18,8 @@ export async function POST(req: NextRequest) {
             Format your answers using ONLY this structure:
             Prioritizes segment names with the highest value among segments in a given context.
             Examples: 
-              - "Write [Segment Name] Pitch" 
-              - "Write [Segment Name] Pitch"
+              - "Write [Brand Name] Pitch" 
+              - "Write [Brand Name] Pitch"
               - "Create The Content Ideas"
               - "Do a Deeper Analysis"
           
