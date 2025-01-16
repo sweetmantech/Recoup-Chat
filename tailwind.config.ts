@@ -48,7 +48,8 @@ const config: Config = {
   				secondary: '#F8F8F8',
   				light: '#E0E0E0',
 				"light-1": "#F1F1F1",
-				"light-2": "#EBEBEB"
+				"light-2": "#EBEBEB",
+				"light-3": "#FAFAFA"
   			},
   			green: {
   				DEFAULT: '#345A5D'

@@ -19,7 +19,7 @@ const Agents = () => {
     push(`/funnels/${funnelName}`);
   };
   return (
-    <div className="grow h-screen overflow-hidden md:bg-background md:p-4">
+    <div className="grow h-screen overflow-hidden md:bg-grey-light-3 md:p-4">
       <div className="size-full bg-white overflow-y-auto pb-20 md:pb-0 rounded-xl flex flex-col items-center md:items-start gap-3 pt-6 md:pt-10 px-4 md:px-10">
         <p className="font-plus_jakarta_sans_bold text-[50px]">Agents</p>
         <p className="text-[19px] md:text-[25px] text-grey-dark text-center md:text-left">
