@@ -31,7 +31,7 @@ const usePrompts = () => {
 
     if (!content) return;
     let promptApiUrl = "/api/prompts";
-    if (isFunnelReport) promptApiUrl = "/api/prompots/funnel_report";
+    if (isFunnelReport) promptApiUrl = "/api/prompts/funnel_report";
     if (isTikTokAnalysis || isAnalaysis)
       promptApiUrl = "/api/prompts/funnel_analysis";
 
