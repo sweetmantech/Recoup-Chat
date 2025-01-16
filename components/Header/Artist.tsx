@@ -18,7 +18,6 @@ const Artist = ({
     toggleUpdate,
     toggleSettingModal,
   } = useArtistProvider();
-
   const isSelectedArtist = selectedArtist?.id === artist.id;
 
   return (
