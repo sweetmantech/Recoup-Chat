@@ -1,22 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import MiniMenu from "./MiniMenu";
 import { motion } from "framer-motion";
 import Menu from "./Menu";
-import useSideMenuAnimation from "@/hooks/useSideMenuAnimation";
-import { useUserProvider } from "@/providers/UserProvder";
 
 const Sidebar = () => {
-  const { email } = useUserProvider();
-
   const [menuExpanded, setMenuExpanded] = useState(false);
-  const { animate, initial } = useSideMenuAnimation(menuExpanded);
   const toggleMenuExpanded = () => setMenuExpanded(!menuExpanded);
-
-  useEffect(() => {
-    if (email) setMenuExpanded(true);
-  }, [email]);
+  const animate = { width: menuExpanded ? 285 : 80 };
+  const initial = { width: 80 };
 
   return (
     <motion.div
@@ -24,6 +17,8 @@ const Sidebar = () => {
       animate={animate}
       initial={initial}
       transition={{ duration: 0.2 }}
+      onMouseOver={() => setMenuExpanded(true)}
+      onMouseOut={() => setMenuExpanded(false)}
     >
       {menuExpanded ? (
         <Menu toggleMenuExpanded={toggleMenuExpanded} />
