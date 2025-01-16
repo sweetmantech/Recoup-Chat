@@ -40,7 +40,7 @@ const Artist = ({
               toggleDropDown();
               setSelectedArtist(artist);
             }}
-            className="text-left"
+            className="text-left max-w-[100px] truncate"
             type="button"
           >
             {artist.name}
