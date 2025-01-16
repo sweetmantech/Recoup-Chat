@@ -27,7 +27,7 @@ const ArtistsSidebar = () => {
 
   return (
     <motion.div
-      className="px-3 py-3 flex flex-col gap-2 items-center"
+      className="px-3 py-7 flex flex-col gap-2 items-center"
       animate={animate}
       initial={initial}
       transition={{ duration: 0.2 }}
