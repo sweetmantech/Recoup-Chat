@@ -6,13 +6,8 @@ interface DeleteModalProps {
 }
 
 const DeleteModal = ({ toggleModal }: DeleteModalProps) => {
-  const {
-    editableArtist,
-    artists,
-    setArtists,
-    getArtists,
-    toggleSettingModal,
-  } = useArtistProvider();
+  const { editableArtist, artists, setArtists, toggleSettingModal } =
+    useArtistProvider();
 
   const handleDelete = async () => {
     const temp = artists.filter(
@@ -22,7 +17,6 @@ const DeleteModal = ({ toggleModal }: DeleteModalProps) => {
     toggleModal();
     toggleSettingModal();
     await fetch(`/api/artist/remove?artistId=${editableArtist?.id}`);
-    getArtists();
   };
 
   return (
