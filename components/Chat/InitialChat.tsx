@@ -38,7 +38,7 @@ const InitialChat = () => {
   }, [currentWord, isDeleting, wordIndex, words]);
 
   return (
-    <div className="grow h-screen overflow-hidden w-full p-4 bg-background">
+    <div className="grow h-screen overflow-hidden w-full p-4 bg-grey-light-3">
       <div className="size-full flex flex-col items-center justify-center bg-white rounded-xl">
         <div className="max-w-[900px] w-full mx-auto text-center -mt-20">
           <div

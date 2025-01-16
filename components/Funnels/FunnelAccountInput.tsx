@@ -7,7 +7,7 @@ import HandleInput from "./HandleInput";
 
 const FunnelAccountInput = () => {
   return (
-    <main className="flex-1 md:p-4 bg-background">
+    <main className="flex-1 md:p-4 bg-grey-light-3">
       <div className="h-[calc(100vh-64px)] md:h-full flex flex-col items-center justify-center px-4 sm:px-6 text-center bg-white rounded-xl">
         <FunnelMarkUp />
         <FunnelBrand />

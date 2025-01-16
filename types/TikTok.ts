@@ -1,5 +1,6 @@
 export enum ERRORS {
   UNKNOWN_PROFILE_ERROR = "This profile/hashtag does not exist.",
+  RATE_LIMIT_EXCEEDED = "You have exceeded the rate limit of 30 requests per second",
 }
 
 export enum STEP_OF_ANALYSIS {
@@ -7,6 +8,7 @@ export enum STEP_OF_ANALYSIS {
   ERROR,
   FINISHED,
   WRAPPED_COMPLETED,
+  RATE_LIMIT_EXCEEDED,
   UNKNOWN_PROFILE,
   PROFILE,
   POSTURLS,

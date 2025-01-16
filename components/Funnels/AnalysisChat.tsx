@@ -5,7 +5,7 @@ import FanSegmentResult from "./FanSegmentResult";
 
 const AnalysisChat = () => {
   return (
-    <main className="flex-1 flex md:p-4 bg-background">
+    <main className="flex-1 flex md:p-4 bg-grey-light-3">
       <div className="h-[calc(100vh-64px)] md:h-full bg-white rounded-xl w-full">
         <div className="px-4 md:max-w-3xl md:mx-auto md:w-full h-full md:pt-4 flex flex-col bg-white">
           <div className="md:grow flex flex-col pb-4 h-full">
