@@ -18,12 +18,14 @@ export async function POST(req: NextRequest) {
           [Instruction]:
             Generate 4 useful follow-up questions based on the given context.
             Prioritize the brand name in the Brand Matchmaking section in the given context.
-            ***Important: Format your answer using only the following structure.
-                Examples:
-                - "Write a pitch for [one of the brand names in Brand Matchmaking]."
-                - "Write a pitch for [one of the brand names in Brand Matchmaking]."
-                - "Create content ideas."
-                - "Do deeper analysis."
+            ***IMPORTANT: Be sure to answer in the format below.
+            Generate only the brand name and never change any other part of the format below.
+            We only require the 4 follow-up questions with the brand name replaced in the [] section.
+            **FORMAT**:
+            - "Write a pitch for [one of the brand names in Brand Matchmaking]."
+            - "Write a pitch for [one of the brand names in Brand Matchmaking]."
+            - "Create content ideas."
+            - "Do deep dives."
           
           [Context]:
           ${answer}
