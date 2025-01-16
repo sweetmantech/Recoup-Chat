@@ -8,7 +8,7 @@ const AIError = () => {
   const { setQuotaExceeded } = useConversationsProvider();
 
   return (
-    <div className="grow h-screen overflow-hidden w-full p-4 bg-background">
+    <div className="grow h-screen overflow-hidden w-full p-4 bg-grey-light-3">
       <div className="size-full bg-white rounded-xl p-6">
         <div className="flex gap-2 items-start">
           <div className="border border-grey rounded-full p-2">

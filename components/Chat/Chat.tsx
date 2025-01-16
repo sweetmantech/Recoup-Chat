@@ -9,7 +9,7 @@ const Chat = () => {
   return (
     <>
       {messages.length ? (
-        <div className="grow h-[calc(100vh-56px)] md:h-screen bg-background p-4">
+        <div className="grow h-[calc(100vh-56px)] md:h-screen bg-grey-light-3 p-4">
           <div
             className={`size-full flex flex-col items-center justify-center bg-white rounded-xl overflow-hidden flex flex-col ${messages.length ? "px-4 pb-5 md:pt-[14px]" : "items-center justify-center"}`}
           >
