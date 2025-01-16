@@ -25,7 +25,7 @@ const ArtistsSidebar = () => {
       onMouseOver={() => setMenuExpanded(!isMobile)}
       onMouseOut={() => setMenuExpanded(false)}
     >
-      <div className="grow flex flex-col gap-2 overflow-y-auto overflow-x-hidden">
+      <div className="no-scrollbar grow flex flex-col gap-2 overflow-y-auto overflow-x-hidden">
         {artists.map((artist: ArtistRecord) => (
           <Artist
             artist={artist}
