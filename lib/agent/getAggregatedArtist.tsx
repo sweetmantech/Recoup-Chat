@@ -21,14 +21,15 @@ const getAggregatedArtist = (funnel_analyses: Array<FUNNEL_ANALYSIS>) => {
   const { image, name } = funnel_analyses.reduce(
     (acc, fa) => {
       const profile = fa.funnel_analytics_profile?.[0] || {};
-      acc.image = profile.avatar || acc.image || "";
-      acc.name = profile.nickname || acc.name || "";
+      acc.image = profile.avatar || profile.artists.image || acc.image || "";
+      acc.name = profile.nickname || profile.artists.name || acc.name || "";
       return acc;
     },
     { image: "", name: "" },
   );
 
   return {
+    id: funnel_analyses?.[0]?.funnel_analytics_profile?.[0].artistId || "",
     image,
     name,
     instruction: "",
