@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
             - "Write a pitch for [one of the brand names in Brand Matchmaking]."
             - "Write a pitch for [one of the brand names in Brand Matchmaking]."
             - "Create content ideas."
-            - "Do deep dives."
+            - "Do deep analysis."
           
           [Context]:
           ${answer}
