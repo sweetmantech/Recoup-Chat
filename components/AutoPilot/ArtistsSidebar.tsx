@@ -10,7 +10,7 @@ import useIsMobile from "@/hooks/useIsMobile";
 import { useUserProvider } from "@/providers/UserProvder";
 
 const ArtistsSidebar = () => {
-  const { artists, toggleCreation, toggleSettingModal } = useArtistProvider();
+  const { toggleCreation, toggleSettingModal, sorted } = useArtistProvider();
   const { isPrepared } = useUserProvider();
   const isMobile = useIsMobile();
 
@@ -35,11 +35,11 @@ const ArtistsSidebar = () => {
       onMouseOut={() => setMenuExpanded(false)}
     >
       <div className="no-scrollbar grow flex flex-col gap-2 overflow-y-auto overflow-x-hidden">
-        {artists.map((artist: ArtistRecord) => (
+        {sorted.map((artist: ArtistRecord | null) => (
           <Artist
             artist={artist}
             toggleDropDown={() => {}}
-            key={artist.id}
+            key={artist?.id}
             isMini={!menuExpanded}
           />
         ))}
