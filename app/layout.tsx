@@ -5,7 +5,6 @@ import { DESCRIPTION, TITLE } from "@/lib/consts";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import { Suspense } from "react";
-import { CircleHelp } from "lucide-react";
 import ArtistSettingModal from "@/components/ArtistSettingModal";
 
 export const metadata: Metadata = {
@@ -33,11 +32,6 @@ export default function RootLayout({
               <Header />
               <ArtistSettingModal />
               {children}
-              <div className="fixed right-4 bottom-4">
-                <button type="button">
-                  <CircleHelp />
-                </button>
-              </div>
             </div>
           </Providers>
         </Suspense>
