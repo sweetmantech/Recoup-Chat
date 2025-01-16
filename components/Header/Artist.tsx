@@ -8,7 +8,7 @@ const Artist = ({
   toggleDropDown,
   isMini,
 }: {
-  artist: ArtistRecord;
+  artist: ArtistRecord | null;
   toggleDropDown: () => void;
   isMini?: boolean;
 }) => {
@@ -18,7 +18,7 @@ const Artist = ({
     toggleUpdate,
     toggleSettingModal,
   } = useArtistProvider();
-  const isSelectedArtist = selectedArtist?.id === artist.id;
+  const isSelectedArtist = selectedArtist?.id === artist?.id;
 
   return (
     <div
@@ -30,12 +30,12 @@ const Artist = ({
       }`}
     >
       <div className="w-8 aspect-1/1 rounded-full overflow-hidden flex items-center justify-center border">
-        <ImageWithFallback src={artist.image || ""} />
+        <ImageWithFallback src={artist?.image || ""} />
       </div>
       {!isMini && (
         <>
           <button
-            key={artist.id}
+            key={artist?.id}
             onClick={() => {
               toggleDropDown();
               setSelectedArtist(artist);
@@ -43,12 +43,12 @@ const Artist = ({
             className="text-left max-w-[100px] truncate"
             type="button"
           >
-            {artist.name}
+            {artist?.name}
           </button>
           <button
             type="button"
             onClick={() => {
-              toggleUpdate(artist);
+              if (artist) toggleUpdate(artist);
               toggleSettingModal();
             }}
           >
