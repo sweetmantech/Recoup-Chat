@@ -45,7 +45,7 @@ const ArtistsSidebar = () => {
         ))}
       </div>
       <button
-        className={`${menuExpanded && "flex px-2 py-1 gap-2 text-sm items-center text-grey-light-1 hover:text-grey-dark-1"}`}
+        className={`${menuExpanded && "flex px-2 py-1 gap-2 text-sm items-center text-grey-dark-1"}`}
         onClick={handleCreate}
       >
         <div className="w-8 flex justify-center">
