@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,
-    images: `/logo.jpg`,
+    images: `/logo.png`,
   },
 };
 
