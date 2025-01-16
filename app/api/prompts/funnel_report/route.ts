@@ -14,16 +14,20 @@ export async function POST(req: NextRequest) {
       messages: [
         {
           role: "user",
-          content: `Based on the conversation context, generate four helpful follow-up questions.
-            Format your answers using ONLY this structure:
-            Prioritizes segment names with the highest value among segments in a given context.
-            Examples: 
-              - "Write [Segment Name] Pitch" 
-              - "Write [Segment Name] Pitch"
-              - "Create The Content Ideas"
-              - "Do a Deeper Analysis"
+          content: `
+          [Instruction]:
+            Generate 4 useful follow-up questions based on the given context.
+            Prioritize the brand name in the Brand Matchmaking section in the given context.
+            ***IMPORTANT: Be sure to answer in the format below.
+            Generate only the brand name and never change any other part of the format below.
+            We only require the 4 follow-up questions with the brand name replaced in the [] section.
+            **FORMAT**:
+            - "Write a pitch for [one of the brand names in Brand Matchmaking]."
+            - "Write a pitch for [one of the brand names in Brand Matchmaking]."
+            - "Create content ideas."
+            - "Do deep analysis."
           
-          Context:
+          [Context]:
           ${answer}
           `,
         },
