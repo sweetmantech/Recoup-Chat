@@ -7,6 +7,7 @@ import { STEP_OF_ANALYSIS } from "@/types/TikTok";
 import { useRouter } from "next/navigation";
 import { v4 as uuidV4 } from "uuid";
 import useSockets from "./useSockets";
+import { ArtistRecord } from "@/types/Artist";
 
 const useAgentSocket = () => {
   const { artistHandle, setThoughts, setUsername } =
@@ -16,13 +17,18 @@ const useAgentSocket = () => {
   const { setSelectedArtist, selectedArtist } = useArtistProvider();
   const { socketIo, socketId } = useSockets();
 
-  const openAgentSocket = async (funnelType: string) => {
+  const openAgentSocket = async (
+    funnelType: string,
+    scrapingArtist: ArtistRecord | null = null,
+  ) => {
     if (!isPrepared()) return;
     const newChatId = uuidV4();
     push(`/funnels/${funnelType}/${newChatId}`);
-    const existingHandles = getExistingHandles(selectedArtist);
-    const handle = selectedArtist?.name || artistHandle;
-    const handles = await getHandles(selectedArtist?.name || artistHandle);
+    const existingHandles = getExistingHandles(
+      scrapingArtist || selectedArtist,
+    );
+    const handle = scrapingArtist?.name || selectedArtist?.name || artistHandle;
+    const handles = await getHandles(handle);
     const isWrapped = funnelType === "wrapped";
     if (isWrapped) {
       setThoughts({
@@ -43,7 +49,7 @@ const useAgentSocket = () => {
           account_id: userData?.id,
           address,
           isWrapped,
-          existingArtistId: selectedArtist?.id,
+          existingArtistId: scrapingArtist?.id || selectedArtist?.id,
         });
       });
     } else {
@@ -59,7 +65,7 @@ const useAgentSocket = () => {
         "";
       setUsername(agentHandle);
       setSelectedArtist({
-        ...selectedArtist,
+        ...(scrapingArtist || selectedArtist),
         name: agentHandle,
       } as any);
       socketIo.emit(`${funnelType.toUpperCase()}_ANALYSIS`, socketId, {
@@ -68,7 +74,7 @@ const useAgentSocket = () => {
         account_id: userData?.id,
         address,
         isWrapped,
-        existingArtistId: selectedArtist?.id,
+        existingArtistId: scrapingArtist?.id || selectedArtist?.id,
       });
     }
   };
