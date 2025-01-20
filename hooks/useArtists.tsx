@@ -26,6 +26,18 @@ const useArtists = () => {
     setSelectedArtist,
   );
   const [menuVisibleArtistId, setMenuVisibleArtistId] = useState<any>("");
+  const activeArtistIndex = artists.findIndex(
+    (artist: ArtistRecord) => artist.id === selectedArtist?.id,
+  );
+
+  const sorted =
+    selectedArtist && activeArtistIndex >= 0
+      ? [
+          selectedArtist,
+          ...artists.slice(0, activeArtistIndex),
+          ...artists.slice(activeArtistIndex + 1),
+        ]
+      : artists;
 
   const getArtists = useCallback(
     async (artistId?: string) => {
@@ -99,6 +111,7 @@ const useArtists = () => {
   }, [getArtists]);
 
   return {
+    sorted,
     artists,
     setArtists,
     selectedArtist,

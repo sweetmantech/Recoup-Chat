@@ -12,7 +12,6 @@ import ArtistDropDown from "./ArtistDropDown";
 const Header = () => {
   const [isOpenMobileMenu, setIsOpenMobileMenu] = useState(false);
   const [isVisibleDropDown, setIsVisibleDropDown] = useState(false);
-
   const { selectedArtist, toggleSettingModal, toggleUpdate } =
     useArtistProvider();
   const isMobile = useIsMobile();
@@ -26,39 +25,44 @@ const Header = () => {
   const pathname = usePathname();
 
   return (
-    <div className="z-[10] relative md:fixed md:right-0 md:top-0 w-screen md:w-fit flex p-4 md:pt-8 md:pr-8 items-center justify-between md:justify-end">
-      <button
-        type="button"
-        className="md:hidden flex items-center gap-2"
-        onClick={() => setIsOpenMobileMenu(!isOpenMobileMenu)}
+    <>
+      <div
+        className="z-[10] relative md:fixed md:right-0 md:top-0 md:w-fit md:pt-8 md:pr-8 md:justify-end
+    flex p-4 items-center justify-between w-auto"
       >
-        <MenuIcon />
-      </button>
-      {selectedArtist && (
-        <div className="relative">
-          {pathname !== "/" && (
-            <button
-              type="button"
-              className="w-8 aspect-1/1 rounded-full overflow-hidden flex items-center justify-center"
-              onClick={handleClickPfp}
-              onMouseOver={() => setIsVisibleDropDown(true)}
-              onMouseOut={() => setIsVisibleDropDown(false)}
-            >
-              <ImageWithFallback src={selectedArtist?.image || ""} />
-            </button>
-          )}
-          {isVisibleDropDown && (
-            <ArtistDropDown setIsVisibleDropDown={setIsVisibleDropDown} />
-          )}
-        </div>
-      )}
-      {isMobile && (
-        <SideMenu
-          isVisible={isOpenMobileMenu}
-          toggleModal={() => setIsOpenMobileMenu(!isOpenMobileMenu)}
-        />
-      )}
-    </div>
+        <button
+          type="button"
+          className="md:hidden flex items-center gap-2"
+          onClick={() => setIsOpenMobileMenu(!isOpenMobileMenu)}
+        >
+          <MenuIcon />
+        </button>
+        {selectedArtist && (
+          <div className="relative">
+            {pathname !== "/" && (
+              <button
+                type="button"
+                className="w-8 aspect-1/1 rounded-full overflow-hidden flex items-center justify-center"
+                onClick={handleClickPfp}
+                onMouseOver={() => setIsVisibleDropDown(true)}
+                onMouseOut={() => setIsVisibleDropDown(false)}
+              >
+                <ImageWithFallback src={selectedArtist?.image || ""} />
+              </button>
+            )}
+            {isVisibleDropDown && (
+              <ArtistDropDown setIsVisibleDropDown={setIsVisibleDropDown} />
+            )}
+          </div>
+        )}
+        {isMobile && (
+          <SideMenu
+            isVisible={isOpenMobileMenu}
+            toggleModal={() => setIsOpenMobileMenu(!isOpenMobileMenu)}
+          />
+        )}
+      </div>
+    </>
   );
 };
 

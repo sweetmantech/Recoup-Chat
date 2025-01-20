@@ -30,7 +30,7 @@ const Menu = ({ toggleMenuExpanded }: { toggleMenuExpanded: () => void }) => {
       <button
         type="button"
         className="border-[#E6E6E6] border-[1px] rounded-md p-2 mt-4 md:mt-8 cursor-pointer shadow-[1px_1px_1px_1px_#E6E6E6] bg-white"
-        onClick={() => goToItem("")}
+        onClick={() => goToItem("new")}
       >
         {email ? "New Chat" : "Sign In"}
       </button>

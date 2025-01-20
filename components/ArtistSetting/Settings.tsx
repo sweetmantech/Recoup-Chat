@@ -12,6 +12,8 @@ import KnowledgeSelect from "./KnowledgeSelect";
 import Inputs from "./Inputs";
 import DeleteModal from "./DeleteModal";
 import { useState } from "react";
+import { useAgentSocketProvider } from "@/providers/AgentSocketProvider";
+import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const Settings = () => {
   const isMobile = useIsMobile();
@@ -21,12 +23,18 @@ const Settings = () => {
     updating,
     settingMode,
     knowledgeUploading,
+    setSelectedArtist,
   } = useArtistProvider();
   const [isVisibleDeleteModal, setIsVisibleDeleteModal] = useState(false);
+  const { openAgentSocket } = useAgentSocketProvider();
+  const { setIsLoading } = useFunnelAnalysisProvider();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSave = async () => {
-    await saveSetting();
+    const artistInfo = await saveSetting();
+    setSelectedArtist(artistInfo);
+    setIsLoading(true);
+    openAgentSocket("wrapped", artistInfo);
     toggleSettingModal();
   };
 

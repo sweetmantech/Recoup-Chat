@@ -10,7 +10,7 @@ import useIsMobile from "@/hooks/useIsMobile";
 import { useUserProvider } from "@/providers/UserProvder";
 
 const ArtistsSidebar = () => {
-  const { artists, toggleCreation, toggleSettingModal } = useArtistProvider();
+  const { toggleCreation, toggleSettingModal, sorted } = useArtistProvider();
   const { isPrepared } = useUserProvider();
   const isMobile = useIsMobile();
 
@@ -35,17 +35,17 @@ const ArtistsSidebar = () => {
       onMouseOut={() => setMenuExpanded(false)}
     >
       <div className="no-scrollbar grow flex flex-col gap-2 overflow-y-auto overflow-x-hidden">
-        {artists.map((artist: ArtistRecord) => (
+        {sorted.map((artist: ArtistRecord | null) => (
           <Artist
             artist={artist}
             toggleDropDown={() => {}}
-            key={artist.id}
+            key={artist?.id}
             isMini={!menuExpanded}
           />
         ))}
       </div>
       <button
-        className={`${menuExpanded && "flex px-2 py-1 gap-2 text-sm items-center text-grey-light-1 hover:text-grey-dark-1"}`}
+        className={`${menuExpanded && "flex px-2 py-1 gap-2 text-sm items-center text-grey-dark-1"}`}
         onClick={handleCreate}
       >
         <div className="w-8 flex justify-center">

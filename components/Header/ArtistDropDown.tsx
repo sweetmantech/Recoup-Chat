@@ -10,7 +10,7 @@ const ArtistDropDown = ({
 }: {
   setIsVisibleDropDown: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const { artists, toggleCreation, toggleSettingModal } = useArtistProvider();
+  const { sorted, toggleCreation, toggleSettingModal } = useArtistProvider();
   const { isPrepared } = useUserProvider();
 
   const handleCreate = () => {
@@ -27,11 +27,11 @@ const ArtistDropDown = ({
         onMouseOut={() => setIsVisibleDropDown(false)}
       >
         <div className="border mt-2 bg-white p-2 rounded-md space-y-1 shadow-[0px_0px_7px_0px_#80808063] max-h-[200px] overflow-y-auto">
-          {artists.map((artist: ArtistRecord) => (
+          {sorted.map((artist: ArtistRecord | null) => (
             <Artist
               artist={artist}
               toggleDropDown={() => setIsVisibleDropDown(false)}
-              key={artist.id}
+              key={artist?.id}
             />
           ))}
           <button
