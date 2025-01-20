@@ -11,7 +11,7 @@ import { useUserProvider } from "@/providers/UserProvder";
 
 const ArtistsSidebar = () => {
   const { toggleCreation, toggleSettingModal, sorted } = useArtistProvider();
-  const { isPrepared } = useUserProvider();
+  const { isPrepared, email } = useUserProvider();
   const isMobile = useIsMobile();
 
   const [menuExpanded, setMenuExpanded] = useState(false);
@@ -35,14 +35,15 @@ const ArtistsSidebar = () => {
       onMouseOut={() => setMenuExpanded(false)}
     >
       <div className="no-scrollbar grow flex flex-col gap-2 overflow-y-auto overflow-x-hidden">
-        {sorted.map((artist: ArtistRecord | null) => (
-          <Artist
-            artist={artist}
-            toggleDropDown={() => {}}
-            key={artist?.id}
-            isMini={!menuExpanded}
-          />
-        ))}
+        {email &&
+          sorted.map((artist: ArtistRecord | null) => (
+            <Artist
+              artist={artist}
+              toggleDropDown={() => {}}
+              key={artist?.id}
+              isMini={!menuExpanded}
+            />
+          ))}
       </div>
       <button
         className={`${menuExpanded && "flex px-2 py-1 gap-2 text-sm items-center text-grey-dark-1"}`}
