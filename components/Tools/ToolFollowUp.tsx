@@ -4,8 +4,8 @@ import { LoaderCircle } from "lucide-react";
 import { useEffect } from "react";
 import Answer from "./Answer";
 import getStatusMessage from "@/lib/getStatusMessage";
-import { Tools } from "@/types/Tool";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
+import isAnalysisTool from "@/lib/isAnalysisTool";
 
 const ToolFollowUp = ({ message }: { message: AIMessage }) => {
   const { loading, answer, toolName, context, specificReportParams } =
@@ -29,13 +29,9 @@ const ToolFollowUp = ({ message }: { message: AIMessage }) => {
 
   return (
     <div>
-      {(toolName === Tools.getArtistAnalysis ||
-        toolName === Tools.getSegmentsReport ||
-        toolName === Tools.getPitchReport ||
-        toolName === Tools.getVideosInfo ||
-        toolName === Tools.getInstrumentalStyleSuggestions) && (
+      {isAnalysisTool(toolName) && (
         <>
-          {isThinking && !content ? (
+          {isThinking ? (
             <div className="flex gap-2 items-center">
               <p className="text-sm">
                 {getStatusMessage(isSearchingTrends, isGettingVideos, context)}
