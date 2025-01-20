@@ -15,6 +15,9 @@ export const metadata: Metadata = {
     description: DESCRIPTION,
     images: `/logo.png`,
   },
+  themeColor: [{ color: "#fff" }],
+  manifest: "/manifest.json",
+  icons: ["/recoup.png"],
 };
 
 export default function RootLayout({

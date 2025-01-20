@@ -1,0 +1,55 @@
+{
+"name": "Recoup",
+"short_name": "Recoup",
+"start_url": "/",
+"display": "standalone",
+"description": "Recoup is an AI agent platform for smarter song rollouts, unforgettable fan experiences, and lasting artist growth. Empowering music executives with actionable insights and next-gen tools to elevate every artist and engage every fan.",
+"lang": "The default language of your application",
+"dir": "auto",
+"theme_color": "#000000",
+"background_color": "#000000",
+"orientation": "any",
+"icons": [
+    {
+        "src": "/recoup.png",
+        "sizes": "any",
+        "type": "image/png",
+        "purpose": "maskable"
+    },
+    {
+        "src": "/recoup.png",
+        "sizes": "any",
+        "type": "image/png",
+        "purpose": "any"
+    }
+],
+"screenshots": [
+    {
+        "src": "/recoup.png",
+        "sizes": "360x360",
+        "type": "image/png",
+        "description": "recoup"
+    }
+],
+"related_applications": [
+    {
+        "platform":"windows",
+        "url": "The URL to your app in that app store"
+    }
+],
+"prefer_related_applications": false,
+"shortcuts": [
+    {
+        "name":"Recoup",
+        "url":"/",
+        "description":"Recoup",
+        "icons": [
+            {
+                "src": "/recoup.png",
+                "sizes": "360x360",
+                "type": "image/png"
+            }
+        ]
+    }
+]
+}
