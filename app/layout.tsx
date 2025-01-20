@@ -6,6 +6,7 @@ import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import { Suspense } from "react";
 import ArtistSettingModal from "@/components/ArtistSettingModal";
+import MobileDownloadModal from "@/components/ModalDownloadModal";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -15,6 +16,11 @@ export const metadata: Metadata = {
     description: DESCRIPTION,
     images: `/logo.png`,
   },
+  manifest: "/manifest.json",
+  icons: [{ rel: "icon", url: "/recoup.png" }],
+  viewport:
+    "minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover",
+  themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#fff" }],
 };
 
 export default function RootLayout({
@@ -32,6 +38,7 @@ export default function RootLayout({
               <Header />
               <ArtistSettingModal />
               {children}
+              <MobileDownloadModal />
             </div>
           </Providers>
         </Suspense>
