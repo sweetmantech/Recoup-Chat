@@ -1,21 +1,21 @@
+// next.config.mjs
+
+import withPWA from 'next-pwa';
+
 /** @type {import('next').NextConfig} */
-
-import PWA from 'next-pwa'
-
-const withPWA = PWA({
-  dest: "public",
-  register: true,
-  skipWaiting: true,
-});
-
 const nextConfig = {
-  reactStrictMode: true,
-  transpilePackages: ["geist"],
-  images: {
-    domains: ["i.imgur.com", "ipfs.decentralized-content.com"]
-  },
-  swcMinify: true,
+    reactStrictMode: true, 
+    swcMinify: true,
+    transpilePackages: ["geist"],
+    images: {
+      domains: ["i.imgur.com", "ipfs.decentralized-content.com"]
+    },
 };
 
-export default withPWA(nextConfig)
+export default withPWA({
+    dest: "public",
+    disable: process.env.NODE_ENV === "development",
+    register: true,
+    skipWaiting: true,
+})(nextConfig);
 

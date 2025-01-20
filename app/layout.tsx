@@ -15,9 +15,11 @@ export const metadata: Metadata = {
     description: DESCRIPTION,
     images: `/logo.png`,
   },
-  themeColor: [{ color: "#fff" }],
   manifest: "/manifest.json",
-  icons: ["/recoup.png"],
+  icons: [{ rel: "icon", url: "/recoup.png" }],
+  viewport:
+    "minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover",
+  themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#fff" }],
 };
 
 export default function RootLayout({
