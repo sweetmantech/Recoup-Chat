@@ -8,7 +8,6 @@ import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 const Chat = () => {
   const { messages } = useMessagesProvider();
   const { isGettingAnalysis } = useFunnelReportProvider();
-
   return (
     <>
       {messages.length || isGettingAnalysis ? (
