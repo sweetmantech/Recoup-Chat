@@ -30,13 +30,14 @@ const useArtists = () => {
     (artist: ArtistRecord) => artist.id === selectedArtist?.id,
   );
 
-  const sorted = selectedArtist
-    ? [
-        selectedArtist,
-        ...artists.slice(0, activeArtistIndex),
-        ...artists.slice(activeArtistIndex + 1),
-      ]
-    : artists;
+  const sorted =
+    selectedArtist && activeArtistIndex >= 0
+      ? [
+          selectedArtist,
+          ...artists.slice(0, activeArtistIndex),
+          ...artists.slice(activeArtistIndex + 1),
+        ]
+      : artists;
 
   const getArtists = useCallback(
     async (artistId?: string) => {
