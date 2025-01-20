@@ -23,7 +23,7 @@ const useInitialChat = () => {
   }, [messages, funnelRawReportContent, pending]);
 
   useEffect(() => {
-    setMessages(initialMessages);
+    if (initialMessages.length) setMessages(initialMessages);
   }, [initialMessages]);
 
   return {

@@ -31,7 +31,7 @@ const ToolFollowUp = ({ message }: { message: AIMessage }) => {
     <div>
       {isAnalysisTool(toolName) && (
         <>
-          {isThinking ? (
+          {isThinking && !content ? (
             <div className="flex gap-2 items-center">
               <p className="text-sm">
                 {getStatusMessage(isSearchingTrends, isGettingVideos, context)}

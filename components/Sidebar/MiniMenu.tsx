@@ -29,7 +29,7 @@ const MiniMenu = ({
           <button
             type="button"
             className="p-2 rounded-md"
-            onClick={() => goToItem()}
+            onClick={() => goToItem("new")}
           >
             <Icon name="plus" />
           </button>
