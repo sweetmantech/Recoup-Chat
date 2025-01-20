@@ -26,7 +26,10 @@ const Header = () => {
   const pathname = usePathname();
 
   return (
-    <div className="z-[10] relative md:fixed md:right-0 md:top-0 w-screen md:w-fit flex p-4 md:pt-8 md:pr-8 items-center justify-between md:justify-end">
+    <div
+      className="z-[10] relative md:fixed md:right-0 md:top-0 md:w-fit md:pt-8 md:pr-8 md:justify-end
+    flex p-4 items-center justify-between w-auto"
+    >
       <button
         type="button"
         className="md:hidden flex items-center gap-2"
