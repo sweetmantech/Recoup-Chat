@@ -18,6 +18,7 @@ const MobileDownloadModal = () => {
       setDeferredPrompt(e);
     };
     if (isMobile) {
+      setIsVisible(true);
       window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     }
     return () =>
