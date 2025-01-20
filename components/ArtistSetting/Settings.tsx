@@ -12,7 +12,6 @@ import KnowledgeSelect from "./KnowledgeSelect";
 import Inputs from "./Inputs";
 import DeleteModal from "./DeleteModal";
 import { useState } from "react";
-import { SOCIAL_LINK } from "@/types/Agent";
 import { useAgentSocketProvider } from "@/providers/AgentSocketProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
@@ -34,15 +33,8 @@ const Settings = () => {
   const handleSave = async () => {
     const artistInfo = await saveSetting();
     setSelectedArtist(artistInfo);
-    const missingSocials = artistInfo?.artist_social_links?.filter(
-      (social: SOCIAL_LINK) =>
-        !social.link && social.type !== "YOUTUBE" && social.type !== "APPLE",
-    );
-    if (missingSocials?.length) {
-      const anyMissingSocial = missingSocials[0].type;
-      setIsLoading(true);
-      openAgentSocket(anyMissingSocial.toLowerCase(), artistInfo);
-    }
+    setIsLoading(true);
+    openAgentSocket("wrapped", artistInfo);
     toggleSettingModal();
   };
 
