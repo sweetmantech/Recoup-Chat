@@ -1,47 +1,20 @@
 "use client";
 
-import useIsMobile from "@/hooks/useIsMobile";
+import usePWADownload from "@/hooks/usePWADownload";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 const MobileDownloadModal = () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
-  const isMobile = useIsMobile();
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handleBeforeInstallPrompt = (e: any) => {
-      setIsVisible(true);
-      e.preventDefault();
-      setDeferredPrompt(e);
-    };
-    const response = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if (isMobile && response) {
-      setIsVisible(true);
-      window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-    }
-    return () =>
-      window.removeEventListener(
-        "beforeinstallprompt",
-        handleBeforeInstallPrompt,
-      );
-  }, [isMobile]);
-
-  const handleInstallClick = async () => {
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      setDeferredPrompt(null);
-      setIsVisible(false);
-    }
-  };
+  const { showModal, handleInstallClick } = usePWADownload();
 
   return (
     <>
-      {isVisible && (
+      {showModal && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="absolute inset-0 bg-black opacity-60" />
+          <div
+            className="absolute inset-0 bg-black opacity-60"
+            id="tap-close-download"
+          />
           <div className="relative bg-white p-4 rounded-md shadow-lg w-4/5 z-10 flex flex-col items-center">
             <Image
               src="/savePhoneIcon.png"
@@ -56,7 +29,7 @@ const MobileDownloadModal = () => {
               className="border-2 px-4 py-2 rounded-xl border-grey-700"
               onClick={handleInstallClick}
             >
-              Download
+              Install App
             </button>
           </div>
         </div>
