@@ -3,5 +3,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <div className="grow h-screen flex">{children}</div>;
+  return (
+    <div className="w-screen md:w-full md:grow h-screen flex">{children}</div>
+  );
 }
