@@ -6,6 +6,7 @@ import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import { Suspense } from "react";
 import ArtistSettingModal from "@/components/ArtistSettingModal";
+import MobileDownloadModal from "@/components/ModalDownloadModal";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -37,6 +38,7 @@ export default function RootLayout({
               <Header />
               <ArtistSettingModal />
               {children}
+              <MobileDownloadModal />
             </div>
           </Providers>
         </Suspense>

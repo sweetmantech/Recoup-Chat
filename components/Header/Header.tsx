@@ -8,13 +8,10 @@ import ImageWithFallback from "../ImageWithFallback";
 import useIsMobile from "@/hooks/useIsMobile";
 import { usePathname } from "next/navigation";
 import ArtistDropDown from "./ArtistDropDown";
-import usePWADownload from "@/hooks/usePWADownload";
-import MobileDownloadModal from "../ModalDownloadModal";
 
 const Header = () => {
   const [isOpenMobileMenu, setIsOpenMobileMenu] = useState(false);
   const [isVisibleDropDown, setIsVisibleDropDown] = useState(false);
-  const { showModal } = usePWADownload();
   const { selectedArtist, toggleSettingModal, toggleUpdate } =
     useArtistProvider();
   const isMobile = useIsMobile();
@@ -65,7 +62,6 @@ const Header = () => {
           />
         )}
       </div>
-      {showModal && <MobileDownloadModal />}
     </>
   );
 };
