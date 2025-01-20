@@ -17,7 +17,8 @@ const MobileDownloadModal = () => {
       e.preventDefault();
       setDeferredPrompt(e);
     };
-    if (isMobile) {
+    const response = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile && response) {
       setIsVisible(true);
       window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     }
