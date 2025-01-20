@@ -8,11 +8,13 @@ import ImageWithFallback from "../ImageWithFallback";
 import useIsMobile from "@/hooks/useIsMobile";
 import { usePathname } from "next/navigation";
 import ArtistDropDown from "./ArtistDropDown";
+import usePWADownload from "@/hooks/usePWADownload";
+import MobileDownloadModal from "../ModalDownloadModal";
 
 const Header = () => {
   const [isOpenMobileMenu, setIsOpenMobileMenu] = useState(false);
   const [isVisibleDropDown, setIsVisibleDropDown] = useState(false);
-
+  const { showModal } = usePWADownload();
   const { selectedArtist, toggleSettingModal, toggleUpdate } =
     useArtistProvider();
   const isMobile = useIsMobile();
@@ -26,42 +28,45 @@ const Header = () => {
   const pathname = usePathname();
 
   return (
-    <div
-      className="z-[10] relative md:fixed md:right-0 md:top-0 md:w-fit md:pt-8 md:pr-8 md:justify-end
+    <>
+      <div
+        className="z-[10] relative md:fixed md:right-0 md:top-0 md:w-fit md:pt-8 md:pr-8 md:justify-end
     flex p-4 items-center justify-between w-auto"
-    >
-      <button
-        type="button"
-        className="md:hidden flex items-center gap-2"
-        onClick={() => setIsOpenMobileMenu(!isOpenMobileMenu)}
       >
-        <MenuIcon />
-      </button>
-      {selectedArtist && (
-        <div className="relative">
-          {pathname !== "/" && (
-            <button
-              type="button"
-              className="w-8 aspect-1/1 rounded-full overflow-hidden flex items-center justify-center"
-              onClick={handleClickPfp}
-              onMouseOver={() => setIsVisibleDropDown(true)}
-              onMouseOut={() => setIsVisibleDropDown(false)}
-            >
-              <ImageWithFallback src={selectedArtist?.image || ""} />
-            </button>
-          )}
-          {isVisibleDropDown && (
-            <ArtistDropDown setIsVisibleDropDown={setIsVisibleDropDown} />
-          )}
-        </div>
-      )}
-      {isMobile && (
-        <SideMenu
-          isVisible={isOpenMobileMenu}
-          toggleModal={() => setIsOpenMobileMenu(!isOpenMobileMenu)}
-        />
-      )}
-    </div>
+        <button
+          type="button"
+          className="md:hidden flex items-center gap-2"
+          onClick={() => setIsOpenMobileMenu(!isOpenMobileMenu)}
+        >
+          <MenuIcon />
+        </button>
+        {selectedArtist && (
+          <div className="relative">
+            {pathname !== "/" && (
+              <button
+                type="button"
+                className="w-8 aspect-1/1 rounded-full overflow-hidden flex items-center justify-center"
+                onClick={handleClickPfp}
+                onMouseOver={() => setIsVisibleDropDown(true)}
+                onMouseOut={() => setIsVisibleDropDown(false)}
+              >
+                <ImageWithFallback src={selectedArtist?.image || ""} />
+              </button>
+            )}
+            {isVisibleDropDown && (
+              <ArtistDropDown setIsVisibleDropDown={setIsVisibleDropDown} />
+            )}
+          </div>
+        )}
+        {isMobile && (
+          <SideMenu
+            isVisible={isOpenMobileMenu}
+            toggleModal={() => setIsOpenMobileMenu(!isOpenMobileMenu)}
+          />
+        )}
+      </div>
+      {showModal && <MobileDownloadModal />}
+    </>
   );
 };
 
