@@ -1,8 +1,8 @@
-import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
+import { useAutopilotProvider } from "@/providers/AutoPilotProvider";
 import { Conversation } from "@/types/Stack";
 
 const Events = () => {
-  const { conversations } = useConversationsProvider();
+  const { analyses } = useAutopilotProvider();
 
   return (
     <div className="p-2 md:p-4 rounded border md:max-h-[400px] md:overflow-y-auto">
@@ -10,7 +10,7 @@ const Events = () => {
         EVENT_LOG
       </h2>
       <div className="flex flex-col max-h-[100px] overflow-y-auto md:max-h-full font-inter">
-        {conversations.map((conversation: Conversation) => (
+        {analyses.map((conversation: Conversation) => (
           <p className="text-xs md:text-sm" key={conversation.metadata.id}>
             <span className="text-xs">
               {new Date(conversation.timestamp).toLocaleString()}

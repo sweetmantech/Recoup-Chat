@@ -1,9 +1,9 @@
 import { Terminal } from "lucide-react";
 import ActionBox from "./ActionBox";
-import { useApprovalsProvider } from "@/providers/ApprovalsProvider";
+import { useAutopilotProvider } from "@/providers/AutoPilotProvider";
 
 const Approvals = () => {
-  const { socials } = useApprovalsProvider();
+  const { actions } = useAutopilotProvider();
 
   return (
     <div className="border p-2 rounded-md flex flex-col grow">
@@ -12,8 +12,13 @@ const Approvals = () => {
         <h1 className="text-sm font-inter_bold">WAITING FOR REVIEW</h1>
       </div>
       <div className="grow pt-4 px-2 space-y-1 text-xs">
-        {socials.map((social) => (
-          <ActionBox socialName={social} key={social} />
+        {actions.map((action, i) => (
+          <ActionBox
+            actionLabel={action.label}
+            actionValue={action.type}
+            key={i}
+            index={i}
+          />
         ))}
       </div>
     </div>

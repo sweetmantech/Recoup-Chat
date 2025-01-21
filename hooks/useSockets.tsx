@@ -2,7 +2,7 @@ import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import socketIo from "@/lib/socket/client";
-import { STEP_OF_ANALYSIS } from "@/types/TikTok";
+import { STEP_OF_ANALYSIS } from "@/types/Funnel";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import getAggregatedSocials from "@/lib/agent/getAggregatedSocials";
 

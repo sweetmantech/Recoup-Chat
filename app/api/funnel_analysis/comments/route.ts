@@ -1,15 +1,13 @@
-import getActorStatus from "@/lib/apify/getActorStatus";
+import getFunnelAnalyticsComments from "@/lib/supabase/getFunnelAnalyticsComments";
 import { NextRequest } from "next/server";
 
-export async function GET(req: NextRequest) {
-  const datasetId = req.nextUrl.searchParams.get("datasetId");
+export async function POST(req: NextRequest) {
+  const body = await req.json();
+  const chatIds = body.chatIds;
 
   try {
-    const data = await getActorStatus(datasetId as string);
-    return Response.json({
-      success: true,
-      data,
-    });
+    const data = await getFunnelAnalyticsComments(chatIds);
+    return Response.json({ data }, { status: 200 });
   } catch (error) {
     console.error(error);
     const message = error instanceof Error ? error.message : "failed";
