@@ -13,6 +13,6 @@ def get_demo_profile():
     response = requests.get(f"{agent_endpoint}/api/get_dataset_items?datasetId=WCWTBz2uksM9KZOFv")
     data = response.json()
     if data['data']:
-        return data['data']
+        return data['data'][0]
     else:
         return None
