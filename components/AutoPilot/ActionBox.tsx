@@ -4,6 +4,9 @@ import { useAutopilotProvider } from "@/providers/AutopilotProvider";
 import { ACTIONS } from "@/types/Autopilot";
 import { Check, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { v4 as uuidV4 } from "uuid";
+import { useChatProvider } from "@/providers/ChatProvider";
+import instructions from "@/evals/scripts/instructions.json";
 
 const ActionBox = ({
   actionLabel,
@@ -14,6 +17,7 @@ const ActionBox = ({
   actionValue: number;
   index: number;
 }) => {
+  const { append } = useChatProvider();
   const { selectedArtist, toggleSettingModal, toggleUpdate } =
     useArtistProvider();
   const { deny, comments, segmentName, funnelType, reportId } =
@@ -33,6 +37,13 @@ const ActionBox = ({
     }
     if (actionValue === ACTIONS.REPORT) {
       handleGenerateReport(segmentName, funnelType || "", reportId || "");
+    }
+    if (actionValue === ACTIONS.CONTENT_CALENDAR) {
+      append({
+        id: uuidV4(),
+        role: "user",
+        content: instructions.content_calendar,
+      });
     }
   };
 

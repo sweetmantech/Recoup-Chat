@@ -58,6 +58,11 @@ const useAnalysisActions = () => {
           });
 
         if (funnel_analyses_events.length === 0) return;
+        actionsTemp.push({
+          type: ACTIONS.CONTENT_CALENDAR,
+          label: "Content Calendar",
+          id: ACTIONS.CONTENT_CALENDAR,
+        });
         const funnel_analyses = await getFunnelAnalysis(
           funnel_analyses_events[0].metadata.conversationId,
         );
