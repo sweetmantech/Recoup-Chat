@@ -28,18 +28,18 @@ const useAnalysisActions = () => {
 
   useEffect(() => {
     const init = async () => {
-      const actionsTemp = [];
-      const funnel_analyses_events = conversations.filter(
-        (conversation) => conversation.metadata.is_funnel_analysis,
-      );
-      setAnalyses(funnel_analyses_events);
-      const reports = conversations.filter(
-        (conversation) => conversation.metadata.is_funnel_report,
-      );
-      const chatIds = funnel_analyses_events.map(
-        (ele) => ele.metadata.conversationId,
-      );
       try {
+        const actionsTemp: Array<any> = [];
+        const funnel_analyses_events = conversations.filter(
+          (conversation) => conversation.metadata.is_funnel_analysis,
+        );
+        setAnalyses(funnel_analyses_events);
+        const reports = conversations.filter(
+          (conversation) => conversation.metadata.is_funnel_report,
+        );
+        const chatIds = funnel_analyses_events.map(
+          (ele) => ele.metadata.conversationId,
+        );
         const response = await fetch("/api/funnel_analysis/comments", {
           method: "POST",
           body: JSON.stringify({ chatIds }),
@@ -58,7 +58,7 @@ const useAnalysisActions = () => {
           });
 
         const funnel_analyses = await getFunnelAnalysis(
-          analyses[0].metadata.conversationId,
+          funnel_analyses_events[0].metadata.conversationId,
         );
         const wrappedAnalysis = getWrappedAnalysis(funnel_analyses);
         setFunnelType(
@@ -89,7 +89,6 @@ const useAnalysisActions = () => {
         setActions(actionsTemp);
       } catch (error) {
         console.error(error);
-        return { error };
       }
     };
 
