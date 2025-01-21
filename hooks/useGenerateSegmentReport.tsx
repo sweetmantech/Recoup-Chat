@@ -54,7 +54,12 @@ const useGenerateSegmentReport = () => {
       );
       return;
     }
-    setSuccessCallbackParams(new URLSearchParams({ segmentName }).toString());
+    setSuccessCallbackParams(
+      new URLSearchParams({
+        segmentName,
+        reportId: report_id || (chatId as string),
+      }).toString(),
+    );
     toggleModal(minimumCredits === 5);
   };
 

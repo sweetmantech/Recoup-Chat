@@ -11,6 +11,7 @@ const useCredits = () => {
   const searchParams = useSearchParams();
   const referenceId = searchParams.get("referenceId");
   const segmentName = searchParams.get("segmentName");
+  const reportId = searchParams.get("reportId");
   const initialized = useRef(false);
   const { append } = useChatProvider();
   const { funnelType } = useFunnelAnalysisProvider();
@@ -30,17 +31,17 @@ const useCredits = () => {
             {
               id: uuidV4(),
               role: "user",
-              content: `Please create a ${funnelType} fan segment report for ${chatId} using this segment ${segmentName}.`,
+              content: `Please create a ${funnelType} fan segment report for ${reportId || chatId} using this segment ${segmentName}.`,
             },
             true,
           );
         }
       }
     };
-    if (!referenceId || !chatId || !segmentName || !email) return;
+    if (!referenceId || !(chatId || reportId) || !segmentName || !email) return;
 
     init();
-  }, [referenceId, chatId, segmentName, email]);
+  }, [referenceId, chatId, segmentName, email, reportId]);
 };
 
 export default useCredits;
