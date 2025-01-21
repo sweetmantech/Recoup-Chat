@@ -1,4 +1,4 @@
-import { useAutopilotProvider } from "@/providers/AutoPilotProvider";
+import { useAutopilotProvider } from "@/providers/AutopilotProvide";
 import { Conversation } from "@/types/Stack";
 
 const Events = () => {

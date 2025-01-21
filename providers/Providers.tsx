@@ -13,7 +13,7 @@ import { MessagesProvider } from "./MessagesProvider";
 import { InitialChatProvider } from "./InitialChatProvider";
 import { PromptsProvider } from "./PromptsProvider";
 import { FunnelAnalysisProvider } from "./FunnelAnalysisProvider";
-import { AutopilotProvider } from "./AutoPilotProvider";
+import { AutopilotProvider } from "./AutopilotProvide";
 
 const queryClient = new QueryClient();
 
