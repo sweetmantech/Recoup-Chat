@@ -1,10 +1,11 @@
 import { Terminal } from "lucide-react";
 import ActionBox from "./ActionBox";
 import { useAutopilotProvider } from "@/providers/AutopilotProvider";
+import useCredits from "@/hooks/useCredits";
 
 const Approvals = () => {
+  useCredits();
   const { actions } = useAutopilotProvider();
-
   return (
     <div className="border p-2 rounded-md flex flex-col grow">
       <div className="flex items-center gap-2 pb-1 border-b">

@@ -1,9 +1,11 @@
 import Icon from "@/components/Icon";
 import LucideIcon from "@/components/LucideIcon";
+import useCredits from "@/hooks/useCredits";
 import useGenerateSegmentReport from "@/hooks/useGenerateSegmentReport";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const Segments = () => {
+  useCredits();
   const { handleGenerateReport } = useGenerateSegmentReport();
   const { segments } = useFunnelAnalysisProvider();
   return (

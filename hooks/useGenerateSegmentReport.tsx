@@ -1,7 +1,6 @@
 import { useUserProvider } from "@/providers/UserProvder";
 import { v4 as uuidV4 } from "uuid";
 import { useChatProvider } from "@/providers/ChatProvider";
-import useCredits from "@/hooks/useCredits";
 import { usePaymentProvider } from "@/providers/PaymentProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import { useParams } from "next/navigation";
@@ -11,7 +10,6 @@ const useGenerateSegmentReport = () => {
   const { funnelType } = useFunnelAnalysisProvider();
   const { chat_id: chatId } = useParams();
   const { isPrepared } = useUserProvider();
-  useCredits();
   const {
     toggleModal,
     setSuccessCallbackParams,
