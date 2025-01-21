@@ -8,7 +8,7 @@ def create_tiktok_vi_comments_registry_data(ideal_key_or_value, question):
     instruction = get_instruction()
     data = get_demo_comments()
     fans_comments = {
-        "comments": data,
+        "comments": data[0:10],
         "total_video_comments_count": len(data)
     }
     if data != None:
