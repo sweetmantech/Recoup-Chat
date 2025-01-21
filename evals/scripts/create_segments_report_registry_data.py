@@ -12,7 +12,7 @@ def create_segments_report_registry_data(ideal_key_or_value, instruction_key, qu
 
     profile_with_fans_comments = {
         **profile,
-        "videos": videos_comments["videos"],
+        "videos": videos_comments,
         "segment_name": "Youthful Dreamers",
         "segment_size": 25
 
