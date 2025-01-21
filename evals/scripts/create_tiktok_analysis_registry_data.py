@@ -13,7 +13,7 @@ def create_tiktok_analysis_registry_data(ideal_key_or_value, instruction_key, qu
     profile_with_fans_comments = {
         **profile,
         "videos": videos_comments,
-        "total_video_comments_count": videos_comments["total_video_comments_count"]
+        "total_video_comments_count": len(videos_comments)
     }
     context_str = json.dumps(profile_with_fans_comments)
 
