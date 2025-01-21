@@ -17,6 +17,7 @@ const useCredits = () => {
   const { funnelType } = useFunnelAnalysisProvider();
   const { email } = useUserProvider();
   const { chat_id: chatId } = useParams();
+  const funnelReportId = reportId || chatId;
 
   useEffect(() => {
     const init = async () => {
@@ -31,17 +32,17 @@ const useCredits = () => {
             {
               id: uuidV4(),
               role: "user",
-              content: `Please create a ${funnelType} fan segment report for ${reportId || chatId} using this segment ${segmentName}.`,
+              content: `Please create a ${funnelType || ""} fan segment report for ${funnelReportId} using this segment ${segmentName}.`,
             },
             true,
           );
         }
       }
     };
-    if (!referenceId || !(chatId || reportId) || !segmentName || !email) return;
+    if (!referenceId || !funnelReportId || !segmentName || !email) return;
 
     init();
-  }, [referenceId, chatId, segmentName, email, reportId]);
+  }, [referenceId, funnelReportId, segmentName, email]);
 };
 
 export default useCredits;
