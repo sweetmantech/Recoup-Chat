@@ -57,6 +57,7 @@ const useAnalysisActions = () => {
             id: ACTIONS.POST_REACTION,
           });
 
+        if (funnel_analyses_events.length === 0) return;
         const funnel_analyses = await getFunnelAnalysis(
           funnel_analyses_events[0].metadata.conversationId,
         );

@@ -16,7 +16,8 @@ const ActionBox = ({
 }) => {
   const { selectedArtist, toggleSettingModal, toggleUpdate } =
     useArtistProvider();
-  const { deny, comments, segmentName, funnelType } = useAutopilotProvider();
+  const { deny, comments, segmentName, funnelType, reportId } =
+    useAutopilotProvider();
   const [copied, setCopied] = useState(false);
   const { handleGenerateReport } = useGenerateSegmentReport();
 
@@ -31,7 +32,7 @@ const ActionBox = ({
       setTimeout(() => setCopied(false), 2000);
     }
     if (actionValue === ACTIONS.REPORT) {
-      handleGenerateReport(segmentName, funnelType || "");
+      handleGenerateReport(segmentName, funnelType || "", reportId || "");
     }
   };
 
