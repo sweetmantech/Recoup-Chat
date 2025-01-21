@@ -1,6 +1,6 @@
 import capitalize from "@/lib/capitalize";
 import { Funnel_Type } from "@/types/Funnel";
-import { STEP_OF_ANALYSIS } from "@/types/TikTok";
+import { STEP_OF_ANALYSIS } from "@/types/Funnel";
 import { useParams, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { v4 as uuidV4 } from "uuid";

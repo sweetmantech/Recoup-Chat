@@ -1,5 +1,5 @@
 import { FUNNEL_ANALYSIS } from "@/types/Agent";
-import { STEP_OF_ANALYSIS } from "@/types/TikTok";
+import { STEP_OF_ANALYSIS } from "@/types/Funnel";
 
 const getWrappedAnalysis = (funnel_analyses: Array<FUNNEL_ANALYSIS>) => {
   const wrappedAnalysis = funnel_analyses.find(

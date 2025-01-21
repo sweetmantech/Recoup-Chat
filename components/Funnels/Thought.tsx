@@ -1,7 +1,7 @@
 import getThoughtStatus from "@/lib/getThoughtStatus";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
-import { STEP_OF_ANALYSIS } from "@/types/TikTok";
+import { STEP_OF_ANALYSIS } from "@/types/Funnel";
 import StreamingThought from "./StreamThought";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

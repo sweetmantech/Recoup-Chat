@@ -3,7 +3,7 @@ import getHandles from "@/lib/getHandles";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import { useUserProvider } from "@/providers/UserProvder";
-import { STEP_OF_ANALYSIS } from "@/types/TikTok";
+import { STEP_OF_ANALYSIS } from "@/types/Funnel";
 import { useRouter } from "next/navigation";
 import { v4 as uuidV4 } from "uuid";
 import useSockets from "./useSockets";
