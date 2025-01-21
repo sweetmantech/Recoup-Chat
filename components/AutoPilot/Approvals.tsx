@@ -1,6 +1,6 @@
 import { Terminal } from "lucide-react";
 import ActionBox from "./ActionBox";
-import { useAutopilotProvider } from "@/providers/AutopilotProvide";
+import { useAutopilotProvider } from "@/providers/AutopilotProvider";
 
 const Approvals = () => {
   const { actions } = useAutopilotProvider();

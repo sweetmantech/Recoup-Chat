@@ -1,6 +1,6 @@
 import { ACTIONS } from "@/hooks/useAutopilot";
 import { useArtistProvider } from "@/providers/ArtistProvider";
-import { useAutopilotProvider } from "@/providers/AutopilotProvide";
+import { useAutopilotProvider } from "@/providers/AutopilotProvider";
 import { Check, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
 
