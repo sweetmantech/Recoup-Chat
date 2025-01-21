@@ -10,6 +10,7 @@ def create_tiktok_analysis_registry_data(ideal_key_or_value, instruction_key, qu
     videos_comments = get_demo_comments()
     profile = get_demo_profile()
 
+    print(len(videos_comments))
     profile_with_fans_comments = {
         **profile,
         "videos": videos_comments,
