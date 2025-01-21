@@ -1,7 +1,8 @@
 import { ACTIONS } from "@/hooks/useAutopilot";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useAutopilotProvider } from "@/providers/AutoPilotProvider";
-import { Pencil, Trash2 } from "lucide-react";
+import { Check, Pencil, Trash2 } from "lucide-react";
+import { useState } from "react";
 
 const ActionBox = ({
   actionLabel,
@@ -15,6 +16,7 @@ const ActionBox = ({
   const { selectedArtist, toggleSettingModal, toggleUpdate } =
     useArtistProvider();
   const { deny, comments } = useAutopilotProvider();
+  const [copied, setCopied] = useState(false);
 
   const handleClick = () => {
     if (actionValue === ACTIONS.SOCIAL && selectedArtist) {
@@ -23,6 +25,8 @@ const ActionBox = ({
     }
     if (actionValue === ACTIONS.POST_REACTION) {
       navigator.clipboard.writeText(comments?.[0]?.comment || "");
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     }
   };
 
@@ -39,7 +43,15 @@ const ActionBox = ({
           className="border rounded-md py-1 px-2 flex gap-1 items-center"
           onClick={handleClick}
         >
-          <Pencil className="size-4" /> Approve
+          {copied ? (
+            <>
+              <Check className="size-4" /> Copied
+            </>
+          ) : (
+            <>
+              <Pencil className="size-4" /> Approve
+            </>
+          )}
         </button>
         <button
           className="border rounded-md py-1 px-2 flex gap-1 items-center"
