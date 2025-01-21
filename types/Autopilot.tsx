@@ -1,0 +1,5 @@
+export enum ACTIONS {
+  POST_REACTION,
+  SOCIAL,
+  REPORT,
+}
