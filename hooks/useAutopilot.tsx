@@ -1,21 +1,20 @@
 import { useArtistProvider } from "@/providers/ArtistProvider";
-import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { SOCIAL_LINK } from "@/types/Agent";
-import { Comment } from "@/types/Funnel";
+import { ACTIONS } from "@/types/Autopilot";
 import { useEffect, useState } from "react";
+import useAnalysisActions from "./useAnalysisActions";
 
-export enum ACTIONS {
-  POST_REACTION,
-  SOCIAL,
-}
 const useAutopilot = () => {
-  const { conversations } = useConversationsProvider();
-  const analyses = conversations.filter(
-    (conversation) => conversation.metadata.is_funnel_analysis,
-  );
   const [actions, setActions] = useState<Array<any>>([]);
-  const [comments, setComments] = useState<Array<Comment>>([]);
   const { selectedArtist } = useArtistProvider();
+  const {
+    comments,
+    analyses,
+    segmentName,
+    actions: analysisActions,
+    funnelType,
+    reportId,
+  } = useAnalysisActions();
 
   const deny = (index: number) => {
     const temp = [...actions];
@@ -46,36 +45,18 @@ const useAutopilot = () => {
   }, [selectedArtist]);
 
   useEffect(() => {
-    const init = async () => {
-      const chatIds = analyses.map((ele) => ele.metadata.conversationId);
-      try {
-        const response = await fetch("/api/funnel_analysis/comments", {
-          method: "POST",
-          body: JSON.stringify({ chatIds }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (!response.ok) return { error: true };
-        const data = await response.json();
-        setComments(data.data);
-        if (data.data?.length > 0)
-          addAction({ type: ACTIONS.POST_REACTION, label: "Post Reaction" });
-      } catch (error) {
-        console.error(error);
-        return { error };
-      }
-    };
-
-    if (analyses.length > 0) init();
-  }, [conversations]);
+    if (analysisActions.length > 0)
+      setActions([...actions, ...analysisActions]);
+  }, [analysisActions]);
 
   return {
-    analyses,
     actions,
-    comments,
     deny,
+    comments,
+    analyses,
+    segmentName,
+    funnelType,
+    reportId,
   };
 };
 

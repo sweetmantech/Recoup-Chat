@@ -1,6 +1,7 @@
-import { ACTIONS } from "@/hooks/useAutopilot";
+import useGenerateSegmentReport from "@/hooks/useGenerateSegmentReport";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useAutopilotProvider } from "@/providers/AutopilotProvider";
+import { ACTIONS } from "@/types/Autopilot";
 import { Check, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
 
@@ -15,8 +16,9 @@ const ActionBox = ({
 }) => {
   const { selectedArtist, toggleSettingModal, toggleUpdate } =
     useArtistProvider();
-  const { deny, comments } = useAutopilotProvider();
+  const { deny, comments, segmentName, funnelType } = useAutopilotProvider();
   const [copied, setCopied] = useState(false);
+  const { handleGenerateReport } = useGenerateSegmentReport();
 
   const handleClick = () => {
     if (actionValue === ACTIONS.SOCIAL && selectedArtist) {
@@ -27,6 +29,9 @@ const ActionBox = ({
       navigator.clipboard.writeText(comments?.[0]?.comment || "");
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+    }
+    if (actionValue === ACTIONS.REPORT) {
+      handleGenerateReport(segmentName, funnelType || "");
     }
   };
 
