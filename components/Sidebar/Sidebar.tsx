@@ -4,6 +4,7 @@ import { useState } from "react";
 import MiniMenu from "./MiniMenu";
 import { motion } from "framer-motion";
 import Menu from "./Menu";
+import AccountModal from "../AccountModal";
 
 const Sidebar = () => {
   const [menuExpanded, setMenuExpanded] = useState(false);
@@ -25,6 +26,7 @@ const Sidebar = () => {
       ) : (
         <MiniMenu toggleMenuExpanded={toggleMenuExpanded} />
       )}
+      <AccountModal />
     </motion.div>
   );
 };
