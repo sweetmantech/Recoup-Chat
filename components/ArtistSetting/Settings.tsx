@@ -14,6 +14,7 @@ import DeleteModal from "./DeleteModal";
 import { useState } from "react";
 import { useAgentSocketProvider } from "@/providers/AgentSocketProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
+import isChangedSocial from "@/lib/isChangedSocial";
 
 const Settings = () => {
   const isMobile = useIsMobile();
@@ -24,6 +25,7 @@ const Settings = () => {
     settingMode,
     knowledgeUploading,
     setSelectedArtist,
+    editableArtist,
   } = useArtistProvider();
   const [isVisibleDeleteModal, setIsVisibleDeleteModal] = useState(false);
   const { openAgentSocket } = useAgentSocketProvider();
@@ -33,9 +35,11 @@ const Settings = () => {
   const handleSave = async () => {
     const artistInfo = await saveSetting();
     setSelectedArtist(artistInfo);
+    const isUpdatedSocial = isChangedSocial(artistInfo, editableArtist);
+    toggleSettingModal();
+    if (!isUpdatedSocial) return;
     setIsLoading(true);
     openAgentSocket("wrapped", artistInfo);
-    toggleSettingModal();
   };
 
   return (
