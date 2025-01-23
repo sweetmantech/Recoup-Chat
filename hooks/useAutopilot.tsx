@@ -53,7 +53,6 @@ const useAutopilot = () => {
   }, [selectedArtist]);
 
   useEffect(() => {
-    clearMessagesCache();
     const temp = [...socialActions, ...analysisActions];
     const filtered = temp.filter((ele) => {
       const approvedIndex = stackActions.findIndex(
@@ -64,6 +63,10 @@ const useAutopilot = () => {
     });
     setActions([...filtered]);
   }, [analysisActions, socialActions, stackActions]);
+
+  useEffect(() => {
+    clearMessagesCache();
+  }, []);
 
   return {
     actions,
