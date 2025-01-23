@@ -41,7 +41,7 @@ const useMessages = () => {
     body: {
       email,
       artistId: selectedArtist?.id || "",
-      funnelContext,
+      context: funnelContext || "",
     },
     initialMessages,
     onToolCall: ({ toolCall }) => {

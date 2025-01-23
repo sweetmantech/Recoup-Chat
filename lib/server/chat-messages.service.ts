@@ -26,18 +26,18 @@ class ChatMessagesService {
     question: string,
     email: string,
     artistId: string,
-    funnelContext: string,
+    context: string,
   ) {
-    const context = await this.fetchRelevantContext(email, artistId);
+    const campaignInfo = await this.fetchRelevantContext(email, artistId);
     const tools = this.fetchRelevantTools(question, email, artistId);
 
     const systemMessage = `
 *****
-[Context]: ${funnelContext || context}
+[Context]: ${context || campaignInfo}
 *****
 [Question]: ${question}
 *****
-${funnelContext ? "" : `[Instruction]: ${instructions.get_campaign}`}
+${context ? "" : `[Instruction]: ${instructions.get_campaign}`}
 ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
 `;
 
