@@ -14,7 +14,6 @@ import DeleteModal from "./DeleteModal";
 import { useState } from "react";
 import { useAgentSocketProvider } from "@/providers/AgentSocketProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
-import isChangedSocial from "@/lib/isChangedSocial";
 
 const Settings = () => {
   const isMobile = useIsMobile();
@@ -35,9 +34,8 @@ const Settings = () => {
   const handleSave = async () => {
     const artistInfo = await saveSetting();
     setSelectedArtist(artistInfo);
-    const isUpdatedSocial = isChangedSocial(artistInfo, editableArtist);
     toggleSettingModal();
-    if (!isUpdatedSocial) return;
+    if (editableArtist) return;
     setResult(null);
     setThoughts({});
     setIsLoading(true);
