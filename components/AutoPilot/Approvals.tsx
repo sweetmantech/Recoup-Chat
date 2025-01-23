@@ -2,6 +2,7 @@ import { Terminal } from "lucide-react";
 import ActionBox from "./ActionBox";
 import { useAutopilotProvider } from "@/providers/AutopilotProvider";
 import useCredits from "@/hooks/useCredits";
+import { ACTION } from "@/types/Autopilot";
 
 const Approvals = () => {
   useCredits();
@@ -13,13 +14,8 @@ const Approvals = () => {
         <h1 className="text-sm font-inter_bold">WAITING FOR REVIEW</h1>
       </div>
       <div className="grow pt-4 px-2 space-y-1 text-xs">
-        {actions.map((action, i) => (
-          <ActionBox
-            actionLabel={action.label}
-            actionValue={action.type}
-            key={i}
-            index={i}
-          />
+        {actions.map((action: ACTION, i) => (
+          <ActionBox action={action} key={i} index={i} />
         ))}
       </div>
     </div>
