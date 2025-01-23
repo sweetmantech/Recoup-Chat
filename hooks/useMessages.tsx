@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Message, useChat as useAiChat } from "ai/react";
 import { useCsrfToken } from "@/packages/shared/src/hooks";
 import { useParams, useSearchParams } from "next/navigation";
@@ -16,7 +16,7 @@ import useFunnels from "./useFunnels";
 const useMessages = () => {
   const { currentQuestion, setCurrentQuestion } = usePromptsProvider();
   const csrfToken = useCsrfToken();
-  const { initialMessages } = useInitialMessagesProvider();
+  const { initialMessages, setInitialMessages } = useInitialMessagesProvider();
   const { conversationRef } = useConversationsProvider();
   const queryClient = useQueryClient();
   const { email, address } = useUserProvider();
@@ -35,6 +35,7 @@ const useMessages = () => {
     append: appendAiChat,
     isLoading: pending,
     setMessages,
+    stop,
   } = useAiChat({
     api: `/api/chat`,
     headers: {
@@ -93,6 +94,15 @@ const useMessages = () => {
     );
     setCurrentQuestion(null);
   };
+
+  useEffect(() => {
+    if (!pathId) {
+      stop();
+      setInitialMessages([]);
+      setMessages([]);
+      messagesRef.current = [];
+    }
+  }, [pathId]);
 
   return {
     appendAiChat,
