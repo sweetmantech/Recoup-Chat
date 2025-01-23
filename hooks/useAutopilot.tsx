@@ -59,7 +59,7 @@ const useAutopilot = () => {
       if (approvedIndex >= 0) return false;
       return true;
     });
-    setActions([...filtered]);
+    setActions([...temp]);
   }, [analysisActions, socialActions, stackActions]);
 
   return {
