@@ -29,7 +29,7 @@ const Settings = () => {
   } = useArtistProvider();
   const [isVisibleDeleteModal, setIsVisibleDeleteModal] = useState(false);
   const { openAgentSocket } = useAgentSocketProvider();
-  const { setIsLoading } = useFunnelAnalysisProvider();
+  const { setIsLoading, setResult, setThoughts } = useFunnelAnalysisProvider();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSave = async () => {
@@ -38,6 +38,8 @@ const Settings = () => {
     const isUpdatedSocial = isChangedSocial(artistInfo, editableArtist);
     toggleSettingModal();
     if (!isUpdatedSocial) return;
+    setResult(null);
+    setThoughts({});
     setIsLoading(true);
     openAgentSocket("wrapped", artistInfo);
   };

@@ -8,10 +8,13 @@ const AnalysisButton = ({
   className?: string;
   containerClasses?: string;
 }) => {
-  const { username, funnelType } = useFunnelAnalysisProvider();
+  const { username, funnelType, setThoughts, setResult } =
+    useFunnelAnalysisProvider();
   const { openAgentSocket } = useAgentSocketProvider();
 
   const handleClick = () => {
+    setThoughts({});
+    setResult(null);
     openAgentSocket(funnelType as string);
   };
   return (
