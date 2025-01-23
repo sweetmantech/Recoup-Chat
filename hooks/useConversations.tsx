@@ -45,6 +45,7 @@ const useConversations = () => {
     content: string,
     chatId: string,
     is_funnel_report: boolean,
+    active_analaysis_id: string,
   ) => {
     const response = await getAiTitle(content);
     if (response?.error) {
@@ -58,6 +59,7 @@ const useConversations = () => {
         title: response.replaceAll(`\"`, ""),
         is_funnel_report,
         artistId: selectedArtist?.id,
+        active_analaysis_id,
       },
       chatId,
     );

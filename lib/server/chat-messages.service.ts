@@ -14,6 +14,7 @@ import getVideosInfo from "../tools/getVideosInfo";
 import getSegmentsReport from "../tools/getSegmentsReport";
 import getPitchReport from "../tools/getPitchReport";
 import getInstrumentalStyleSuggestions from "../tools/getInstrumentalStyleSuggestions";
+import getFunnelAnalysis from "../chat/getFunnelAnalysis";
 
 export function createChatMessagesService() {
   return new ChatMessagesService();
@@ -26,18 +27,20 @@ class ChatMessagesService {
     question: string,
     email: string,
     artistId: string,
-    funnelContext: string,
+    active_analaysis_id: string,
+    context: string,
   ) {
-    const context = await this.fetchRelevantContext(email, artistId);
+    const campaignInfo = await this.fetchRelevantContext(email, artistId);
     const tools = this.fetchRelevantTools(question, email, artistId);
+    const funnelAnalaysisContext = await getFunnelAnalysis(active_analaysis_id);
 
     const systemMessage = `
 *****
-[Context]: ${funnelContext || context}
+[Context]: ${funnelAnalaysisContext ? JSON.stringify(funnelAnalaysisContext) : ""} \n${context || campaignInfo}
 *****
 [Question]: ${question}
 *****
-${funnelContext ? "" : `[Instruction]: ${instructions.get_campaign}`}
+${context ? "" : `[Instruction]: ${instructions.get_campaign}`}
 ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
 `;
 

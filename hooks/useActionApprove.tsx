@@ -36,11 +36,15 @@ const useActionApprove = () => {
       handleGenerateReport(segmentName, funnelType || "", reportId || "");
     }
     if (action.type === ACTIONS.CONTENT_CALENDAR) {
-      append({
-        id: uuidV4(),
-        role: "user",
-        content: instructions.content_calendar,
-      });
+      append(
+        {
+          id: uuidV4(),
+          role: "user",
+          content: instructions.content_calendar,
+        },
+        false,
+        reportId || "",
+      );
     }
     await trackAction(address, action, selectedArtist?.id || "", true);
     getStackActions();
