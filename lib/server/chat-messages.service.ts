@@ -48,7 +48,8 @@ class ChatMessagesService {
       funnelAnalaysisContext
         ? JSON.stringify({
             PostContents: postComments.flat(),
-            Experties: segments.flat(),
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            Experties: segments.flat().map((segment: any) => segment.name),
           })
         : ""
     } \n${context || campaignInfo}
@@ -60,7 +61,7 @@ class ChatMessagesService {
 ${
   context
     ? `
-If question is related with content calendar, content calendar should reference the expertes and post contents urls & timestamp!.
+If question is related with content calendar, content calendar should reference the expertes and post urls & timestamp!.
 `
     : `${instructions.get_campaign}`
 }

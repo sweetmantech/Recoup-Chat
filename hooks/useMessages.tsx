@@ -23,7 +23,7 @@ const useMessages = () => {
   const [toolCall, setToolCall] = useState<any>(null);
   const { selectedArtist } = useArtistProvider();
   const { conversation: pathId } = useParams();
-  const { funnelContext } = useFunnels();
+  const { funnelContext, setFunnelContext } = useFunnels();
   const searchParams = useSearchParams();
   const active_analaysis_id = searchParams.get("active_analaysis_id");
 
@@ -105,6 +105,7 @@ const useMessages = () => {
     pending,
     toolCall,
     finalCallback,
+    setFunnelContext,
   };
 };
 

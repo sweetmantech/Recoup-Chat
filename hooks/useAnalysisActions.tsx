@@ -4,6 +4,7 @@ import getFunnelAnalysis from "@/lib/getFunnelAnalysis";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
+import { useMessagesProvider } from "@/providers/MessagesProvider";
 import { ACTION, ACTIONS } from "@/types/Autopilot";
 import { Comment } from "@/types/Funnel";
 import { Conversation } from "@/types/Stack";
@@ -18,6 +19,7 @@ const useAnalysisActions = () => {
   const [actions, setActions] = useState<Array<ACTION>>([]);
   const [funnelType, setFunnelType] = useState<string | null>(null);
   const [reportId, setReportId] = useState<string | null>(null);
+  const { setFunnelContext } = useMessagesProvider();
 
   const {
     clearReportCache,
@@ -73,6 +75,7 @@ const useAnalysisActions = () => {
         setReportId(funnel_analyses[0].chat_id);
         clearReportCache();
         setFunnelAnalysis(funnel_analyses);
+        setFunnelContext(JSON.stringify(funnel_analyses));
         setBannerImage(selectedArtist?.image || "");
         setBannerArtistName(selectedArtist?.name || "");
         const segments = getAnalysisSegments(funnel_analyses);
