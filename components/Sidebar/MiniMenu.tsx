@@ -28,7 +28,7 @@ const MiniMenu = ({
         >
           <button
             type="button"
-            className="p-2 rounded-md"
+            className="p-2 rounded-md mt-2"
             onClick={() => goToItem("new")}
           >
             <Icon name="plus" />
@@ -41,7 +41,7 @@ const MiniMenu = ({
         >
           <button
             type="button"
-            className=" p-2 rounded-md"
+            className=" p-2 rounded-md mt-2"
             onClick={() => push("/")}
           >
             <Icon name="dashboard" />
