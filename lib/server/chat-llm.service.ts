@@ -21,6 +21,7 @@ export const StreamResponseSchema = ChatMessagesSchema.extend({
   email: z.string(),
   artistId: z.string(),
   context: z.string(),
+  active_analaysis_id: z.string(),
 });
 
 /**
@@ -46,6 +47,7 @@ class ChatLLMService {
     messages,
     email,
     artistId,
+    active_analaysis_id,
     context,
   }: z.infer<typeof StreamResponseSchema>) {
     // use a normal service instance using the current user RLS
@@ -70,6 +72,7 @@ class ChatLLMService {
       lastMessage.content,
       email,
       artistId,
+      active_analaysis_id,
       chatContext,
     );
     const systemMessage = settings.systemMessage;
