@@ -8,10 +8,12 @@ const Agents = () => {
   const { push } = useRouter();
   const { selectedArtist } = useArtistProvider();
   const { openAgentSocket } = useAgentSocketProvider();
-  const { setIsLoading } = useFunnelAnalysisProvider();
+  const { setIsLoading, setResult, setThoughts } = useFunnelAnalysisProvider();
 
   const handleClick = (funnelName: string) => {
     if (selectedArtist) {
+      setThoughts({});
+      setResult(null);
       setIsLoading(true);
       openAgentSocket(funnelName);
       return;
