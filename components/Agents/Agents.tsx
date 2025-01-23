@@ -19,7 +19,7 @@ const Agents = () => {
     push(`/funnels/${funnelName}`);
   };
   return (
-    <div className="grow py-6 px-2 md:px-10">
+    <div className="max-w-[calc(100vw-100px)] md:max-w-[calc(100vw-200px)] grow py-6 px-2 md:px-10">
       <p className="text-center md:text-left font-plus_jakarta_sans_bold text-[50px]">
         Agents
       </p>
@@ -47,7 +47,7 @@ const Agents = () => {
             </div>
           </div>
         </button>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-auto">
           <FunnelCard
             funnelName="tiktok"
             onClick={() => handleClick("tiktok")}
