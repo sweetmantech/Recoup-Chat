@@ -33,14 +33,37 @@ class ChatMessagesService {
     const campaignInfo = await this.fetchRelevantContext(email, artistId);
     const tools = this.fetchRelevantTools(question, email, artistId);
     const funnelAnalaysisContext = await getFunnelAnalysis(active_analaysis_id);
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const postComments: any = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const segments: any = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    funnelAnalaysisContext?.map((funnel_analysis: any) => {
+      postComments.push(funnel_analysis.funnel_analytics_comments);
+      segments.push(funnel_analysis.funnel_analytics_segments);
+    });
     const systemMessage = `
 *****
-[Context]: ${funnelAnalaysisContext ? JSON.stringify(funnelAnalaysisContext) : ""} \n${context || campaignInfo}
+[Context]: ${
+      funnelAnalaysisContext
+        ? JSON.stringify({
+            PostContents: postComments.flat(),
+            Segments: segments.flat(),
+          })
+        : ""
+    } \n${context || campaignInfo}
 *****
 [Question]: ${question}
 *****
-${context ? "" : `[Instruction]: ${instructions.get_campaign}`}
+[Instruction]: 
+*****
+${
+  context
+    ? `
+If question is related with content calendar, content calendar does not reference the post contents urls & timestamp!.
+`
+    : `${instructions.get_campaign}`
+}
 ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
 `;
 
