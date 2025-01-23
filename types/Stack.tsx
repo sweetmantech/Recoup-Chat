@@ -21,6 +21,7 @@ export type Conversation = {
     is_funnel_analysis: boolean;
     funnel_name: string;
     is_funnel_report: boolean;
+    active_analaysis_id?: string;
   };
   points: number;
   timestamp: string;
