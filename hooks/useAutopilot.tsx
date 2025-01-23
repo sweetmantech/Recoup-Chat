@@ -6,9 +6,11 @@ import useAnalysisActions from "./useAnalysisActions";
 import trackAction from "@/lib/stack/trackAction";
 import { useUserProvider } from "@/providers/UserProvder";
 import useStackActions from "./useStackActions";
+import { useInitialChatProvider } from "@/providers/InitialChatProvider";
 
 const useAutopilot = () => {
   const [socialActions, setSocialActions] = useState<Array<any>>([]);
+  const { clearMessagesCache } = useInitialChatProvider();
   const { selectedArtist } = useArtistProvider();
   const { address } = useUserProvider();
   const {
@@ -51,6 +53,7 @@ const useAutopilot = () => {
   }, [selectedArtist]);
 
   useEffect(() => {
+    clearMessagesCache();
     const temp = [...socialActions, ...analysisActions];
     const filtered = temp.filter((ele) => {
       const approvedIndex = stackActions.findIndex(
