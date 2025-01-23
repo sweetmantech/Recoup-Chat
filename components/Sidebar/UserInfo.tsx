@@ -27,9 +27,7 @@ const UserInfo = ({
             />
           </div>
           <div>
-            <p className="text-xs md:text-sm truncate max-w-[190px]">
-              {email}
-            </p>
+            <p className="text-xs md:text-sm truncate max-w-[190px]">{email}</p>
             <p className="text-xs md:text-sm text-left">
               {userData?.organization}
             </p>
