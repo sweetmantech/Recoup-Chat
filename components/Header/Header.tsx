@@ -6,7 +6,6 @@ import SideMenu from "../SideMenu";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import ImageWithFallback from "../ImageWithFallback";
 import useIsMobile from "@/hooks/useIsMobile";
-import { usePathname } from "next/navigation";
 import ArtistDropDown from "./ArtistDropDown";
 
 const Header = () => {
@@ -22,8 +21,6 @@ const Header = () => {
     toggleSettingModal();
   };
 
-  const pathname = usePathname();
-
   return (
     <>
       <div
@@ -37,19 +34,17 @@ const Header = () => {
         >
           <MenuIcon />
         </button>
-        {selectedArtist && (
+        {selectedArtist && isMobile && (
           <div className="relative">
-            {pathname !== "/" && (
-              <button
-                type="button"
-                className="w-8 aspect-1/1 rounded-full overflow-hidden flex items-center justify-center"
-                onClick={handleClickPfp}
-                onMouseOver={() => setIsVisibleDropDown(true)}
-                onMouseOut={() => setIsVisibleDropDown(false)}
-              >
-                <ImageWithFallback src={selectedArtist?.image || ""} />
-              </button>
-            )}
+            <button
+              type="button"
+              className="w-8 aspect-1/1 rounded-full overflow-hidden flex items-center justify-center"
+              onClick={handleClickPfp}
+              onMouseOver={() => setIsVisibleDropDown(true)}
+              onMouseOut={() => setIsVisibleDropDown(false)}
+            >
+              <ImageWithFallback src={selectedArtist?.image || ""} />
+            </button>
             {isVisibleDropDown && (
               <ArtistDropDown setIsVisibleDropDown={setIsVisibleDropDown} />
             )}

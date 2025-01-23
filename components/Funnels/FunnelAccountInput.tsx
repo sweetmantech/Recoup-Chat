@@ -7,13 +7,12 @@ import HandleInput from "./HandleInput";
 
 const FunnelAccountInput = () => {
   return (
-    <main className="flex-1 md:p-4 bg-grey-light-3">
-      <div className="h-[calc(100vh-64px)] md:h-full flex flex-col items-center justify-center px-4 sm:px-6 text-center bg-white rounded-xl">
-        <FunnelMarkUp />
-        <FunnelBrand />
-        <div className="flex flex-col items-center justify-center gap-4 px-4">
-          <div
-            className="
+    <main className="grow flex flex-col items-center justify-center">
+      <FunnelMarkUp />
+      <FunnelBrand />
+      <div className="w-full flex flex-col items-center justify-center gap-4 px-4">
+        <div
+          className="
               relative 
               w-[340px] 
               sm:w-full 
@@ -29,15 +28,14 @@ const FunnelAccountInput = () => {
               transition-all
               duration-200
             "
-          >
-            <HandleInput />
-            <AnalysisButton
-              className="absolute right-2 top-1/2 -translate-y-1/2"
-              containerClasses="md:block hidden"
-            />
-          </div>
-          <AnalysisButton containerClasses="md:hidden block" />
+        >
+          <HandleInput />
+          <AnalysisButton
+            className="absolute right-2 top-1/2 -translate-y-1/2"
+            containerClasses="md:block hidden"
+          />
         </div>
+        <AnalysisButton containerClasses="md:hidden block" />
       </div>
     </main>
   );

@@ -38,11 +38,10 @@ const InitialChat = () => {
   }, [currentWord, isDeleting, wordIndex, words]);
 
   return (
-    <div className="grow overflow-hidden w-full p-4 bg-grey-light-3 h-[calc(100vh-64px)]">
-      <div className="size-full flex flex-col items-center justify-center bg-white rounded-xl">
-        <div className="max-w-[900px] w-full mx-auto text-center -mt-20">
-          <div
-            className={`
+    <div className="size-full flex flex-col items-center justify-center">
+      <div className="max-w-[900px] mx-auto text-center -mt-20">
+        <div
+          className={`
             ${plusJakartaSans.className} 
             text-[28px]
             sm:text-3xl 
@@ -57,21 +56,17 @@ const InitialChat = () => {
             font-semibold 
             text-center
           `}
-          >
-            <span className="lg:inline block mb-4 lg:mb-0">
-              What would you like to know{" "}
+        >
+          <span className="lg:inline block lg:ml-0">
+            What would you like to know about your&nbsp;
+            <span className="inline-block min-w-[1ch] text-center transition-all duration-100">
+              {currentWord}
+              <span className="animate-pulse">|</span>
             </span>
-            <span className="lg:inline block lg:ml-0">
-              about your&nbsp;
-              <span className="inline-block min-w-[1ch] text-center transition-all duration-100">
-                {currentWord}
-                <span className="animate-pulse">|</span>
-              </span>
-            </span>
-          </div>
+          </span>
         </div>
-        <ChatInput />
       </div>
+      <ChatInput />
     </div>
   );
 };
