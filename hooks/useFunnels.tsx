@@ -6,7 +6,7 @@ const useFunnels = () => {
   const { funnelRawReportContent, funnelAnalysis } = useFunnelReportProvider();
   const [funnelContext, setFunnelContext] = useState("");
   const searchParams = useSearchParams();
-  const funnel_report = searchParams.get("funnel_report");
+  const funnel_report = searchParams.get("is_funnel_report");
   const active_analaysis_id = searchParams.get("active_analaysis_id");
   const pathname = usePathname();
 
