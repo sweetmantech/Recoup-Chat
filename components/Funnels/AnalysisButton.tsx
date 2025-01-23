@@ -25,7 +25,7 @@ const AnalysisButton = ({
       >
         Try For Free
       </button>
-      <p className="font-inter text-sm text-grey-primary">
+      <p className="font-inter text-sm text-grey-primary text-center">
         No credit card required.
       </p>
     </div>
