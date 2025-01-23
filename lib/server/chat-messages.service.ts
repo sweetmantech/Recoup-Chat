@@ -52,7 +52,7 @@ class ChatMessagesService {
             Experties: segments.flat().map((segment: any) => segment.name),
           })
         : ""
-    } \n${context || campaignInfo}
+    } \n${funnelAnalaysisContext ? context : "" || campaignInfo}
 *****
 [Question]: ${question}
 *****
