@@ -20,11 +20,11 @@ const AnalysisChat = () => {
               </>
             )}
           </ScrollTo>
-          <div
-            className={`${!isFinished || scraping || (Object.keys(thoughts).length === 0 && "pointer-events-none")} space-y-2`}
-          >
-            <ChatInput />
-          </div>
+          {isFinished && !scraping && Object.keys(thoughts).length > 0 && (
+            <div className="space-y-2">
+              <ChatInput />
+            </div>
+          )}
         </div>
       </div>
     </main>
