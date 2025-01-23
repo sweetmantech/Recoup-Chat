@@ -1,7 +1,7 @@
 import useActionApprove from "@/hooks/useActionApprove";
 import { useAutopilotProvider } from "@/providers/AutopilotProvider";
 import { ACTION } from "@/types/Autopilot";
-import { Check, Pencil, Trash2 } from "lucide-react";
+import { Check, Play, Trash2 } from "lucide-react";
 
 const ActionBox = ({ action, index }: { action: ACTION; index: number }) => {
   const { handleClick, copied } = useActionApprove();
@@ -26,7 +26,7 @@ const ActionBox = ({ action, index }: { action: ACTION; index: number }) => {
             </>
           ) : (
             <>
-              <Pencil className="size-4" /> Approve
+              <Play className="size-4" /> Continue
             </>
           )}
         </button>
