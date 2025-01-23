@@ -4,7 +4,7 @@ import getFunnelAnalysis from "@/lib/getFunnelAnalysis";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
-import { ACTIONS } from "@/types/Autopilot";
+import { ACTION, ACTIONS } from "@/types/Autopilot";
 import { Comment } from "@/types/Funnel";
 import { Conversation } from "@/types/Stack";
 import { useEffect, useState } from "react";
@@ -15,7 +15,7 @@ const useAnalysisActions = () => {
   const { conversations } = useConversationsProvider();
   const { selectedArtist } = useArtistProvider();
   const [analyses, setAnalyses] = useState<Array<Conversation>>([]);
-  const [actions, setActions] = useState<Array<any>>([]);
+  const [actions, setActions] = useState<Array<ACTION>>([]);
   const [funnelType, setFunnelType] = useState<string | null>(null);
   const [reportId, setReportId] = useState<string | null>(null);
 
@@ -53,14 +53,14 @@ const useAnalysisActions = () => {
         if (data.data?.length > 0)
           actionsTemp.push({
             type: ACTIONS.POST_REACTION,
-            label: "Post Reaction",
+            title: "Post Reaction",
             id: ACTIONS.POST_REACTION,
           });
 
         if (funnel_analyses_events.length === 0) return;
         actionsTemp.push({
           type: ACTIONS.CONTENT_CALENDAR,
-          label: "Content Calendar",
+          title: "Content Calendar",
           id: ACTIONS.CONTENT_CALENDAR,
         });
         const funnel_analyses = await getFunnelAnalysis(
@@ -88,7 +88,7 @@ const useAnalysisActions = () => {
           setSegmentName(missingReportSegments[0].name);
           actionsTemp.push({
             type: ACTIONS.REPORT,
-            label: `${missingReportSegments[0].name} Report`,
+            title: `${missingReportSegments[0].name} Report`,
             id: ACTIONS.REPORT,
           });
         }
