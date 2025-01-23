@@ -8,6 +8,7 @@ import { useChatProvider } from "@/providers/ChatProvider";
 import instructions from "@/evals/scripts/instructions.json";
 import trackAction from "@/lib/stack/trackAction";
 import { useUserProvider } from "@/providers/UserProvder";
+import { useInitialChatProvider } from "@/providers/InitialChatProvider";
 
 const useActionApprove = () => {
   const { append } = useChatProvider();
@@ -18,8 +19,10 @@ const useActionApprove = () => {
     useAutopilotProvider();
   const [copied, setCopied] = useState(false);
   const { handleGenerateReport } = useGenerateSegmentReport();
+  const { clearMessagesCache } = useInitialChatProvider();
 
   const handleClick = async (action: ACTION) => {
+    clearMessagesCache();
     if (action.type === ACTIONS.SOCIAL && selectedArtist) {
       toggleUpdate(selectedArtist);
       toggleSettingModal();
