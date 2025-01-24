@@ -2,7 +2,7 @@ import requests
 from consts import agent_endpoint
 
 def get_demo_comments():
-    response = requests.get(f"{agent_endpoint}/api/get_dataset_items?datasetId=shycj3xWEZq0D9PS1")
+    response = requests.get(f"{agent_endpoint}/api/get_dataset_items?datasetId=lHul8Z9l1ybBIXweG")
     data = response.json()
     if len(data['data']) > 0:
         return data['data']
