@@ -7,7 +7,7 @@ import { useEffect } from "react";
 const useInitialChat = () => {
   const { funnelRawReportContent, isGettingAnalysis } =
     useFunnelReportProvider();
-  const { setInitialMessages, initialMessages } = useInitialMessagesProvider();
+  const { setInitialMessages } = useInitialMessagesProvider();
   const { setMessages, messagesRef, messages, pending } = useMessagesProvider();
   const { getPrompts } = usePromptsProvider();
 
@@ -23,10 +23,6 @@ const useInitialChat = () => {
         getPrompts(messages[messages.length - 1]?.content);
     }
   }, [messages, funnelRawReportContent, pending, isGettingAnalysis]);
-
-  useEffect(() => {
-    if (initialMessages.length) setMessages(initialMessages);
-  }, [initialMessages]);
 
   return {
     clearMessagesCache,
