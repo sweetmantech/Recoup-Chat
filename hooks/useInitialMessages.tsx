@@ -13,9 +13,12 @@ const useInitialMessages = () => {
   const [titleMessage, setTitleMessage] = useState<any>(null);
 
   useEffect(() => {
-    if (address) {
-      fetchInitialMessages(address);
-    }
+    const init = async () => {
+      const initialMessages = await fetchInitialMessages(address);
+      if (initialMessages) setInitialMessages(initialMessages);
+    };
+    if (!address && !pathId) return;
+    init();
   }, [address, pathId]);
 
   const fetchInitialMessages = async (walletAddress: Address) => {
@@ -29,7 +32,6 @@ const useInitialMessages = () => {
       setTitleMessage(titleMessage);
       const sortedMessages = sortMessages(messages);
       const flattenedMessages = flattenMessagePairs(sortedMessages);
-      setInitialMessages(flattenedMessages);
       return flattenedMessages;
     } catch (error) {
       console.error("Error fetching initial messages:", error);
