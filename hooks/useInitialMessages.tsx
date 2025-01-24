@@ -13,7 +13,7 @@ const useInitialMessages = () => {
   const [titleMessage, setTitleMessage] = useState<any>(null);
 
   useEffect(() => {
-    if (address) {
+    if (address && pathId) {
       fetchInitialMessages(address);
     }
   }, [address, pathId]);
