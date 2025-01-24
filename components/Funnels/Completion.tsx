@@ -19,7 +19,7 @@ const Completion = () => {
   return (
     <div>
       {isCompletedAnalysis && <CompletedAnalysis />}
-      {isFinishedScraping(thoughts, result) &&
+      {isFinishedScraping(thoughts) &&
         !isCompletedAnalysis &&
         thoughts[`${funnelType}`] && (
           <>

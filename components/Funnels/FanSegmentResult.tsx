@@ -9,13 +9,12 @@ import InputHandles from "./InputHandle";
 import isFinishedScraping from "@/lib/agent/isFinishedScraping";
 
 const FanSegmentResult = () => {
-  const { thoughts, isCheckingHandles, handles, result } =
-    useFunnelAnalysisProvider();
+  const { thoughts, isCheckingHandles, handles } = useFunnelAnalysisProvider();
 
   return (
     <>
       <div
-        className={`flex gap-3 ${(isScraping(thoughts) || isCheckingHandles) && !isFinishedScraping(thoughts, result) ? "items-center" : "items-start"}`}
+        className={`flex gap-3 ${(isScraping(thoughts) || isCheckingHandles) && !isFinishedScraping(thoughts) ? "items-center" : "items-start"}`}
       >
         <div className="border border-gray rounded-full p-2">
           <Icon name="logo-xs" />
@@ -28,9 +27,7 @@ const FanSegmentResult = () => {
         ) : (
           <>
             {isInitialScraping(thoughts) && <AnalysisPlan />}
-            {isScraping(thoughts) && !isFinishedScraping(thoughts, result) && (
-              <ThoughtSteps />
-            )}
+            {isScraping(thoughts) && <ThoughtSteps />}
           </>
         )}
       </div>

@@ -4,10 +4,13 @@ import { STEP_OF_ANALYSIS } from "@/types/Funnel";
 const isScraping = (thoughts: any) => {
   return (
     thoughts &&
-    Object.values(thoughts).some(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (value: any) => value.status > STEP_OF_ANALYSIS.UNKNOWN_PROFILE,
-    )
+    Object.entries(thoughts)
+      // eslint-disable-next-line
+      .filter(([id, value]: any) => id !== "wrapped")
+      .some(
+        // eslint-disable-next-line
+        ([id, value]: any) => value.status > STEP_OF_ANALYSIS.UNKNOWN_PROFILE,
+      )
   );
 };
 

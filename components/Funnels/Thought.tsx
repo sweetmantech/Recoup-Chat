@@ -7,7 +7,7 @@ import isFinishedScraping from "@/lib/agent/isFinishedScraping";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Thought = ({ funnel, thought }: { funnel: string; thought: any }) => {
-  const { artistHandle, funnelType, funnelName, thoughts, result } =
+  const { artistHandle, funnelType, funnelName, thoughts } =
     useFunnelAnalysisProvider();
   const { selectedArtist, toggleSettingModal } = useArtistProvider();
 
@@ -38,16 +38,16 @@ const Thought = ({ funnel, thought }: { funnel: string; thought: any }) => {
     <>
       <span>
         {funnelType === "wrapped" &&
-          !isFinishedScraping(thoughts, result) &&
+          !isFinishedScraping(thoughts) &&
           `${funnel.toUpperCase()}: `}
       </span>
       <StreamingThought text={statusMessages[thought.status] || ""} />
-      {isError && !isFinishedScraping(thoughts, result) && !socialLink && (
+      {isError && !isFinishedScraping(thoughts) && !socialLink && (
         <span onClick={toggleSettingModal} className="underline cursor-pointer">
           Click here to retry.
         </span>
       )}
-      {isComplete && !isFinishedScraping(thoughts, result) && (
+      {isComplete && !isFinishedScraping(thoughts) && (
         <StreamingThought
           text={`${funnel} analysis complete ✅`}
         ></StreamingThought>
