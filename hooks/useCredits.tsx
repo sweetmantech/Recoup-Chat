@@ -11,11 +11,13 @@ const useCredits = () => {
   const searchParams = useSearchParams();
   const referenceId = searchParams.get("referenceId");
   const segmentName = searchParams.get("segmentName");
+  const reportId = searchParams.get("reportId");
   const initialized = useRef(false);
   const { append } = useChatProvider();
   const { funnelType } = useFunnelAnalysisProvider();
   const { email } = useUserProvider();
   const { chat_id: chatId } = useParams();
+  const funnelReportId = reportId || chatId;
 
   useEffect(() => {
     const init = async () => {
@@ -30,17 +32,17 @@ const useCredits = () => {
             {
               id: uuidV4(),
               role: "user",
-              content: `Please create a ${funnelType} fan segment report for ${chatId} using this segment ${segmentName}.`,
+              content: `Please create a ${funnelType || ""} fan segment report for ${funnelReportId} using this segment ${segmentName}.`,
             },
             true,
           );
         }
       }
     };
-    if (!referenceId || !chatId || !segmentName || !email) return;
+    if (!referenceId || !funnelReportId || !segmentName || !email) return;
 
     init();
-  }, [referenceId, chatId, segmentName, email]);
+  }, [referenceId, funnelReportId, segmentName, email]);
 };
 
 export default useCredits;

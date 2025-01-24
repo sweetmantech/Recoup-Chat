@@ -24,7 +24,8 @@ const getFunnelAnalysis = async (chat_id: string) => {
         post_url,
         comment,
         username,
-        type
+        type,
+        timestamp
       )`,
     )
     .eq("chat_id", chat_id);

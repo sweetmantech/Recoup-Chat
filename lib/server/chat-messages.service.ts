@@ -14,6 +14,7 @@ import getVideosInfo from "../tools/getVideosInfo";
 import getSegmentsReport from "../tools/getSegmentsReport";
 import getPitchReport from "../tools/getPitchReport";
 import getInstrumentalStyleSuggestions from "../tools/getInstrumentalStyleSuggestions";
+import getFunnelAnalysis from "../chat/getFunnelAnalysis";
 
 export function createChatMessagesService() {
   return new ChatMessagesService();
@@ -26,18 +27,44 @@ class ChatMessagesService {
     question: string,
     email: string,
     artistId: string,
-    funnelContext: string,
+    active_analaysis_id: string,
+    context: string,
   ) {
-    const context = await this.fetchRelevantContext(email, artistId);
+    const campaignInfo = await this.fetchRelevantContext(email, artistId);
     const tools = this.fetchRelevantTools(question, email, artistId);
-
+    const funnelAnalaysisContext = await getFunnelAnalysis(active_analaysis_id);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const postComments: any = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const segments: any = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    funnelAnalaysisContext?.map((funnel_analysis: any) => {
+      postComments.push(funnel_analysis.funnel_analytics_comments);
+      segments.push(funnel_analysis.funnel_analytics_segments);
+    });
     const systemMessage = `
 *****
-[Context]: ${funnelContext || context}
+[Context]: ${
+      funnelAnalaysisContext
+        ? JSON.stringify({
+            PostContents: postComments.flat(),
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            Experties: segments.flat().map((segment: any) => segment.name),
+          })
+        : ""
+    } \n${funnelAnalaysisContext ? "" : context || campaignInfo}
 *****
 [Question]: ${question}
 *****
-${funnelContext ? "" : `[Instruction]: ${instructions.get_campaign}`}
+[Instruction]: 
+*****
+${
+  context
+    ? `
+If question is related with content calendar, content calendar should reference the expertes and post urls & timestamp!.
+`
+    : `${instructions.get_campaign}`
+}
 ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
 `;
 

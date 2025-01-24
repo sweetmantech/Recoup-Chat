@@ -8,11 +8,13 @@ const AnalysisButton = ({
   className?: string;
   containerClasses?: string;
 }) => {
-  const { username, funnelType } = useFunnelAnalysisProvider();
+  const { username, setThoughts, setResult } = useFunnelAnalysisProvider();
   const { openAgentSocket } = useAgentSocketProvider();
 
   const handleClick = () => {
-    openAgentSocket(funnelType as string);
+    setThoughts({});
+    setResult(null);
+    openAgentSocket();
   };
   return (
     <div className={`space-y-3 ${containerClasses}`}>
@@ -25,7 +27,7 @@ const AnalysisButton = ({
       >
         Try For Free
       </button>
-      <p className="font-inter text-sm text-grey-primary">
+      <p className="font-inter text-sm text-grey-primary text-center">
         No credit card required.
       </p>
     </div>

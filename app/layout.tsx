@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import { Suspense } from "react";
 import ArtistSettingModal from "@/components/ArtistSettingModal";
 import MobileDownloadModal from "@/components/ModalDownloadModal";
+import ArtistsSidebar from "@/components/AutoPilot/ArtistsSidebar";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -37,7 +38,14 @@ export default function RootLayout({
               <Sidebar />
               <Header />
               <ArtistSettingModal />
-              {children}
+              <div className="grow flex h-[calc(100vh-56px)] md:h-screen overflow-hidden md:bg-grey-light-3">
+                <div className="size-full py-4 pl-4">
+                  <div className="size-full bg-white overflow-y-auto md:rounded-xl flex flex-col md:shadow-[0px_0px_7px_0px_#80808063]">
+                    {children}
+                  </div>
+                </div>
+                <ArtistsSidebar />
+              </div>
               <MobileDownloadModal />
             </div>
           </Providers>

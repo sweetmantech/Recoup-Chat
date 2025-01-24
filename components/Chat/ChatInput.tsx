@@ -31,7 +31,7 @@ const ChatInput: React.FC = () => {
   return (
     <div className="w-full">
       <div className="w-full px-2 z-[10]">
-        <div className="max-w-3xl mx-auto">
+        <div className="w-[calc(100vw-90px)] max-w-3xl mx-auto">
           <SideSuggestions />
         </div>
         <div className="border-grey  border-[1px] shadow-grey rounded-md p-2 max-w-3xl mx-auto">

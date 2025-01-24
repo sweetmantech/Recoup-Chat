@@ -3,32 +3,44 @@ import getHandles from "@/lib/getHandles";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import { useUserProvider } from "@/providers/UserProvder";
-import { STEP_OF_ANALYSIS } from "@/types/TikTok";
-import { useRouter } from "next/navigation";
+import { STEP_OF_ANALYSIS } from "@/types/Funnel";
+import { useParams, useRouter } from "next/navigation";
 import { v4 as uuidV4 } from "uuid";
 import useSockets from "./useSockets";
 import { ArtistRecord } from "@/types/Artist";
 
 const useAgentSocket = () => {
-  const { artistHandle, setThoughts, setUsername } =
-    useFunnelAnalysisProvider();
+  const {
+    artistHandle,
+    setThoughts,
+    setUsername,
+    handles,
+    setHandles,
+    setIsCheckingHandles,
+    funnelType,
+  } = useFunnelAnalysisProvider();
+  const { chat_id: chatId } = useParams();
   const { push } = useRouter();
   const { userData, address, isPrepared } = useUserProvider();
   const { setSelectedArtist, selectedArtist } = useArtistProvider();
   const { socketIo, socketId } = useSockets();
 
-  const openAgentSocket = async (
+  const lookupProfiles = async (
     funnelType: string,
     scrapingArtist: ArtistRecord | null = null,
   ) => {
     if (!isPrepared()) return;
+    setHandles({});
+    setIsCheckingHandles(true);
     const newChatId = uuidV4();
     push(`/funnels/${funnelType}/${newChatId}`);
-    const existingHandles = getExistingHandles(
-      scrapingArtist || selectedArtist,
-    );
     const handle = scrapingArtist?.name || selectedArtist?.name || artistHandle;
-    const handles = await getHandles(handle);
+    const socialHandles = await getHandles(handle);
+    setHandles(socialHandles);
+  };
+
+  const openAgentSocket = async () => {
+    setIsCheckingHandles(false);
     const isWrapped = funnelType === "wrapped";
     if (isWrapped) {
       setThoughts({
@@ -41,15 +53,12 @@ const useAgentSocket = () => {
       const funnels = ["twitter", "spotify", "tiktok", "instagram"];
       funnels.map((funnel) => {
         socketIo.emit(`${funnel.toUpperCase()}_ANALYSIS`, socketId, {
-          handle:
-            existingHandles[`${funnel}`] ||
-            handles[`${funnel}`].replaceAll("@", "") ||
-            handle,
-          chat_id: newChatId,
+          handle: handles[`${funnel}`].replaceAll("@", "") || "",
+          chat_id: chatId,
           account_id: userData?.id,
           address,
           isWrapped,
-          existingArtistId: scrapingArtist?.id || selectedArtist?.id,
+          existingArtistId: selectedArtist?.id,
         });
       });
     } else {
@@ -58,23 +67,19 @@ const useAgentSocket = () => {
           status: STEP_OF_ANALYSIS.INITITAL,
         },
       });
-      const agentHandle =
-        existingHandles[`${funnelType}`] ||
-        handles[`${funnelType}`].replaceAll("@", "") ||
-        handle ||
-        "";
+      const agentHandle = handles[`${funnelType}`].replaceAll("@", "") || "";
       setUsername(agentHandle);
       setSelectedArtist({
-        ...(scrapingArtist || selectedArtist),
+        ...selectedArtist,
         name: agentHandle,
       } as any);
-      socketIo.emit(`${funnelType.toUpperCase()}_ANALYSIS`, socketId, {
+      socketIo.emit(`${String(funnelType).toUpperCase()}_ANALYSIS`, socketId, {
         handle: agentHandle,
-        chat_id: newChatId,
+        chat_id: chatId,
         account_id: userData?.id,
         address,
         isWrapped,
-        existingArtistId: scrapingArtist?.id || selectedArtist?.id,
+        existingArtistId: selectedArtist?.id,
       });
     }
   };
@@ -82,6 +87,7 @@ const useAgentSocket = () => {
   return {
     socketId,
     openAgentSocket,
+    lookupProfiles,
   };
 };
 

@@ -1,6 +1,5 @@
 import capitalize from "@/lib/capitalize";
 import { Funnel_Type } from "@/types/Funnel";
-import { STEP_OF_ANALYSIS } from "@/types/TikTok";
 import { useParams, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { v4 as uuidV4 } from "uuid";
@@ -14,33 +13,14 @@ const useFunnelAnalysisParams = () => {
   const [segments, setSegments] = useState<Array<any>>([]);
   const { funnel_type: funnelType } = useParams();
   const { push } = useRouter();
+  const [handles, setHandles] = useState<any>({});
+  const [isCheckingHandles, setIsCheckingHandles] = useState(false);
 
   const funnelName = useMemo(() => {
     if (!funnelType) return "";
     if (funnelType === Funnel_Type.TIKTOK) return "TikTok";
     return capitalize(funnelType as string);
   }, [funnelType]);
-
-  const isFinished = thoughts?.wrapped
-    ? Object.values(thoughts).some(
-        (value: any) => value.status === STEP_OF_ANALYSIS.WRAPPED_COMPLETED,
-      )
-    : Object.values(thoughts).every(
-        (value: any) =>
-          value.status === STEP_OF_ANALYSIS.FINISHED ||
-          value.status === STEP_OF_ANALYSIS.ERROR,
-      );
-
-  const scraping =
-    thoughts &&
-    Object.values(thoughts).some(
-      (value: any) => value.status > STEP_OF_ANALYSIS.UNKNOWN_PROFILE,
-    );
-  const isInitial =
-    thoughts &&
-    Object.values(thoughts).every(
-      (value: any) => value.status === STEP_OF_ANALYSIS.INITITAL,
-    );
 
   const handleRetry = () => {
     setResult(null);
@@ -57,9 +37,6 @@ const useFunnelAnalysisParams = () => {
     artistHandle,
     segments,
     setSegments,
-    isFinished,
-    scraping,
-    isInitial,
     result,
     setResult,
     setUsername,
@@ -69,6 +46,10 @@ const useFunnelAnalysisParams = () => {
     thoughts,
     handleRetry,
     username,
+    handles,
+    setHandles,
+    isCheckingHandles,
+    setIsCheckingHandles,
   };
 };
 

@@ -1,27 +1,12 @@
-import useIsMobile from "@/hooks/useIsMobile";
+import useClickChat from "@/hooks/useClickChat";
 import getConversationTitle from "@/lib/getConversationTitle";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { Conversation } from "@/types/Stack";
-import { useRouter } from "next/navigation";
 
 const RecentChats = ({ toggleModal }: { toggleModal: () => void }) => {
   const { conversations, streamingTitle, streaming } =
     useConversationsProvider();
-  const { push } = useRouter();
-  const isMobile = useIsMobile();
-
-  const handleClick = (conversation: Conversation) => {
-    if (isMobile) toggleModal();
-    if (conversation.metadata.is_funnel_analysis) {
-      push(
-        `/funnels/${conversation.metadata.funnel_name.toLowerCase()}/${conversation.metadata.conversationId}`,
-      );
-      return;
-    }
-    push(
-      `/${conversation.metadata.conversationId}${conversation.metadata?.is_funnel_report ? "?funnel_report=true" : ""}`,
-    );
-  };
+  const { handleClick } = useClickChat();
 
   return (
     <div>
@@ -40,7 +25,7 @@ const RecentChats = ({ toggleModal }: { toggleModal: () => void }) => {
             className="flex gap-2 items-center"
             key={conversation.metadata.id}
             type="button"
-            onClick={() => handleClick(conversation)}
+            onClick={() => handleClick(conversation, toggleModal)}
           >
             <p className="text-sm truncate max-w-[200px]">
               {getConversationTitle(conversation)}

@@ -24,18 +24,22 @@ const Settings = () => {
     settingMode,
     knowledgeUploading,
     setSelectedArtist,
+    editableArtist,
   } = useArtistProvider();
   const [isVisibleDeleteModal, setIsVisibleDeleteModal] = useState(false);
-  const { openAgentSocket } = useAgentSocketProvider();
-  const { setIsLoading } = useFunnelAnalysisProvider();
+  const { lookupProfiles } = useAgentSocketProvider();
+  const { setIsLoading, setResult, setThoughts } = useFunnelAnalysisProvider();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSave = async () => {
     const artistInfo = await saveSetting();
     setSelectedArtist(artistInfo);
-    setIsLoading(true);
-    openAgentSocket("wrapped", artistInfo);
     toggleSettingModal();
+    if (editableArtist) return;
+    setResult(null);
+    setThoughts({});
+    setIsLoading(true);
+    lookupProfiles("wrapped", artistInfo);
   };
 
   return (

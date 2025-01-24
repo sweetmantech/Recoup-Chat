@@ -2,8 +2,7 @@ const FunnelBrand = () => {
   return (
     <div>
       <h1
-        className={`
-            font-plus_jakarta_sans_bold
+        className="font-plus_jakarta_sans_bold
             text-[32px]
             sm:text-3xl 
             lg:text-[32px] 
@@ -13,7 +12,7 @@ const FunnelBrand = () => {
             sm:mb-5
             max-w-[800px]
             mx-auto
-          `}
+            text-center"
       >
         Turn Your Fans Into Brand Deals—Automatically.
       </h1>

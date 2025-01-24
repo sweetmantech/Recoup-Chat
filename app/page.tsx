@@ -1,12 +1,12 @@
 "use client";
 
 import AutoPilot from "@/components/AutoPilot";
-import { ApprovalsProvider } from "@/providers/ApprovalsProvider";
+import { AutopilotProvider } from "@/providers/AutopilotProvider";
 
 const AutoPilotPage = () => (
-  <ApprovalsProvider>
+  <AutopilotProvider>
     <AutoPilot />
-  </ApprovalsProvider>
+  </AutopilotProvider>
 );
 
 export default AutoPilotPage;

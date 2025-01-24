@@ -20,7 +20,8 @@ export const ChatMessagesSchema = z.object({
 export const StreamResponseSchema = ChatMessagesSchema.extend({
   email: z.string(),
   artistId: z.string(),
-  funnelContext: z.string(),
+  context: z.string(),
+  active_analaysis_id: z.string(),
 });
 
 /**
@@ -46,7 +47,8 @@ class ChatLLMService {
     messages,
     email,
     artistId,
-    funnelContext,
+    active_analaysis_id,
+    context,
   }: z.infer<typeof StreamResponseSchema>) {
     // use a normal service instance using the current user RLS
     const chatMessagesService = createChatMessagesService();
@@ -62,11 +64,16 @@ class ChatLLMService {
     // await this.assertEnoughCredits(accountId);
 
     // retrieve the chat settings
+    const chatContext =
+      messages.length > 2
+        ? context || messages[messages.length - 2].content
+        : context;
     const settings = await chatMessagesService.getChatSettings(
       lastMessage.content,
       email,
       artistId,
-      funnelContext,
+      active_analaysis_id,
+      chatContext,
     );
     const systemMessage = settings.systemMessage;
     const maxTokens = settings.maxTokens;
