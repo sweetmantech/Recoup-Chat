@@ -7,7 +7,7 @@ import isFinishedScraping from "@/lib/agent/isFinishedScraping";
 import isScraping from "@/lib/agent/isScraping";
 
 const AnalysisChat = () => {
-  const { thoughts } = useFunnelAnalysisProvider();
+  const { thoughts, result } = useFunnelAnalysisProvider();
 
   return (
     <main className="grow py-2">
@@ -22,7 +22,7 @@ const AnalysisChat = () => {
               </>
             )}
           </ScrollTo>
-          {isFinishedScraping(thoughts) &&
+          {isFinishedScraping(thoughts, result) &&
             !isScraping(thoughts) &&
             Object.keys(thoughts).length > 0 && (
               <div className="space-y-2">

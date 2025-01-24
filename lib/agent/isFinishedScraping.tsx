@@ -1,7 +1,8 @@
 import { STEP_OF_ANALYSIS } from "@/types/Funnel";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const isFinishedScraping = (thoughts: any) => {
+const isFinishedScraping = (thoughts: any, result: any) => {
+  if (!result) return false;
   return thoughts?.wrapped
     ? Object.values(thoughts).some(
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
