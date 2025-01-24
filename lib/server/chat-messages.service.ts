@@ -32,7 +32,10 @@ class ChatMessagesService {
   ) {
     const campaignInfo = await this.fetchRelevantContext(email, artistId);
     const tools = this.fetchRelevantTools(question, email, artistId);
-    const funnelAnalaysisContext = await getFunnelAnalysis(active_analaysis_id);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let funnelAnalaysisContext: any = [];
+    if (active_analaysis_id)
+      funnelAnalaysisContext = await getFunnelAnalysis(active_analaysis_id);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const postComments: any = [];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
