@@ -5,7 +5,8 @@ import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { useEffect } from "react";
 
 const useInitialChat = () => {
-  const { funnelRawReportContent } = useFunnelReportProvider();
+  const { funnelRawReportContent, isGettingAnalysis } =
+    useFunnelReportProvider();
   const { setInitialMessages, initialMessages } = useInitialMessagesProvider();
   const { setMessages, messagesRef, messages, pending } = useMessagesProvider();
   const { getPrompts } = usePromptsProvider();
@@ -18,9 +19,10 @@ const useInitialChat = () => {
   useEffect(() => {
     if (messages.length) {
       messagesRef.current = messages;
-      if (!pending) getPrompts(messages[messages.length - 1]?.content);
+      if (!pending && !isGettingAnalysis && funnelRawReportContent)
+        getPrompts(messages[messages.length - 1]?.content);
     }
-  }, [messages, funnelRawReportContent, pending]);
+  }, [messages, funnelRawReportContent, pending, isGettingAnalysis]);
 
   useEffect(() => {
     if (initialMessages.length) setMessages(initialMessages);
