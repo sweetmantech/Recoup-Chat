@@ -95,6 +95,7 @@ const useMessages = () => {
     setCurrentQuestion(null);
   };
 
+  console.log("ZIAD", messages);
   useEffect(() => {
     if (!pathId) {
       stop();
