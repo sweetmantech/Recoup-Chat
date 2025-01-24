@@ -3,10 +3,11 @@ import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import { STEP_OF_ANALYSIS } from "@/types/Funnel";
 import StreamingThought from "./StreamThought";
+import isFinishedScraping from "@/lib/agent/isFinishedScraping";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Thought = ({ funnel, thought }: { funnel: string; thought: any }) => {
-  const { artistHandle, funnelType, funnelName, isFinished } =
+  const { artistHandle, funnelType, funnelName, thoughts } =
     useFunnelAnalysisProvider();
   const { selectedArtist, toggleSettingModal } = useArtistProvider();
 
@@ -36,15 +37,17 @@ const Thought = ({ funnel, thought }: { funnel: string; thought: any }) => {
   return (
     <>
       <span>
-        {funnelType === "wrapped" && !isFinished && `${funnel.toUpperCase()}: `}
+        {funnelType === "wrapped" &&
+          !isFinishedScraping(thoughts) &&
+          `${funnel.toUpperCase()}: `}
       </span>
       <StreamingThought text={statusMessages[thought.status] || ""} />
-      {isError && !isFinished && !socialLink && (
+      {isError && !isFinishedScraping(thoughts) && !socialLink && (
         <span onClick={toggleSettingModal} className="underline cursor-pointer">
           Click here to retry.
         </span>
       )}
-      {isComplete && !isFinished && (
+      {isComplete && !isFinishedScraping(thoughts) && (
         <StreamingThought
           text={`${funnel} analysis complete ✅`}
         ></StreamingThought>

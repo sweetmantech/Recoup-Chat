@@ -27,7 +27,7 @@ const Settings = () => {
     editableArtist,
   } = useArtistProvider();
   const [isVisibleDeleteModal, setIsVisibleDeleteModal] = useState(false);
-  const { openAgentSocket } = useAgentSocketProvider();
+  const { lookupProfiles } = useAgentSocketProvider();
   const { setIsLoading, setResult, setThoughts } = useFunnelAnalysisProvider();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -39,7 +39,7 @@ const Settings = () => {
     setResult(null);
     setThoughts({});
     setIsLoading(true);
-    openAgentSocket("wrapped", artistInfo);
+    lookupProfiles("wrapped", artistInfo);
   };
 
   return (
