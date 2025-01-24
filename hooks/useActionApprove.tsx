@@ -22,7 +22,6 @@ const useActionApprove = () => {
   const { clearMessagesCache } = useInitialChatProvider();
 
   const handleClick = async (action: ACTION) => {
-    clearMessagesCache();
     if (action.type === ACTIONS.SOCIAL && selectedArtist) {
       toggleUpdate(selectedArtist);
       toggleSettingModal();
