@@ -94,6 +94,7 @@ const useArtistSetting = () => {
     setYoutube("");
     setTwitter("");
     setBases([]);
+    setEditableArtist(null);
   };
 
   useEffect(() => {
