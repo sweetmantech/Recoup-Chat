@@ -19,6 +19,7 @@ const useAutopilot = () => {
     funnelType,
     reportId,
     fansProfiles,
+    isScrapingProfiles,
   } = useAnalysisActions();
   const [actions, setActions] = useState<Array<ACTION>>([]);
   const { stackActions, getStackActions } = useStackActions();
@@ -75,6 +76,7 @@ const useAutopilot = () => {
     eventsLogs,
     getStackActions,
     fansProfiles,
+    isScrapingProfiles,
   };
 };
 

@@ -1,11 +1,11 @@
 import useActionApprove from "@/hooks/useActionApprove";
 import { useAutopilotProvider } from "@/providers/AutopilotProvider";
-import { ACTION } from "@/types/Autopilot";
+import { ACTION, ACTIONS } from "@/types/Autopilot";
 import { Check, Play, Trash2 } from "lucide-react";
 
 const ActionBox = ({ action, index }: { action: ACTION; index: number }) => {
   const { handleClick, copied } = useActionApprove();
-  const { deny } = useAutopilotProvider();
+  const { deny, isScrapingProfiles } = useAutopilotProvider();
 
   return (
     <div className="flex flex-col gap-1 md:flex-row md:justify-between md:items-center font-inter_bold">
@@ -26,7 +26,13 @@ const ActionBox = ({ action, index }: { action: ACTION; index: number }) => {
             </>
           ) : (
             <>
-              <Play className="size-4" /> Continue
+              {action.type === ACTIONS.FANS_PROFILES && isScrapingProfiles ? (
+                <>Scraping Fans Profiles...</>
+              ) : (
+                <>
+                  <Play className="size-4" /> Continue
+                </>
+              )}
             </>
           )}
         </button>
