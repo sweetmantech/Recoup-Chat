@@ -14,7 +14,7 @@ import getVideosInfo from "../tools/getVideosInfo";
 import getSegmentsReport from "../tools/getSegmentsReport";
 import getPitchReport from "../tools/getPitchReport";
 import getInstrumentalStyleSuggestions from "../tools/getInstrumentalStyleSuggestions";
-import getFunnelAnalysis from "../chat/getFunnelAnalysis";
+import getFunnelChatContext from "../getFunnelChatContext";
 
 export function createChatMessagesService() {
   return new ChatMessagesService();
@@ -30,36 +30,21 @@ class ChatMessagesService {
     active_analaysis_id: string,
     context: string,
   ) {
-    const campaignInfo = await this.fetchRelevantContext(email, artistId);
     const tools = this.fetchRelevantTools(question, email, artistId);
-    const funnelAnalaysisContext = await getFunnelAnalysis(active_analaysis_id);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const postComments: any = [];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const segments: any = [];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    funnelAnalaysisContext?.map((funnel_analysis: any) => {
-      postComments.push(funnel_analysis.funnel_analytics_comments);
-      segments.push(funnel_analysis.funnel_analytics_segments);
-    });
+    let chatContext = await getFunnelChatContext(active_analaysis_id);
+    if (!chatContext) chatContext = context;
+    if (!chatContext)
+      chatContext = await this.fetchRelevantContext(email, artistId);
     const systemMessage = `
 *****
-[Context]: ${
-      funnelAnalaysisContext
-        ? JSON.stringify({
-            PostContents: postComments.flat(),
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            Experties: segments.flat().map((segment: any) => segment.name),
-          })
-        : ""
-    } \n${funnelAnalaysisContext ? "" : context || campaignInfo}
+[Context]: ${chatContext}
 *****
 [Question]: ${question}
 *****
 [Instruction]: 
 *****
 ${
-  context
+  context || active_analaysis_id
     ? `
 If question is related with content calendar, content calendar should reference the expertes and post urls & timestamp!.
 `
