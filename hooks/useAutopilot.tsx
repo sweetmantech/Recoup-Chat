@@ -18,6 +18,7 @@ const useAutopilot = () => {
     actions: analysisActions,
     funnelType,
     reportId,
+    fansProfiles,
   } = useAnalysisActions();
   const [actions, setActions] = useState<Array<ACTION>>([]);
   const { stackActions, getStackActions } = useStackActions();
@@ -73,6 +74,7 @@ const useAutopilot = () => {
     stackActions,
     eventsLogs,
     getStackActions,
+    fansProfiles,
   };
 };
 

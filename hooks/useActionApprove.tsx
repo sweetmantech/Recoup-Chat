@@ -9,17 +9,25 @@ import instructions from "@/evals/scripts/instructions.json";
 import trackAction from "@/lib/stack/trackAction";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useInitialChatProvider } from "@/providers/InitialChatProvider";
+import useFansCSVExport from "./useFansCSVExport";
 
 const useActionApprove = () => {
   const { append } = useChatProvider();
   const { address } = useUserProvider();
   const { selectedArtist, toggleSettingModal, toggleUpdate } =
     useArtistProvider();
-  const { comments, segmentName, funnelType, reportId, getStackActions } =
-    useAutopilotProvider();
+  const {
+    comments,
+    segmentName,
+    funnelType,
+    reportId,
+    getStackActions,
+    fansProfiles,
+  } = useAutopilotProvider();
   const [copied, setCopied] = useState(false);
   const { handleGenerateReport } = useGenerateSegmentReport();
   const { clearMessagesCache } = useInitialChatProvider();
+  const { exportCSV } = useFansCSVExport();
 
   const handleClick = async (action: ACTION) => {
     clearMessagesCache();
@@ -45,6 +53,9 @@ const useActionApprove = () => {
         false,
         reportId || "",
       );
+    }
+    if (action.type === ACTIONS.FANS_PROFILES) {
+      exportCSV(fansProfiles);
     }
     await trackAction(address, action, selectedArtist?.id || "", true);
     getStackActions();
