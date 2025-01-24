@@ -8,14 +8,13 @@ const AnalysisButton = ({
   className?: string;
   containerClasses?: string;
 }) => {
-  const { username, funnelType, setThoughts, setResult } =
-    useFunnelAnalysisProvider();
+  const { username, setThoughts, setResult } = useFunnelAnalysisProvider();
   const { openAgentSocket } = useAgentSocketProvider();
 
   const handleClick = () => {
     setThoughts({});
     setResult(null);
-    openAgentSocket(funnelType as string);
+    openAgentSocket();
   };
   return (
     <div className={`space-y-3 ${containerClasses}`}>

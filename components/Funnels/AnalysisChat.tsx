@@ -3,9 +3,11 @@ import Messages from "@/components/Chat/Messages";
 import { ScrollTo } from "react-scroll-to";
 import FanSegmentResult from "./FanSegmentResult";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
+import isFinishedScraping from "@/lib/agent/isFinishedScraping";
+import isScraping from "@/lib/agent/isScraping";
 
 const AnalysisChat = () => {
-  const { thoughts, scraping, isFinished } = useFunnelAnalysisProvider();
+  const { thoughts } = useFunnelAnalysisProvider();
 
   return (
     <main className="grow py-2">
@@ -20,11 +22,13 @@ const AnalysisChat = () => {
               </>
             )}
           </ScrollTo>
-          {isFinished && !scraping && Object.keys(thoughts).length > 0 && (
-            <div className="space-y-2">
-              <ChatInput />
-            </div>
-          )}
+          {isFinishedScraping(thoughts) &&
+            !isScraping(thoughts) &&
+            Object.keys(thoughts).length > 0 && (
+              <div className="space-y-2">
+                <ChatInput />
+              </div>
+            )}
         </div>
       </div>
     </main>

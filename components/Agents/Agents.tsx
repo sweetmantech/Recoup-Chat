@@ -7,7 +7,7 @@ import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 const Agents = () => {
   const { push } = useRouter();
   const { selectedArtist } = useArtistProvider();
-  const { openAgentSocket } = useAgentSocketProvider();
+  const { lookupProfiles } = useAgentSocketProvider();
   const { setIsLoading, setResult, setThoughts } = useFunnelAnalysisProvider();
 
   const handleClick = (funnelName: string) => {
@@ -15,7 +15,7 @@ const Agents = () => {
       setThoughts({});
       setResult(null);
       setIsLoading(true);
-      openAgentSocket(funnelName);
+      lookupProfiles(funnelName);
       return;
     }
     push(`/funnels/${funnelName}`);
