@@ -35,7 +35,6 @@ const useMessages = () => {
     append: appendAiChat,
     isLoading: pending,
     setMessages,
-    stop,
   } = useAiChat({
     api: `/api/chat`,
     headers: {
@@ -94,15 +93,6 @@ const useMessages = () => {
     );
     setCurrentQuestion(null);
   };
-
-  useEffect(() => {
-    if (!pathId) {
-      stop();
-      setInitialMessages([]);
-      setMessages([]);
-      messagesRef.current = [];
-    }
-  }, [pathId]);
 
   return {
     appendAiChat,
