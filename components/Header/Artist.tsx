@@ -24,11 +24,13 @@ const Artist = ({
     <div
       className={`${
         isMini
-          ? `${isSelectedArtist && "w-fit rounded-full shadow-[1px_1px_1px_1px_#E6E6E6]"}`
+          ? `${isSelectedArtist && "w-fit rounded-full"}`
           : `flex gap-1 justify-between items-center px-2 py-1 text-sm rounded-md text-grey-dark hover:bg-grey-light-1 ${isSelectedArtist && "!bg-grey-light-1"}`
       } h-10`}
     >
-      <div className="w-8 aspect-1/1 rounded-full overflow-hidden flex items-center justify-center border">
+      <div
+        className={`w-8 aspect-1/1 rounded-full overflow-hidden flex items-center justify-center ${isSelectedArtist && "shadow-[1px_1px_1px_1px_#E6E6E6]"}`}
+      >
         <ImageWithFallback src={artist?.image || ""} />
       </div>
       {!isMini && (
