@@ -17,9 +17,9 @@ const useInitialMessages = () => {
       const initialMessages = await fetchInitialMessages(address);
       if (initialMessages) setInitialMessages(initialMessages);
     };
-    if (!address && !pathId) return;
+    if (!address) return;
     init();
-  }, [address, pathId]);
+  }, [address]);
 
   const fetchInitialMessages = async (walletAddress: Address) => {
     try {
