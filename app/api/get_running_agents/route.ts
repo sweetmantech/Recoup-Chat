@@ -9,10 +9,9 @@ export async function GET(req: NextRequest) {
     const { data } = await client
       .from("funnel_analytics")
       .select("*")
-      .neq("status", STEP_OF_ANALYSIS.FINISHED)
-      .neq("status", STEP_OF_ANALYSIS.WRAPPED_COMPLETED)
-      .neq("status", STEP_OF_ANALYSIS.ERROR)
-      .eq("artistId", artistId as string);
+      .gt("status", STEP_OF_ANALYSIS.UNKNOWN_PROFILE)
+      .eq("artistId", artistId)
+      .order("timestamp", { ascending: false });
 
     return Response.json({ data }, { status: 200 });
   } catch (error) {
