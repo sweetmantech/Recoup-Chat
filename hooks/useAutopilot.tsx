@@ -7,12 +7,14 @@ import trackAction from "@/lib/stack/trackAction";
 import { useUserProvider } from "@/providers/UserProvder";
 import useStackActions from "./useStackActions";
 import useRunningAgents from "./useRunningAgents";
+import useFansProfiles from "./useFansProfiles";
 
 const useAutopilot = () => {
   const [socialActions, setSocialActions] = useState<Array<any>>([]);
   const { selectedArtist } = useArtistProvider();
   const { address } = useUserProvider();
   const { curLiveAgent } = useRunningAgents();
+  const { fansProfiles } = useFansProfiles();
   const {
     comments,
     analyses,
@@ -20,7 +22,6 @@ const useAutopilot = () => {
     actions: analysisActions,
     funnelType,
     reportId,
-    fansProfiles,
   } = useAnalysisActions();
   const [actions, setActions] = useState<Array<ACTION>>([]);
   const { stackActions, getStackActions } = useStackActions();
@@ -63,7 +64,16 @@ const useAutopilot = () => {
       return true;
     });
     setActions([...filtered]);
-  }, [analysisActions, socialActions, stackActions]);
+    if (fansProfiles.length > 0)
+      setActions([
+        ...filtered,
+        {
+          type: ACTIONS.FANS_PROFILES,
+          title: "Export Fans Profiles",
+          id: ACTIONS.FANS_PROFILES,
+        },
+      ]);
+  }, [analysisActions, socialActions, stackActions, fansProfiles]);
 
   return {
     actions,
