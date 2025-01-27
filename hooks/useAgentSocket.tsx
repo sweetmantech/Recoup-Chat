@@ -36,7 +36,13 @@ const useAgentSocket = () => {
     push(`/funnels/${funnelType}/${newChatId}`);
     const handle = scrapingArtist?.name || selectedArtist?.name || artistHandle;
     const socialHandles = await getHandles(handle);
-    setHandles(socialHandles);
+    if (funnelType === "wrapped") {
+      setHandles(socialHandles);
+      return;
+    }
+    setHandles({
+      [`${funnelType}`]: socialHandles[`${funnelType}`],
+    });
   };
 
   const openAgentSocket = async () => {

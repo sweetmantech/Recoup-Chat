@@ -23,7 +23,6 @@ const useActionApprove = () => {
     reportId,
     getStackActions,
     fansProfiles,
-    isScrapingProfiles,
   } = useAutopilotProvider();
   const [copied, setCopied] = useState(false);
   const { handleGenerateReport } = useGenerateSegmentReport();
@@ -56,7 +55,6 @@ const useActionApprove = () => {
       );
     }
     if (action.type === ACTIONS.FANS_PROFILES) {
-      if (isScrapingProfiles) return;
       exportCSV(fansProfiles);
     }
     await trackAction(address, action, selectedArtist?.id || "", true);

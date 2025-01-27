@@ -1,9 +1,6 @@
-import getAnalysisComments from "@/lib/agent/getAnalysisComments";
 import getAnalysisSegments from "@/lib/agent/getAnalysisSegments";
 import getWrappedAnalysis from "@/lib/agent/getWrappedAnalysis";
-import getFansSegments from "@/lib/getFansSegments";
 import getFunnelAnalysis from "@/lib/getFunnelAnalysis";
-import getSocialProfiles from "@/lib/getSocialProfiles";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
@@ -24,7 +21,6 @@ const useAnalysisActions = () => {
   const [reportId, setReportId] = useState<string | null>(null);
   const { setFunnelContext } = useMessagesProvider();
   const [fansProfiles, setFansProfiles] = useState<Array<any>>([]);
-  const [isScrapingProfiles, setIsScrapingProfiles] = useState(false);
 
   const {
     clearReportCache,
@@ -100,21 +96,7 @@ const useAnalysisActions = () => {
             id: ACTIONS.REPORT,
           });
         }
-        actionsTemp.push({
-          type: ACTIONS.FANS_PROFILES,
-          title: `Export Fans Emails`,
-          id: ACTIONS.FANS_PROFILES,
-        });
         setActions(actionsTemp);
-        setIsScrapingProfiles(true);
-        const comments = getAnalysisComments(funnel_analyses);
-        const fansSegments = await getFansSegments(funnel_analyses[0].chat_id);
-        const fansSocialProfiles = await getSocialProfiles(
-          comments,
-          fansSegments,
-        );
-        setFansProfiles(fansSocialProfiles);
-        setIsScrapingProfiles(false);
       } catch (error) {
         console.error(error);
       }
@@ -131,7 +113,6 @@ const useAnalysisActions = () => {
     funnelType,
     reportId,
     fansProfiles,
-    isScrapingProfiles,
   };
 };
 

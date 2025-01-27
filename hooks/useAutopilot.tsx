@@ -6,11 +6,13 @@ import useAnalysisActions from "./useAnalysisActions";
 import trackAction from "@/lib/stack/trackAction";
 import { useUserProvider } from "@/providers/UserProvder";
 import useStackActions from "./useStackActions";
+import useRunningAgents from "./useRunningAgents";
 
 const useAutopilot = () => {
   const [socialActions, setSocialActions] = useState<Array<any>>([]);
   const { selectedArtist } = useArtistProvider();
   const { address } = useUserProvider();
+  const { curLiveAgent } = useRunningAgents();
   const {
     comments,
     analyses,
@@ -19,7 +21,6 @@ const useAutopilot = () => {
     funnelType,
     reportId,
     fansProfiles,
-    isScrapingProfiles,
   } = useAnalysisActions();
   const [actions, setActions] = useState<Array<ACTION>>([]);
   const { stackActions, getStackActions } = useStackActions();
@@ -76,7 +77,7 @@ const useAutopilot = () => {
     eventsLogs,
     getStackActions,
     fansProfiles,
-    isScrapingProfiles,
+    curLiveAgent,
   };
 };
 
