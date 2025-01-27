@@ -29,7 +29,7 @@ const useRunningAgents = () => {
       return;
     }
     setCurLiveAgent(
-      `Running ${data.data.type} Analysis...: ${statusMessages(selectedArtist?.name)[`${data.data.status}`]}`,
+      `Running ${data.data.type} Analysis... \n ${statusMessages(selectedArtist?.name)[`${data.data.status}`]}`,
     );
   }, [selectedArtist]);
 
