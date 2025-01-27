@@ -1,7 +1,7 @@
 import { useAutopilotProvider } from "@/providers/AutopilotProvider";
 
 const CurrentState = () => {
-  const { eventsLogs } = useAutopilotProvider();
+  const { eventsLogs, curLiveAgent } = useAutopilotProvider();
 
   return (
     <div className="p-2 md:p-4 rounded border">
@@ -11,8 +11,10 @@ const CurrentState = () => {
       <div className="flex items-end gap-2 font-inter">
         <span>{">"}</span>
         <p className="text-xs md:text-sm whitespace-pre-line">
-          {eventsLogs?.length > 0 ? (
-            <button type="button">{eventsLogs[0].metadata.title}</button>
+          {eventsLogs?.length > 0 || curLiveAgent ? (
+            <button type="button">
+              {curLiveAgent || eventsLogs[0].metadata.title}
+            </button>
           ) : (
             <>
               {`Awaiting new events...`}
