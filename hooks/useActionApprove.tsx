@@ -31,6 +31,7 @@ const useActionApprove = () => {
 
   const handleClick = async (action: ACTION) => {
     clearMessagesCache();
+    let metadata = {};
     if (action.type === ACTIONS.SOCIAL && selectedArtist) {
       toggleUpdate(selectedArtist);
       toggleSettingModal();
@@ -55,9 +56,16 @@ const useActionApprove = () => {
       );
     }
     if (action.type === ACTIONS.FANS_PROFILES) {
+      metadata = { fansCount: fansProfiles.length };
       exportCSV(fansProfiles);
     }
-    await trackAction(address, action, selectedArtist?.id || "", true);
+    await trackAction(
+      address,
+      action,
+      selectedArtist?.id || "",
+      true,
+      metadata,
+    );
     getStackActions();
   };
 

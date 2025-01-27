@@ -33,7 +33,13 @@ const useAutopilot = () => {
     const temp = [...actions];
     temp.splice(index, 1);
     setActions([...temp]);
-    await trackAction(address, actions[index], selectedArtist?.id || "", false);
+    await trackAction(
+      address,
+      actions[index],
+      selectedArtist?.id || "",
+      false,
+      {},
+    );
     getStackActions();
   };
 
@@ -64,15 +70,24 @@ const useAutopilot = () => {
       return true;
     });
     setActions([...filtered]);
-    if (fansProfiles.length > 0)
-      setActions([
-        ...filtered,
-        {
-          type: ACTIONS.FANS_PROFILES,
-          title: "Export Fans Profiles",
-          id: ACTIONS.FANS_PROFILES,
-        },
-      ]);
+    if (fansProfiles.length > 0) {
+      // eslint-disable-next-line
+      const stackProfilesEvent = stackActions.filter(
+        (event: any) =>
+          event.metadata.id === ACTIONS.FANS_PROFILES &&
+          event.metadata.isApproved &&
+          event.metadata?.fansCount === fansProfiles.length,
+      );
+      if (stackProfilesEvent.length === 0)
+        setActions([
+          ...filtered,
+          {
+            type: ACTIONS.FANS_PROFILES,
+            title: "Export Fans Profiles",
+            id: ACTIONS.FANS_PROFILES,
+          },
+        ]);
+    }
   }, [analysisActions, socialActions, stackActions, fansProfiles]);
 
   return {
