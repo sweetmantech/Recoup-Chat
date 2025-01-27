@@ -24,12 +24,12 @@ const useRunningAgents = () => {
       `/api/get_running_agents?artistId=${selectedArtist?.id || ""}`,
     );
     const data = await response.json();
-    if (!data.data) {
+    if (data.data?.length === 0) {
       setCurLiveAgent(null);
       return;
     }
     setCurLiveAgent(
-      `Running ${data.data.type} Analysis... \n ${statusMessages(selectedArtist?.name)[`${data.data.status}`]}`,
+      `Running ${data.data[0].type.toLowerCase()} Analysis... \n ${statusMessages(selectedArtist?.name)[`${data.data[0].status}`]}`,
     );
   }, [selectedArtist]);
 
