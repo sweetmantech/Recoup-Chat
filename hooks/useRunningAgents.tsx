@@ -24,7 +24,11 @@ const useRunningAgents = () => {
       `/api/get_running_agents?artistId=${selectedArtist?.id || ""}`,
     );
     const data = await response.json();
-    if (data.data?.length === 0) {
+    if (
+      data.data?.length === 0 ||
+      new Date().getTime() - new Date(data.data[0].timestamp).getTime() >
+        1000 * 60 * 5
+    ) {
       setCurLiveAgent(null);
       return;
     }
