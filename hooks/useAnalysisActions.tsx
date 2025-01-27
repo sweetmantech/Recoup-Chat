@@ -20,7 +20,6 @@ const useAnalysisActions = () => {
   const [funnelType, setFunnelType] = useState<string | null>(null);
   const [reportId, setReportId] = useState<string | null>(null);
   const { setFunnelContext } = useMessagesProvider();
-  const [fansProfiles, setFansProfiles] = useState<Array<any>>([]);
 
   const {
     clearReportCache,
@@ -112,7 +111,6 @@ const useAnalysisActions = () => {
     actions,
     funnelType,
     reportId,
-    fansProfiles,
   };
 };
 

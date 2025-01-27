@@ -12,6 +12,8 @@ const trackAction = async (
   action: ACTION,
   artistId: string,
   isApproved: boolean,
+  // eslint-disable-next-line
+  metadata: any,
 ) => {
   try {
     const stackClient = getStackClient(CHAT_POINT_SYSTEM_ID);
@@ -24,6 +26,7 @@ const trackAction = async (
       metadata: {
         ...action,
         isApproved,
+        ...metadata,
       },
     });
   } catch (error) {
