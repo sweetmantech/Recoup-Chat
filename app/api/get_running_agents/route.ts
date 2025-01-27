@@ -11,6 +11,7 @@ export async function GET(req: NextRequest) {
       .select("*")
       .neq("status", STEP_OF_ANALYSIS.FINISHED)
       .neq("status", STEP_OF_ANALYSIS.WRAPPED_COMPLETED)
+      .neq("status", STEP_OF_ANALYSIS.ERROR)
       .eq("artistId", artistId as string);
 
     return Response.json({ data }, { status: 200 });
