@@ -21,7 +21,7 @@ const Agents = () => {
     push(`/funnels/${funnelName}`);
   };
   return (
-    <div className="max-w-[calc(100vw-100px)] md:max-w-[calc(100vw-200px)] grow py-6 px-2 md:px-10">
+    <div className="max-w-full md:max-w-[calc(100vw-200px)] grow py-6 px-2 md:px-10">
       <p className="text-center md:text-left font-plus_jakarta_sans_bold text-[50px]">
         Agents
       </p>

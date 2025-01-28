@@ -7,15 +7,21 @@ import { useArtistProvider } from "@/providers/ArtistProvider";
 import ImageWithFallback from "../ImageWithFallback";
 import useIsMobile from "@/hooks/useIsMobile";
 import ArtistDropDown from "./ArtistDropDown";
+import SideArtists from "../SideArtists";
 
 const Header = () => {
   const [isOpenMobileMenu, setIsOpenMobileMenu] = useState(false);
+  const [isOpenSideArtists, setIsOpenSideArtists] = useState(false);
   const [isVisibleDropDown, setIsVisibleDropDown] = useState(false);
   const { selectedArtist, toggleSettingModal, toggleUpdate } =
     useArtistProvider();
   const isMobile = useIsMobile();
 
   const handleClickPfp = () => {
+    if (isMobile) {
+      setIsOpenSideArtists(true);
+      return;
+    }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     toggleUpdate(selectedArtist as any);
     toggleSettingModal();
@@ -40,8 +46,8 @@ const Header = () => {
               type="button"
               className="w-8 aspect-1/1 rounded-full overflow-hidden flex items-center justify-center"
               onClick={handleClickPfp}
-              onMouseOver={() => setIsVisibleDropDown(true)}
-              onMouseOut={() => setIsVisibleDropDown(false)}
+              onMouseOver={() => setIsVisibleDropDown(true && !isMobile)}
+              onMouseOut={() => setIsVisibleDropDown(false && !isMobile)}
             >
               <ImageWithFallback src={selectedArtist?.image || ""} />
             </button>
@@ -51,10 +57,16 @@ const Header = () => {
           </div>
         )}
         {isMobile && (
-          <SideMenu
-            isVisible={isOpenMobileMenu}
-            toggleModal={() => setIsOpenMobileMenu(!isOpenMobileMenu)}
-          />
+          <>
+            <SideMenu
+              isVisible={isOpenMobileMenu}
+              toggleModal={() => setIsOpenMobileMenu(!isOpenMobileMenu)}
+            />
+            <SideArtists
+              isVisible={isOpenSideArtists}
+              toggleModal={() => setIsOpenSideArtists(!isOpenSideArtists)}
+            />
+          </>
         )}
       </div>
     </>
