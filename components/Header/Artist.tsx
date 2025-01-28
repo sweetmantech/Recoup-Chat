@@ -21,12 +21,17 @@ const Artist = ({
   const isSelectedArtist = selectedArtist?.id === artist?.id;
 
   return (
-    <div
+    <button
       className={`${
         isMini
           ? `${isSelectedArtist && "w-fit rounded-full"}`
           : `flex gap-1 justify-between items-center px-2 py-1 text-sm rounded-md text-grey-dark hover:bg-grey-light-1 ${isSelectedArtist && "!bg-grey-light-1"}`
       } h-10`}
+      type="button"
+      onClick={() => {
+        toggleDropDown();
+        setSelectedArtist(artist);
+      }}
     >
       <div
         className={`w-8 aspect-1/1 rounded-full overflow-hidden flex items-center justify-center ${isSelectedArtist && "shadow-[1px_1px_1px_1px_#E6E6E6]"}`}
@@ -35,17 +40,9 @@ const Artist = ({
       </div>
       {!isMini && (
         <>
-          <button
-            key={artist?.id}
-            onClick={() => {
-              toggleDropDown();
-              setSelectedArtist(artist);
-            }}
-            className="text-left max-w-[100px] truncate"
-            type="button"
-          >
+          <div key={artist?.id} className="text-left max-w-[100px] truncate">
             {artist?.name}
-          </button>
+          </div>
           <button
             type="button"
             onClick={() => {
@@ -57,7 +54,7 @@ const Artist = ({
           </button>
         </>
       )}
-    </div>
+    </button>
   );
 };
 
