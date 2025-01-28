@@ -40,7 +40,16 @@ const getConversations = async (walletAddress: Address) => {
   );
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return Object.values(chats) as any;
+  const aggregated = chats.reduce((acc: any, curr: any) => {
+    const convId = curr?.metadata?.conversationId;
+    if (!convId) return acc;
+    acc[convId] = curr;
+    acc[convId].points += curr.points;
+    return acc;
+  }, {});
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return Object.values(aggregated) as any;
 };
 
 export default getConversations;
