@@ -34,7 +34,7 @@ const ArtistsSidebar = () => {
       onMouseOver={() => setMenuExpanded(!isMobile)}
       onMouseOut={() => setMenuExpanded(false)}
     >
-      <div className="no-scrollbar grow flex flex-col gap-1 overflow-y-auto overflow-x-hidden">
+      <div className="no-scrollbar grow flex flex-col overflow-y-auto overflow-x-hidden">
         {email &&
           sorted.map((artist: ArtistRecord | null) => (
             <Artist
