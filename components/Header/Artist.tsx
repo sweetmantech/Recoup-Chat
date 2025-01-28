@@ -25,8 +25,8 @@ const Artist = ({
       className={`${
         isMini
           ? `${isSelectedArtist && "w-fit rounded-full"}`
-          : `flex gap-1 justify-between items-center px-2 py-1 text-sm rounded-md text-grey-dark hover:bg-grey-light-1 ${isSelectedArtist && "!bg-grey-light-1"}`
-      } h-10`}
+          : `flex gap-1 justify-between items-center px-2 text-sm rounded-md text-grey-dark hover:bg-grey-light-1 ${isSelectedArtist && "!bg-grey-light-1"}`
+      } py-2`}
       type="button"
       onClick={() => {
         toggleDropDown();
