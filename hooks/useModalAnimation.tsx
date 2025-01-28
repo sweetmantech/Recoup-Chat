@@ -1,6 +1,8 @@
-const useModalAnimation = (isOpenModal: boolean) => {
-  const desktopAnimate = { x: isOpenModal ? "0%" : "-100%" };
-  const desktopInitial = { x: 0 };
+const useModalAnimation = (isOpenModal: boolean, direction = "left") => {
+  const desktopAnimate = {
+    x: isOpenModal ? 0 : direction === "left" ? "-100%" : "100%",
+  };
+  const desktopInitial = { x: direction === "left" ? 0 : "100%" };
 
   return {
     animate: desktopAnimate,
