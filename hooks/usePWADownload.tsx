@@ -10,12 +10,15 @@ const usePWADownload = () => {
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleBeforeInstallPrompt = (e: any) => {
-      setShowModal(true);
       e.preventDefault();
       setDeferredPrompt(e);
     };
     const response = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if (isMobile && response) {
+    const isStandalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      (window.navigator as any).standalone;
+
+    if (!isStandalone && response) {
       setShowModal(true);
       window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     }
