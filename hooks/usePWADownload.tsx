@@ -13,7 +13,7 @@ const usePWADownload = () => {
       e.preventDefault();
       setDeferredPrompt(e);
     };
-    const response = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const response = /Android/i.test(navigator.userAgent);
     const isStandalone =
       window.matchMedia("(display-mode: standalone)").matches ||
       (window.navigator as any).standalone;
