@@ -25,12 +25,13 @@ const useRunningAgents = () => {
     );
 
     const data = await response.json();
-    if (data.data?.length === 0) {
+    if (data?.data?.length === 0) {
       setCurLiveAgent(null);
       return;
     }
     setCurLiveAgent(
-      `Running ${data.data[0].type.toLowerCase()} Analysis... \n ${statusMessages(selectedArtist?.name)[`${data.data[0].status}`]}`,
+      null,
+      // `Running ${data?.data?.[0]?.type?.toLowerCase()} Analysis... \n ${statusMessages(selectedArtist?.name)[`${data.data[0].status}`]}`,
     );
   }, [selectedArtist]);
 

@@ -14,25 +14,72 @@ export async function POST(req: NextRequest) {
   try {
     const { data: found } = await client
       .from("accounts")
-      .select("*")
-      .eq("id", accountId);
+      .select("*, account_emails(email)")
+      .eq("id", accountId)
+      .single();
 
-    if (found?.length) {
-      const newUserData = {
-        ...found[0],
-        instruction,
-        name,
-        organization,
-        image,
-      };
-      const { data } = await client
+    if (found) {
+      await client
         .from("accounts")
-        .update({ ...newUserData })
+        .update({
+          id: accountId,
+          name,
+        })
         .eq("id", accountId)
         .select("*")
         .single();
-
-      return Response.json({ data }, { status: 200 });
+      const { data: account_info } = await client
+        .from("account_info")
+        .select("*")
+        .eq("account_id", accountId)
+        .single();
+      if (!account_info) {
+        await client
+          .from("account_info")
+          .insert({
+            organization,
+            image,
+            instruction,
+            account_id: accountId,
+          })
+          .eq("account_id", accountId)
+          .select("*")
+          .single();
+        return Response.json(
+          {
+            data: {
+              organization,
+              image,
+              instruction,
+              account_id: accountId,
+              name,
+              email: found.account_emails[0].email,
+            },
+          },
+          { status: 200 },
+        );
+      }
+      const { data: updated_account_info } = await client
+        .from("account_info")
+        .update({
+          ...account_info,
+          organization,
+          image,
+          instruction,
+        })
+        .eq("account_id", accountId)
+        .select("*")
+        .single();
+      return Response.json(
+        {
+          data: {
+            ...updated_account_info,
+            name,
+            email: found.account_emails[0].email,
+          },
+        },
+        { status: 200 },
+      );
     }
 
     return Response.json({ data: null }, { status: 400 });
