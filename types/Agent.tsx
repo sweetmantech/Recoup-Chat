@@ -6,7 +6,7 @@ export type FUNNEL_ANALYSIS = {
   handle: string;
   type: string;
   funnel_analytics_segments: Array<SEGMENT>;
-  funnel_analytics_profile: Array<ARTIST_PROFILE>;
+  funnel_analytics_accounts: Array<ANALYTICS_ACCOUNT>;
   funnel_analytics_comments: Array<COMMENT>;
 };
 
@@ -26,33 +26,29 @@ export type COMMENT = {
   comment: string;
 };
 
-export type ARTIST_PROFILE = {
+export type ACCOUNT = {
   id: string;
-  bio: string;
   name: string;
-  type: string;
-  avatar: string;
-  region: string;
-  artists: {
-    id: string;
-    name: string;
-    image: string;
-    label: string;
-    timestamp: number;
-    knowledges: Array<string>;
-    instruction: string;
-    artist_social_links: Array<SOCIAL_LINK>;
-  };
-  artistId: string;
-  nickname: string;
-  followers: number;
-  followings: number;
-  analysis_id: string;
+  timestamp: number | null;
+  account_info: Array<any>;
+  account_socials: Array<SOCIAL>;
 };
 
-export type SOCIAL_LINK = {
+export type ANALYTICS_ACCOUNT = {
+  account_id: string;
+  analysis_id: string;
+  accounts: ACCOUNT;
+};
+
+export type SOCIAL = {
   id: string;
   link: string;
   type: string;
   artistId: string;
+  bio: string | null;
+  followerCount: number;
+  followingCount: number;
+  avatar: string | null;
+  username: string | null;
+  region: string | null;
 };

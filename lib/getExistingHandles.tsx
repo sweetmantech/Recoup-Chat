@@ -1,4 +1,4 @@
-import { SOCIAL_LINK } from "@/types/Agent";
+import { SOCIAL } from "@/types/Agent";
 import { ArtistRecord } from "@/types/Artist";
 import { Funnel_Type } from "@/types/Funnel";
 
@@ -12,13 +12,13 @@ const getExistingHandles = (artist: ArtistRecord | null) => {
     };
 
   const socials = artist.account_socials.filter(
-    (link: SOCIAL_LINK) => link.type !== "YOUTUBE" && link.type !== "APPLE",
+    (link: SOCIAL) => link.type !== "YOUTUBE" && link.type !== "APPLE",
   );
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handles: any = {};
 
-  socials.map((social: SOCIAL_LINK) => {
+  socials.map((social: SOCIAL) => {
     const link = social.link;
     let match = link.match(/\/\/[^/]+\/([^\/?#]+)/);
     if (social.type === Funnel_Type.SPOTIFY.toUpperCase())

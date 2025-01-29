@@ -60,7 +60,7 @@ const useAgentSocket = () => {
       funnels.map((funnel) => {
         socketIo.emit(`${funnel.toUpperCase()}_ANALYSIS`, socketId, {
           handle: handles[`${funnel}`].replaceAll("@", "") || "",
-          chat_id: chatId,
+          pilot_id: chatId,
           account_id: userData?.account_id,
           address,
           isWrapped,
@@ -81,7 +81,7 @@ const useAgentSocket = () => {
       } as any);
       socketIo.emit(`${String(funnelType).toUpperCase()}_ANALYSIS`, socketId, {
         handle: agentHandle,
-        chat_id: chatId,
+        pilot_id: chatId,
         account_id: userData?.account_id,
         address,
         isWrapped,

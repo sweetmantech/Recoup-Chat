@@ -36,7 +36,7 @@ const useConversations = () => {
       return;
     }
     const filtered = allConverstaions.filter(
-      (item: any) => item.metadata.artistId === selectedArtist?.account_id,
+      (item: any) => item.metadata.account_id === selectedArtist?.account_id,
     );
     setConversations(filtered);
   }, [selectedArtist, allConverstaions]);

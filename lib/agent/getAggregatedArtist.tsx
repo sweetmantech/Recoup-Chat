@@ -1,41 +1,36 @@
-import { FUNNEL_ANALYSIS, SOCIAL_LINK } from "@/types/Agent";
+import { FUNNEL_ANALYSIS, SOCIAL } from "@/types/Agent";
 
 const getAggregatedArtist = (funnel_analyses: Array<FUNNEL_ANALYSIS>) => {
-  const socialLinks = funnel_analyses.reduce((acc, fa: FUNNEL_ANALYSIS) => {
-    const profile = fa.funnel_analytics_profile?.[0];
-    return profile && profile.artists && profile.artists.artist_social_links
-      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        acc.concat(profile.artists.artist_social_links as any)
-      : acc;
-  }, []);
+  const { image, name, socials } = funnel_analyses.reduce(
+    // eslint-disable-next-line
+    (acc: any, fa: FUNNEL_ANALYSIS) => {
+      const account_socials =
+        fa.funnel_analytics_accounts?.[0]?.accounts?.account_socials;
+      if (account_socials.length > 0) {
+        acc.image = account_socials[0].avatar || acc.image || "";
+        acc.name = account_socials[0].username || acc.name || "";
+        acc.socials.concat(account_socials);
+      }
+      return acc;
+    },
+    { image: "", name: "", socials: [] },
+  );
 
   const socialLinkMap = new Map();
-  socialLinks.forEach((link: SOCIAL_LINK) => {
-    if (!socialLinkMap.get(link.type) || link.link) {
-      socialLinkMap.set(link.type, link);
+  socials.forEach((social: SOCIAL) => {
+    if (!socialLinkMap.get(social.type) || social.link) {
+      socialLinkMap.set(social.type, social);
     }
   });
 
-  const aggregatedLinks = Array.from(socialLinkMap.values());
-
-  const { image, name } = funnel_analyses.reduce(
-    (acc, fa) => {
-      const profile = fa.funnel_analytics_profile?.[0] || {};
-      acc.image = profile.avatar || profile?.artists?.image || acc.image || "";
-      acc.name = profile.nickname || profile?.artists?.name || acc.name || "";
-      return acc;
-    },
-    { image: "", name: "" },
-  );
+  const aggregatedSocials = Array.from(socialLinkMap.values());
 
   return {
-    id: funnel_analyses?.[0]?.funnel_analytics_profile?.[0]?.artistId || "",
     image,
     name,
     instruction: "",
     label: "",
-    artist_social_links: aggregatedLinks,
-    bases: [],
+    account_socials: aggregatedSocials,
     knowledges: [],
   };
 };

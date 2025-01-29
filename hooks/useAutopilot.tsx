@@ -1,5 +1,5 @@
 import { useArtistProvider } from "@/providers/ArtistProvider";
-import { SOCIAL_LINK } from "@/types/Agent";
+import { SOCIAL } from "@/types/Agent";
 import { ACTION, ACTIONS } from "@/types/Autopilot";
 import { useEffect, useState } from "react";
 import useAnalysisActions from "./useAnalysisActions";
@@ -46,7 +46,7 @@ const useAutopilot = () => {
   useEffect(() => {
     if (selectedArtist) {
       const socialActionsTemp: any = [];
-      selectedArtist?.account_socials?.map((link: SOCIAL_LINK) => {
+      selectedArtist?.account_socials?.map((link: SOCIAL) => {
         if (!link.link) {
           const socialAction = {
             type: ACTIONS.SOCIAL,
