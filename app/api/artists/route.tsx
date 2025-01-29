@@ -21,7 +21,6 @@ export async function GET(req: NextRequest) {
       .from("account_info")
       .select("*, accounts(name)")
       .in("account_id", artistIds);
-    console.log("ZIAD", artist_account_infos);
     const artistsPromise = artist_account_infos?.map(
       async (artist_account_info) => {
         const { data: artist_account_socials } = await client

@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
     const client = getSupabaseServerAdminClient();
     const { data: account_info } = await client
       .from("account_info")
-      .select("image, instruction, knoledges, label, organization")
+      .select("image, instruction, knowledges, label, organization, account_id")
       .eq("account_id", artistId)
       .single();
     const { data: artist_account_socials } = await client
