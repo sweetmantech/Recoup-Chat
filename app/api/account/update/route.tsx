@@ -14,8 +14,9 @@ export async function POST(req: NextRequest) {
   try {
     const { data: found } = await client
       .from("accounts")
-      .select("*")
-      .eq("id", accountId);
+      .select("*, account_emails(email), account_info(*)")
+      .eq("id", accountId)
+      .single();
 
     if (found?.length) {
       const newUserData = {
@@ -31,8 +32,54 @@ export async function POST(req: NextRequest) {
         .eq("id", accountId)
         .select("*")
         .single();
-
-      return Response.json({ data }, { status: 200 });
+      const account_info = found.account_info?.[0]
+      if (!account_info) {
+        await client
+          .from("account_info")
+          .insert({
+            organization,
+            image,
+            instruction,
+            account_id: accountId,
+          })
+          .eq("account_id", accountId)
+          .select("*")
+          .single();
+        return Response.json(
+          {
+            data: {
+              organization,
+              image,
+              instruction,
+              account_id: accountId,
+              name,
+              email: found.account_emails[0].email,
+            },
+          },
+          { status: 200 },
+        );
+      }
+      const { data: updated_account_info } = await client
+        .from("account_info")
+        .update({
+          ...account_info,
+          organization,
+          image,
+          instruction,
+        })
+        .eq("id", account_info.id)
+        .select("*")
+        .single();
+      return Response.json(
+        {
+          data: {
+            ...updated_account_info,
+            name,
+            email: found.account_emails[0].email,
+          },
+        },
+        { status: 200 },
+      );
     }
 
     return Response.json({ data: null }, { status: 400 });

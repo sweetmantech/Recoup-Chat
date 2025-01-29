@@ -9,27 +9,20 @@ export async function GET(req: NextRequest) {
     const { data } = await client
       .from("accounts")
       .select("*")
-      .eq("email", email);
-    if (!data || !data?.length)
-      return Response.json({ artists: [] }, { status: 200 });
-
-    const user = data[0];
-    const artistIds = user.artistIds || [];
+      .eq("email", email)
+      .single();
+    const accountId = accountEmail.account_id;
+    const { data: account_artist_ids } = await client
+      .from("account_artist_ids")
+      .select("artist_id")
+      .eq("account_id", accountId);
+    const artistIds = account_artist_ids?.map((ele) => ele.artist_id) || [];
     const { data: artists } = await client
-      .from("artists")
-      .select(
-        `
-        *,
-        artist_social_links (
-          *
-        )
-      `,
-      )
+      .from("accounts")
+      .select("*, account_info(*), artist_account_socials:account_socials(*)")
       .in("id", artistIds);
-    return Response.json(
-      { artists: artists?.reverse() || [] },
-      { status: 200 },
-    );
+
+    return Response.json({ data: artists }, { status: 200 });
   } catch (error) {
     console.error(error);
     const message = error instanceof Error ? error.message : "failed";

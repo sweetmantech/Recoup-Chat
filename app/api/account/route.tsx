@@ -8,12 +8,27 @@ export async function POST(req: NextRequest) {
 
   try {
     const { data: found } = await client
-      .from("accounts")
+      .from("account_emails")
       .select("*")
-      .eq("email", email);
-
-    if (found?.length)
-      return Response.json({ data: found[0] }, { status: 200 });
+      .eq("email", email)
+      .single();
+    if (found) {
+      const { data: account } = await client
+        .from("accounts")
+        .select("*, account_info(*), account_emails(*)")
+        .eq("id", found.account_id)
+        .single();
+      return Response.json(
+        {
+          data: {
+            ...account.account_info[0],
+            ...account.account_emails[0],
+            ...account,
+          },
+        },
+        { status: 200 },
+      );
+    }
 
     const { data: newAccount } = await client
       .from("accounts")
