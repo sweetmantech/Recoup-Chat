@@ -8,19 +8,43 @@ export async function POST(req: NextRequest) {
 
   try {
     const { data: found } = await client
-      .from("accounts")
-      .select("*")
-      .eq("email", email);
-
-    if (found?.length)
-      return Response.json({ data: found[0] }, { status: 200 });
+      .from("account_emails")
+      .select("*, accounts(name)")
+      .eq("email", email)
+      .single();
+    if (found) {
+      const { data: account_info } = await client
+        .from("account_info")
+        .select("image, instruction, organization")
+        .eq("account_id", found.account_id)
+        .single();
+      found.name = found.accounts.name;
+      delete found.accounts;
+      delete found.id;
+      return Response.json(
+        {
+          data: {
+            ...found,
+            ...account_info,
+          },
+        },
+        { status: 200 },
+      );
+    }
 
     const { data: newAccount } = await client
       .from("accounts")
       .insert({
+        name: "",
+      })
+      .select("*")
+      .single();
+
+    await client
+      .from("account_emails")
+      .insert({
+        account_id: newAccount.id,
         email,
-        timestamp: Date.now(),
-        artistIds: [],
       })
       .select("*")
       .single();
@@ -29,7 +53,18 @@ export async function POST(req: NextRequest) {
       account_id: newAccount.id,
       remaining_credits: 1,
     });
-    return Response.json({ data: newAccount }, { status: 200 });
+    return Response.json(
+      {
+        data: {
+          account_id: newAccount.id,
+          email,
+          image: "",
+          instruction: "",
+          organization: "",
+        },
+      },
+      { status: 200 },
+    );
   } catch (error) {
     console.error(error);
     const message = error instanceof Error ? error.message : "failed";
