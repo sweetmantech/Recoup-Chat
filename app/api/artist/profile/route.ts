@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const client = getSupabaseServerAdminClient();
-    const id = await updateArtistProfile(
+    const artistAccountId = await updateArtistProfile(
       artistId,
       email,
       image,
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
     );
 
     await updateArtistSocials(
-      id,
+      artistAccountId,
       tiktok_url,
       youtube_url,
       apple_url,
@@ -40,20 +40,26 @@ export async function POST(req: NextRequest) {
       twitter_url,
       spotify_url,
     );
-    const { data } = await client
-      .from("artists")
-      .select(
-        `
-        *,
-        artist_social_links (
-          *
-        )
-      `,
-      )
-      .eq("id", id)
+
+    const { data: account_info } = await client
+      .from("account_info")
+      .select("image, instruction, knowledges, label, organization, account_id")
+      .eq("account_id", artistAccountId)
       .single();
+    const { data: artist_account_socials } = await client
+      .from("account_socials")
+      .select("*")
+      .eq("account_id", artistAccountId);
+
+    if (!account_info) throw new Error("failed");
+
     return Response.json(
-      { message: "success", artistInfo: data },
+      {
+        artist: {
+          ...account_info,
+          artist_account_socials: artist_account_socials || [],
+        },
+      },
       { status: 200 },
     );
   } catch (error) {

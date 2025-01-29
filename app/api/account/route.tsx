@@ -33,9 +33,16 @@ export async function POST(req: NextRequest) {
     const { data: newAccount } = await client
       .from("accounts")
       .insert({
+        name: "",
+      })
+      .select("*")
+      .single();
+
+    await client
+      .from("account_emails")
+      .insert({
+        account_id: newAccount.id,
         email,
-        timestamp: Date.now(),
-        artistIds: [],
       })
       .select("*")
       .single();
@@ -44,7 +51,18 @@ export async function POST(req: NextRequest) {
       account_id: newAccount.id,
       remaining_credits: 1,
     });
-    return Response.json({ data: newAccount }, { status: 200 });
+    return Response.json(
+      {
+        data: {
+          account_id: newAccount.id,
+          email,
+          image: "",
+          instruction: "",
+          organization: "",
+        },
+      },
+      { status: 200 },
+    );
   } catch (error) {
     console.error(error);
     const message = error instanceof Error ? error.message : "failed";

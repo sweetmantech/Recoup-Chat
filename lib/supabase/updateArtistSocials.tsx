@@ -18,10 +18,9 @@ const updateArtistSocials = async (
     { type: "SPOTIFY", url: spotify_url },
   ];
 
-  // Iterate over the social media links and call createSocialLink
   await Promise.all(
-    socialMediaLinks.map(({ type, url }) =>
-      createSocialLink(artistId, type, url),
+    socialMediaLinks.map(
+      async ({ type, url }) => await createSocialLink(artistId, type, url),
     ),
   );
 };

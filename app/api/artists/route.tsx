@@ -6,8 +6,8 @@ export async function GET(req: NextRequest) {
 
   try {
     const client = getSupabaseServerAdminClient();
-    const { data } = await client
-      .from("accounts")
+    const { data: accountEmail } = await client
+      .from("account_emails")
       .select("*")
       .eq("email", email)
       .single();

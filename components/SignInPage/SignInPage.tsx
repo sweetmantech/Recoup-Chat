@@ -16,6 +16,7 @@ export default function SignInPage() {
     }
 
     login();
+    // eslint-disable-next-line
   }, [authenticated]);
 
   return (

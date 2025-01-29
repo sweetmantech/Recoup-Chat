@@ -8,26 +8,29 @@ const createSocialLink = async (
   const client = getSupabaseServerAdminClient();
 
   const { data } = await client
-    .from("artist_social_links")
+    .from("account_socials")
     .select("*")
-    .eq("artistId", artistId)
-    .eq("type", social_type);
+    .eq("account_id", artistId)
+    .eq("type", social_type)
+    .single();
 
-  if (data && data?.length) {
+  if (data) {
     await client
-      .from("artist_social_links")
+      .from("account_socials")
       .update({
-        ...data[0],
+        ...data,
         link: social_link,
       })
-      .eq("id", data[0].id);
+      .eq("id", data.id)
+      .select("*")
+      .single();
     return;
   }
 
-  await client.from("artist_social_links").insert({
+  await client.from("account_socials").insert({
     link: social_link,
     type: social_type,
-    artistId: artistId,
+    account_id: artistId,
   });
 };
 

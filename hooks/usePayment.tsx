@@ -32,7 +32,7 @@ const usePayment = () => {
       isSubscription,
       wrappedActive ? 495 : 99,
       {
-        accountId: userData?.id,
+        accountId: userData?.account_id,
       },
     );
 
@@ -41,19 +41,19 @@ const usePayment = () => {
 
   const creditUsed = async (minimumCredits: number) => {
     if (credits < minimumCredits || subscriptionActive) return;
-    await decreaseCredits(userData?.id, minimumCredits);
+    await decreaseCredits(userData?.account_id, minimumCredits);
     setCredits(credits - minimumCredits);
   };
 
   const checkCredits = useCallback(async () => {
     if (!userData) return;
-    const subscriptions = await getActiveSubscription(userData?.id);
+    const subscriptions = await getActiveSubscription(userData?.account_id);
     if (subscriptions?.length) {
       setSubscriptionActive(true);
       setIsLoadingCredits(false);
       return;
     }
-    const credits = await getCredits(userData?.id);
+    const credits = await getCredits(userData?.account_id);
     setCredits(credits?.remaining_credits);
     setIsLoadingCredits(false);
   }, [userData]);

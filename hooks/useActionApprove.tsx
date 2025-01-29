@@ -62,7 +62,7 @@ const useActionApprove = () => {
     await trackAction(
       address,
       action,
-      selectedArtist?.id || "",
+      selectedArtist?.account_id || "",
       true,
       metadata,
     );

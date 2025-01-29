@@ -18,17 +18,13 @@ export async function POST(req: NextRequest) {
       .eq("id", accountId)
       .single();
 
-    if (found?.length) {
-      const newUserData = {
-        ...found[0],
-        instruction,
-        name,
-        organization,
-        image,
-      };
-      const { data } = await client
+    if (found) {
+      await client
         .from("accounts")
-        .update({ ...newUserData })
+        .update({
+          id: accountId,
+          name,
+        })
         .eq("id", accountId)
         .select("*")
         .single();

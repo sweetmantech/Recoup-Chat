@@ -20,7 +20,6 @@ const ArtistsTable = () => {
           <thead>
             <th className="text-xs text-left p-1">ID</th>
             <th className="text-xs text-left p-1">Name</th>
-            <th className="text-xs text-left p-1">Updated At</th>
             <th className="text-xs text-left p-1">Action</th>
           </thead>
           <tbody>
@@ -28,9 +27,6 @@ const ArtistsTable = () => {
               <tr key={index}>
                 <td className="text-xs p-1">{artist.id}</td>
                 <td className="text-xs p-1">{artist.name}</td>
-                <td className="text-xs p-1">
-                  {new Date(artist.timestamp).toLocaleString()}
-                </td>
                 <td className="text-xs p-1">
                   <button
                     type="button"
