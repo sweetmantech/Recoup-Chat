@@ -8,6 +8,12 @@ export type FUNNEL_ANALYSIS = {
   funnel_analytics_segments: Array<SEGMENT>;
   funnel_analytics_accounts: Array<ANALYTICS_ACCOUNT>;
   funnel_analytics_comments: Array<COMMENT>;
+  accounts: {
+    id: string;
+    name: string;
+    account_info: Array<any>;
+    account_socials: Array<SOCIAL>;
+  };
 };
 
 export type SEGMENT = {

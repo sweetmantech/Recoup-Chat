@@ -49,7 +49,7 @@ const useArtists = () => {
       setArtists(data.artists);
       if (artistId) {
         const newUpdatedInfo = data.artists.find(
-          (artist: ArtistRecord) => artist.id === artistId,
+          (artist: ArtistRecord) => artist.account_id === artistId,
         );
         if (newUpdatedInfo) setSelectedArtist(newUpdatedInfo);
       }

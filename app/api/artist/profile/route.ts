@@ -54,6 +54,7 @@ export async function POST(req: NextRequest) {
         artist: {
           ...account.account_info[0],
           ...account,
+          account_id: account.id,
         },
       },
       { status: 200 },

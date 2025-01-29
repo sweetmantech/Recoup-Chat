@@ -6,6 +6,15 @@ const getFunnelAnalysis = async (pilotId: string) => {
     .from("funnel_analytics")
     .select(
       `*,
+      accounts (
+        *,
+        account_info (
+          *
+        ),
+        account_socials (
+          *
+        )
+      ),
       funnel_analytics_segments (
         icon,
         name,

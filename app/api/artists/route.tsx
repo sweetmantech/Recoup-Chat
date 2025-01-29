@@ -29,6 +29,7 @@ export async function GET(req: NextRequest) {
         artists: artists.map((artist) => ({
           ...artist.account_info[0],
           ...artist,
+          account_id: artist.id,
         })),
       },
       { status: 200 },

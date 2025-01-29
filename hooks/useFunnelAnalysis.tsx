@@ -43,7 +43,11 @@ const useFunnelAnalysis = () => {
       selectedArtist,
     );
     const artistProfile = wrappedAnalysis
-      ? wrappedAnalysis?.funnel_analytics_accounts?.[0]?.accounts
+      ? {
+          ...wrappedAnalysis?.accounts?.account_info?.[0],
+          ...wrappedAnalysis?.accounts?.account_socials,
+          ...wrappedAnalysis?.accounts,
+        }
       : aggregatedArtistProfile;
     getArtists();
     setSelectedArtist(artistProfile);
