@@ -27,7 +27,7 @@ const useArtists = () => {
   );
   const [menuVisibleArtistId, setMenuVisibleArtistId] = useState<any>("");
   const activeArtistIndex = artists.findIndex(
-    (artist: ArtistRecord) => artist.id === selectedArtist?.id,
+    (artist: ArtistRecord) => artist.account_id === selectedArtist?.account_id,
   );
 
   const sorted =
@@ -91,10 +91,10 @@ const useArtists = () => {
         artistId:
           saveMode === SETTING_MODE.CREATE
             ? ""
-            : artistSetting.editableArtist?.id,
+            : artistSetting.editableArtist?.account_id,
         email,
       });
-      await getArtists(data.artistInfo?.id);
+      await getArtists(data.artistInfo?.account_id);
       setUpdating(false);
       if (artistMode.settingMode === SETTING_MODE.CREATE)
         artistMode.setSettingMode(SETTING_MODE.UPDATE);

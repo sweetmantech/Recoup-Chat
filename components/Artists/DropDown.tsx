@@ -8,11 +8,11 @@ const DropDown = ({ artist }: { artist: ArtistRecord }) => {
 
   const handleDelete = async () => {
     const temp = artists.filter(
-      (artistEle: ArtistRecord) => artistEle.id !== artist.id,
+      (artistEle: ArtistRecord) => artistEle.account_id !== artist.account_id,
     );
     setArtists([...temp]);
     setMenuVisibleArtistId(null);
-    await fetch(`/api/artist/remove?artistId=${artist.id}`);
+    await fetch(`/api/artist/remove?artistId=${artist.account_id}`);
     getArtists();
   };
 

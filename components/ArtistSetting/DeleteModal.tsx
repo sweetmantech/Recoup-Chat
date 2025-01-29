@@ -11,12 +11,13 @@ const DeleteModal = ({ toggleModal }: DeleteModalProps) => {
 
   const handleDelete = async () => {
     const temp = artists.filter(
-      (artistEle: ArtistRecord) => artistEle.id !== editableArtist?.id,
+      (artistEle: ArtistRecord) =>
+        artistEle.account_id !== editableArtist?.account_id,
     );
     setArtists([...temp]);
     toggleModal();
     toggleSettingModal();
-    await fetch(`/api/artist/remove?artistId=${editableArtist?.id}`);
+    await fetch(`/api/artist/remove?artistId=${editableArtist?.account_id}`);
   };
 
   return (

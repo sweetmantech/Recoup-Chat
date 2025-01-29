@@ -24,7 +24,8 @@ const useInitialArtists = (
   useEffect(() => {
     if (selectedArtist && artists.length > 0) {
       const currentArtist = artists.find(
-        (artist: ArtistRecord) => artist.id === selectedArtist.id,
+        (artist: ArtistRecord) =>
+          artist.account_id === selectedArtist.account_id,
       );
       if (currentArtist && !selectedArtist?.isWrapped)
         setSelectedArtist(currentArtist);

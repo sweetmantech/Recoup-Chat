@@ -6,19 +6,26 @@ export async function GET(req: NextRequest) {
 
   try {
     const client = getSupabaseServerAdminClient();
-    const { data } = await client
-      .from("artists")
-      .select(
-        `
-        *,
-        artist_social_links (
-          *
-        )
-      `,
-      )
-      .eq("id", artistId)
+    const { data: account_info } = await client
+      .from("account_info")
+      .select("image, instruction, knoledges, label, organization")
+      .eq("account_id", artistId)
       .single();
-    return Response.json({ artist: data }, { status: 200 });
+    const { data: artist_account_socials } = await client
+      .from("account_socials")
+      .select("*")
+      .eq("account_id", artistId);
+    if (!account_info) throw new Error("failed");
+
+    return Response.json(
+      {
+        artist: {
+          ...account_info,
+          artist_account_socials: artist_account_socials || [],
+        },
+      },
+      { status: 200 },
+    );
   } catch (error) {
     console.error(error);
     const message = error instanceof Error ? error.message : "failed";
