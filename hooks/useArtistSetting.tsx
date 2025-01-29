@@ -113,7 +113,7 @@ const useArtistSetting = () => {
         TIKTOK: setTikTok,
       };
       Object.entries(socialMediaTypes).forEach(([type, setter]) => {
-        const link = editableArtist?.artist_account_socials?.find(
+        const link = editableArtist?.account_socials?.find(
           (item) => item.type === type,
         )?.link;
         setter(link || "");

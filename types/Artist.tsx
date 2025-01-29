@@ -10,7 +10,7 @@ export type Artist = {
 
 export type ArtistRecord = {
   account_id: string;
-  artist_account_socials: Array<SOCIAL_LINK>;
+  account_socials: Array<SOCIAL_LINK>;
   created_at: string;
   id: string;
   image: string | null;

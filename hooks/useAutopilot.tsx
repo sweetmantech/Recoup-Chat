@@ -46,7 +46,7 @@ const useAutopilot = () => {
   useEffect(() => {
     if (selectedArtist) {
       const socialActionsTemp: any = [];
-      selectedArtist?.artist_account_socials?.map((link: SOCIAL_LINK) => {
+      selectedArtist?.account_socials?.map((link: SOCIAL_LINK) => {
         if (!link.link) {
           const socialAction = {
             type: ACTIONS.SOCIAL,

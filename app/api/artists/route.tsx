@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
     const artistIds = account_artist_ids?.map((ele) => ele.artist_id) || [];
     const { data: artists } = await client
       .from("accounts")
-      .select("*, account_info(*), artist_account_socials:account_socials(*)")
+      .select("*, account_info(*), account_socials(*)")
       .in("id", artistIds);
 
     if (!artists) return Response.json({ data: [] }, { status: 200 });
