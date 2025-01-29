@@ -22,7 +22,17 @@ export async function GET(req: NextRequest) {
       .select("*, account_info(*), artist_account_socials:account_socials(*)")
       .in("id", artistIds);
 
-    return Response.json({ data: artists }, { status: 200 });
+    if (!artists) return Response.json({ data: [] }, { status: 200 });
+
+    return Response.json(
+      {
+        artists: artists.map((artist) => ({
+          ...artist.account_info[0],
+          ...artist,
+        })),
+      },
+      { status: 200 },
+    );
   } catch (error) {
     console.error(error);
     const message = error instanceof Error ? error.message : "failed";

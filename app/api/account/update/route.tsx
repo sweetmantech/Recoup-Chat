@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
         .eq("id", accountId)
         .select("*")
         .single();
-      const account_info = found.account_info?.[0]
+      const account_info = found.account_info?.[0];
       if (!account_info) {
         await client
           .from("account_info")

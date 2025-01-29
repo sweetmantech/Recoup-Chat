@@ -41,23 +41,19 @@ export async function POST(req: NextRequest) {
       spotify_url,
     );
 
-    const { data: account_info } = await client
-      .from("account_info")
-      .select("image, instruction, knowledges, label, organization, account_id")
-      .eq("account_id", artistAccountId)
+    const { data: account } = await client
+      .from("accounts")
+      .select("*, account_info(*), account_emails(*), account_socials(*)")
+      .eq("id", artistAccountId)
       .single();
-    const { data: artist_account_socials } = await client
-      .from("account_socials")
-      .select("*")
-      .eq("account_id", artistAccountId);
 
-    if (!account_info) throw new Error("failed");
+    if (!account) throw new Error("failed");
 
     return Response.json(
       {
         artist: {
-          ...account_info,
-          artist_account_socials: artist_account_socials || [],
+          ...account.account_info[0],
+          ...account,
         },
       },
       { status: 200 },
