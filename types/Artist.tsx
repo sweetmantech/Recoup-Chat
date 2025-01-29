@@ -1,4 +1,4 @@
-import { SOCIAL_LINK } from "./Agent";
+import { SOCIAL } from "./Agent";
 import { FAN_TYPE } from "./fans";
 
 export type Artist = {
@@ -10,7 +10,7 @@ export type Artist = {
 
 export type ArtistRecord = {
   account_id: string;
-  account_socials: Array<SOCIAL_LINK>;
+  account_socials: Array<SOCIAL>;
   created_at: string;
   id: string;
   image: string | null;

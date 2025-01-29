@@ -1,31 +1,32 @@
 import { FUNNEL_ANALYSIS } from "@/types/Agent";
 
 const getAggregatedSocialProfile = (funnelAnalyses: Array<FUNNEL_ANALYSIS>) => {
-  const { name, nickname, region, avatar, bio, followers, followings } =
+  const { name, username, region, avatar, bio, followerCount, followingCount } =
     funnelAnalyses.reduce(
       (acc, fa) => {
-        const profile = fa.funnel_analytics_profile?.[0] || {};
-        acc.name = profile.nickname || acc.name || "";
-        acc.nickname = profile.nickname || acc.nickname || "";
+        const profile =
+          fa.funnel_analytics_accounts?.[0]?.accounts?.account_socials?.[0];
+        acc.name = profile.username || acc.username || "";
+        acc.username = profile.username || acc.username || "";
         acc.region = profile.region || acc.region || "";
         acc.avatar = profile.avatar || acc.avatar || "";
         acc.bio = profile.bio || acc.bio || "";
-        acc.followers += profile.followers || 0;
-        acc.followings += profile.followings || 0;
+        acc.followerCount += profile.followerCount || 0;
+        acc.followingCount += profile.followingCount || 0;
         return acc;
       },
       {
+        username: "",
         name: "",
-        nickname: "",
         region: "",
         avatar: "",
         bio: "",
-        followers: 0,
-        followings: 0,
+        followerCount: 0,
+        followingCount: 0,
       },
     );
 
-  return { nickname, name, region, avatar, bio, followers, followings };
+  return { username, name, region, avatar, bio, followerCount, followingCount };
 };
 
 export default getAggregatedSocialProfile;

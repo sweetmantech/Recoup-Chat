@@ -10,7 +10,7 @@ import { StackMessage } from "@/types/Stack";
 const trackNewMessage = async (
   address: Address,
   message: StackMessage,
-  artistId: string,
+  accountId: string,
   conversationId: string,
   referenceId?: string,
 ) => {
@@ -26,7 +26,7 @@ const trackNewMessage = async (
         ...message,
         conversationId,
         referenceId: referenceId || "",
-        artistId,
+        accountId,
       },
     });
   } catch (error) {

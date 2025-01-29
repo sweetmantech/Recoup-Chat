@@ -11,7 +11,7 @@ const trackChatTitle = async (
   //   eslint-disable-next-line @typescript-eslint/no-explicit-any
   metadata: any,
   conversationId: string,
-  artistId: string,
+  accountId: string,
 ) => {
   try {
     const stackClient = getStackClient(CHAT_POINT_SYSTEM_ID);
@@ -23,7 +23,7 @@ const trackChatTitle = async (
       uniqueId,
       metadata: {
         conversationId: conversationId,
-        artistId,
+        accountId,
         ...metadata,
       },
     });
