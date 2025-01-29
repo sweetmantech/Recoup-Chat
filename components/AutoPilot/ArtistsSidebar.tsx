@@ -40,7 +40,7 @@ const ArtistsSidebar = () => {
             <Artist
               artist={artist}
               toggleDropDown={() => {}}
-              key={artist?.id}
+              key={artist?.account_id}
               isMini={!menuExpanded}
             />
           ))}

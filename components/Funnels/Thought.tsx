@@ -11,7 +11,7 @@ const Thought = ({ funnel, thought }: { funnel: string; thought: any }) => {
     useFunnelAnalysisProvider();
   const { selectedArtist, toggleSettingModal } = useArtistProvider();
 
-  const socialLink = selectedArtist?.artist_social_links?.find(
+  const socialLink = selectedArtist?.artist_account_socials?.find(
     (social) => social.type === funnel.toUpperCase() && social.link,
   );
   const isError = thought.status === STEP_OF_ANALYSIS.ERROR;

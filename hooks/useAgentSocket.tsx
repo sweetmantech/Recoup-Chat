@@ -64,7 +64,7 @@ const useAgentSocket = () => {
           account_id: userData?.account_id,
           address,
           isWrapped,
-          existingArtistId: selectedArtist?.id,
+          existingArtistId: selectedArtist?.account_id,
         });
       });
     } else {
@@ -85,7 +85,7 @@ const useAgentSocket = () => {
         account_id: userData?.account_id,
         address,
         isWrapped,
-        existingArtistId: selectedArtist?.id,
+        existingArtistId: selectedArtist?.account_id,
       });
     }
   };

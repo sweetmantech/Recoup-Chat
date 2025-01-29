@@ -19,9 +19,9 @@ const useRunningAgents = () => {
   });
 
   const getLiveAgent = useCallback(async () => {
-    if (!selectedArtist?.id) return;
+    if (!selectedArtist?.account_id) return;
     const response = await fetch(
-      `/api/get_running_agents?artistId=${selectedArtist?.id || ""}`,
+      `/api/get_running_agents?artistId=${selectedArtist?.account_id || ""}`,
     );
 
     const data = await response.json();

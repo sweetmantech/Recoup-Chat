@@ -11,7 +11,7 @@ const getExistingHandles = (artist: ArtistRecord | null) => {
       instagram: "",
     };
 
-  const socials = artist.artist_social_links.filter(
+  const socials = artist.artist_account_socials.filter(
     (link: SOCIAL_LINK) => link.type !== "YOUTUBE" && link.type !== "APPLE",
   );
 

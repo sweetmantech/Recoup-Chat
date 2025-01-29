@@ -30,9 +30,9 @@ const useSockets = () => {
             setSelectedArtist({
               ...dataGot.extra_data,
               ...selectedArtist,
-              artist_social_links: getAggregatedSocials([
-                ...(selectedArtist?.artist_social_links || []),
-                ...dataGot?.extra_data?.artist_social_links,
+              artist_account_socials: getAggregatedSocials([
+                ...(selectedArtist?.artist_account_socials || []),
+                ...dataGot?.extra_data?.artist_account_socials,
               ]),
               isWrapped: true,
             });

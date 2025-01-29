@@ -1,3 +1,4 @@
+import { SOCIAL_LINK } from "./Agent";
 import { FAN_TYPE } from "./fans";
 
 export type Artist = {
@@ -8,21 +9,18 @@ export type Artist = {
 };
 
 export type ArtistRecord = {
-  name: string;
-  instruction: string;
-  label: string;
-  knowledges: Array<any>;
+  account_id: string;
+  artist_account_socials: Array<SOCIAL_LINK>;
+  created_at: string;
   id: string;
-  timestamp: number;
   image: string | null;
-  artist_social_links: Array<{
-    id: string;
-    artistId: string;
-    link: string;
-    type: string;
-  }>;
-  handle?: string;
-  isWrapped?: string;
+  instruction: string | null;
+  knowledges: any;
+  label: string | null;
+  name: string | null;
+  organization: string | null;
+  updated_at: string;
+  isWrapped?: boolean;
 };
 
 export type CampaignRecord = {

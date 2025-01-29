@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
           image,
           instruction,
         })
-        .eq("account_id", accountId)
+        .eq("id", account_info.id)
         .select("*")
         .single();
       return Response.json(

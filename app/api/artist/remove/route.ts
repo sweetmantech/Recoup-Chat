@@ -6,8 +6,7 @@ export async function GET(req: NextRequest) {
 
   try {
     const client = getSupabaseServerAdminClient();
-    await client.from("artists").delete().eq("id", artistId);
-    await client.from("artist_social_links").delete().eq("artistId", artistId);
+    await client.from("accounts").delete().eq("id", artistId);
     return Response.json({ success: true }, { status: 200 });
   } catch (error) {
     console.error(error);

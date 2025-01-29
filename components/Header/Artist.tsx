@@ -18,7 +18,7 @@ const Artist = ({
     toggleUpdate,
     toggleSettingModal,
   } = useArtistProvider();
-  const isSelectedArtist = selectedArtist?.id === artist?.id;
+  const isSelectedArtist = selectedArtist?.account_id === artist?.account_id;
 
   return (
     <button
@@ -40,7 +40,10 @@ const Artist = ({
       </div>
       {!isMini && (
         <>
-          <div key={artist?.id} className="text-left max-w-[100px] truncate">
+          <div
+            key={artist?.account_id}
+            className="text-left max-w-[100px] truncate"
+          >
             {artist?.name}
           </div>
           <button

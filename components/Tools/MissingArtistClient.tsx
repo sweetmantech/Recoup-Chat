@@ -23,7 +23,7 @@ const MissingArtistClient = () => {
     if (!clientId || !artistId) return;
     append({
       id: uuidV4(),
-      content: `Create a new campaign. CampaignName: ${clientId} ArtistId: ${selectedArtist?.id || artistId}`,
+      content: `Create a new campaign. CampaignName: ${clientId} ArtistId: ${selectedArtist?.account_id || artistId}`,
       role: "user",
     });
   };

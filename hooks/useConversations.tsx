@@ -31,12 +31,12 @@ const useConversations = () => {
   }, [address]);
 
   useEffect(() => {
-    if (!selectedArtist?.id) {
+    if (!selectedArtist?.account_id) {
       setConversations(allConverstaions);
       return;
     }
     const filtered = allConverstaions.filter(
-      (item: any) => item.metadata.artistId === selectedArtist?.id,
+      (item: any) => item.metadata.artistId === selectedArtist?.account_id,
     );
     setConversations(filtered);
   }, [selectedArtist, allConverstaions]);
@@ -58,7 +58,7 @@ const useConversations = () => {
       {
         title: response.replaceAll(`\"`, ""),
         is_funnel_report,
-        artistId: selectedArtist?.id,
+        artistId: selectedArtist?.account_id,
         active_analaysis_id,
       },
       chatId,
@@ -88,7 +88,7 @@ const useConversations = () => {
       address,
       titlemetadata,
       conversationId,
-      selectedArtist?.id || "",
+      selectedArtist?.account_id || "",
     );
     clearInterval(timer);
     streamedIndex = 1;

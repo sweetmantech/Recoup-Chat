@@ -31,7 +31,7 @@ const ArtistDropDown = ({
             <Artist
               artist={artist}
               toggleDropDown={() => setIsVisibleDropDown(false)}
-              key={artist?.id}
+              key={artist?.account_id}
             />
           ))}
           <button

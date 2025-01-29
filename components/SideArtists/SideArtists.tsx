@@ -35,7 +35,7 @@ const SideArtists = ({
             <Artist
               artist={artist}
               toggleDropDown={() => {}}
-              key={artist?.id}
+              key={artist?.account_id}
             />
           ))}
       </div>

@@ -36,7 +36,7 @@ const useAutopilot = () => {
     await trackAction(
       address,
       actions[index],
-      selectedArtist?.id || "",
+      selectedArtist?.account_id || "",
       false,
       {},
     );
@@ -46,7 +46,7 @@ const useAutopilot = () => {
   useEffect(() => {
     if (selectedArtist) {
       const socialActionsTemp: any = [];
-      selectedArtist?.artist_social_links?.map((link: SOCIAL_LINK) => {
+      selectedArtist?.artist_account_socials?.map((link: SOCIAL_LINK) => {
         if (!link.link) {
           const socialAction = {
             type: ACTIONS.SOCIAL,

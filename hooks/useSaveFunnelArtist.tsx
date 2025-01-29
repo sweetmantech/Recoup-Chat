@@ -32,7 +32,7 @@ const useSaveFunnelArtist = () => {
       );
       if (artistInfo) {
         setSelectedArtist({ ...artistInfo });
-        return artistInfo?.id;
+        return artistInfo?.account_id;
       }
     }
   };
