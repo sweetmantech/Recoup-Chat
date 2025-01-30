@@ -27,7 +27,9 @@ const useConversations = () => {
   useEffect(() => {
     if (address) {
       fetchConversations(address);
+      return;
     }
+    setAllConverstaions([]);
   }, [address]);
 
   useEffect(() => {

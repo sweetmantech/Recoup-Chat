@@ -11,6 +11,7 @@ export async function GET(req: NextRequest) {
       .select("*")
       .eq("email", email)
       .single();
+    if (!accountEmail) return Response.json({ artists: [] }, { status: 200 });
     const accountId = accountEmail.account_id;
     const { data: account_artist_ids } = await client
       .from("account_artist_ids")
@@ -22,7 +23,7 @@ export async function GET(req: NextRequest) {
       .select("*, account_info(*), account_socials(*)")
       .in("id", artistIds);
 
-    if (!artists) return Response.json({ data: [] }, { status: 200 });
+    if (!artists) return Response.json({ artists: [] }, { status: 200 });
 
     return Response.json(
       {

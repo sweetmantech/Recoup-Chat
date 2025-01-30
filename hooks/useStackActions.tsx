@@ -10,7 +10,10 @@ const useStackActions = () => {
   const [actions, setActions] = useState<any>([]);
 
   const getStackActions = useCallback(async () => {
-    if (!selectedArtist?.account_id || !address) return;
+    if (!selectedArtist?.account_id || !address) {
+      setActions([]);
+      return;
+    }
     const events = await getActions(
       `${ACTION_EVENT}-${selectedArtist?.account_id}`,
       address,

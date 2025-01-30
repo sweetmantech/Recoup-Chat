@@ -101,7 +101,11 @@ const useAnalysisActions = () => {
       }
     };
 
-    if (conversations.length > 0) init();
+    if (conversations.length > 0) {
+      init();
+      return;
+    }
+    setActions([]);
   }, [conversations]);
 
   return {
