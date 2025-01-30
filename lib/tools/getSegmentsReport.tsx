@@ -2,7 +2,9 @@ import { z } from "zod";
 import { tool } from "ai";
 import { ArtistToolResponse } from "@/types/Tool";
 import getFunnelAnalysis from "../chat/getFunnelAnalysis";
-import { FUNNEL_ANALYSIS } from "@/types/Agent";
+import getAggregatedArtist from "../agent/getAggregatedArtist";
+import getAnalysisSegments from "../agent/getAnalysisSegments";
+import { SEGMENT } from "@/types/Agent";
 
 const getSegmentsReport = (question: string) =>
   tool({
@@ -23,40 +25,19 @@ For Example:
           question,
         };
 
-      const funnel_analysises = await getFunnelAnalysis(chat_id);
-      if (!funnel_analysises) return;
-      const wrappedAnalysis = funnel_analysises.find(
-        (funnel_analysis: FUNNEL_ANALYSIS) => !funnel_analysis.type,
+      const funnel_analyses = await getFunnelAnalysis(chat_id);
+      if (!funnel_analyses) return;
+      const artistProfile = getAggregatedArtist(funnel_analyses);
+      const segments = getAnalysisSegments(funnel_analyses);
+      const segment = segments?.find(
+        (item: SEGMENT) => item.name === segment_name,
       );
-      const wrappedSegments = wrappedAnalysis?.funnel_analytics_segments;
-      const wrappedProfile = wrappedAnalysis?.funnel_analytics_profile?.[0];
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const segments: any = [];
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const profiles: any = [];
-      if (wrappedAnalysis) {
-        profiles.push(wrappedProfile);
-        segments.push(wrappedSegments);
-      } else {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        funnel_analysises.map((funnel_analysis: any) => {
-          segments.push(funnel_analysis.funnel_analytics_segments);
-          profiles.push(funnel_analysis.funnel_analytics_profile?.[0]);
-        });
-      }
-
-      const segmentsFlatten = segments.flat();
-      const segment = segmentsFlatten?.find(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (item: any) => item.name === segment_name,
-      );
-
       return {
         context: {
           status: ArtistToolResponse.FUNNEL_SEGMENT_REPORT,
-          profiles,
+          artistProfile,
           analysis: {
-            ...funnel_analysises,
+            ...funnel_analyses,
             segment_name: segment_name,
             segment_size: segment?.size,
           },

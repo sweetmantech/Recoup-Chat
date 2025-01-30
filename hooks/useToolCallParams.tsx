@@ -1,7 +1,7 @@
 import { Message } from "ai";
 import useSpecificReport from "./useSpecificReport";
 import { v4 as uuidV4 } from "uuid";
-import saveTikTokReport from "@/lib/saveTikTokReport";
+import saveFunnelReport from "@/lib/saveFunnelReport";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
 import { useChatProvider } from "@/providers/ChatProvider";
 
@@ -24,7 +24,7 @@ const useToolCallParams = (message: Message) => {
     isSpecific: boolean = false,
   ) => {
     const stackUniqueId = uuidV4();
-    const response = await saveTikTokReport({
+    const response = await saveFunnelReport({
       summary: message.content,
       next_steps: nextSteps,
       report,

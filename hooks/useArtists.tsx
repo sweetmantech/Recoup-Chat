@@ -94,11 +94,11 @@ const useArtists = () => {
             : artistSetting.editableArtist?.account_id,
         email,
       });
-      await getArtists(data.artistInfo?.account_id);
+      await getArtists(data.artist?.account_id);
       setUpdating(false);
       if (artistMode.settingMode === SETTING_MODE.CREATE)
         artistMode.setSettingMode(SETTING_MODE.UPDATE);
-      return data.artistInfo;
+      return data.artist;
     } catch (error) {
       console.error(error);
       setUpdating(false);

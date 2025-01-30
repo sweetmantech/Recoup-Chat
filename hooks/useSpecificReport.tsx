@@ -1,5 +1,4 @@
 import getPdfReport from "@/lib/getPdfReport";
-import getTikTokReport from "@/lib/tiktok/getTikTokReport";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
@@ -8,6 +7,7 @@ import getArtist from "@/lib/getArtist";
 import getPitchReport from "@/lib/getPitchReport";
 import getReportNextSteps from "@/lib/getReportNextSteps";
 import { useUserProvider } from "@/providers/UserProvder";
+import getFunnelReport from "@/lib/getFunnelReport";
 
 const useSpecificReport = (message: any) => {
   const [reportContent, setReportContent] = useState("");
@@ -46,9 +46,9 @@ const useSpecificReport = (message: any) => {
   useEffect(() => {
     const init = async () => {
       setReportTracking(true);
-      const response = await getTikTokReport(message.metadata.referenceId);
+      const response = await getFunnelReport(message.metadata.referenceId);
       if (messageIndex === 1) {
-        const artist = await getArtist(message.metadata?.artistId);
+        const artist = await getArtist(message.metadata?.accountId);
         funnelReport.setBannerImage(artist?.image || "");
         funnelReport.setBannerArtistName(artist?.name || "");
         funnelReport.setFunnelSummary(response.summary);
