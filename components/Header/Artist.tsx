@@ -2,6 +2,7 @@ import { useArtistProvider } from "@/providers/ArtistProvider";
 import { ArtistRecord } from "@/types/Artist";
 import ImageWithFallback from "../ImageWithFallback";
 import { EllipsisVertical } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
 
 const Artist = ({
   artist,
@@ -19,6 +20,15 @@ const Artist = ({
     toggleSettingModal,
   } = useArtistProvider();
   const isSelectedArtist = selectedArtist?.account_id === artist?.account_id;
+  const pathname = usePathname();
+  const { push } = useRouter();
+  const handleClick = () => {
+    toggleDropDown();
+    if (pathname.includes("/funnels") && selectedArtist) {
+      if (selectedArtist.account_id !== artist?.account_id) push("/");
+    }
+    setSelectedArtist(artist);
+  };
 
   return (
     <button
@@ -28,10 +38,7 @@ const Artist = ({
           : `flex gap-1 justify-between items-center px-2 text-sm rounded-md text-grey-dark hover:bg-grey-light-1 ${isSelectedArtist && "!bg-grey-light-1"}`
       } py-2`}
       type="button"
-      onClick={() => {
-        toggleDropDown();
-        setSelectedArtist(artist);
-      }}
+      onClick={handleClick}
     >
       <div
         className={`w-8 aspect-1/1 rounded-full overflow-hidden flex items-center justify-center ${isSelectedArtist && "shadow-[1px_1px_1px_1px_#E6E6E6]"}`}

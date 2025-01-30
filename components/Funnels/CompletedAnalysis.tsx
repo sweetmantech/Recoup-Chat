@@ -2,22 +2,10 @@ import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import Segments from "./Segments";
 import SocialSharing from "../SocialSharing";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 
 const CompletedAnalysis = () => {
-  const { result, segments, funnelName, setResult } =
-    useFunnelAnalysisProvider();
+  const { result, segments, funnelName } = useFunnelAnalysisProvider();
   const { selectedArtist } = useArtistProvider();
-  const { push } = useRouter();
-
-  useEffect(() => {
-    if (selectedArtist) {
-      if (selectedArtist?.account_id === result?.account_id) return;
-      push("/");
-    }
-    // eslint-disable-next-line
-  }, [selectedArtist]);
 
   return (
     <>
