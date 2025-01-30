@@ -48,7 +48,7 @@ const useSpecificReport = (message: any) => {
       setReportTracking(true);
       const response = await getFunnelReport(message.metadata.referenceId);
       if (messageIndex === 1) {
-        const artist = await getArtist(message.metadata?.artistId);
+        const artist = await getArtist(message.metadata?.accountId);
         funnelReport.setBannerImage(artist?.image || "");
         funnelReport.setBannerArtistName(artist?.name || "");
         funnelReport.setFunnelSummary(response.summary);

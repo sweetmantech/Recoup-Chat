@@ -45,15 +45,10 @@ const useToolCall = (message: Message) => {
           !funnelReport.isGettingAnalysis &&
           conversationId
         ) {
-          const activeArtist = artists.find(
-            (artist: ArtistRecord) => artist.id === context?.analysis?.artistId,
-          );
-          if (activeArtist) {
-            setSelectedArtist(activeArtist);
-          }
+          if (context?.artistProfile) setSelectedArtist(context?.artistProfile);
           const { rawContent, nextSteps } = await funnelReport.setFunnelReport(
             context?.analysis,
-            context?.profiles,
+            context?.artistProfile,
           );
           await trackReport(
             conversationId as string,

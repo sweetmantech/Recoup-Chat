@@ -4,7 +4,6 @@ import Icon from "../Icon";
 const ReportAnswer = ({ rawContent }: { rawContent: string }) => {
   const { bannerImage, bannerArtistName } = useFunnelReportProvider();
 
-  console.log("ZIAD", bannerImage);
   return (
     <div className="w-full segment-report">
       <div className="w-full aspect-[757/146] rounded-lg flex items-center justify-center overflow-hidden relative mb-2">

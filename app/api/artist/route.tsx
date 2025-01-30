@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
     const { data: account } = await client
       .from("accounts")
       .select("*, account_info(*), account_socials(*)")
-      .eq("account_id", artistId)
+      .eq("id", artistId)
       .single();
     if (!account) throw new Error("failed");
 

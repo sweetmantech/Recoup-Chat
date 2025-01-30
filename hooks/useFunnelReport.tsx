@@ -19,18 +19,15 @@ const useFunnelReport = () => {
   const [pitchName, setPitchName] = useState("");
   const { email } = useUserProvider();
 
-  const setFunnelReport = async (analysis: any, profiles: any) => {
+  const setFunnelReport = async (analysis: any, artistProfile: any) => {
     setIsGettingAnalysis(true);
     setFunnelAnalysis(analysis);
-    const bannerArtist = profiles?.find(
-      (profile: any) => profile?.nickname && profile?.avatar,
-    );
-    setBannerImage(bannerArtist?.avatar);
-    setBannerArtistName(bannerArtist?.nickname);
+    setBannerImage(artistProfile?.image);
+    setBannerArtistName(artistProfile?.name);
     const { reportContent, rawContent } = await getFullReport({
       ...analysis,
-      artistImage: bannerArtist?.avatar,
-      artistName: bannerArtist?.nickname,
+      artistImage: artistProfile?.image,
+      artistName: artistProfile?.name,
       email,
     });
     setFunnelReportContent(reportContent);
