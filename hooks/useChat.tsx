@@ -40,7 +40,7 @@ const useChat = () => {
   };
 
   const clearQuery = async () => {
-    await fetchInitialMessages(address);
+    await fetchInitialMessages();
   };
 
   const isPrepared = () => {

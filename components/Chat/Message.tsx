@@ -7,13 +7,14 @@ import Icon from "../Icon";
 import ReportSummaryNote from "./ReportSummaryNote";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import Report from "./Report";
+import Loading from "@/components/Loading";
 
 const Message = ({ message, index }: { message: AIMessage; index: number }) => {
   const { context, specificReportParams } = useToolCallProvider();
   const { rawReportContent, nextSteps, reportContent } = specificReportParams;
   const { funnelNextSteps, funnelRawReportContent } = useFunnelReportProvider();
   const { reportEnabled } = useChatProvider();
-  const summaryShown =
+  const isReportMessage =
     reportEnabled && ((funnelNextSteps && index === 0) || nextSteps);
 
   return (
@@ -28,17 +29,19 @@ const Message = ({ message, index }: { message: AIMessage; index: number }) => {
       >
         {context && <ToolContent />}
         {specificReportParams?.reportTracking ? (
-          <p> ...</p>
+          <div className="h-7 flex items-center">
+            <Loading />
+          </div>
         ) : (
           <>
-            {(funnelRawReportContent && index === 0) || nextSteps ? (
+            {isReportMessage ? (
               <Report rawContent={rawReportContent || funnelRawReportContent} />
             ) : (
               <ToolFollowUp message={message} />
             )}
           </>
         )}
-        {summaryShown && (
+        {isReportMessage && (
           <ReportSummaryNote
             reportContent={reportContent || funnelRawReportContent}
             nextSteps={nextSteps || funnelNextSteps}

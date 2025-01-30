@@ -22,7 +22,7 @@ const useToolCall = (message: Message) => {
     question,
     toolName,
   );
-  const { setSelectedArtist, artists } = useArtistProvider();
+  const { setSelectedArtist } = useArtistProvider();
   const funnelReport = useFunnelReportProvider();
 
   useEffect(() => {
