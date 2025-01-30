@@ -19,7 +19,7 @@ const Artist = ({
     toggleUpdate,
     toggleSettingModal,
   } = useArtistProvider();
-  
+
   const isSelectedArtist = selectedArtist?.account_id === artist?.account_id;
   const pathname = usePathname();
   const { push } = useRouter();

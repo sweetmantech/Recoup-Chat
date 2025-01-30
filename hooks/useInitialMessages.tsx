@@ -9,7 +9,7 @@ import { useUserProvider } from "@/providers/UserProvder";
 const useInitialMessages = () => {
   const [initialMessages, setInitialMessages] = useState<StackMessage[]>([]);
   const { address } = useUserProvider();
-  const { conversation: pathId } = useParams();
+  const { conversation: conversationId } = useParams();
   const [titleMessage, setTitleMessage] = useState<any>(null);
 
   useEffect(() => {
@@ -17,13 +17,16 @@ const useInitialMessages = () => {
       const initialMessages = await fetchInitialMessages(address);
       if (initialMessages) setInitialMessages(initialMessages);
     };
-    if (!address) return;
+    if (!address || !conversationId) {
+      setInitialMessages([]);
+      return;
+    }
     init();
-  }, [address]);
+  }, [address, conversationId]);
 
   const fetchInitialMessages = async (walletAddress: Address) => {
     try {
-      const convId = pathId as string;
+      const convId = conversationId as string;
       if (!convId) return;
       const { messages, titleMessage } = await getInitialMessages(
         walletAddress,
