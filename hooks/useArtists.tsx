@@ -41,12 +41,19 @@ const useArtists = () => {
 
   const getArtists = useCallback(
     async (artistId?: string) => {
-      if (!email) return;
+      if (!email) {
+        setArtists([]);
+        return;
+      }
       const response = await fetch(
         `/api/artists?email=${encodeURIComponent(email as string)}`,
       );
       const data = await response.json();
       setArtists(data.artists);
+      if (data.artists.length === 0) {
+        setSelectedArtist(null);
+        return;
+      }
       if (artistId) {
         const newUpdatedInfo = data.artists.find(
           (artist: ArtistRecord) => artist.account_id === artistId,

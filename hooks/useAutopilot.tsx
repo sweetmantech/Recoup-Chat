@@ -1,5 +1,4 @@
 import { useArtistProvider } from "@/providers/ArtistProvider";
-import { SOCIAL } from "@/types/Agent";
 import { ACTION, ACTIONS } from "@/types/Autopilot";
 import { useEffect, useState } from "react";
 import useAnalysisActions from "./useAnalysisActions";
@@ -8,11 +7,11 @@ import { useUserProvider } from "@/providers/UserProvder";
 import useStackActions from "./useStackActions";
 import useRunningAgents from "./useRunningAgents";
 import useFansProfiles from "./useFansProfiles";
+import useSocialActions from "./useSocialActions";
 
 const useAutopilot = () => {
-  const [socialActions, setSocialActions] = useState<Array<any>>([]);
   const { selectedArtist } = useArtistProvider();
-  const { address } = useUserProvider();
+  const { address, email } = useUserProvider();
   const { curLiveAgent } = useRunningAgents();
   const { fansProfiles } = useFansProfiles();
   const {
@@ -23,6 +22,7 @@ const useAutopilot = () => {
     funnelType,
     reportId,
   } = useAnalysisActions();
+  const { socialActions } = useSocialActions();
   const [actions, setActions] = useState<Array<ACTION>>([]);
   const { stackActions, getStackActions } = useStackActions();
   const eventsLogs = [...analyses, ...stackActions].sort(
@@ -42,23 +42,6 @@ const useAutopilot = () => {
     );
     getStackActions();
   };
-
-  useEffect(() => {
-    if (selectedArtist) {
-      const socialActionsTemp: any = [];
-      selectedArtist?.account_socials?.map((link: SOCIAL) => {
-        if (!link.link) {
-          const socialAction = {
-            type: ACTIONS.SOCIAL,
-            title: `${link.type.toUpperCase()}: ${selectedArtist?.name}`,
-            id: link.id,
-          };
-          socialActionsTemp.push(socialAction);
-        }
-      });
-      setSocialActions(socialActionsTemp);
-    }
-  }, [selectedArtist]);
 
   useEffect(() => {
     const temp = [...socialActions, ...analysisActions];
@@ -88,7 +71,7 @@ const useAutopilot = () => {
           },
         ]);
     }
-  }, [analysisActions, socialActions, stackActions, fansProfiles]);
+  }, [analysisActions, socialActions, stackActions, fansProfiles, email]);
 
   return {
     actions,
