@@ -28,7 +28,7 @@ const useGenerateSegmentReport = () => {
       {
         id: uuidV4(),
         role: "user",
-        content: `Please create a ${funnel_type} fan segment report for ${report_id} using this segment ${segmentName}.`,
+        content: `Please create a ${funnel_type || ""} fan segment report for ${report_id} using this segment ${segmentName}.`,
       },
       true,
     );

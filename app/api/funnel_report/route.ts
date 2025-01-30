@@ -2,20 +2,21 @@ import { getSupabaseServerAdminClient } from "@/packages/supabase/src/clients/se
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const artistId = req.nextUrl.searchParams.get("artistId");
+  const id = req.nextUrl.searchParams.get("id");
 
   try {
     const client = getSupabaseServerAdminClient();
-    const { data } = await client
-      .from("tiktok_analysis")
+    const { data, error } = await client
+      .from("funnel_reports")
       .select("*")
-      .eq("artistId", artistId)
+      .eq("id", id)
       .single();
-    return Response.json({ data }, { status: 200 });
+    if (error)
+      return Response.json({ id: null, success: false }, { status: 500 });
+    return Response.json({ success: true, data }, { status: 200 });
   } catch (error) {
     console.error(error);
-    const message = error instanceof Error ? error.message : "failed";
-    return Response.json({ message }, { status: 400 });
+    return Response.json({ id: null, success: false }, { status: 500 });
   }
 }
 

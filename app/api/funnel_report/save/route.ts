@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
   try {
     const client = getSupabaseServerAdminClient();
     const { data, error } = await client
-      .from("tiktok_analysis")
+      .from("funnel_reports")
       .insert({
         ...body,
       })
