@@ -16,7 +16,7 @@ import useFunnels from "./useFunnels";
 const useMessages = () => {
   const { currentQuestion, setCurrentQuestion } = usePromptsProvider();
   const csrfToken = useCsrfToken();
-  const { initialMessages, setInitialMessages } = useInitialMessagesProvider();
+  const { initialMessages } = useInitialMessagesProvider();
   const { conversationRef } = useConversationsProvider();
   const queryClient = useQueryClient();
   const { email, address } = useUserProvider();
@@ -64,6 +64,10 @@ const useMessages = () => {
   });
 
   const messagesRef = useRef(messages);
+
+  useEffect(() => {
+    setMessages(initialMessages);
+  }, [initialMessages]);
 
   const finalCallback = async (
     message: Message,
