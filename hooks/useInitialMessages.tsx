@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import getInitialMessages from "@/lib/stack/getInitialMessages";
 import { sortMessages, flattenMessagePairs } from "@/lib/sortMessages";
 import { StackMessage } from "@/types/Stack";
@@ -12,35 +12,28 @@ const useInitialMessages = () => {
   const { conversation: conversationId } = useParams();
   const [titleMessage, setTitleMessage] = useState<any>(null);
 
-  useEffect(() => {
-    const init = async () => {
-      const initialMessages = await fetchInitialMessages(address);
-      if (initialMessages) setInitialMessages(initialMessages);
-    };
-    if (!address || !conversationId) {
-      setInitialMessages([]);
-      return;
-    }
-    init();
-  }, [address, conversationId]);
-
-  const fetchInitialMessages = async (walletAddress: Address) => {
+  const fetchInitialMessages = useCallback(async () => {
     try {
-      const convId = conversationId as string;
-      if (!convId) return;
+      setInitialMessages([]);
+      if (!address) return;
+      if (!conversationId) return;
       const { messages, titleMessage } = await getInitialMessages(
-        walletAddress,
-        convId,
+        address,
+        conversationId as string,
       );
       setTitleMessage(titleMessage);
       const sortedMessages = sortMessages(messages);
       const flattenedMessages = flattenMessagePairs(sortedMessages);
-      return flattenedMessages;
+      setInitialMessages(flattenedMessages);
     } catch (error) {
       console.error("Error fetching initial messages:", error);
       return;
     }
-  };
+  }, [address, conversationId]);
+
+  useEffect(() => {
+    fetchInitialMessages();
+  }, [fetchInitialMessages]);
 
   return {
     initialMessages,
