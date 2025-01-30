@@ -11,7 +11,6 @@ import getAggregatedArtist from "@/lib/agent/getAggregatedArtist";
 import getAggregatedProfile from "@/lib/agent/getAggregatedProfile";
 import getAnalysisSegments from "@/lib/agent/getAnalysisSegments";
 import getAnalysisThoughts from "@/lib/agent/getAnalaysisThoughts";
-import getAggregatedSocialProfile from "@/lib/agent/getAggregatedSocialProfile";
 
 const useFunnelAnalysis = () => {
   const params = useFunnelAnalysisParams();
@@ -51,11 +50,9 @@ const useFunnelAnalysis = () => {
       ...aggregatedThoughts,
     });
     params.setSegments(analyticsSegments);
-    const aggregatedArtistSocialProfile =
-      getAggregatedSocialProfile(funnel_analyses);
     params.setResult({
       segments: analyticsSegments,
-      ...aggregatedArtistSocialProfile,
+      ...aggregatedArtistProfile,
     });
     params.setIsLoading(true);
     fetchConversations(address);
