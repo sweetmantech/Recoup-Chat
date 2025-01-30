@@ -60,29 +60,12 @@ const useConversations = () => {
       {
         title: response.replaceAll(`\"`, ""),
         is_funnel_report,
-        artistId: selectedArtist?.account_id,
+        account_id: selectedArtist?.account_id,
         active_analaysis_id,
       },
       chatId,
     );
     fetchConversations(address);
-  };
-
-  const trackFunnelAnalysisChat = async (
-    username: string,
-    artistId: string,
-    chatId: string,
-    funnelName: string,
-  ) => {
-    await trackNewTitle(
-      {
-        title: `${funnelName} Analysis: ${username}`,
-        is_funnel_analysis: true,
-        artistId,
-        funnel_name: funnelName,
-      },
-      chatId,
-    );
   };
 
   const trackNewTitle = async (titlemetadata: any, conversationId: string) => {
@@ -125,7 +108,6 @@ const useConversations = () => {
     streamingTitle,
     trackNewTitle,
     streaming,
-    trackFunnelAnalysisChat,
     setQuotaExceeded,
     quotaExceeded,
     trackGeneralChat,
