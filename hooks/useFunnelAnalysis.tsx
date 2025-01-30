@@ -11,7 +11,6 @@ import getAggregatedArtist from "@/lib/agent/getAggregatedArtist";
 import getAggregatedProfile from "@/lib/agent/getAggregatedProfile";
 import getAnalysisSegments from "@/lib/agent/getAnalysisSegments";
 import getAnalysisThoughts from "@/lib/agent/getAnalaysisThoughts";
-import getWrappedAnalysis from "@/lib/agent/getWrappedAnalysis";
 import getAggregatedSocialProfile from "@/lib/agent/getAggregatedSocialProfile";
 
 const useFunnelAnalysis = () => {
@@ -35,24 +34,16 @@ const useFunnelAnalysis = () => {
     const funnel_analyses: any = await getFunnelAnalysis(chatId as string);
     if (!funnel_analyses || funnel_analyses?.length === 0) return;
     setFunnelAnalysis(funnel_analyses);
-    const wrappedAnalysis = getWrappedAnalysis(funnel_analyses);
     const artist: any = getAggregatedArtist(funnel_analyses);
     const aggregatedArtistProfile: any = getAggregatedProfile(
       params.funnelType as string,
       artist,
       selectedArtist,
     );
-    const artistProfile = wrappedAnalysis
-      ? {
-          ...wrappedAnalysis?.accounts?.account_info?.[0],
-          ...wrappedAnalysis?.accounts?.account_socials,
-          ...wrappedAnalysis?.accounts,
-        }
-      : aggregatedArtistProfile;
     getArtists();
-    setSelectedArtist(artistProfile);
-    setBannerImage(artistProfile?.image);
-    setBannerArtistName(artistProfile?.name);
+    setSelectedArtist(aggregatedArtistProfile);
+    setBannerImage(aggregatedArtistProfile?.image);
+    setBannerArtistName(aggregatedArtistProfile?.name);
     const analyticsSegments = getAnalysisSegments(funnel_analyses);
     const aggregatedThoughts = getAnalysisThoughts(funnel_analyses);
     params.setThoughts({
@@ -62,13 +53,9 @@ const useFunnelAnalysis = () => {
     params.setSegments(analyticsSegments);
     const aggregatedArtistSocialProfile =
       getAggregatedSocialProfile(funnel_analyses);
-    const artistSocialProfile = wrappedAnalysis
-      ? wrappedAnalysis?.funnel_analytics_accounts?.[0]?.accounts
-          ?.account_socials?.[0]
-      : aggregatedArtistSocialProfile;
     params.setResult({
       segments: analyticsSegments,
-      ...artistSocialProfile,
+      ...aggregatedArtistSocialProfile,
     });
     params.setIsLoading(true);
     fetchConversations(address);
