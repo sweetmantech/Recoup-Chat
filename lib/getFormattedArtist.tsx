@@ -2,9 +2,9 @@ import getSocialPlatformByLink from "./getSocialPlatformByLink";
 
 // eslint-disable-next-line
 const getFormattedArtist = (artist: any) => {
-  const account_id = artist.artist_id;
-  const account_info = artist.artist_info.account_info[0];
-  const account_socials = artist.artist_info.account_socials.map(
+  const account_id = artist.id;
+  const account_info = artist.account_info[0];
+  const account_socials = artist.account_socials.map(
     // eslint-disable-next-line
     (social: any) => ({
       ...social.social,
@@ -13,7 +13,7 @@ const getFormattedArtist = (artist: any) => {
     }),
   );
   return {
-    name: artist.artist_info.name,
+    name: artist.name,
     ...account_info,
     account_id,
     account_socials,

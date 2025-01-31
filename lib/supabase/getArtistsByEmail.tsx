@@ -32,7 +32,9 @@ const getArtistsByEmail = async (email: string) => {
 
   if (!artists) return [];
 
-  const formattedArtists = artists.map((artist) => getFormattedArtist(artist));
+  const formattedArtists = artists.map((artist) =>
+    getFormattedArtist(artist.artist_info),
+  );
 
   return formattedArtists;
 };

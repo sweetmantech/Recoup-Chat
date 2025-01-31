@@ -67,14 +67,14 @@ const useArtists = () => {
     setUpdating(true);
     const saveMode = artistMode.settingMode;
     try {
-      const profileUrls = [
-        artistSetting.twitter,
-        artistSetting.tiktok,
-        artistSetting.youtube,
-        artistSetting.instagram,
-        artistSetting.spotifyUrl,
-        artistSetting.appleUrl,
-      ];
+      const profileUrls = {
+        TWITTER: artistSetting.twitter,
+        TIKTOK: artistSetting.tiktok,
+        YOUTUBE: artistSetting.youtube,
+        INSTAGRAM: artistSetting.instagram,
+        SPOTIFY: artistSetting.spotifyUrl,
+        APPLE: artistSetting.appleUrl,
+      };
       const data = await saveArtist({
         name: artistSetting.name,
         image: artistSetting.image,

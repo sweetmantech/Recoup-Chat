@@ -1,6 +1,6 @@
 import getFormattedArtist from "@/lib/getFormattedArtist";
-import createSocialByLink from "@/lib/supabase/createSocialByLink";
 import updateArtistProfile from "@/lib/supabase/updateArtistProfile";
+import updateArtistSocials from "@/lib/supabase/updateArtistSocials";
 import { getSupabaseServerAdminClient } from "@/packages/supabase/src/clients/server-admin-client";
 import { NextRequest } from "next/server";
 
@@ -27,15 +27,10 @@ export async function POST(req: NextRequest) {
       knowledges,
     );
 
-    await Promise.all(
-      profileUrls.map(
-        async (url: string) => await createSocialByLink(artistId, url),
-      ),
-    );
-
+    await updateArtistSocials(artistAccountId, profileUrls);
     const { data: account } = await client
       .from("accounts")
-      .select("*, account_info(*), account_socials(*, socials(*))")
+      .select("*, account_info(*), account_socials(*, social:socials(*))")
       .eq("id", artistAccountId)
       .single();
 
