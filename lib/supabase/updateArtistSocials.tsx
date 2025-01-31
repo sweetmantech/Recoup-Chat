@@ -7,7 +7,7 @@ const updateArtistSocials = async (artistId: string, profileUrls: string) => {
   const { data: account_socials } = await client
     .from("account_socials")
     .select("*, social:socials(*)")
-    .eq("account_id", artistId)
+    .eq("account_id", artistId);
 
   if (!account_socials?.length) return;
 
@@ -25,18 +25,20 @@ const updateArtistSocials = async (artistId: string, profileUrls: string) => {
           getSocialPlatformByLink(account_social.social.profile_url) === type,
       );
 
-      console.log("ZIAD", existingSocial, type, value)
       if (existingSocial) {
-        const {error} = await client
+        await client
           .from("account_socials")
           .delete()
           .eq("account_id", artistId)
-          .eq("social_id", existingSocial.id);
-        console.log("ZIAD", type, error, existingSocial.id, artistId)
+          .eq("social_id", existingSocial.social.id);
       }
       if (value) {
         if (social) {
-          const { data:socials } = await client.from("account_socials").select("*").eq("account_id", artistId).eq("social_id", social.id)
+          const { data: socials } = await client
+            .from("account_socials")
+            .select("*")
+            .eq("account_id", artistId)
+            .eq("social_id", social.id);
           if (!socials?.length) {
             await client.from("account_socials").insert({
               account_id: artistId,
@@ -52,7 +54,7 @@ const updateArtistSocials = async (artistId: string, profileUrls: string) => {
             })
             .select("*")
             .single();
-  
+
           if (new_social)
             await client.from("account_social").insert({
               account_id: artistId,
