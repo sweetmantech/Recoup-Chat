@@ -17,10 +17,10 @@ const useSocialActions = () => {
     if (selectedArtist) {
       const socialActionsTemp: any = [];
       selectedArtist?.account_socials?.map((link: SOCIAL) => {
-        if (!link.link) {
+        if (!link.link && link?.type) {
           const socialAction = {
             type: ACTIONS.SOCIAL,
-            title: `${link.type.toUpperCase()}: ${selectedArtist?.name}`,
+            title: `${link?.type?.toUpperCase()}: ${selectedArtist?.name}`,
             id: link.id,
           };
           socialActionsTemp.push(socialAction);
