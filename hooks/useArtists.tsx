@@ -63,35 +63,22 @@ const useArtists = () => {
     },
     [email],
   );
-  const saveSetting = async (
-    name?: string,
-    image?: string,
-    socialUrls?: {
-      tiktok_url?: string;
-      twitter_url?: string;
-      spotify_url?: string;
-      instagram_url?: string;
-    },
-    mode?: string,
-  ) => {
+  const saveSetting = async () => {
     setUpdating(true);
-    const saveMode = mode || artistMode.settingMode;
+    const saveMode = artistMode.settingMode;
     try {
+      const profileUrls = [
+        artistSetting.twitter,
+        artistSetting.tiktok,
+        artistSetting.youtube,
+        artistSetting.instagram,
+        artistSetting.spotifyUrl,
+        artistSetting.appleUrl,
+      ];
       const data = await saveArtist({
-        name: name || artistSetting.name,
-        image: image || artistSetting.image,
-        tiktok_url: socialUrls ? socialUrls?.tiktok_url : artistSetting.tiktok,
-        youtube_url: artistSetting.youtube,
-        apple_url: artistSetting.appleUrl,
-        instagram_url: socialUrls
-          ? socialUrls?.instagram_url
-          : artistSetting.instagram,
-        twitter_url: socialUrls
-          ? socialUrls?.twitter_url
-          : artistSetting.twitter,
-        spotify_url: socialUrls
-          ? socialUrls?.spotify_url
-          : artistSetting.spotifyUrl,
+        name: artistSetting.name,
+        image: artistSetting.image,
+        profileUrls,
         instruction: artistSetting.instruction,
         label: artistSetting.label,
         knowledges: artistSetting.bases,
