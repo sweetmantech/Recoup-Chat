@@ -12,7 +12,7 @@ const getExistingHandles = (artist: ArtistRecord | null) => {
     };
 
   const socials = artist.account_socials.filter(
-    (link: SOCIAL) => link.type !== "YOUTUBE" && link.type !== "APPLE",
+    (link: SOCIAL) => link?.type !== "YOUTUBE" && link?.type !== "APPLE",
   );
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
