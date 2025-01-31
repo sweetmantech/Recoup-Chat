@@ -1,4 +1,5 @@
 import { getSupabaseServerAdminClient } from "@/packages/supabase/src/clients/server-admin-client";
+import getSocialPlatformByLink from "../getSocialPlatformByLink";
 
 const getArtistsByEmail = async (email: string) => {
   const client = getSupabaseServerAdminClient();
@@ -37,9 +38,10 @@ const getArtistsByEmail = async (email: string) => {
     const account_socials = artist.artist_info.account_socials.map((social: any) => ({
       ...social.social,
       link: social.social.profile_url,
-      type: getSocial
+      type: getSocialPlatformByLink(social.social.profile_url)
     }))
     return {
+      name: artist.artist_info.name,
       ...account_info,
       account_id,
       ...account_socials
