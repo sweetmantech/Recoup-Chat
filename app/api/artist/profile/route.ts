@@ -1,3 +1,4 @@
+import getFormattedArtist from "@/lib/getFormattedArtist";
 import createSocialByLink from "@/lib/supabase/createSocialByLink";
 import updateArtistProfile from "@/lib/supabase/updateArtistProfile";
 import { getSupabaseServerAdminClient } from "@/packages/supabase/src/clients/server-admin-client";
@@ -42,8 +43,7 @@ export async function POST(req: NextRequest) {
 
     return Response.json(
       {
-        artist: account,
-        artist_id: artistAccountId,
+        artist: getFormattedArtist(account),
       },
       { status: 200 },
     );

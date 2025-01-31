@@ -1,5 +1,5 @@
 import { getSupabaseServerAdminClient } from "@/packages/supabase/src/clients/server-admin-client";
-import getSocialPlatformByLink from "../getSocialPlatformByLink";
+import getFormattedArtist from "../getFormattedArtist";
 
 const getArtistsByEmail = async (email: string) => {
   const client = getSupabaseServerAdminClient();
@@ -32,21 +32,7 @@ const getArtistsByEmail = async (email: string) => {
 
   if (!artists) return [];
 
-  const formattedArtists = artists.map((artist) => {
-    const account_id = artist.artist_id;
-    const account_info = artist.artist_info.account_info[0]
-    const account_socials = artist.artist_info.account_socials.map((social: any) => ({
-      ...social.social,
-      link: social.social.profile_url,
-      type: getSocialPlatformByLink(social.social.profile_url)
-    }))
-    return {
-      name: artist.artist_info.name,
-      ...account_info,
-      account_id,
-      ...account_socials
-    }
-  })
+  const formattedArtists = artists.map((artist) => getFormattedArtist(artist));
 
   return formattedArtists;
 };
