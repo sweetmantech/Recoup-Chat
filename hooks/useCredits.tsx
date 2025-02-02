@@ -16,8 +16,8 @@ const useCredits = () => {
   const { append } = useChatProvider();
   const { funnelType } = useFunnelAnalysisProvider();
   const { email } = useUserProvider();
-  const { chat_id: chatId } = useParams();
-  const funnelReportId = reportId || chatId;
+  const { analysis_id: analysisId } = useParams();
+  const funnelReportId = reportId || analysisId;
 
   useEffect(() => {
     const init = async () => {

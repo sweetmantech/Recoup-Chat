@@ -4,17 +4,17 @@ import Icon from "@/components/Icon";
 import ScrapingCaption from "./ScrapingCaption";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import isScraping from "@/lib/agent/isScraping";
-import isInitialScraping from "@/lib/agent/isInitial";
 import InputHandles from "./InputHandle";
 import isFinishedScraping from "@/lib/agent/isFinishedScraping";
 
 const FanSegmentResult = () => {
-  const { thoughts, isCheckingHandles, handles } = useFunnelAnalysisProvider();
+  const { isCheckingHandles, handles, agentsStatus, isInitializing } =
+    useFunnelAnalysisProvider();
 
   return (
     <>
       <div
-        className={`flex gap-3 ${(isScraping(thoughts) || isCheckingHandles) && !isFinishedScraping(thoughts) ? "items-center" : "items-start"}`}
+        className={`flex gap-3 ${isScraping(agentsStatus) || isCheckingHandles ? "items-center" : "items-start"}`}
       >
         <div className="border border-gray rounded-full p-2">
           <Icon name="logo-xs" />
@@ -26,8 +26,11 @@ const FanSegmentResult = () => {
           <>{Object.keys(handles).length > 0 && <InputHandles />}</>
         ) : (
           <>
-            {isInitialScraping(thoughts) && <AnalysisPlan />}
-            {isScraping(thoughts) && <ThoughtSteps />}
+            {isInitializing ? (
+              <AnalysisPlan />
+            ) : (
+              !isFinishedScraping(agentsStatus) && <ThoughtSteps />
+            )}
           </>
         )}
       </div>

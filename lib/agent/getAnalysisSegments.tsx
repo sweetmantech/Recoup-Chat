@@ -1,5 +1,5 @@
 import { FUNNEL_ANALYSIS } from "@/types/Agent";
-import { STEP_OF_ANALYSIS } from "@/types/Funnel";
+import { STEP_OF_AGENT } from "@/types/Funnel";
 import getWrappedAnalysis from "./getWrappedAnalysis";
 
 const getAnalysisSegments = (funnel_analyses: Array<FUNNEL_ANALYSIS>) => {
@@ -8,8 +8,7 @@ const getAnalysisSegments = (funnel_analyses: Array<FUNNEL_ANALYSIS>) => {
 
   return funnel_analyses
     .filter(
-      (analysis: FUNNEL_ANALYSIS) =>
-        analysis.status === STEP_OF_ANALYSIS.FINISHED,
+      (analysis: FUNNEL_ANALYSIS) => analysis.status === STEP_OF_AGENT.FINISHED,
     )
     .map((analysis: FUNNEL_ANALYSIS) => analysis.funnel_analytics_segments)
     .flat();

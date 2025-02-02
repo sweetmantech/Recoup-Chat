@@ -1,4 +1,4 @@
-import { useAgentSocketProvider } from "@/providers/AgentSocketProvider";
+import { useAgentsProvider } from "@/providers/AgentsProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const AnalysisButton = ({
@@ -10,7 +10,7 @@ const AnalysisButton = ({
 }) => {
   const { username, setThoughts, setResult, funnelType, setIsLoading } =
     useFunnelAnalysisProvider();
-  const { lookupProfiles } = useAgentSocketProvider();
+  const { lookupProfiles } = useAgentsProvider();
 
   const handleClick = async () => {
     setThoughts({});

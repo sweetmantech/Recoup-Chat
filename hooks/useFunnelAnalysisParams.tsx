@@ -9,7 +9,6 @@ const useFunnelAnalysisParams = () => {
   const [thoughts, setThoughts] = useState<any>({});
   const [result, setResult] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const artistHandle = username.replaceAll("@", "");
   const [segments, setSegments] = useState<Array<any>>([]);
   const { funnel_type: funnelType } = useParams();
   const { push } = useRouter();
@@ -34,7 +33,6 @@ const useFunnelAnalysisParams = () => {
   return {
     isLoading,
     setIsLoading,
-    artistHandle,
     segments,
     setSegments,
     result,

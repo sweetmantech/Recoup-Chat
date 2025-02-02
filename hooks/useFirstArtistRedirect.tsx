@@ -17,7 +17,7 @@ export function useFirstArtistRedirect() {
 
       try {
         const response = await fetch(
-          `/api/artists?email=${encodeURIComponent(user.email.address)}`
+          `/api/artists?email=${encodeURIComponent(user.email.address)}`,
         );
         const data = await response.json();
 

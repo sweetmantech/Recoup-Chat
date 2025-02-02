@@ -6,7 +6,7 @@ import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const ScrapingCaption = () => {
-  const { artistHandle, funnelName, funnelType, thoughts, isCheckingHandles } =
+  const { funnelName, agentsStatus, isCheckingHandles, isInitializing } =
     useFunnelAnalysisProvider();
   const { selectedArtist } = useArtistProvider();
 
@@ -14,22 +14,24 @@ const ScrapingCaption = () => {
     <div className="text-sm !w-[calc(100vw-95px)] md:w-full">
       {isCheckingHandles ? (
         <div className="flex gap-2 items-center">
-          Verifying @{selectedArtist?.name || artistHandle}
+          Verifying @{selectedArtist?.name}
           ’s Social Handles...
           <Loading />
         </div>
       ) : (
         <>
-          {isFinishedScraping(thoughts) && <Completion />}
-          {isScraping(thoughts) && (
-            <div className="flex gap-2 items-center">
-              Scraping @
-              {funnelType === "wrapped"
-                ? selectedArtist?.name || artistHandle
-                : artistHandle}
-              ’s {funnelName}...
-              <Loading />
-            </div>
+          {!isInitializing && (
+            <>
+              {isScraping(agentsStatus) ? (
+                <div className="flex gap-2 items-center">
+                  Scraping @{selectedArtist?.name}
+                  ’s {funnelName}...
+                  <Loading />
+                </div>
+              ) : (
+                <Completion />
+              )}
+            </>
           )}
         </>
       )}

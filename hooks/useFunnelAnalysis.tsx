@@ -1,70 +1,70 @@
 import { useArtistProvider } from "@/providers/ArtistProvider";
-import { useInitialChatProvider } from "@/providers/InitialChatProvider";
-import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useParams } from "next/navigation";
-import { useCallback, useEffect } from "react";
-import getFunnelAnalysis from "@/lib/getFunnelAnalysis";
-import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
+import { useCallback, useEffect, useState } from "react";
 import useFunnelAnalysisParams from "./useFunnelAnalysisParams";
-import getAggregatedArtist from "@/lib/agent/getAggregatedArtist";
-import getAggregatedProfile from "@/lib/agent/getAggregatedProfile";
 import getAnalysisSegments from "@/lib/agent/getAnalysisSegments";
-import getAnalysisThoughts from "@/lib/agent/getAnalaysisThoughts";
+import getAgentIdFromStack from "@/lib/stack/getAgentIdFromStack";
+import getAgent from "@/lib/supabase/getAgent";
+import getAgentsStatus from "@/lib/agent/getAgentsStatus";
+import isFinishedScraping from "@/lib/agent/isFinishedScraping";
 
 const useFunnelAnalysis = () => {
   const params = useFunnelAnalysisParams();
-  const { setSelectedArtist, selectedArtist, getArtists } = useArtistProvider();
-  const { chat_id: chatId } = useParams();
-  const { clearMessagesCache } = useInitialChatProvider();
-  const {
-    clearReportCache,
-    setBannerArtistName,
-    setBannerImage,
-    setFunnelAnalysis,
-  } = useFunnelReportProvider();
-  const { fetchConversations } = useConversationsProvider();
+  const { analysis_id: analysisId } = useParams();
   const { address } = useUserProvider();
+  const { getArtists } = useArtistProvider();
+  const [agentId, setAgentId] = useState<string | null>(null);
+  const [agent, setAgent] = useState<any>(null);
+  const [agentsStatus, setAgentsStatus] = useState<any>([]);
+  const [isInitializing, setIsInitializing] = useState(false);
 
-  const getAnalysis = useCallback(async () => {
-    if (!chatId) return;
-    clearReportCache();
-    clearMessagesCache();
-    const funnel_analyses: any = await getFunnelAnalysis(chatId as string);
-    if (!funnel_analyses || funnel_analyses?.length === 0) return;
-    setFunnelAnalysis(funnel_analyses);
-    const artist: any = getAggregatedArtist(funnel_analyses);
-    const aggregatedArtistProfile: any = getAggregatedProfile(
-      params.funnelType as string,
-      artist,
-      selectedArtist,
-    );
-    getArtists();
-    setSelectedArtist(aggregatedArtistProfile);
-    setBannerImage(aggregatedArtistProfile?.image);
-    setBannerArtistName(aggregatedArtistProfile?.name);
-    const analyticsSegments = getAnalysisSegments(funnel_analyses);
-    const aggregatedThoughts = getAnalysisThoughts(funnel_analyses);
-    params.setThoughts({
-      ...params.thoughts,
-      ...aggregatedThoughts,
-    });
-    params.setSegments(analyticsSegments);
-    params.setResult({
-      segments: analyticsSegments,
-      ...aggregatedArtistProfile,
-    });
+  const getAgentTimer = async (timer: any = null) => {
+    if (!agentId) {
+      clearInterval(timer);
+      return;
+    }
+    const agent = await getAgent(agentId);
+    if (!agent) return;
     params.setIsLoading(true);
-    fetchConversations(address);
-  }, [chatId]);
+    getArtists();
+    setAgent(agent);
+    const status = getAgentsStatus(agent);
+    setAgentsStatus(status);
+    setIsInitializing(false);
+    if (isFinishedScraping(status)) {
+      clearInterval(timer);
+      return;
+    }
+  };
+  useEffect(() => {
+    getAgentTimer();
+    const timer = setInterval(async () => {
+      getAgentTimer(timer);
+    }, 10000);
+    return () => clearInterval(timer);
+  }, [agentId]);
 
   useEffect(() => {
-    getAnalysis();
-  }, [getAnalysis]);
+    const init = async () => {
+      const agentId = await getAgentIdFromStack(analysisId as string, address);
+      if (agentId) setAgentId(agentId);
+    };
+    if (!analysisId || !address) {
+      setAgentId(null);
+      return;
+    }
+    init();
+  }, [analysisId, address]);
 
   return {
-    getAnalysis,
     ...params,
+    setAgentId,
+    agent,
+    agentsStatus,
+    isInitializing,
+    setIsInitializing,
+    setAgentsStatus,
   };
 };
 
