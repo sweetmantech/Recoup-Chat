@@ -1,3 +1,4 @@
+import isFinishedScraping from "@/lib/agent/isFinishedScraping";
 import Completion from "./Completion";
 import Loading from "@/components/Loading";
 import isScraping from "@/lib/agent/isScraping";
@@ -21,15 +22,14 @@ const ScrapingCaption = () => {
         <>
           {!isInitializing && (
             <>
-              {isScraping(agentsStatus) ? (
+              {isScraping(agentsStatus) && (
                 <div className="flex gap-2 items-center">
                   Scraping @{selectedArtist?.name}
                   ’s {funnelName}...
                   <Loading />
                 </div>
-              ) : (
-                <Completion />
               )}
+              {isFinishedScraping(agentsStatus) && <Completion />}
             </>
           )}
         </>

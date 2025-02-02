@@ -33,7 +33,7 @@ const useAgents = () => {
   ) => {
     if (!isPrepared()) return;
     setHandles({});
-    setAgentsStatus([]);
+
     setIsCheckingHandles(true);
     const newAnalysisId = uuidV4();
     push(`/funnels/${funnelType}/${newAnalysisId}`);
@@ -57,6 +57,7 @@ const useAgents = () => {
     if (!agentArtistId) return;
 
     setIsCheckingHandles(false);
+    setAgentsStatus([]);
     setIsInitializing(true);
     setIsLoading(true);
     const agentId = await callAgentApi(

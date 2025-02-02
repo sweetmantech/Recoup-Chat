@@ -5,7 +5,6 @@ import ScrapingCaption from "./ScrapingCaption";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import isScraping from "@/lib/agent/isScraping";
 import InputHandles from "./InputHandle";
-import isFinishedScraping from "@/lib/agent/isFinishedScraping";
 
 const FanSegmentResult = () => {
   const { isCheckingHandles, handles, agentsStatus, isInitializing } =
@@ -25,13 +24,7 @@ const FanSegmentResult = () => {
         {isCheckingHandles ? (
           <>{Object.keys(handles).length > 0 && <InputHandles />}</>
         ) : (
-          <>
-            {isInitializing ? (
-              <AnalysisPlan />
-            ) : (
-              !isFinishedScraping(agentsStatus) && <ThoughtSteps />
-            )}
-          </>
+          <>{isInitializing ? <AnalysisPlan /> : <ThoughtSteps />}</>
         )}
       </div>
     </>
