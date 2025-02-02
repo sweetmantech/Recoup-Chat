@@ -48,26 +48,33 @@ const useAgents = () => {
     });
   };
 
-  const runAgents = async () => {
-    if (!selectedArtist?.id) return;
+  const runAgents = async (agentdata: any = null) => {
+    const agentArtistId = agentdata?.artistId || selectedArtist?.account_id;
+    const agentAnalysisId = analysisId || uuidV4();
+    const agentArtistName = agentdata?.name || selectedArtist?.name || "";
+    const agentArtistHandles = agentdata?.handles || handles;
+
+    if (!agentArtistId) return;
+
     setIsCheckingHandles(false);
-    setIsLoading(true);
     setIsInitializing(true);
+    setIsLoading(true);
     const agentId = await callAgentApi(
-      handles,
+      agentArtistHandles,
       funnelType as string,
-      selectedArtist?.account_id,
+      agentArtistId,
     );
-    if (!agentId || !analysisId) return;
-    await trackAgent(agentId, analysisId as string, address);
+    if (!agentId) return;
+    await trackAgent(agentId, agentAnalysisId as string, address);
     setAgentId(agentId);
     await trackAgentChat(
       address,
-      selectedArtist.name || "",
-      selectedArtist?.account_id,
-      analysisId as string,
+      agentArtistName,
+      agentArtistId,
+      agentAnalysisId as string,
       funnelType as string,
     );
+    push(`/funnels/${funnelType}/${agentAnalysisId}`);
     fetchConversations(address);
   };
 
