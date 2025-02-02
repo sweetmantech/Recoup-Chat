@@ -17,8 +17,6 @@ const useFunnelAnalysis = () => {
   const [agentId, setAgentId] = useState<string | null>(null);
   const [agent, setAgent] = useState<any>(null);
   const [agentsStatus, setAgentsStatus] = useState<any>([]);
-  const [isInitializing, setIsInitializing] = useState(false);
-  const [isCheckingAgentId, setIsCheckingAgentId] = useState(false);
 
   const getAgentTimer = async (timer: any = null) => {
     if (!agentId) {
@@ -32,7 +30,7 @@ const useFunnelAnalysis = () => {
     setAgent(agent);
     const status = getAgentsStatus(agent);
     setAgentsStatus(status);
-    setIsInitializing(false);
+    params.setIsInitializing(false);
     if (isFinishedScraping(status)) {
       clearInterval(timer);
       return;
@@ -48,10 +46,10 @@ const useFunnelAnalysis = () => {
 
   useEffect(() => {
     const init = async () => {
-      setIsCheckingAgentId(true);
+      params.setIsCheckingAgentId(true);
       const agentId = await getAgentIdFromStack(analysisId as string, address);
       if (agentId) setAgentId(agentId);
-      setIsCheckingAgentId(false);
+      params.setIsCheckingAgentId(false);
     };
     if (!analysisId || !address) {
       setAgentId(null);
@@ -65,10 +63,7 @@ const useFunnelAnalysis = () => {
     setAgentId,
     agent,
     agentsStatus,
-    isInitializing,
-    setIsInitializing,
     setAgentsStatus,
-    isCheckingAgentId,
   };
 };
 

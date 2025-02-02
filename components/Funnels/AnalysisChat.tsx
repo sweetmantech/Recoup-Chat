@@ -6,7 +6,7 @@ import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import isScraping from "@/lib/agent/isScraping";
 
 const AnalysisChat = () => {
-  const { agentsStatus } = useFunnelAnalysisProvider();
+  const { agentsStatus, isCheckingHandles } = useFunnelAnalysisProvider();
 
   return (
     <main className="grow py-2">
@@ -21,7 +21,7 @@ const AnalysisChat = () => {
               </>
             )}
           </ScrollTo>
-          {!isScraping(agentsStatus) && (
+          {!isScraping(agentsStatus) && !isCheckingHandles && (
             <div className="space-y-2">
               <ChatInput />
             </div>

@@ -12,6 +12,8 @@ const useFunnelAnalysisParams = () => {
   const { push } = useRouter();
   const [handles, setHandles] = useState<any>({});
   const [isCheckingHandles, setIsCheckingHandles] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(false);
+  const [isCheckingAgentId, setIsCheckingAgentId] = useState(false);
 
   const funnelName = useMemo(() => {
     if (!funnelType) return "";
@@ -27,6 +29,10 @@ const useFunnelAnalysisParams = () => {
   };
 
   return {
+    isInitializing,
+    setIsCheckingAgentId,
+    isCheckingAgentId,
+    setIsInitializing,
     isLoading,
     setIsLoading,
     segments,
