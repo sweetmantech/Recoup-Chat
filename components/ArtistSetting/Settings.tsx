@@ -28,7 +28,7 @@ const Settings = () => {
   } = useArtistProvider();
   const [isVisibleDeleteModal, setIsVisibleDeleteModal] = useState(false);
   const { lookupProfiles } = useAgentsProvider();
-  const { setIsLoading, setResult, setThoughts } = useFunnelAnalysisProvider();
+  const { setIsLoading } = useFunnelAnalysisProvider();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSave = async () => {
@@ -36,8 +36,6 @@ const Settings = () => {
     setSelectedArtist(artistInfo);
     toggleSettingModal();
     if (editableArtist) return;
-    setResult(null);
-    setThoughts({});
     setIsLoading(true);
     lookupProfiles("wrapped", artistInfo);
   };

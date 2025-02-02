@@ -8,13 +8,10 @@ const AnalysisButton = ({
   className?: string;
   containerClasses?: string;
 }) => {
-  const { username, setThoughts, setResult, funnelType, setIsLoading } =
-    useFunnelAnalysisProvider();
+  const { username, funnelType, setIsLoading } = useFunnelAnalysisProvider();
   const { lookupProfiles } = useAgentsProvider();
 
   const handleClick = async () => {
-    setThoughts({});
-    setResult(null);
     setIsLoading(true);
     try {
       await lookupProfiles(funnelType as string);

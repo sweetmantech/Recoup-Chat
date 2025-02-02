@@ -8,12 +8,10 @@ const Agents = () => {
   const { push } = useRouter();
   const { selectedArtist } = useArtistProvider();
   const { lookupProfiles } = useAgentsProvider();
-  const { setIsLoading, setResult, setThoughts } = useFunnelAnalysisProvider();
+  const { setIsLoading } = useFunnelAnalysisProvider();
 
   const handleClick = (funnelName: string) => {
     if (selectedArtist) {
-      setThoughts({});
-      setResult(null);
       setIsLoading(true);
       lookupProfiles(funnelName);
       return;
