@@ -7,7 +7,8 @@ const isFinishedScraping = (agentsStatus: any) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (agentStatus: any) =>
         agentStatus.status === STEP_OF_AGENT.FINISHED ||
-        agentStatus.status === STEP_OF_AGENT.ERROR,
+        agentStatus.status === STEP_OF_AGENT.ERROR ||
+        agentStatus.status === STEP_OF_AGENT.UNKNOWN_PROFILE,
     ) && agentsStatus.length > 0
   );
 };

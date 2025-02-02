@@ -2,17 +2,22 @@ import { useEffect } from "react";
 import { usePromptsProvider } from "@/providers/PromptsProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import CompletedAnalysis from "./CompletedAnalysis";
+import Error from "./Error";
 
 const Completion = () => {
-  const { result, agent } = useFunnelAnalysisProvider();
+  const { agent, hasError } = useFunnelAnalysisProvider();
   const { getPrompts } = usePromptsProvider();
 
   useEffect(() => {
-    if (result) getPrompts(JSON.stringify(agent), true);
+    if (agent) getPrompts(JSON.stringify(agent), true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [result]);
+  }, [agent]);
 
-  return <CompletedAnalysis />;
+  return (
+    <>
+      {hasError ? <Error status={hasError?.status} /> : <CompletedAnalysis />}
+    </>
+  );
 };
 
 export default Completion;

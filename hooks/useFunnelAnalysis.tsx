@@ -8,6 +8,7 @@ import getAgentIdFromStack from "@/lib/stack/getAgentIdFromStack";
 import getAgent from "@/lib/supabase/getAgent";
 import getAgentsStatus from "@/lib/agent/getAgentsStatus";
 import isFinishedScraping from "@/lib/agent/isFinishedScraping";
+import { STEP_OF_AGENT } from "@/types/Funnel";
 
 const useFunnelAnalysis = () => {
   const params = useFunnelAnalysisParams();
@@ -17,6 +18,13 @@ const useFunnelAnalysis = () => {
   const [agentId, setAgentId] = useState<string | null>(null);
   const [agent, setAgent] = useState<any>(null);
   const [agentsStatus, setAgentsStatus] = useState<any>([]);
+
+  const hasError = agentsStatus.find(
+    // eslint-disable-next-line
+    (agentStatus: any) =>
+      agentStatus.status === STEP_OF_AGENT.ERROR ||
+      agentStatus.status === STEP_OF_AGENT.UNKNOWN_PROFILE,
+  );
 
   const getAgentTimer = async (timer: any = null) => {
     if (!agentId) {
@@ -64,6 +72,7 @@ const useFunnelAnalysis = () => {
     agent,
     agentsStatus,
     setAgentsStatus,
+    hasError,
   };
 };
 

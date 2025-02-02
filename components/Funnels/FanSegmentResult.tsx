@@ -7,13 +7,13 @@ import isScraping from "@/lib/agent/isScraping";
 import InputHandles from "./InputHandle";
 
 const FanSegmentResult = () => {
-  const { isCheckingHandles, handles, agentsStatus, isInitializing } =
+  const { isCheckingHandles, handles, agentsStatus, isInitializing, hasError } =
     useFunnelAnalysisProvider();
 
   return (
     <>
       <div
-        className={`flex gap-3 ${isScraping(agentsStatus) || isCheckingHandles ? "items-center" : "items-start"}`}
+        className={`flex gap-3 ${isScraping(agentsStatus) || isCheckingHandles || hasError ? "items-center" : "items-start"}`}
       >
         <div className="border border-gray rounded-full p-2">
           <Icon name="logo-xs" />
