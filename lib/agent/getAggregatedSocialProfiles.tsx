@@ -1,5 +1,4 @@
-import { FUNNEL_ANALYSIS } from "@/types/Agent";
-
+// eslint-disable-next-line
 const getAggregatedSocialProfiles = (account: any) => {
   const { followerCount, followingCount } = account.account_socials.reduce(
     // eslint-disable-next-line

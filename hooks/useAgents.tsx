@@ -35,8 +35,6 @@ const useAgents = () => {
     setHandles({});
     setAgentsStatus([]);
     setIsCheckingHandles(true);
-    const newAnalysisId = uuidV4();
-    push(`/funnels/${funnelType}/${newAnalysisId}`);
     const handle = scrapingArtist?.name || selectedArtist?.name || "";
     const socialHandles: any = await getHandles(handle);
     if (funnelType === "wrapped") {
@@ -50,6 +48,8 @@ const useAgents = () => {
 
   const runAgents = async () => {
     if (!selectedArtist?.id) return;
+    const newAnalysisId = uuidV4();
+    push(`/funnels/${funnelType}/${newAnalysisId}`);
     setIsCheckingHandles(false);
     setIsLoading(true);
     setIsInitializing(true);

@@ -3,7 +3,6 @@ import Messages from "@/components/Chat/Messages";
 import { ScrollTo } from "react-scroll-to";
 import FanSegmentResult from "./FanSegmentResult";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
-import isFinishedScraping from "@/lib/agent/isFinishedScraping";
 import isScraping from "@/lib/agent/isScraping";
 
 const AnalysisChat = () => {

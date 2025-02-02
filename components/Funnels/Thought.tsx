@@ -1,10 +1,10 @@
-import getThoughtStatus from "@/lib/getThoughtStatus";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import { STEP_OF_AGENT } from "@/types/Funnel";
 import StreamingThought from "./StreamThought";
 import isFinishedScraping from "@/lib/agent/isFinishedScraping";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Thought = ({ thought }: { thought: any }) => {
   const { funnelType, funnelName, agentsStatus } = useFunnelAnalysisProvider();
   const { selectedArtist, toggleSettingModal } = useArtistProvider();

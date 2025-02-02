@@ -1,4 +1,3 @@
-import { AGENT_API } from "@/lib/consts";
 import getPostComments from "@/lib/getPostComments";
 import { getSupabaseServerAdminClient } from "@/packages/supabase/src/clients/server-admin-client";
 import { NextRequest, NextResponse } from "next/server";

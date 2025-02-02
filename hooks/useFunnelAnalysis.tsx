@@ -1,7 +1,7 @@
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useFunnelAnalysisParams from "./useFunnelAnalysisParams";
 import getAnalysisSegments from "@/lib/agent/getAnalysisSegments";
 import getAgentIdFromStack from "@/lib/stack/getAgentIdFromStack";
@@ -18,15 +18,16 @@ const useFunnelAnalysis = () => {
   const [agent, setAgent] = useState<any>(null);
   const [agentsStatus, setAgentsStatus] = useState<any>([]);
   const [isInitializing, setIsInitializing] = useState(false);
+  const [isCheckingAgentId, setIsCheckingAgentId] = useState(false);
 
   const getAgentTimer = async (timer: any = null) => {
     if (!agentId) {
       clearInterval(timer);
       return;
     }
+    params.setIsLoading(true);
     const agent = await getAgent(agentId);
     if (!agent) return;
-    params.setIsLoading(true);
     getArtists();
     setAgent(agent);
     const status = getAgentsStatus(agent);
@@ -47,8 +48,10 @@ const useFunnelAnalysis = () => {
 
   useEffect(() => {
     const init = async () => {
+      setIsCheckingAgentId(true);
       const agentId = await getAgentIdFromStack(analysisId as string, address);
       if (agentId) setAgentId(agentId);
+      setIsCheckingAgentId(false);
     };
     if (!analysisId || !address) {
       setAgentId(null);
@@ -65,6 +68,7 @@ const useFunnelAnalysis = () => {
     isInitializing,
     setIsInitializing,
     setAgentsStatus,
+    isCheckingAgentId,
   };
 };
 

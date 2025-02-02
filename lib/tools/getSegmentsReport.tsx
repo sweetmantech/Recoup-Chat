@@ -1,10 +1,6 @@
 import { z } from "zod";
 import { tool } from "ai";
 import { ArtistToolResponse } from "@/types/Tool";
-import getFunnelAnalysis from "../chat/getFunnelAnalysis";
-import getAggregatedArtist from "../agent/getAggregatedArtist";
-import getAnalysisSegments from "../agent/getAnalysisSegments";
-import { SEGMENT } from "@/types/Agent";
 
 const getSegmentsReport = (question: string) =>
   tool({
@@ -25,22 +21,10 @@ For Example:
           question,
         };
 
-      const funnel_analyses = await getFunnelAnalysis(chat_id);
-      if (!funnel_analyses) return;
-      const artistProfile = getAggregatedArtist(funnel_analyses);
-      const segments = getAnalysisSegments(funnel_analyses);
-      const segment = segments?.find(
-        (item: SEGMENT) => item.name === segment_name,
-      );
       return {
         context: {
           status: ArtistToolResponse.FUNNEL_SEGMENT_REPORT,
-          artistProfile,
-          analysis: {
-            ...funnel_analyses,
-            segment_name: segment_name,
-            segment_size: segment?.size,
-          },
+          analysis: null,
         },
         question,
       };

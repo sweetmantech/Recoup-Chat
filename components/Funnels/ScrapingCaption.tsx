@@ -1,6 +1,5 @@
 import Completion from "./Completion";
 import Loading from "@/components/Loading";
-import isFinishedScraping from "@/lib/agent/isFinishedScraping";
 import isScraping from "@/lib/agent/isScraping";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
