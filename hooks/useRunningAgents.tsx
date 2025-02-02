@@ -7,15 +7,14 @@ const useRunningAgents = () => {
   const { selectedArtist } = useArtistProvider();
 
   const statusMessages: any = (handle: string) => ({
-    [STEP_OF_AGENT.INITITAL]: `Looking at ${handle}'s profile.`,
     [STEP_OF_AGENT.PROFILE]: `Looking at ${handle}'s profile.`,
     [STEP_OF_AGENT.TRACKS]: `Looking at ${handle}'s tracks.`,
     [STEP_OF_AGENT.ALBUMS]: `Looking at ${handle}'s albums.`,
     [STEP_OF_AGENT.POSTURLS]: `Reviewing ${handle}'s top-performing videos.`,
-    [STEP_OF_AGENT.VIDEO_COMMENTS]: `Looking at overlays and captions.`,
+    [STEP_OF_AGENT.POST_COMMENTS]: `Looking at overlays and captions.`,
     [STEP_OF_AGENT.SEGMENTS]: `Grouping all of the @${handle}'s Fans into the segments.`,
     [STEP_OF_AGENT.SAVING_ANALYSIS]: `Saving video comments scrapped data.`,
-    [STEP_OF_AGENT.CREATING_ARTIST]: `Setting up artist mode.`,
+    [STEP_OF_AGENT.CREATED_ARTIST]: `Setting up artist mode.`,
   });
 
   const getLiveAgent = useCallback(async () => {
