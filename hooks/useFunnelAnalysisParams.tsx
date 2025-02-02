@@ -14,6 +14,7 @@ const useFunnelAnalysisParams = () => {
   const [isCheckingHandles, setIsCheckingHandles] = useState(false);
   const [isInitializing, setIsInitializing] = useState(false);
   const [isCheckingAgentId, setIsCheckingAgentId] = useState(false);
+  const [isCheckingAgentStatus, setIsCheckingAgentStatus] = useState(false);
 
   const funnelName = useMemo(() => {
     if (!funnelType) return "";
@@ -46,6 +47,8 @@ const useFunnelAnalysisParams = () => {
     setHandles,
     isCheckingHandles,
     setIsCheckingHandles,
+    setIsCheckingAgentStatus,
+    isCheckingAgentStatus,
   };
 };
 

@@ -19,12 +19,15 @@ const useFunnelAnalysis = () => {
   const [agent, setAgent] = useState<any>(null);
   const [agentsStatus, setAgentsStatus] = useState<any>([]);
 
-  const hasError = agentsStatus.find(
-    // eslint-disable-next-line
-    (agentStatus: any) =>
-      agentStatus.status === STEP_OF_AGENT.ERROR ||
-      agentStatus.status === STEP_OF_AGENT.UNKNOWN_PROFILE,
-  );
+  const hasError =
+    agentsStatus.some(
+      (agentStatus: any) =>
+        agentStatus.status === STEP_OF_AGENT.ERROR ||
+        agentStatus.status === STEP_OF_AGENT.UNKNOWN_PROFILE,
+    ) &&
+    !agentsStatus.some(
+      (agentStatus: any) => agentStatus.status === STEP_OF_AGENT.FINISHED,
+    );
 
   const getAgentTimer = async (timer: any = null) => {
     if (!agentId) {
@@ -32,10 +35,15 @@ const useFunnelAnalysis = () => {
       return;
     }
     params.setIsLoading(true);
+    if (!agentsStatus.length) params.setIsCheckingAgentStatus(true);
     const agent = await getAgent(agentId);
-    if (!agent) return;
+    if (!agent) {
+      params.setIsCheckingAgentStatus(true);
+      return;
+    }
     getArtists();
     setAgent(agent);
+    params.setIsCheckingAgentStatus(false);
     const status = getAgentsStatus(agent);
     setAgentsStatus(status);
     params.setIsInitializing(false);

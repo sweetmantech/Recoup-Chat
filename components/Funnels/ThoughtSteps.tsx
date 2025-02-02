@@ -1,28 +1,24 @@
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import Thought from "./Thought";
-import StreamingThought from "./StreamThought";
-import { useArtistProvider } from "@/providers/ArtistProvider";
+import isScraping from "@/lib/agent/isScraping";
 
 const ThoughtSteps = () => {
-  const { agentsStatus, funnelType } = useFunnelAnalysisProvider();
-  const { selectedArtist } = useArtistProvider();
+  const { agentsStatus, funnelType, isCheckingAgentStatus } =
+    useFunnelAnalysisProvider();
 
   return (
     <div
       className={`font-bold ${funnelType === "wrapped" ? "text-sm" : "text-md"}`}
     >
-      {agentsStatus.length ? (
+      {agentsStatus.length > 0 &&
+        isScraping(agentsStatus) &&
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         agentsStatus?.map((agentStatus: any) => (
           <div key={agentStatus.id} className="flex gap-2">
             <Thought thought={agentStatus} />
           </div>
-        ))
-      ) : (
-        <StreamingThought
-          text={`Reviewing ${selectedArtist?.name}'s top-performing videos.`}
-        />
-      )}
+        ))}
+      {isCheckingAgentStatus && agentsStatus.length === 0 && `Looking at Agent Status...`}
     </div>
   );
 };

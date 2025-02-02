@@ -11,12 +11,14 @@ const AnalysisButton = ({
   className?: string;
   containerClasses?: string;
 }) => {
-  const { username, funnelType, setIsLoading } = useFunnelAnalysisProvider();
+  const { username, funnelType, setIsLoading, setIsInitializing } =
+    useFunnelAnalysisProvider();
   const { runAgents } = useAgentsProvider();
   const { getArtists } = useArtistProvider();
   const { userData } = useUserProvider();
 
   const handleClick = async () => {
+    setIsInitializing(true);
     setIsLoading(true);
     try {
       if (!userData?.account_id) return;
