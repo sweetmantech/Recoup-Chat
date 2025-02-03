@@ -8,8 +8,9 @@ const Error = ({ status }: { status: number }) => {
     <>
       {status === STEP_OF_AGENT.MISSING_POSTS &&
         `The account @${selectedArtist?.name} does not have any engagement. Please try again with a handle with at least one comment on its videos. `}
-      {(status === STEP_OF_AGENT.UNKNOWN_PROFILE ||
-        status === STEP_OF_AGENT.ERROR) &&
+      {status === STEP_OF_AGENT.UNKNOWN_PROFILE &&
+        `Please, make sure you're using correct handle.`}
+      {status === STEP_OF_AGENT.ERROR &&
         `There's too many agent runnings right now. Please, try it later.`}
     </>
   );

@@ -5,7 +5,7 @@ import CompletedAnalysis from "./CompletedAnalysis";
 import Error from "./Error";
 
 const Completion = () => {
-  const { agent, hasError } = useFunnelAnalysisProvider();
+  const { agent, hasError, agentsStatus } = useFunnelAnalysisProvider();
   const { getPrompts } = usePromptsProvider();
 
   useEffect(() => {
@@ -15,7 +15,11 @@ const Completion = () => {
 
   return (
     <>
-      {hasError ? <Error status={hasError?.status} /> : <CompletedAnalysis />}
+      {hasError ? (
+        <Error status={agentsStatus?.[0]?.status} />
+      ) : (
+        <CompletedAnalysis />
+      )}
     </>
   );
 };
