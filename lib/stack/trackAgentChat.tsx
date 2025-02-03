@@ -23,7 +23,7 @@ const trackAgentChat = async (
       metadata: {
         conversationId: chatId,
         accountId,
-        title: `${funnelName} Analysis: ${username}`,
+        title: `${funnelName.toUpperCase()} Analysis: ${username}`,
         is_funnel_analysis: true,
         funnel_name: funnelName,
       },

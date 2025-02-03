@@ -3,12 +3,10 @@ import { useUserProvider } from "@/providers/UserProvder";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import useFunnelAnalysisParams from "./useFunnelAnalysisParams";
-import getAnalysisSegments from "@/lib/agent/getAnalysisSegments";
 import getAgentIdFromStack from "@/lib/stack/getAgentIdFromStack";
 import getAgent from "@/lib/supabase/getAgent";
 import getAgentsStatus from "@/lib/agent/getAgentsStatus";
 import isFinishedScraping from "@/lib/agent/isFinishedScraping";
-import { STEP_OF_AGENT } from "@/types/Funnel";
 import getAgentsInfoFromStack from "@/lib/stack/getAgentsInfoFromStack";
 
 const useFunnelAnalysis = () => {
@@ -16,16 +14,6 @@ const useFunnelAnalysis = () => {
   const { analysis_id: analysisId } = useParams();
   const { address } = useUserProvider();
   const { getArtists } = useArtistProvider();
-
-  const hasError =
-    params.agentsStatus.some(
-      (agentStatus: any) =>
-        agentStatus.status === STEP_OF_AGENT.ERROR ||
-        agentStatus.status === STEP_OF_AGENT.UNKNOWN_PROFILE,
-    ) &&
-    !params.agentsStatus.some(
-      (agentStatus: any) => agentStatus.status === STEP_OF_AGENT.FINISHED,
-    );
 
   const getAgentTimer = async (timer: any = null) => {
     if (!params.agentId) {
@@ -87,7 +75,6 @@ const useFunnelAnalysis = () => {
 
   return {
     ...params,
-    hasError,
   };
 };
 

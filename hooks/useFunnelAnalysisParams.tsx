@@ -1,5 +1,5 @@
 import capitalize from "@/lib/capitalize";
-import { Funnel_Type } from "@/types/Funnel";
+import { Funnel_Type, STEP_OF_AGENT } from "@/types/Funnel";
 import { useParams, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { v4 as uuidV4 } from "uuid";
@@ -20,6 +20,16 @@ const useFunnelAnalysisParams = () => {
   const [agentId, setAgentId] = useState<string | null>(null);
   const [agent, setAgent] = useState<any>(null);
   const [agentsStatus, setAgentsStatus] = useState<any>([]);
+
+  const hasError =
+    agentsStatus.some(
+      (agentStatus: any) =>
+        agentStatus.status === STEP_OF_AGENT.ERROR ||
+        agentStatus.status === STEP_OF_AGENT.UNKNOWN_PROFILE,
+    ) &&
+    !agentsStatus.some(
+      (agentStatus: any) => agentStatus.status === STEP_OF_AGENT.FINISHED,
+    );
 
   const funnelName = useMemo(() => {
     if (!funnelType) return "";
@@ -64,6 +74,7 @@ const useFunnelAnalysisParams = () => {
     agentId,
     setIsLoadingAgent,
     isLoadingAgent,
+    hasError,
   };
 };
 
