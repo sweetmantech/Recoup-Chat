@@ -3,7 +3,6 @@ import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useRouter } from "next/navigation";
-import { v4 as uuidV4 } from "uuid";
 import { ArtistRecord } from "@/types/Artist";
 import callAgentApi from "@/lib/agent/callAgentApi";
 import trackAgentChat from "@/lib/stack/trackAgentChat";
@@ -31,10 +30,8 @@ const useAgents = () => {
   ) => {
     if (!isPrepared()) return;
     setHandles({});
-
     setIsCheckingHandles(true);
-    const newAnalysisId = uuidV4();
-    push(`/funnels/${funnelType}/${newAnalysisId}`);
+    push(`/funnels/${funnelType}`);
     const handle = scrapingArtist?.name || selectedArtist?.name || "";
     const socialHandles: any = await getHandles(handle);
     if (funnelType === "wrapped") {
