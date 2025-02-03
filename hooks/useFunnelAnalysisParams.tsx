@@ -6,7 +6,7 @@ import { v4 as uuidV4 } from "uuid";
 
 const useFunnelAnalysisParams = () => {
   const [username, setUsername] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<any>(null);
   const [segments, setSegments] = useState<Array<any>>([]);
   const { funnel_type: funnelType } = useParams();
   const { push } = useRouter();

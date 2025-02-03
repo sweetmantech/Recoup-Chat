@@ -58,7 +58,10 @@ const useFunnelAnalysis = () => {
   };
 
   useEffect(() => {
-    if (agentId && address) runAgentTimer();
+    if (agentId && address) {
+      params.setIsLoading(true);
+      runAgentTimer();
+    }
     return () => clearInterval(timer);
   }, [agentId, address]);
 
