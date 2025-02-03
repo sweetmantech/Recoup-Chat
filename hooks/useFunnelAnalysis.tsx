@@ -61,6 +61,7 @@ const useFunnelAnalysis = () => {
 
   useEffect(() => {
     if (agentId && address) {
+      params.setIsCheckingHandles(false);
       params.setIsLoading(true);
       runAgentTimer();
     }

@@ -58,7 +58,6 @@ const useAgents = () => {
     );
     if (!agentId) return;
     push(`/funnels/${funnelType}/${agentId}`);
-    setIsCheckingHandles(false);
     runAgentTimer();
     addConversations({
       conversationId: agentId,
