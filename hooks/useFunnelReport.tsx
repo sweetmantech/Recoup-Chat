@@ -21,7 +21,7 @@ const useFunnelReport = () => {
 
   const setFunnelReport = async (agentId: any, segmentName: any) => {
     setIsGettingAnalysis(true);
-    const { reportContent, rawContent } = await getFullReport({
+    const { reportContent, rawContent, nextSteps } = await getFullReport({
       agentId,
       segmentName,
       address,
@@ -29,7 +29,6 @@ const useFunnelReport = () => {
     });
     setFunnelReportContent(reportContent);
     setFunnelRawReportContent(rawContent);
-    const nextSteps = await getReportNextSteps(rawContent);
     setFunnelNextSteps(nextSteps);
     setIsGettingAnalysis(false);
 
