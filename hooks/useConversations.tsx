@@ -24,6 +24,12 @@ const useConversations = () => {
   const [quotaExceeded, setQuotaExceeded] = useState(false);
   const { push } = useRouter();
 
+  const addConversations = (newmetadata: any) => {
+    const temp: any = [...conversations];
+    temp.push({ metadata: newmetadata });
+    setAllConverstaions([...temp]);
+  };
+
   useEffect(() => {
     if (address) {
       fetchConversations(address);
@@ -65,7 +71,6 @@ const useConversations = () => {
       },
       chatId,
     );
-    fetchConversations(address);
   };
 
   const trackNewTitle = async (titlemetadata: any, conversationId: string) => {
@@ -86,7 +91,7 @@ const useConversations = () => {
       streamedIndex++;
     }, 50);
     setStreaming(true);
-    await fetchConversations(address);
+    addConversations(titlemetadata);
     setStreaming(false);
   };
 
