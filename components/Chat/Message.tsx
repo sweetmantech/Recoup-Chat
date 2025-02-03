@@ -23,8 +23,8 @@ const Message = ({ message, index }: { message: any; index: number }) => {
         {context && <ToolContent />}
         {isReportChat && !index ? (
           <SegmentReport
-            artistId={message.metadata.accountId}
-            referenceId={message.metadata.referenceId}
+            artistId={message?.metadata?.accountId}
+            referenceId={message?.metadata?.referenceId}
           />
         ) : (
           <ToolFollowUp message={message} />
