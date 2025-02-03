@@ -6,7 +6,7 @@ import getThoughtStatus from "@/lib/agent/getAgentStatus";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Thought = ({ thought }: { thought: any }) => {
-  const { funnelName } = useFunnelAnalysisProvider();
+  const { funnelName, agentsStatus } = useFunnelAnalysisProvider();
   const { selectedArtist, toggleSettingModal } = useArtistProvider();
 
   const isError =
@@ -32,7 +32,7 @@ const Thought = ({ thought }: { thought: any }) => {
 
   return (
     <>
-      <span>{thought.type}: </span>
+      {agentsStatus.length > 1 && <span>{thought.type}: </span>}
       <StreamingThought
         text={
           statusMessages[thought.status] ||
