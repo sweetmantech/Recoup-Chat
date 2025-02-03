@@ -13,7 +13,7 @@ const AnalysisButton = ({
 }) => {
   const { username, funnelType, setIsLoading, setIsInitializing } =
     useFunnelAnalysisProvider();
-  const { runAgents } = useAgentsProvider();
+  const { runAgents, lookupProfiles } = useAgentsProvider();
   const { getArtists } = useArtistProvider();
   const { userData } = useUserProvider();
 
@@ -24,6 +24,10 @@ const AnalysisButton = ({
       if (!userData?.account_id) return;
       const newArtist = await createArtist(username, userData.account_id);
       await getArtists(newArtist.account_id);
+      if (funnelType === "wrapped") {
+        lookupProfiles("wrapped", newArtist);
+        return;
+      }
       await runAgents({
         artistId: newArtist.account_id,
         name: newArtist.name,

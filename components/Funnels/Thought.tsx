@@ -17,6 +17,7 @@ const Thought = ({ thought }: { thought: any }) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const statusMessages: any = {
     [STEP_OF_AGENT.INITIAL]: `Looking at ${selectedArtist?.name}'s profile.`,
+    [STEP_OF_AGENT.UNKNOWN_PROFILE]: `Make sure you're using the correct handle on ${thought.type}.`,
     [STEP_OF_AGENT.PROFILE]: `Looking at ${selectedArtist?.name}'s profile.`,
     [STEP_OF_AGENT.TRACKS]: `Looking at ${selectedArtist?.name}'s tracks.`,
     [STEP_OF_AGENT.POST_COMMENTS]: getThoughtStatus(thought.progress),
