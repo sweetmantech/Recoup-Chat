@@ -40,8 +40,8 @@ const useFunnelAnalysis = () => {
       params.setIsLoadingSegments(true);
       const { segments } = await getAgentsInfoFromStack(
         params.agentId,
-        comments.slice(0, 500),
         address,
+        comments.slice(0, 500),
       );
       params.setSegments(segments);
       params.setIsLoadingSegments(false);

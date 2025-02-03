@@ -7,7 +7,6 @@ import getToolCallMessage from "@/lib/getToolCallMessage";
 import useToolCallParams from "./useToolCallParams";
 import isActiveToolCallTrigger from "@/lib/isActiveToolCallTrigger";
 import { Tools } from "@/types/Tool";
-import { ArtistRecord } from "@/types/Artist";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
@@ -45,10 +44,9 @@ const useToolCall = (message: Message) => {
           !funnelReport.isGettingAnalysis &&
           conversationId
         ) {
-          if (context?.artistProfile) setSelectedArtist(context?.artistProfile);
           const { rawContent, nextSteps } = await funnelReport.setFunnelReport(
-            context?.analysis,
-            context?.artistProfile,
+            context?.agentId,
+            context?.segmentName,
           );
           await trackReport(
             conversationId as string,

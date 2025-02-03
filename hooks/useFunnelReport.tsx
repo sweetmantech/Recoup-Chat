@@ -1,5 +1,8 @@
+import getAggregatedAgentSocials from "@/lib/agent/getAggregatedAgentSocials";
+import getSegmentsTotalSize from "@/lib/agent/getSegmentsTotalSize";
 import getFullReport from "@/lib/getFullReport";
 import getReportNextSteps from "@/lib/getReportNextSteps";
+import getAgentsInfoFromStack from "@/lib/stack/getAgentsInfoFromStack";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useState } from "react";
 
@@ -17,22 +20,37 @@ const useFunnelReport = () => {
   const [bannerImage, setBannerImage] = useState("");
   const [bannerArtistName, setBannerArtistName] = useState("");
   const [pitchName, setPitchName] = useState("");
-  const { email } = useUserProvider();
+  const { email, address } = useUserProvider();
 
-  const setFunnelReport = async (analysis: any, artistProfile: any) => {
+  const setFunnelReport = async (agentId: any, segmentName: any) => {
     setIsGettingAnalysis(true);
-    setFunnelAnalysis(analysis);
-    setBannerImage(artistProfile?.image);
-    setBannerArtistName(artistProfile?.name);
+    const { segments, commentIds } = await getAgentsInfoFromStack(
+      agentId,
+      address,
+    );
+    const segment = segments.find(
+      (segmentEle: any) => segmentEle.name === segmentName,
+    );
+    const totalSementSize = getSegmentsTotalSize(segments);
+    const { followerCount, username, avatar } =
+      await getAggregatedAgentSocials(agentId);
+    setBannerImage(avatar);
+    setBannerArtistName(username);
+    const agentdata = {
+      segments,
+      commentIds,
+      segmentName,
+      segmentSize: (followerCount / totalSementSize) * segment.size,
+    };
     const { reportContent, rawContent } = await getFullReport({
-      ...analysis,
-      artistImage: artistProfile?.image,
-      artistName: artistProfile?.name,
+      ...agentdata,
+      artistImage: avatar,
+      artistName: username,
       email,
     });
     setFunnelReportContent(reportContent);
     setFunnelRawReportContent(rawContent);
-    const nextSteps = await getReportNextSteps(analysis);
+    const nextSteps = await getReportNextSteps(agentdata);
     setFunnelNextSteps(nextSteps);
     setIsGettingAnalysis(false);
 
