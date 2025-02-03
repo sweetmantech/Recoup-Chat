@@ -4,7 +4,7 @@ import { Conversation } from "@/types/Stack";
 import getConversations from "@/lib/stack/getConversations";
 import { useParams, useRouter } from "next/navigation";
 import { useUserProvider } from "@/providers/UserProvder";
-import trackChatTitle from "@/lib/stack/trackChatTitle";
+import trackNewChatEvent from "@/lib/stack/trackNewChatEvent";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import getAiTitle from "@/lib/getAiTitle";
 import { v4 as uuidV4 } from "uuid";
@@ -62,7 +62,7 @@ const useConversations = () => {
       return;
     }
     setQuotaExceeded(false);
-    await trackNewTitle(
+    await trackChat(
       {
         title: response.replaceAll(`\"`, ""),
         is_funnel_report,
@@ -73,8 +73,8 @@ const useConversations = () => {
     );
   };
 
-  const trackNewTitle = async (titlemetadata: any, conversationId: string) => {
-    await trackChatTitle(
+  const trackChat = async (titlemetadata: any, conversationId: string) => {
+    await trackNewChatEvent(
       address,
       titlemetadata,
       conversationId,
@@ -111,7 +111,6 @@ const useConversations = () => {
     conversationRef,
     conversationId: conversation,
     streamingTitle,
-    trackNewTitle,
     streaming,
     setQuotaExceeded,
     quotaExceeded,

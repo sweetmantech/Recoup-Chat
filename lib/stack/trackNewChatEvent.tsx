@@ -2,11 +2,11 @@ import { Address } from "viem";
 import getStackClient from "./getStackClient";
 import {
   CHAT_POINT_SYSTEM_ID,
-  MESSAGE_SENT_EVENT,
   MESSAGE_SENT_POINT,
+  NEW_CHAT_EVENT,
 } from "../consts";
 
-const trackChatTitle = async (
+const trackNewChatEvent = async (
   address: Address,
   //   eslint-disable-next-line @typescript-eslint/no-explicit-any
   metadata: any,
@@ -16,7 +16,7 @@ const trackChatTitle = async (
   try {
     const stackClient = getStackClient(CHAT_POINT_SYSTEM_ID);
     const uniqueId = `${address}-${Date.now()}`;
-    const eventName = `${MESSAGE_SENT_EVENT}-${conversationId}`;
+    const eventName = NEW_CHAT_EVENT;
     await stackClient.track(eventName, {
       points: MESSAGE_SENT_POINT,
       account: address,
@@ -32,4 +32,4 @@ const trackChatTitle = async (
   }
 };
 
-export default trackChatTitle;
+export default trackNewChatEvent;
