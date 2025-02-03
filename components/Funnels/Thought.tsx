@@ -26,6 +26,7 @@ const Thought = ({ thought }: { thought: any }) => {
     [STEP_OF_AGENT.SEGMENTS]: `Grouping all of the @${selectedArtist?.name}'s ${funnelName} Fans into the segments.`,
     [STEP_OF_AGENT.SAVING_ANALYSIS]: `Saving video comments scrapped data.`,
     [STEP_OF_AGENT.CREATED_ARTIST]: `Setting up artist mode.`,
+    [STEP_OF_AGENT.SETTING_UP_ARTIST]: `Setting up artist mode.`,
     [STEP_OF_AGENT.FINISHED]: "",
   };
 

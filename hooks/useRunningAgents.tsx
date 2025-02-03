@@ -18,6 +18,7 @@ const useRunningAgents = () => {
     [STEP_OF_AGENT.SAVING_ANALYSIS]: `Saving video comments scrapped data.`,
     [STEP_OF_AGENT.CREATED_ARTIST]: `Setting up artist mode.`,
     [STEP_OF_AGENT.FINISHED]: "",
+    [STEP_OF_AGENT.SETTING_UP_ARTIST]: `Setting up artist mode.`,
   };
 
   const getLiveAgent = useCallback(async () => {
