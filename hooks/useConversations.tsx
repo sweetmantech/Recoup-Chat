@@ -58,7 +58,7 @@ const useConversations = () => {
     const response = await getAiTitle(content);
     if (response?.error) {
       setQuotaExceeded(true);
-      push(`/${uuidV4()}`);
+      push("/");
       return;
     }
     setQuotaExceeded(false);
