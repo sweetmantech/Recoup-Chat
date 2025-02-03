@@ -39,10 +39,6 @@ const useChat = () => {
     push(`/${newId}?${urlParmas}`);
   };
 
-  const clearQuery = async () => {
-    await fetchInitialMessages();
-  };
-
   const isPrepared = () => {
     if (!address) {
       login();
@@ -77,7 +73,6 @@ const useChat = () => {
   return {
     handleSubmit,
     append,
-    clearQuery,
     isReportChat,
   };
 };

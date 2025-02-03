@@ -1,4 +1,3 @@
-import { useChatProvider } from "@/providers/ChatProvider";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { Message, useChat } from "ai/react";
 import { useParams } from "next/navigation";
@@ -8,7 +7,6 @@ import { Tools } from "@/types/Tool";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
 
 const useToolMessages = (question?: string, toolName?: any) => {
-  const { clearQuery } = useChatProvider();
   const { finalCallback } = useMessagesProvider();
   const { conversation: conversationId } = useParams();
   const {
@@ -54,7 +52,6 @@ const useToolMessages = (question?: string, toolName?: any) => {
         },
         conversationId as string,
       );
-      await clearQuery();
     },
   });
 
