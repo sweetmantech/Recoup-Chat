@@ -13,11 +13,9 @@ const useFunnelAnalysisParams = () => {
   const [handles, setHandles] = useState<any>({});
   const [isCheckingHandles, setIsCheckingHandles] = useState(false);
   const [isInitializing, setIsInitializing] = useState(false);
-  const [isCheckingAgentId, setIsCheckingAgentId] = useState(false);
   const [isCheckingAgentStatus, setIsCheckingAgentStatus] = useState(false);
   const [isLoadingAgent, setIsLoadingAgent] = useState(false);
   const [isLoadingSegments, setIsLoadingSegments] = useState(false);
-  const [agentId, setAgentId] = useState<string | null>(null);
   const [agent, setAgent] = useState<any>(null);
   const [agentsStatus, setAgentsStatus] = useState<any>([]);
 
@@ -46,8 +44,6 @@ const useFunnelAnalysisParams = () => {
 
   return {
     isInitializing,
-    setIsCheckingAgentId,
-    isCheckingAgentId,
     setIsInitializing,
     isLoading,
     setIsLoading,
@@ -67,11 +63,9 @@ const useFunnelAnalysisParams = () => {
     setIsLoadingSegments,
     isLoadingSegments,
     setAgent,
-    setAgentId,
     setAgentsStatus,
     agentsStatus,
     agent,
-    agentId,
     setIsLoadingAgent,
     isLoadingAgent,
     hasError,

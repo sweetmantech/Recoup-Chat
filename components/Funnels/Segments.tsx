@@ -6,12 +6,14 @@ import getAggregatedSocialProfiles from "@/lib/agent/getAggregatedSocialProfiles
 import getSegmentsTotalSize from "@/lib/agent/getSegmentsTotalSize";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
+import { useParams } from "next/navigation";
 
 const Segments = () => {
   useCredits();
   const { handleGenerateReport } = useGenerateSegmentReport();
-  const { segments, agentId, funnelType } = useFunnelAnalysisProvider();
+  const { segments, funnelType } = useFunnelAnalysisProvider();
   const { selectedArtist } = useArtistProvider();
+  const { agent_id: agentId } = useParams();
   const { followerCount } = getAggregatedSocialProfiles(selectedArtist);
   const totalSegmentSize = getSegmentsTotalSize(segments);
 
@@ -24,7 +26,7 @@ const Segments = () => {
           key={segment.name}
           onClick={() =>
             handleGenerateReport(
-              agentId || "",
+              (agentId as string) || "",
               segment.name,
               funnelType as string,
             )

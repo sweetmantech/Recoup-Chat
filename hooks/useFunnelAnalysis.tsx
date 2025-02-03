@@ -3,30 +3,32 @@ import { useUserProvider } from "@/providers/UserProvder";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import useFunnelAnalysisParams from "./useFunnelAnalysisParams";
-import getAgentIdFromStack from "@/lib/stack/getAgentIdFromStack";
 import getAgent from "@/lib/supabase/getAgent";
 import getAgentsStatus from "@/lib/agent/getAgentsStatus";
 import isFinishedScraping from "@/lib/agent/isFinishedScraping";
 import getAgentsInfoFromStack from "@/lib/stack/getAgentsInfoFromStack";
 
+let timer: any = null;
+
 const useFunnelAnalysis = () => {
   const params = useFunnelAnalysisParams();
-  const { analysis_id: analysisId } = useParams();
+  const { agent_id: agentId } = useParams();
   const { address } = useUserProvider();
   const { getArtists } = useArtistProvider();
 
-  const getAgentTimer = async (timer: any = null) => {
-    if (!params.agentId) {
+  const getAgentTimer: any = async () => {
+    if (!agentId) {
       clearInterval(timer);
       return;
     }
     params.setIsLoading(true);
     if (!params.agentsStatus.length) params.setIsCheckingAgentStatus(true);
     params.setIsLoadingAgent(true);
-    const { agent, comments } = await getAgent(params.agentId);
+    const { agent, comments } = await getAgent(agentId as string);
     if (!agent) {
       params.setIsCheckingAgentStatus(true);
       params.setIsLoadingAgent(false);
+      clearInterval(timer);
       return;
     }
     params.setIsLoadingAgent(false);
@@ -39,7 +41,7 @@ const useFunnelAnalysis = () => {
     if (isFinishedScraping(status)) {
       params.setIsLoadingSegments(true);
       const { segments } = await getAgentsInfoFromStack(
-        params.agentId,
+        agentId as string,
         address,
         comments.slice(0, 500),
       );
@@ -49,32 +51,20 @@ const useFunnelAnalysis = () => {
       return;
     }
   };
-  useEffect(() => {
+
+  const runAgentTimer = () => {
     getAgentTimer();
-    const timer = setInterval(async () => {
-      getAgentTimer(timer);
-    }, 10000);
-    return () => clearInterval(timer);
-  }, [params.agentId]);
+    timer = setInterval(() => getAgentTimer(timer), 10000);
+  };
 
   useEffect(() => {
-    params.setSegments([]);
-    params.setAgent(null);
-    const init = async () => {
-      params.setIsCheckingAgentId(true);
-      const agentId = await getAgentIdFromStack(analysisId as string, address);
-      if (agentId) params.setAgentId(agentId);
-      params.setIsCheckingAgentId(false);
-    };
-    if (!analysisId || !address) {
-      params.setAgentId(null);
-      return;
-    }
-    init();
-  }, [analysisId, address]);
+    if (agentId && address) runAgentTimer();
+    return () => clearInterval(timer);
+  }, [agentId, address]);
 
   return {
     ...params,
+    runAgentTimer,
   };
 };
 
