@@ -10,6 +10,7 @@ const useRunningAgents = () => {
   const { selectedArtist } = useArtistProvider();
 
   const statusMessages: any = {
+    [STEP_OF_AGENT.INITIAL]: `Looking at ${selectedArtist?.name}'s profile.`,
     [STEP_OF_AGENT.PROFILE]: `Looking at ${selectedArtist?.name}'s profile.`,
     [STEP_OF_AGENT.TRACKS]: `Looking at ${selectedArtist?.name}'s tracks.`,
     [STEP_OF_AGENT.POST_COMMENTS]: getThoughtStatus(curLiveAgent?.progress),
@@ -29,7 +30,7 @@ const useRunningAgents = () => {
       return;
     }
     setCurLiveAgent(
-      `Running ${getSocialPlatformByLink(response?.social?.profile_url)} Analysis... \n ${statusMessages[`${response?.status}`]} \n Created: ${new Date(response.updated_at).toLocaleString()}`,
+      `Running ${getSocialPlatformByLink(response?.social?.profile_url)} Analysis... \n ${statusMessages[`${response?.status}`] || `Looking at ${selectedArtist?.name}'s profile.`} \n Updated At: ${new Date(response.updated_at).toLocaleString()}`,
     );
   }, [selectedArtist]);
 
