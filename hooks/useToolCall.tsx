@@ -39,9 +39,10 @@ const useToolCall = (message: Message) => {
       if (isActiveToolCallTrigger(toolName, context?.status)) {
         if (
           toolName === Tools.getSegmentsReport &&
-          !funnelReport.isGettingAnalysis &&
+          !funnelReport.isLoadingReport &&
           conversationId
         ) {
+          funnelReport.setIsLoadingReport(true);
           const { rawContent, nextSteps } = await funnelReport.setFunnelReport(
             context?.agentId,
             context?.segmentName,
@@ -52,6 +53,7 @@ const useToolCall = (message: Message) => {
             nextSteps,
             false,
           );
+          funnelReport.setIsLoadingReport(false);
         }
         if (toolName === Tools.getPitchReport && conversationId) {
           const { rawContent, nextSteps } =

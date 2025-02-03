@@ -84,6 +84,7 @@ const useMessages = () => {
       selectedArtist?.account_id || "",
       convId,
     );
+
     await trackNewMessage(
       address as Address,
       {

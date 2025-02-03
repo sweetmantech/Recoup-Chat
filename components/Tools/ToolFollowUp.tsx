@@ -10,14 +10,14 @@ import isAnalysisTool from "@/lib/isAnalysisTool";
 const ToolFollowUp = ({ message }: { message: AIMessage }) => {
   const { loading, answer, toolName, context, specificReportParams } =
     useToolCallProvider();
-  const { isSearchingTrends, isGettingVideos, isGettingAnalysis } =
+  const { isSearchingTrends, isGettingVideos, isLoadingReport } =
     useFunnelReportProvider();
   const content = message.content || answer;
   const isThinking =
     loading ||
     isSearchingTrends ||
     isGettingVideos ||
-    isGettingAnalysis ||
+    isLoadingReport ||
     specificReportParams.isGeneratingReport;
 
   useEffect(() => {

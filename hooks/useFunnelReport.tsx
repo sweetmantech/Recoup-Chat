@@ -6,7 +6,7 @@ const useFunnelReport = () => {
   const [funnelTrends, setFunnelTrends] = useState<any>(null);
   const [isSearchingTrends, setIsSearchingTrends] = useState(false);
   const [isGettingVideos, setIsGettingVideos] = useState(false);
-  const [isGettingAnalysis, setIsGettingAnalysis] = useState(false);
+  const [isLoadingReport, setIsLoadingReport] = useState(false);
   const [funnelVideos, setFunnelVideos] = useState<any>(null);
   const [funnelNextSteps, setFunnelNextSteps] = useState("");
   const [funnelReportContent, setFunnelReportContent] = useState("");
@@ -18,7 +18,6 @@ const useFunnelReport = () => {
   const { email, address } = useUserProvider();
 
   const setFunnelReport = async (agentId: any, segmentName: any) => {
-    setIsGettingAnalysis(true);
     const { reportContent, rawContent, nextSteps } = await getFullReport({
       agentId,
       segmentName,
@@ -28,7 +27,6 @@ const useFunnelReport = () => {
     setFunnelReportContent(reportContent);
     setFunnelRawReportContent(rawContent);
     setFunnelNextSteps(nextSteps);
-    setIsGettingAnalysis(false);
 
     return {
       rawContent,
@@ -64,8 +62,8 @@ const useFunnelReport = () => {
     setFunnelNextSteps,
     funnelNextSteps,
     funnelReportContent,
-    setIsGettingAnalysis,
-    isGettingAnalysis,
+    setIsLoadingReport,
+    isLoadingReport,
     setFunnelReportContent,
     setFunnelRawReportContent,
     funnelRawReportContent,

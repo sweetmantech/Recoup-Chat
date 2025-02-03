@@ -1,4 +1,3 @@
-import { Address } from "viem";
 import { useCallback, useEffect, useState } from "react";
 import getInitialMessages from "@/lib/stack/getInitialMessages";
 import { sortMessages, flattenMessagePairs } from "@/lib/sortMessages";
