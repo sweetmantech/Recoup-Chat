@@ -10,7 +10,7 @@ import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 const Segments = () => {
   useCredits();
   const { handleGenerateReport } = useGenerateSegmentReport();
-  const { segments } = useFunnelAnalysisProvider();
+  const { segments, agentId, funnelType } = useFunnelAnalysisProvider();
   const { selectedArtist } = useArtistProvider();
   const { followerCount } = getAggregatedSocialProfiles(selectedArtist);
   const totalSegmentSize = getSegmentsTotalSize(segments);
@@ -22,7 +22,13 @@ const Segments = () => {
           className="w-full border-grey-light border-[1px] rounded-md px-3 py-2 flex gap-2 items-center shadow-grey"
           type="button"
           key={segment.name}
-          onClick={() => handleGenerateReport(segment.name)}
+          onClick={() =>
+            handleGenerateReport(
+              agentId || "",
+              segment.name,
+              funnelType as string,
+            )
+          }
         >
           {segment.icon ? (
             <LucideIcon name={segment.icon} />
