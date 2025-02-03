@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
     const client = getSupabaseServerAdminClient();
     const { data: account } = await client
       .from("accounts")
-      .select("*, account_socials(*, social:socials(*))")
+      .select("*, account_socials(*)")
       .eq("id", artistId)
       .single();
 
@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
 
     const socialIds = account.account_socials.map(
       // eslint-disable-next-line
-      (account_social: any) => account_social.social.id,
+      (account_social: any) => account_social.social_id,
     );
 
     const { data: social_posts } = await client

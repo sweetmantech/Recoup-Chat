@@ -39,14 +39,10 @@ const useConversations = () => {
   }, [address]);
 
   useEffect(() => {
-    if (!selectedArtist?.account_id) {
-      setConversations(allConverstaions);
-      return;
-    }
     const filtered = allConverstaions.filter(
       (item: any) => item.metadata.accountId === selectedArtist?.account_id,
     );
-    setConversations(filtered);
+    setConversations([...filtered]);
   }, [selectedArtist, allConverstaions]);
 
   const trackGeneralChat = async (
@@ -99,6 +95,7 @@ const useConversations = () => {
   };
 
   return {
+    addConversations,
     fetchConversations,
     conversations,
     conversationRef,
