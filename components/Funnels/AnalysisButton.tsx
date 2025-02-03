@@ -9,13 +9,13 @@ const AnalysisButton = ({
   containerClasses?: string;
 }) => {
   const { handleAnalyze } = useRunAgent();
-  const { username } = useFunnelAnalysisProvider();
+  const { username, isLoading } = useFunnelAnalysisProvider();
 
   return (
     <div className={`space-y-3 ${containerClasses}`}>
       <button
         onClick={handleAnalyze}
-        disabled={!username}
+        disabled={!username || isLoading}
         className={`bg-black rounded-[10px] pl-5 pr-4 h-9 z-20 flex items-center gap-2 justify-center
         transition-all text-[15px] font-medium text-white hover:bg-black active:bg-white/80
         disabled:opacity-50 disabled:cursor-not-allowed ${className}`}

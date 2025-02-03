@@ -1,5 +1,5 @@
-import Agents from "@/components/Funnels";
+import FunnelAccountAnalysis from "@/components/Funnels/FunnelAccountAnalysis";
 
-const AgentPage = () => <Agents />;
+const AgentPage = () => <FunnelAccountAnalysis />;
 
 export default AgentPage;

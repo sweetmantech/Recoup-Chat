@@ -58,6 +58,7 @@ const useAgents = () => {
       agentArtistId,
     );
     if (!agentId) return;
+    push(`/funnels/${funnelType}/${agentId}`);
     runAgentTimer();
     addConversations({
       conversationId: agentId,
@@ -73,7 +74,6 @@ const useAgents = () => {
       agentId as string,
       funnelType as string,
     );
-    push(`/funnels/${funnelType}/${agentId}`);
   };
 
   return {
