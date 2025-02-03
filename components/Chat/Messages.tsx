@@ -30,7 +30,7 @@ const Messages = ({
 
   return (
     <ScrollArea
-      className={`w-full mt-4 max-w-3xl mx-auto overflow-y-auto ${messages.length && "grow"} ${className}`}
+      className={`w-full mt-4 max-w-3xl mx-auto overflow-y-auto grow ${className}`}
     >
       {children || <div />}
       {messages
@@ -44,7 +44,7 @@ const Messages = ({
             <Message message={message} index={index} />
           </ToolCallProvider>
         ))}
-      {pending && isLoadingReport && <Thinking />}
+      {(pending || isLoadingReport) && <Thinking />}
     </ScrollArea>
   );
 };
