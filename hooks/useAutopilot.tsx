@@ -8,6 +8,7 @@ import useStackActions from "./useStackActions";
 import useRunningAgents from "./useRunningAgents";
 import useFansProfiles from "./useFansProfiles";
 import useSocialActions from "./useSocialActions";
+import useArtistComments from "./useArtistComments";
 
 const useAutopilot = () => {
   const { selectedArtist } = useArtistProvider();
@@ -15,7 +16,6 @@ const useAutopilot = () => {
   const { curLiveAgent } = useRunningAgents();
   const { fansProfiles } = useFansProfiles();
   const {
-    comments,
     analyses,
     segmentName,
     actions: analysisActions,
@@ -23,6 +23,7 @@ const useAutopilot = () => {
     reportId,
   } = useAnalysisActions();
   const { socialActions } = useSocialActions();
+  const { comments } = useArtistComments();
   const [actions, setActions] = useState<Array<ACTION>>([]);
   const { stackActions, getStackActions } = useStackActions();
   const eventsLogs = [...analyses, ...stackActions].sort(
@@ -45,6 +46,12 @@ const useAutopilot = () => {
 
   useEffect(() => {
     const temp = [...socialActions, ...analysisActions];
+    if (comments.length)
+      temp.push({
+        type: ACTIONS.POST_REACTION,
+        title: "Post Reaction",
+        id: ACTIONS.POST_REACTION,
+      });
     const filtered = temp.filter((ele) => {
       const approvedIndex = stackActions.findIndex(
         (stackAction: any) => stackAction.metadata.id === ele.id,
@@ -71,7 +78,14 @@ const useAutopilot = () => {
           },
         ]);
     }
-  }, [analysisActions, socialActions, stackActions, fansProfiles, email]);
+  }, [
+    analysisActions,
+    socialActions,
+    stackActions,
+    fansProfiles,
+    email,
+    comments,
+  ]);
 
   return {
     actions,

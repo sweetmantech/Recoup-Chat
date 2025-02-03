@@ -9,8 +9,6 @@ const updateArtistSocials = async (artistId: string, profileUrls: string) => {
     .select("*, social:socials(*)")
     .eq("account_id", artistId);
 
-  if (!account_socials?.length) return;
-
   const profilePromises = Object.entries(profileUrls).map(
     async ([type, value]) => {
       const { data: social } = await client

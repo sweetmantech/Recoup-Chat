@@ -3,6 +3,7 @@ import { SOCIAL } from "@/types/Agent";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { ACTIONS } from "@/types/Autopilot";
 import { useUserProvider } from "@/providers/UserProvder";
+import { SOCIAL_DEFAULT_PLATFORMS } from "@/lib/consts";
 
 const useSocialActions = () => {
   const [socialActions, setSocialActions] = useState<Array<any>>([]);
@@ -16,12 +17,16 @@ const useSocialActions = () => {
     }
     if (selectedArtist) {
       const socialActionsTemp: any = [];
-      selectedArtist?.account_socials?.map((link: SOCIAL) => {
-        if (!link.link && link?.type) {
+      SOCIAL_DEFAULT_PLATFORMS.map((social) => {
+        const existingSocial = selectedArtist?.account_socials?.find(
+          (account_social: SOCIAL) =>
+            account_social?.type?.toLowerCase() === social.toLowerCase(),
+        );
+        if (!existingSocial) {
           const socialAction = {
             type: ACTIONS.SOCIAL,
-            title: `${link?.type?.toUpperCase()}: ${selectedArtist?.name}`,
-            id: link.id,
+            title: `${social}: ${selectedArtist?.name}`,
+            id: social,
           };
           socialActionsTemp.push(socialAction);
         }

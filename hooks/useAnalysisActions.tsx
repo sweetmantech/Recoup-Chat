@@ -1,3 +1,4 @@
+import getCommentsByArtistId from "@/lib/getCommentsByArtistId";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { ACTION } from "@/types/Autopilot";
 import { Comment } from "@/types/Funnel";
