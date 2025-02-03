@@ -12,7 +12,7 @@ let timer: any = null;
 let streamedIndex = 1;
 
 const useConversations = () => {
-  const [conversations, setConversations] = useState<any>([]);
+  const [conversations, setConversations] = useState<Conversation[]>([]);
   const { address } = useUserProvider();
   const { conversation } = useParams();
   const conversationRef = useRef(conversation as string);
