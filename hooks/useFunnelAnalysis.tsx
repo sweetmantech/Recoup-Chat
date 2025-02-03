@@ -58,9 +58,9 @@ const useFunnelAnalysis = () => {
   };
 
   useEffect(() => {
-    if (agentId) runAgentTimer();
+    if (agentId && address) runAgentTimer();
     return () => clearInterval(timer);
-  }, [agentId]);
+  }, [agentId, address]);
 
   return {
     ...params,
