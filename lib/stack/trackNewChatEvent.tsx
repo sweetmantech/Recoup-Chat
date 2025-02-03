@@ -15,7 +15,7 @@ const trackNewChatEvent = async (
   try {
     const stackClient = getStackClient(CHAT_POINT_SYSTEM_ID);
     const uniqueId = `${address}-${Date.now()}`;
-    await stackClient.track(NEW_CHAT_EVENT, {
+    await stackClient.track(`${NEW_CHAT_EVENT}-${address}`, {
       points: MESSAGE_SENT_POINT,
       account: address,
       uniqueId,
