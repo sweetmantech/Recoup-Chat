@@ -2,7 +2,7 @@ import { useAgentsProvider } from "@/providers/AgentsProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const InputHandles = () => {
-  const { handles, setHandles, isLoading } = useFunnelAnalysisProvider();
+  const { handles, setHandles } = useFunnelAnalysisProvider();
   const { runAgents } = useAgentsProvider();
 
   const handleContinue = () => {

@@ -25,7 +25,7 @@ const useConversations = () => {
 
   const addConversations = (newmetadata: any) => {
     setAllConverstaions([
-      { metadata: newmetadata } as any,
+      { metadata: newmetadata, timestamp: new Date().getTime() } as any,
       ...allConverstaions,
     ]);
   };

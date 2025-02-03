@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
 
     const { data: agent_status } = await client
       .from("agent_status")
-      .select("*, social:socials(*)")
+      .select("*, social:socials(*), agent:agents(*)")
       .in("social_id", social_ids)
       .neq("status", STEP_OF_AGENT.FINISHED)
       .neq("status", STEP_OF_AGENT.ERROR)

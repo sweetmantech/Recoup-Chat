@@ -1,7 +1,9 @@
+import useClickCurrentState from "@/hooks/useClickCurrentState";
 import { useAutopilotProvider } from "@/providers/AutopilotProvider";
 
 const CurrentState = () => {
   const { eventsLogs, curLiveAgent } = useAutopilotProvider();
+  const { handleClickState, runningAgentState } = useClickCurrentState();
 
   return (
     <div className="p-2 md:p-4 rounded border">
@@ -12,8 +14,12 @@ const CurrentState = () => {
         <span>{">"}</span>
         <p className="text-xs md:text-sm whitespace-pre-line">
           {eventsLogs?.length > 0 || curLiveAgent ? (
-            <button type="button" className="text-left">
-              {curLiveAgent || eventsLogs[0].metadata.title}
+            <button
+              type="button"
+              className="text-left"
+              onClick={handleClickState}
+            >
+              {curLiveAgent ? runningAgentState : eventsLogs[0].metadata.title}
             </button>
           ) : (
             <>
