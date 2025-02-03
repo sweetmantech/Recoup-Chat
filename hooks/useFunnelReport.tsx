@@ -31,7 +31,7 @@ const useFunnelReport = () => {
     const segment = segments.find(
       (segmentEle: any) => segmentEle.name === segmentName,
     );
-    const totalSementSize = getSegmentsTotalSize(segments);
+    const totalSegmentSize = getSegmentsTotalSize(segments);
     const { followerCount, username, avatar } =
       await getAggregatedAgentSocials(agentId);
     setBannerImage(avatar);
@@ -40,7 +40,8 @@ const useFunnelReport = () => {
       segments,
       commentIds,
       segmentName,
-      segmentSize: (followerCount / totalSementSize) * segment.size,
+      segmentSize: (followerCount / totalSegmentSize) * segment.size,
+      segmentPercentage: Number(segment.size / totalSegmentSize * 100).toFixed(2)
     };
     const { reportContent, rawContent } = await getFullReport({
       ...agentdata,
