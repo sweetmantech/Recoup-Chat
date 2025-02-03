@@ -7,7 +7,6 @@ import { useUserProvider } from "@/providers/UserProvder";
 import trackNewChatEvent from "@/lib/stack/trackNewChatEvent";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import getAiTitle from "@/lib/getAiTitle";
-import { v4 as uuidV4 } from "uuid";
 
 let timer: any = null;
 let streamedIndex = 1;
@@ -62,24 +61,17 @@ const useConversations = () => {
       return;
     }
     setQuotaExceeded(false);
-    await trackChat(
-      {
-        title: response.replaceAll(`\"`, ""),
-        is_funnel_report,
-        account_id: selectedArtist?.account_id,
-        active_analaysis_id,
-      },
-      chatId,
-    );
+    await trackChat({
+      title: response.replaceAll(`\"`, ""),
+      is_funnel_report,
+      active_analaysis_id,
+      conversationId: chatId,
+      accountId: selectedArtist?.account_id,
+    });
   };
 
-  const trackChat = async (titlemetadata: any, conversationId: string) => {
-    await trackNewChatEvent(
-      address,
-      titlemetadata,
-      conversationId,
-      selectedArtist?.account_id || "",
-    );
+  const trackChat = async (titlemetadata: any) => {
+    await trackNewChatEvent(address, titlemetadata);
     clearInterval(timer);
     streamedIndex = 1;
     timer = setInterval(() => {

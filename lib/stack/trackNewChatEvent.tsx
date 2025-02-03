@@ -10,8 +10,6 @@ const trackNewChatEvent = async (
   address: Address,
   //   eslint-disable-next-line @typescript-eslint/no-explicit-any
   metadata: any,
-  conversationId: string,
-  accountId: string,
 ) => {
   try {
     const stackClient = getStackClient(CHAT_POINT_SYSTEM_ID);
@@ -21,11 +19,7 @@ const trackNewChatEvent = async (
       points: MESSAGE_SENT_POINT,
       account: address,
       uniqueId,
-      metadata: {
-        conversationId: conversationId,
-        accountId,
-        ...metadata,
-      },
+      metadata,
     });
   } catch (error) {
     return { error };
