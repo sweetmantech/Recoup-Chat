@@ -7,13 +7,13 @@ const getSegmentsReport = (question: string) =>
     description: `**IMPORTANT:** Always call this tool for ANY question related to fan segments report:
 Do NOT attempt to answer questions on these topics without consulting this tool first.
 For Example:
-"Please create a fan segment report for {chat_id} using this segment {segment_name}"`,
+"Please create a fan segment report for {report_id} using this segment {segment_name}"`,
     parameters: z.object({
-      chat_id: z.string().optional().describe("The chat id of funnel."),
+      report_id: z.string().optional().describe("The report id of funnel."),
       segment_name: z.string().optional().describe("The segment name."),
     }),
-    execute: async ({ chat_id, segment_name }) => {
-      if (!chat_id || !segment_name)
+    execute: async ({ report_id, segment_name }) => {
+      if (!report_id || !segment_name)
         return {
           context: {
             status: ArtistToolResponse.MISSING_SEGMENT_NAME_ANALYSIS_ID,
@@ -24,7 +24,8 @@ For Example:
       return {
         context: {
           status: ArtistToolResponse.FUNNEL_SEGMENT_REPORT,
-          analysis: null,
+          agentId: report_id,
+          segmentName: segment_name,
         },
         question,
       };

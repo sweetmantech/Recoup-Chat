@@ -7,6 +7,7 @@ import { Message as AIMessage } from "ai";
 import { ToolCallProvider } from "@/providers/ToolCallProvider";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
 import { usePromptsProvider } from "@/providers/PromptsProvider";
+import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 
 const Messages = ({
   scroll,
@@ -17,11 +18,11 @@ const Messages = ({
   className?: string;
   children?: React.ReactNode;
 }) => {
-  const { reportEnabled } = useChatProvider();
+  const { isReportChat } = useChatProvider();
   const { messages, pending } = useMessagesProvider();
   const { suggestions } = usePromptsProvider();
   const scrollTo = () => scroll({ smooth: true, y: Number.MAX_SAFE_INTEGER });
-
+  const { isLoadingReport } = useFunnelReportProvider();
   useEffect(() => {
     scrollTo();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -29,11 +30,11 @@ const Messages = ({
 
   return (
     <ScrollArea
-      className={`w-full mt-4 max-w-3xl mx-auto overflow-y-auto ${messages.length && "grow"} ${className}`}
+      className={`w-full mt-4 max-w-3xl mx-auto overflow-y-auto grow ${className}`}
     >
       {children || <div />}
       {messages
-        .slice(reportEnabled ? 1 : 0)
+        .slice(isReportChat ? 1 : 0)
         .map((message: AIMessage, index: number) => (
           <ToolCallProvider
             message={message}
@@ -43,7 +44,7 @@ const Messages = ({
             <Message message={message} index={index} />
           </ToolCallProvider>
         ))}
-      {pending && <Thinking />}
+      {(pending || isLoadingReport) && <Thinking />}
     </ScrollArea>
   );
 };

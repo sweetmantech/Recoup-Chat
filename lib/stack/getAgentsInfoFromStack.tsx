@@ -6,9 +6,9 @@ import trackAgentInfo from "./trackAgentInfo";
 
 const getAgentsInfoFromStack = async (
   agentId: string,
-  // eslint-disable-next-line
-  comments: any,
   address: Address,
+  // eslint-disable-next-line
+  comments: any = null,
 ) => {
   const stackClient = getStackClient(CHAT_POINT_SYSTEM_ID);
 
@@ -29,6 +29,11 @@ const getAgentsInfoFromStack = async (
     if (agentsInfo[0]?.metadata?.segments?.length)
       return agentsInfo[0].metadata;
   }
+  if (!comments)
+    return {
+      segments: [],
+      commentIds: [],
+    };
   const segments = await getSegments(comments);
   // eslint-disable-next-line
   const commentIds = comments.map((comment: any) => comment.id);

@@ -2,13 +2,9 @@ import { useUserProvider } from "@/providers/UserProvder";
 import { v4 as uuidV4 } from "uuid";
 import { useChatProvider } from "@/providers/ChatProvider";
 import { usePaymentProvider } from "@/providers/PaymentProvider";
-import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
-import { useParams } from "next/navigation";
 
 const useGenerateSegmentReport = () => {
   const { append } = useChatProvider();
-  const { funnelType } = useFunnelAnalysisProvider();
-  const { analysis_id: analysisId } = useParams();
   const { isPrepared } = useUserProvider();
   const {
     toggleModal,
@@ -20,42 +16,37 @@ const useGenerateSegmentReport = () => {
   } = usePaymentProvider();
 
   const openReportChat = (
+    agentId: string,
     segmentName: string,
-    funnel_type: string,
-    report_id: string,
+    funnelType: string,
   ) => {
     append(
       {
         id: uuidV4(),
         role: "user",
-        content: `Please create a ${funnel_type || ""} fan segment report for ${report_id} using this segment ${segmentName}.`,
+        content: `Please create a ${funnelType || ""} fan segment report for ${agentId} using this segment ${segmentName}.`,
       },
       true,
     );
   };
 
   const handleGenerateReport = async (
+    agentId: string,
     segmentName: string,
-    funnel_type: string | undefined = undefined,
-    report_id: string | undefined = undefined,
+    funnelType: string,
   ) => {
     if (!isPrepared()) return;
     if (isLoadingCredits) return;
-    const type = funnel_type || funnelType;
-    const minimumCredits = type === "wrapped" ? 5 : 1;
+    const minimumCredits = funnelType === "wrapped" ? 5 : 1;
     if (credits >= minimumCredits || subscriptionActive) {
       if (!subscriptionActive) await creditUsed(minimumCredits);
-      openReportChat(
-        segmentName,
-        funnel_type as string,
-        report_id || (analysisId as string),
-      );
+      openReportChat(agentId, segmentName, funnelType);
       return;
     }
     setSuccessCallbackParams(
       new URLSearchParams({
         segmentName,
-        reportId: report_id || (analysisId as string),
+        agentId,
       }).toString(),
     );
     toggleModal(minimumCredits === 5);

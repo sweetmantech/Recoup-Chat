@@ -1,5 +1,10 @@
 // eslint-disable-next-line
 const getAggregatedSocialProfiles = (account: any) => {
+  if (!account)
+    return {
+      followerCount: 0,
+      followingCount: 0,
+    };
   const { followerCount, followingCount } = account.account_socials.reduce(
     // eslint-disable-next-line
     (acc: any, account_social: any) => {

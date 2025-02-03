@@ -3,7 +3,6 @@ import useSpecificReport from "./useSpecificReport";
 import { v4 as uuidV4 } from "uuid";
 import saveFunnelReport from "@/lib/saveFunnelReport";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
-import { useChatProvider } from "@/providers/ChatProvider";
 
 const useToolCallParams = (message: Message) => {
   const toolInvocations = [...(message.toolInvocations || [])];
@@ -13,9 +12,8 @@ const useToolCallParams = (message: Message) => {
   const question = toolInvocationResult?.result?.question || "";
   const context = toolInvocationResult?.result?.context || "";
   const toolName = toolInvocationResult?.toolName;
-  const specificReportParams = useSpecificReport(message);
+  const specificReportParams = useSpecificReport();
   const { finalCallback } = useMessagesProvider();
-  const { clearQuery } = useChatProvider();
 
   const trackReport = async (
     conversationId: string,
@@ -25,7 +23,6 @@ const useToolCallParams = (message: Message) => {
   ) => {
     const stackUniqueId = uuidV4();
     const response = await saveFunnelReport({
-      summary: message.content,
       next_steps: nextSteps,
       report,
       stack_unique_id: stackUniqueId,
@@ -44,7 +41,6 @@ const useToolCallParams = (message: Message) => {
       conversationId as string,
       response?.id,
     );
-    clearQuery();
   };
 
   return {

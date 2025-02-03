@@ -1,21 +1,14 @@
-import { Message as AIMessage } from "ai";
 import ToolContent from "../Tools/ToolContent";
 import { useToolCallProvider } from "@/providers/ToolCallProvider";
-import ToolFollowUp from "../Tools/ToolFollowUp";
 import { useChatProvider } from "@/providers/ChatProvider";
 import Icon from "../Icon";
-import ReportSummaryNote from "./ReportSummaryNote";
-import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
-import Report from "./Report";
-import Loading from "@/components/Loading";
+import ToolFollowUp from "../Tools/ToolFollowUp";
+import SegmentReport from "./SegmentReport";
 
-const Message = ({ message, index }: { message: AIMessage; index: number }) => {
-  const { context, specificReportParams } = useToolCallProvider();
-  const { rawReportContent, nextSteps, reportContent } = specificReportParams;
-  const { funnelNextSteps, funnelRawReportContent } = useFunnelReportProvider();
-  const { reportEnabled } = useChatProvider();
-  const isReportMessage =
-    reportEnabled && ((funnelNextSteps && index === 0) || nextSteps);
+// eslint-disable-next-line
+const Message = ({ message, index }: { message: any; index: number }) => {
+  const { context } = useToolCallProvider();
+  const { isReportChat } = useChatProvider();
 
   return (
     <div className="p-3 rounded-lg flex w-full gap-2">
@@ -28,24 +21,13 @@ const Message = ({ message, index }: { message: AIMessage; index: number }) => {
         className={`grow ${message.role === "user" && "flex justify-end"} max-w-[90%]`}
       >
         {context && <ToolContent />}
-        {specificReportParams?.reportTracking ? (
-          <div className="h-7 flex items-center">
-            <Loading />
-          </div>
-        ) : (
-          <>
-            {isReportMessage ? (
-              <Report rawContent={rawReportContent || funnelRawReportContent} />
-            ) : (
-              <ToolFollowUp message={message} />
-            )}
-          </>
-        )}
-        {isReportMessage && (
-          <ReportSummaryNote
-            reportContent={reportContent || funnelRawReportContent}
-            nextSteps={nextSteps || funnelNextSteps}
+        {isReportChat && !index ? (
+          <SegmentReport
+            artistId={message?.metadata?.accountId}
+            referenceId={message?.metadata?.referenceId}
           />
+        ) : (
+          <ToolFollowUp message={message} />
         )}
       </div>
     </div>

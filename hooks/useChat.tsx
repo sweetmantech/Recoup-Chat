@@ -13,7 +13,7 @@ const useChat = () => {
   const { conversationId, trackGeneralChat, conversationRef } =
     useConversationsProvider();
   const searchParams = useSearchParams();
-  const reportEnabled = searchParams.get("is_funnel_report");
+  const isReportChat = searchParams.get("is_funnel_report");
   const { input, appendAiChat, handleAiChatSubmit } = useMessagesProvider();
   const { setCurrentQuestion } = usePromptsProvider();
   const { fetchInitialMessages } = useInitialMessagesProvider();
@@ -37,10 +37,6 @@ const useChat = () => {
     if (active_analaysis_id)
       urlParmas.set("active_analaysis_id", active_analaysis_id);
     push(`/${newId}?${urlParmas}`);
-  };
-
-  const clearQuery = async () => {
-    await fetchInitialMessages();
   };
 
   const isPrepared = () => {
@@ -77,8 +73,7 @@ const useChat = () => {
   return {
     handleSubmit,
     append,
-    clearQuery,
-    reportEnabled,
+    isReportChat,
   };
 };
 

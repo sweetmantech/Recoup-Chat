@@ -7,8 +7,6 @@ import getToolCallMessage from "@/lib/getToolCallMessage";
 import useToolCallParams from "./useToolCallParams";
 import isActiveToolCallTrigger from "@/lib/isActiveToolCallTrigger";
 import { Tools } from "@/types/Tool";
-import { ArtistRecord } from "@/types/Artist";
-import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
 
@@ -22,7 +20,6 @@ const useToolCall = (message: Message) => {
     question,
     toolName,
   );
-  const { setSelectedArtist } = useArtistProvider();
   const funnelReport = useFunnelReportProvider();
 
   useEffect(() => {
@@ -42,13 +39,13 @@ const useToolCall = (message: Message) => {
       if (isActiveToolCallTrigger(toolName, context?.status)) {
         if (
           toolName === Tools.getSegmentsReport &&
-          !funnelReport.isGettingAnalysis &&
+          !funnelReport.isLoadingReport &&
           conversationId
         ) {
-          if (context?.artistProfile) setSelectedArtist(context?.artistProfile);
+          funnelReport.setIsLoadingReport(true);
           const { rawContent, nextSteps } = await funnelReport.setFunnelReport(
-            context?.analysis,
-            context?.artistProfile,
+            context?.agentId,
+            context?.segmentName,
           );
           await trackReport(
             conversationId as string,
@@ -56,6 +53,7 @@ const useToolCall = (message: Message) => {
             nextSteps,
             false,
           );
+          funnelReport.setIsLoadingReport(false);
         }
         if (toolName === Tools.getPitchReport && conversationId) {
           const { rawContent, nextSteps } =

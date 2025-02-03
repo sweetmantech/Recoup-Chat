@@ -16,7 +16,8 @@ import useFunnels from "./useFunnels";
 const useMessages = () => {
   const { currentQuestion, setCurrentQuestion } = usePromptsProvider();
   const csrfToken = useCsrfToken();
-  const { initialMessages } = useInitialMessagesProvider();
+  const { initialMessages, fetchInitialMessages } =
+    useInitialMessagesProvider();
   const { conversationRef } = useConversationsProvider();
   const queryClient = useQueryClient();
   const { email, address } = useUserProvider();
@@ -84,6 +85,7 @@ const useMessages = () => {
       selectedArtist?.account_id || "",
       convId,
     );
+
     await trackNewMessage(
       address as Address,
       {
@@ -96,6 +98,7 @@ const useMessages = () => {
       referenceId,
     );
     setCurrentQuestion(null);
+    fetchInitialMessages();
   };
 
   return {

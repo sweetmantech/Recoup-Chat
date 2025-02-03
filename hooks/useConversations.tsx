@@ -4,10 +4,9 @@ import { Conversation } from "@/types/Stack";
 import getConversations from "@/lib/stack/getConversations";
 import { useParams, useRouter } from "next/navigation";
 import { useUserProvider } from "@/providers/UserProvder";
-import trackChatTitle from "@/lib/stack/trackChatTitle";
+import trackNewChatEvent from "@/lib/stack/trackNewChatEvent";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import getAiTitle from "@/lib/getAiTitle";
-import { v4 as uuidV4 } from "uuid";
 
 let timer: any = null;
 let streamedIndex = 1;
@@ -23,6 +22,13 @@ const useConversations = () => {
   const [allConverstaions, setAllConverstaions] = useState<Conversation[]>([]);
   const [quotaExceeded, setQuotaExceeded] = useState(false);
   const { push } = useRouter();
+
+  const addConversations = (newmetadata: any) => {
+    setAllConverstaions([
+      { metadata: newmetadata } as any,
+      ...allConverstaions,
+    ]);
+  };
 
   useEffect(() => {
     if (address) {
@@ -52,29 +58,21 @@ const useConversations = () => {
     const response = await getAiTitle(content);
     if (response?.error) {
       setQuotaExceeded(true);
-      push(`/${uuidV4()}`);
+      push("/");
       return;
     }
     setQuotaExceeded(false);
-    await trackNewTitle(
-      {
-        title: response.replaceAll(`\"`, ""),
-        is_funnel_report,
-        account_id: selectedArtist?.account_id,
-        active_analaysis_id,
-      },
-      chatId,
-    );
-    fetchConversations(address);
+    await trackChat({
+      title: response.replaceAll(`\"`, ""),
+      is_funnel_report,
+      active_analaysis_id,
+      conversationId: chatId,
+      accountId: selectedArtist?.account_id,
+    });
   };
 
-  const trackNewTitle = async (titlemetadata: any, conversationId: string) => {
-    await trackChatTitle(
-      address,
-      titlemetadata,
-      conversationId,
-      selectedArtist?.account_id || "",
-    );
+  const trackChat = async (titlemetadata: any) => {
+    await trackNewChatEvent(address, titlemetadata);
     clearInterval(timer);
     streamedIndex = 1;
     timer = setInterval(() => {
@@ -86,7 +84,7 @@ const useConversations = () => {
       streamedIndex++;
     }, 50);
     setStreaming(true);
-    await fetchConversations(address);
+    addConversations(titlemetadata);
     setStreaming(false);
   };
 
@@ -106,7 +104,6 @@ const useConversations = () => {
     conversationRef,
     conversationId: conversation,
     streamingTitle,
-    trackNewTitle,
     streaming,
     setQuotaExceeded,
     quotaExceeded,

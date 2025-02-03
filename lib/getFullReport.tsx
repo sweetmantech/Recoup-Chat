@@ -13,16 +13,22 @@ const getFullReport = async (context: any) => {
       },
     });
     const data = await response.json();
-    const reportContent = getPdfReport(data.content);
+    const reportContent = getPdfReport(data.reportContent);
     return {
       reportContent: formatPdf(reportContent),
-      rawContent: data.content,
+      rawContent: data.reportContent,
+      nextSteps: data.nextSteps,
+      artistName: data.username,
+      artistBanner: data.avatar,
     };
   } catch (error) {
     console.error(error);
     return {
       reportContent: "",
       rawContent: "",
+      artistName: "",
+      artistBanner: "",
+      nextSteps: "",
     };
   }
 };
