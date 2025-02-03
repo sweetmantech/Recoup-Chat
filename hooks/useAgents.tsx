@@ -2,11 +2,10 @@ import getHandles from "@/lib/getHandles";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import { useUserProvider } from "@/providers/UserProvder";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { v4 as uuidV4 } from "uuid";
 import { ArtistRecord } from "@/types/Artist";
 import callAgentApi from "@/lib/agent/callAgentApi";
-import trackAgent from "@/lib/stack/trackAgentRun";
 import trackAgentChat from "@/lib/stack/trackAgentChat";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 
@@ -16,12 +15,11 @@ const useAgents = () => {
     setHandles,
     setIsCheckingHandles,
     funnelType,
-    setAgentId,
     setIsInitializing,
     setAgentsStatus,
     setIsLoading,
+    runAgentTimer,
   } = useFunnelAnalysisProvider();
-  const { analysis_id: analysisId } = useParams();
   const { push } = useRouter();
   const { address, isPrepared } = useUserProvider();
   const { selectedArtist } = useArtistProvider();
@@ -50,7 +48,6 @@ const useAgents = () => {
 
   const runAgents = async (agentdata: any = null) => {
     const agentArtistId = agentdata?.artistId || selectedArtist?.account_id;
-    const agentAnalysisId = analysisId || uuidV4();
     const agentArtistName = agentdata?.name || selectedArtist?.name || "";
     const agentArtistHandles = agentdata?.handles || handles;
     if (!agentArtistId) return;
@@ -64,10 +61,9 @@ const useAgents = () => {
       agentArtistId,
     );
     if (!agentId) return;
-    await trackAgent(agentId, agentAnalysisId as string, address);
-    setAgentId(agentId);
+    runAgentTimer();
     addConversations({
-      conversationId: agentAnalysisId,
+      conversationId: agentId,
       accountId: agentArtistId,
       title: `${new String(funnelType as string).toUpperCase()} Analysis: ${agentArtistName}`,
       is_funnel_analysis: true,
@@ -77,10 +73,10 @@ const useAgents = () => {
       address,
       agentArtistName,
       agentArtistId,
-      agentAnalysisId as string,
+      agentId as string,
       funnelType as string,
     );
-    push(`/funnels/${funnelType}/${agentAnalysisId}`);
+    push(`/funnels/${funnelType}/${agentId}`);
   };
 
   return {
