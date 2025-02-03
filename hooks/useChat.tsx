@@ -26,7 +26,12 @@ const useChat = () => {
     if (conversationId) return;
     const newId = uuidV4();
     conversationRef.current = newId;
-    trackGeneralChat(content, newId, is_funnel_report, active_analaysis_id);
+    await trackGeneralChat(
+      content,
+      newId,
+      is_funnel_report,
+      active_analaysis_id,
+    );
     const urlParmas = new URLSearchParams();
     if (is_funnel_report) urlParmas.set("is_funnel_report", "true");
     if (active_analaysis_id)
