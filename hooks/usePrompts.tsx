@@ -10,7 +10,7 @@ const usePrompts = () => {
   const [suggestions, setSuggestions] = useState(SUGGESTIONS);
   const [currentQuestion, setCurrentQuestion] = useState<Message | null>(null);
   const pathname = usePathname();
-  const { funnelAnalysis, funnelRawReportContent } = useFunnelReportProvider();
+  const { funnelRawReportContent } = useFunnelReportProvider();
 
   useEffect(() => {
     if (selectedArtist) {
@@ -27,7 +27,6 @@ const usePrompts = () => {
     const isFunnelReport = content === "Funnel Report";
     const isAnalaysis = pathname.includes("funnels/");
     if (isFunnelReport) content = JSON.stringify(funnelRawReportContent);
-    if (isAnalaysis) content = JSON.stringify(funnelAnalysis);
 
     if (!content) return;
     let promptApiUrl = "/api/prompts";

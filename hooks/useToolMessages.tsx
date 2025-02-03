@@ -17,13 +17,11 @@ const useToolMessages = (question?: string, toolName?: any) => {
     initReport,
     isSearchingTrends,
     funnelRawReportContent,
-    funnelAnalysis,
   } = useFunnelReportProvider();
 
   const toolCallContext = useMemo(() => {
     if (funnelTrends) return funnelTrends;
     if (funnelVideos) return funnelVideos;
-    if (funnelAnalysis) return funnelAnalysis;
     if (funnelRawReportContent) return funnelRawReportContent;
     return null;
   }, [funnelTrends, funnelVideos, funnelRawReportContent]);

@@ -7,7 +7,6 @@ import getToolCallMessage from "@/lib/getToolCallMessage";
 import useToolCallParams from "./useToolCallParams";
 import isActiveToolCallTrigger from "@/lib/isActiveToolCallTrigger";
 import { Tools } from "@/types/Tool";
-import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
 
@@ -21,7 +20,6 @@ const useToolCall = (message: Message) => {
     question,
     toolName,
   );
-  const { setSelectedArtist } = useArtistProvider();
   const funnelReport = useFunnelReportProvider();
 
   useEffect(() => {

@@ -1,5 +1,4 @@
 import getFullReport from "@/lib/getFullReport";
-import getReportNextSteps from "@/lib/getReportNextSteps";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useState } from "react";
 
@@ -9,7 +8,6 @@ const useFunnelReport = () => {
   const [isGettingVideos, setIsGettingVideos] = useState(false);
   const [isGettingAnalysis, setIsGettingAnalysis] = useState(false);
   const [funnelVideos, setFunnelVideos] = useState<any>(null);
-  const [funnelAnalysis, setFunnelAnalysis] = useState<any>(null);
   const [funnelNextSteps, setFunnelNextSteps] = useState("");
   const [funnelReportContent, setFunnelReportContent] = useState("");
   const [funnelRawReportContent, setFunnelRawReportContent] = useState("");
@@ -63,14 +61,12 @@ const useFunnelReport = () => {
     isGettingVideos,
     setFunnelVideos,
     funnelVideos,
-    setFunnelAnalysis,
     setFunnelNextSteps,
     funnelNextSteps,
     funnelReportContent,
     setIsGettingAnalysis,
     isGettingAnalysis,
     setFunnelReportContent,
-    funnelAnalysis,
     setFunnelRawReportContent,
     funnelRawReportContent,
     funnelSummary,
