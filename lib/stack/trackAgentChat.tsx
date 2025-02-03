@@ -2,6 +2,7 @@ import {
   CHAT_POINT_SYSTEM_ID,
   MESSAGE_SENT_EVENT,
   MESSAGE_SENT_POINT,
+  NEW_CHAT_EVENT,
 } from "../consts";
 import getStackClient from "./getStackClient";
 
@@ -15,8 +16,19 @@ const trackAgentChat = async (
   try {
     const stackClient = getStackClient(CHAT_POINT_SYSTEM_ID);
     const uniqueId = `${address}-${Date.now()}`;
-    const eventName = `${MESSAGE_SENT_EVENT}-${chatId}`;
-    await stackClient.track(eventName, {
+    await stackClient.track(`${MESSAGE_SENT_EVENT}-${chatId}`, {
+      points: MESSAGE_SENT_POINT,
+      account: address || "",
+      uniqueId,
+      metadata: {
+        conversationId: chatId,
+        accountId,
+        title: `${funnelName.toUpperCase()} Analysis: ${username}`,
+        is_funnel_analysis: true,
+        funnel_name: funnelName,
+      },
+    });
+    await stackClient.track(`${NEW_CHAT_EVENT}-${address}`, {
       points: MESSAGE_SENT_POINT,
       account: address || "",
       uniqueId,
