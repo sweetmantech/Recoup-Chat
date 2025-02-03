@@ -22,6 +22,7 @@ const useConversations = () => {
   const [allConverstaions, setAllConverstaions] = useState<Conversation[]>([]);
   const [quotaExceeded, setQuotaExceeded] = useState(false);
   const { push } = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
 
   const addConversations = (newmetadata: any) => {
     setAllConverstaions([
@@ -88,6 +89,7 @@ const useConversations = () => {
     try {
       const data = await getConversations(walletAddress);
       setAllConverstaions(data);
+      setIsLoading(false);
     } catch (error) {
       console.error("Error fetching initial messages:", error);
       return [];
@@ -106,6 +108,7 @@ const useConversations = () => {
     quotaExceeded,
     trackGeneralChat,
     allConverstaions,
+    isLoading,
   };
 };
 

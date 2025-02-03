@@ -2,9 +2,10 @@ import useClickChat from "@/hooks/useClickChat";
 import getConversationTitle from "@/lib/getConversationTitle";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { Conversation } from "@/types/Stack";
+import RecentChatSkeleton from "./RecentChatSkeleton";
 
 const RecentChats = ({ toggleModal }: { toggleModal: () => void }) => {
-  const { conversations, streamingTitle, streaming } =
+  const { conversations, streamingTitle, streaming, isLoading } =
     useConversationsProvider();
   const { handleClick } = useClickChat();
 
@@ -15,23 +16,31 @@ const RecentChats = ({ toggleModal }: { toggleModal: () => void }) => {
         Recent Chats
       </p>
       <div className="max-h-[75px] md:max-h-[140px] overflow-y-auto space-y-1 md:space-y-2 md:px-4">
-        {streamingTitle && streaming && (
-          <button className="flex gap-2 items-center" type="button">
-            <p className="text-sm truncate max-w-[200px]">{streamingTitle}</p>
-          </button>
+        {isLoading ? (
+          <RecentChatSkeleton />
+        ) : (
+          <>
+            {streamingTitle && streaming && (
+              <button className="flex gap-2 items-center" type="button">
+                <p className="text-sm truncate max-w-[200px]">
+                  {streamingTitle}
+                </p>
+              </button>
+            )}
+            {conversations.map((conversation: Conversation, index: number) => (
+              <button
+                className="flex gap-2 items-center"
+                key={index}
+                type="button"
+                onClick={() => handleClick(conversation, toggleModal)}
+              >
+                <p className="text-sm truncate max-w-[200px]">
+                  {getConversationTitle(conversation)}
+                </p>
+              </button>
+            ))}
+          </>
         )}
-        {conversations.map((conversation: Conversation, index: number) => (
-          <button
-            className="flex gap-2 items-center"
-            key={index}
-            type="button"
-            onClick={() => handleClick(conversation, toggleModal)}
-          >
-            <p className="text-sm truncate max-w-[200px]">
-              {getConversationTitle(conversation)}
-            </p>
-          </button>
-        ))}
       </div>
     </div>
   );
