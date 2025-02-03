@@ -29,8 +29,13 @@ const Thought = ({ thought }: { thought: any }) => {
 
   return (
     <>
-      <span>{thought.type}</span>
-      <StreamingThought text={statusMessages[thought.status] || ""} />
+      <span>{thought.type}: </span>
+      <StreamingThought
+        text={
+          statusMessages[thought.status] ||
+          `Looking at ${selectedArtist?.name}'s profile.`
+        }
+      />
       {isError && (
         <span onClick={toggleSettingModal} className="underline cursor-pointer">
           Click here to retry.

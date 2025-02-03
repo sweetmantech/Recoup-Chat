@@ -12,7 +12,8 @@ const getAgentsInfoFromStack = async (
 ) => {
   const stackClient = getStackClient(CHAT_POINT_SYSTEM_ID);
 
-  const agentsInfo = await stackClient.getEvents({
+  // eslint-disable-next-line
+  const agentsInfo: any = await stackClient.getEvents({
     query: stackClient
       .eventsQuery()
       .where({
@@ -24,7 +25,10 @@ const getAgentsInfoFromStack = async (
       .build(),
   });
 
-  if (agentsInfo.length) return agentsInfo[0].metadata;
+  if (agentsInfo.length) {
+    if (agentsInfo[0]?.metadata?.segments?.length)
+      return agentsInfo[0].metadata;
+  }
   const segments = await getSegments(comments);
   // eslint-disable-next-line
   const commentIds = comments.map((comment: any) => comment.id);
