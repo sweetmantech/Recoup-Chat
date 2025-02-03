@@ -4,7 +4,7 @@ import addPageBreak from "@/lib/pdf/addPageBreak";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import SocialSharing from "../SocialSharing";
 
-const ReportSummaryNote = ({
+const ReportNextSteps = ({
   nextSteps,
   reportContent,
 }: {
@@ -71,4 +71,4 @@ const ReportSummaryNote = ({
   );
 };
 
-export default ReportSummaryNote;
+export default ReportNextSteps;

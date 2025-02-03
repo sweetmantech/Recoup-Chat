@@ -17,7 +17,7 @@ const Messages = ({
   className?: string;
   children?: React.ReactNode;
 }) => {
-  const { reportEnabled } = useChatProvider();
+  const { isReportChat } = useChatProvider();
   const { messages, pending } = useMessagesProvider();
   const { suggestions } = usePromptsProvider();
   const scrollTo = () => scroll({ smooth: true, y: Number.MAX_SAFE_INTEGER });
@@ -33,7 +33,7 @@ const Messages = ({
     >
       {children || <div />}
       {messages
-        .slice(reportEnabled ? 1 : 0)
+        .slice(isReportChat ? 1 : 0)
         .map((message: AIMessage, index: number) => (
           <ToolCallProvider
             message={message}

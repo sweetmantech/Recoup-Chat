@@ -13,7 +13,7 @@ const useChat = () => {
   const { conversationId, trackGeneralChat, conversationRef } =
     useConversationsProvider();
   const searchParams = useSearchParams();
-  const reportEnabled = searchParams.get("is_funnel_report");
+  const isReportChat = searchParams.get("is_funnel_report");
   const { input, appendAiChat, handleAiChatSubmit } = useMessagesProvider();
   const { setCurrentQuestion } = usePromptsProvider();
   const { fetchInitialMessages } = useInitialMessagesProvider();
@@ -78,7 +78,7 @@ const useChat = () => {
     handleSubmit,
     append,
     clearQuery,
-    reportEnabled,
+    isReportChat,
   };
 };
 

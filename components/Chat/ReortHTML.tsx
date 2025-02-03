@@ -1,7 +1,7 @@
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import Icon from "../Icon";
 
-const ReportAnswer = ({ rawContent }: { rawContent: string }) => {
+const ReportHTML = ({ rawContent }: { rawContent: string }) => {
   const { bannerImage, bannerArtistName } = useFunnelReportProvider();
 
   return (
@@ -24,4 +24,4 @@ const ReportAnswer = ({ rawContent }: { rawContent: string }) => {
   );
 };
 
-export default ReportAnswer;
+export default ReportHTML;

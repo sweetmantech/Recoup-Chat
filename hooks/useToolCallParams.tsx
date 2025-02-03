@@ -12,7 +12,7 @@ const useToolCallParams = (message: Message) => {
   const question = toolInvocationResult?.result?.question || "";
   const context = toolInvocationResult?.result?.context || "";
   const toolName = toolInvocationResult?.toolName;
-  const specificReportParams = useSpecificReport(message);
+  const specificReportParams = useSpecificReport();
   const { finalCallback } = useMessagesProvider();
 
   const trackReport = async (

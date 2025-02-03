@@ -8,17 +8,12 @@ import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import isAnalysisTool from "@/lib/isAnalysisTool";
 
 const ToolFollowUp = ({ message }: { message: AIMessage }) => {
-  const { loading, answer, toolName, context, specificReportParams } =
-    useToolCallProvider();
+  const { loading, answer, toolName, context } = useToolCallProvider();
   const { isSearchingTrends, isGettingVideos, isLoadingReport } =
     useFunnelReportProvider();
   const content = message.content || answer;
   const isThinking =
-    loading ||
-    isSearchingTrends ||
-    isGettingVideos ||
-    isLoadingReport ||
-    specificReportParams.isGeneratingReport;
+    loading || isSearchingTrends || isGettingVideos || isLoadingReport;
 
   useEffect(() => {
     scrollTo();
