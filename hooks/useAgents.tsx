@@ -75,14 +75,14 @@ const useAgents = () => {
       agentAnalysisId as string,
       funnelType as string,
     );
-    push(`/funnels/${funnelType}/${agentAnalysisId}`);
     addConversations({
       conversationId: agentAnalysisId,
-      agentArtistId,
+      accountId: agentArtistId,
       title: `${funnelType} Analysis: ${agentArtistName}`,
       is_funnel_analysis: true,
       funnel_name: funnelType,
     });
+    push(`/funnels/${funnelType}/${agentAnalysisId}`);
   };
 
   return {
