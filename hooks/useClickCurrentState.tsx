@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 
 const useClickCurrentState = () => {
   const { selectedArtist } = useArtistProvider();
-  const { curLiveAgent } = useAutopilotProvider();
+  const { curLiveAgent, eventsLogs } = useAutopilotProvider();
   const { push } = useRouter();
 
   const statusMessages: any = {
@@ -35,6 +35,10 @@ const useClickCurrentState = () => {
       );
       return;
     }
+    if (eventsLogs[0].metadata.is_funnel_analysis)
+      push(
+        `/funnels/${eventsLogs[0].metadata.funnel_name}/${eventsLogs[0].metadata.conversationId}`,
+      );
   };
 
   return {
