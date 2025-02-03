@@ -26,6 +26,8 @@ export async function GET(req: NextRequest) {
       .neq("status", STEP_OF_AGENT.FINISHED)
       .neq("status", STEP_OF_AGENT.ERROR)
       .neq("status", STEP_OF_AGENT.UNKNOWN_PROFILE)
+      .neq("status", STEP_OF_AGENT.RATE_LIMIT_EXCEEDED)
+      .neq("status", STEP_OF_AGENT.MISSING_POSTS)
       .order("updated_at", { ascending: false })
       .limit(1)
       .single();
