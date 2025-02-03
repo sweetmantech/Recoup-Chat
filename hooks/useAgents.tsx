@@ -48,7 +48,6 @@ const useAgents = () => {
     const agentArtistName = agentdata?.name || selectedArtist?.name || "";
     const agentArtistHandles = agentdata?.handles || handles;
     if (!agentArtistId) return;
-    setIsCheckingHandles(false);
     setAgentsStatus([]);
     setIsInitializing(true);
     setIsLoading(true);
@@ -59,6 +58,7 @@ const useAgents = () => {
     );
     if (!agentId) return;
     push(`/funnels/${funnelType}/${agentId}`);
+    setIsCheckingHandles(false);
     runAgentTimer();
     addConversations({
       conversationId: agentId,
