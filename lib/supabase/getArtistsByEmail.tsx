@@ -8,7 +8,7 @@ const getArtistsByEmail = async (email: string) => {
     .select("*")
     .eq("email", email)
     .single();
-  if (!accountEmail) return Response.json({ artists: [] }, { status: 200 });
+  if (!accountEmail) return [];
   const accountId = accountEmail.account_id;
   const { data: artists } = await client
     .from("account_artist_ids")
