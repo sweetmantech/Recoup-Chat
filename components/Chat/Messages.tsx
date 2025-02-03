@@ -7,6 +7,7 @@ import { Message as AIMessage } from "ai";
 import { ToolCallProvider } from "@/providers/ToolCallProvider";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
 import { usePromptsProvider } from "@/providers/PromptsProvider";
+import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 
 const Messages = ({
   scroll,
@@ -21,7 +22,7 @@ const Messages = ({
   const { messages, pending } = useMessagesProvider();
   const { suggestions } = usePromptsProvider();
   const scrollTo = () => scroll({ smooth: true, y: Number.MAX_SAFE_INTEGER });
-
+  const { isLoadingReport } = useFunnelReportProvider();
   useEffect(() => {
     scrollTo();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -43,7 +44,7 @@ const Messages = ({
             <Message message={message} index={index} />
           </ToolCallProvider>
         ))}
-      {pending && <Thinking />}
+      {pending && isLoadingReport && <Thinking />}
     </ScrollArea>
   );
 };
