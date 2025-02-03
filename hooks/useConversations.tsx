@@ -24,9 +24,10 @@ const useConversations = () => {
   const { push } = useRouter();
 
   const addConversations = (newmetadata: any) => {
-    const temp: any = [...conversations];
-    temp.push({ metadata: newmetadata });
-    setAllConverstaions([...temp]);
+    setAllConverstaions([
+      { metadata: newmetadata } as any,
+      ...allConverstaions,
+    ]);
   };
 
   useEffect(() => {
