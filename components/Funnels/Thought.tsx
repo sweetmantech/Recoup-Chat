@@ -12,7 +12,6 @@ const Thought = ({ thought }: { thought: any }) => {
   const isError =
     thought.status === STEP_OF_AGENT.ERROR ||
     thought.status === STEP_OF_AGENT.UNKNOWN_PROFILE;
-  const isComplete = thought.status === STEP_OF_AGENT.FINISHED;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const statusMessages: any = {
@@ -27,7 +26,7 @@ const Thought = ({ thought }: { thought: any }) => {
     [STEP_OF_AGENT.SAVING_ANALYSIS]: `Saving video comments scrapped data.`,
     [STEP_OF_AGENT.CREATED_ARTIST]: `Setting up artist mode.`,
     [STEP_OF_AGENT.SETTING_UP_ARTIST]: `Setting up artist mode.`,
-    [STEP_OF_AGENT.FINISHED]: "",
+    [STEP_OF_AGENT.FINISHED]: `${thought.type} analysis complete ✅`,
   };
 
   return (
@@ -43,11 +42,6 @@ const Thought = ({ thought }: { thought: any }) => {
         <span onClick={toggleSettingModal} className="underline cursor-pointer">
           Click here to retry.
         </span>
-      )}
-      {isComplete && (
-        <StreamingThought
-          text={`${thought.type} analysis complete ✅`}
-        ></StreamingThought>
       )}
     </>
   );
