@@ -1,8 +1,5 @@
-import createArtist from "@/lib/createArtist";
-import { useAgentsProvider } from "@/providers/AgentsProvider";
-import { useArtistProvider } from "@/providers/ArtistProvider";
+import useRunAgent from "@/hooks/useRunAgent";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
-import { useUserProvider } from "@/providers/UserProvder";
 
 const AnalysisButton = ({
   className,
@@ -11,40 +8,13 @@ const AnalysisButton = ({
   className?: string;
   containerClasses?: string;
 }) => {
-  const { username, funnelType, setIsLoading, setIsInitializing } =
-    useFunnelAnalysisProvider();
-  const { runAgents, lookupProfiles } = useAgentsProvider();
-  const { getArtists } = useArtistProvider();
-  const { userData } = useUserProvider();
-
-  const handleClick = async () => {
-    setIsInitializing(true);
-    setIsLoading(true);
-    try {
-      if (!userData?.account_id) return;
-      const newArtist = await createArtist(username, userData.account_id);
-      await getArtists(newArtist.account_id);
-      if (funnelType === "wrapped") {
-        lookupProfiles("wrapped", newArtist);
-        return;
-      }
-      await runAgents({
-        artistId: newArtist.account_id,
-        name: newArtist.name,
-        handles: {
-          [`${funnelType}`]: username,
-        },
-      });
-    } catch (error) {
-      console.error("Error during analysis:", error);
-      setIsLoading(false);
-    }
-  };
+  const { handleAnalyze } = useRunAgent();
+  const { username } = useFunnelAnalysisProvider();
 
   return (
     <div className={`space-y-3 ${containerClasses}`}>
       <button
-        onClick={handleClick}
+        onClick={handleAnalyze}
         disabled={!username}
         className={`bg-black rounded-[10px] pl-5 pr-4 h-9 z-20 flex items-center gap-2 justify-center
         transition-all text-[15px] font-medium text-white hover:bg-black active:bg-white/80
