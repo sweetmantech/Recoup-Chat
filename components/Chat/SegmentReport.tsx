@@ -1,6 +1,6 @@
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { useToolCallProvider } from "@/providers/ToolCallProvider";
-import ReportHTML from "./ReortHTML";
+import ReportHTML from "./ReportHTML";
 import ReportSummaryNote from "./ReportNextSteps";
 import { useEffect, useState } from "react";
 import getFunnelReport from "@/lib/getFunnelReport";
