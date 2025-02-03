@@ -8,7 +8,7 @@ import { ArtistRecord } from "@/types/Artist";
 import callAgentApi from "@/lib/agent/callAgentApi";
 import trackAgent from "@/lib/stack/trackAgentRun";
 import trackAgentChat from "@/lib/stack/trackAgentChat";
-import useConversations from "./useConversations";
+import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 
 const useAgents = () => {
   const {
@@ -25,7 +25,7 @@ const useAgents = () => {
   const { push } = useRouter();
   const { address, isPrepared } = useUserProvider();
   const { selectedArtist } = useArtistProvider();
-  const { addConversations } = useConversations();
+  const { addConversations } = useConversationsProvider();
 
   const lookupProfiles = async (
     funnelType: string,
@@ -53,9 +53,7 @@ const useAgents = () => {
     const agentAnalysisId = analysisId || uuidV4();
     const agentArtistName = agentdata?.name || selectedArtist?.name || "";
     const agentArtistHandles = agentdata?.handles || handles;
-
     if (!agentArtistId) return;
-
     setIsCheckingHandles(false);
     setAgentsStatus([]);
     setIsInitializing(true);
@@ -68,6 +66,13 @@ const useAgents = () => {
     if (!agentId) return;
     await trackAgent(agentId, agentAnalysisId as string, address);
     setAgentId(agentId);
+    addConversations({
+      conversationId: agentAnalysisId,
+      accountId: agentArtistId,
+      title: `${new String(funnelType as string).toUpperCase()} Analysis: ${agentArtistName}`,
+      is_funnel_analysis: true,
+      funnel_name: funnelType,
+    });
     await trackAgentChat(
       address,
       agentArtistName,
@@ -75,13 +80,6 @@ const useAgents = () => {
       agentAnalysisId as string,
       funnelType as string,
     );
-    addConversations({
-      conversationId: agentAnalysisId,
-      accountId: agentArtistId,
-      title: `${funnelType} Analysis: ${agentArtistName}`,
-      is_funnel_analysis: true,
-      funnel_name: funnelType,
-    });
     push(`/funnels/${funnelType}/${agentAnalysisId}`);
   };
 

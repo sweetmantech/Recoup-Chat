@@ -20,10 +20,10 @@ const RecentChats = ({ toggleModal }: { toggleModal: () => void }) => {
             <p className="text-sm truncate max-w-[200px]">{streamingTitle}</p>
           </button>
         )}
-        {conversations.map((conversation: Conversation) => (
+        {conversations.map((conversation: Conversation, index: number) => (
           <button
             className="flex gap-2 items-center"
-            key={conversation.metadata.id}
+            key={index}
             type="button"
             onClick={() => handleClick(conversation, toggleModal)}
           >

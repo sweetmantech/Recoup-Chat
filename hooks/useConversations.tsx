@@ -12,7 +12,7 @@ let timer: any = null;
 let streamedIndex = 1;
 
 const useConversations = () => {
-  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [conversations, setConversations] = useState<any>([]);
   const { address } = useUserProvider();
   const { conversation } = useParams();
   const conversationRef = useRef(conversation as string);
@@ -39,14 +39,10 @@ const useConversations = () => {
   }, [address]);
 
   useEffect(() => {
-    if (!selectedArtist?.account_id) {
-      setConversations(allConverstaions);
-      return;
-    }
     const filtered = allConverstaions.filter(
       (item: any) => item.metadata.accountId === selectedArtist?.account_id,
     );
-    setConversations(filtered);
+    setConversations([...filtered]);
   }, [selectedArtist, allConverstaions]);
 
   const trackGeneralChat = async (
