@@ -99,6 +99,7 @@ const useConversations = () => {
   };
 
   return {
+    addConversations,
     fetchConversations,
     conversations,
     conversationRef,

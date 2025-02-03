@@ -25,7 +25,7 @@ const useAgents = () => {
   const { push } = useRouter();
   const { address, isPrepared } = useUserProvider();
   const { selectedArtist } = useArtistProvider();
-  const { fetchConversations } = useConversations();
+  const { addConversations } = useConversations();
 
   const lookupProfiles = async (
     funnelType: string,
@@ -76,7 +76,13 @@ const useAgents = () => {
       funnelType as string,
     );
     push(`/funnels/${funnelType}/${agentAnalysisId}`);
-    fetchConversations(address);
+    addConversations({
+      conversationId: agentAnalysisId,
+      agentArtistId,
+      title: `${funnelType} Analysis: ${agentArtistName}`,
+      is_funnel_analysis: true,
+      funnel_name: funnelType,
+    });
   };
 
   return {
