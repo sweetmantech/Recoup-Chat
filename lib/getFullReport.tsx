@@ -17,12 +17,16 @@ const getFullReport = async (context: any) => {
     return {
       reportContent: formatPdf(reportContent),
       rawContent: data.content,
+      artistName: data.username,
+      artistBanner: data.avatar,
     };
   } catch (error) {
     console.error(error);
     return {
       reportContent: "",
       rawContent: "",
+      artistName: "",
+      artistBanner: "",
     };
   }
 };
