@@ -15,16 +15,16 @@ const getAggregatedAgentSocials = async (agentId: string) => {
     const followerCount = agent.agent_status.reduce(
       // eslint-disable-next-line
       (sum: any, ele: any) => sum + ele.social.followerCount,
+      0,
     );
     const username =
-      agent.agent_status.find(
-        // eslint-disable-next-line
-        (ele: any) => ele.social.username,
-      )?.[0]?.username || "";
+      // eslint-disable-next-line
+      agent.agent_status.find((ele: any) => ele.social.username)?.social
+        ?.username || "";
     const avatar =
       // eslint-disable-next-line
-      agent.agent_status.find((ele: any) => ele.social.avatar)?.[0]?.avatar ||
-      "";
+      agent.agent_status.find((ele: any) => ele.social.avatar)?.social
+        ?.avatar || "";
 
     return {
       username,

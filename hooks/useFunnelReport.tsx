@@ -4,7 +4,7 @@ import getFullReport from "@/lib/getFullReport";
 import getReportNextSteps from "@/lib/getReportNextSteps";
 import getAgentsInfoFromStack from "@/lib/stack/getAgentsInfoFromStack";
 import { useUserProvider } from "@/providers/UserProvder";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const useFunnelReport = () => {
   const [funnelTrends, setFunnelTrends] = useState<any>(null);
@@ -76,6 +76,10 @@ const useFunnelReport = () => {
     setBannerArtistName("");
     setBannerImage("");
   };
+
+  useEffect(() => {
+    getAggregatedAgentSocials("7faa64bc-b326-425e-a8f0-e4d032228748");
+  }, []);
 
   return {
     initReport,
