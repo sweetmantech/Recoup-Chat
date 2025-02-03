@@ -3,7 +3,6 @@ import instructions from "@/evals/scripts/instructions.json";
 import {
   HTML_RESPONSE_FORMAT_INSTRUCTIONS,
   INSTRUMENTAL_STYLE_SUGGESTION_NOTE,
-  REPORT_SUMMARY_NOTE,
 } from "../consts";
 import { FUNNEL_ANALYSIS } from "@/types/Agent";
 
@@ -28,14 +27,6 @@ const toolSystemMessage = (context: any, question: any, toolName: string) => {
     Question: ${question}
     ${instructions.get_campaign_score}
     ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}`;
-
-  if (toolName === "getSegmentsReport")
-    return `
-    Context: ${JSON.stringify(context)}
-    Question: ${question}
-    ${instructions.get_segments_report_summary}
-    ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
-    NOTE: ${REPORT_SUMMARY_NOTE}`;
 
   if (toolName === "getInstrumentalStyleSuggestions") {
     const comments = context?.map(
