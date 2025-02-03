@@ -41,7 +41,9 @@ const useFunnelReport = () => {
       commentIds,
       segmentName,
       segmentSize: (followerCount / totalSegmentSize) * segment.size,
-      segmentPercentage: Number(segment.size / totalSegmentSize * 100).toFixed(2)
+      segmentPercentage: Number(
+        (segment.size / totalSegmentSize) * 100,
+      ).toFixed(2),
     };
     const { reportContent, rawContent } = await getFullReport({
       ...agentdata,
