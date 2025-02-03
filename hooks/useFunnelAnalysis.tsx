@@ -12,7 +12,7 @@ let timer: any = null;
 
 const useFunnelAnalysis = () => {
   const params = useFunnelAnalysisParams();
-  const { analysis_id: agentId } = useParams();
+  const { agent_id: agentId } = useParams();
   const { address } = useUserProvider();
   const { getArtists } = useArtistProvider();
 
