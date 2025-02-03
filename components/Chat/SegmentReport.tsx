@@ -54,7 +54,7 @@ const SegmentReport = ({
       ) : (
         <div className="w-full">
           {isLoadingReport ? (
-            <p className="pt-1">is thinking...</p>
+            <p className="pt-1 text-sm">is thinking...</p>
           ) : (
             <div>
               <ReportHTML
