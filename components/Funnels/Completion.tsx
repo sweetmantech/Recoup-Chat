@@ -2,34 +2,21 @@ import { useEffect } from "react";
 import { usePromptsProvider } from "@/providers/PromptsProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import CompletedAnalysis from "./CompletedAnalysis";
-import isFinishedScraping from "@/lib/agent/isFinishedScraping";
+import Error from "./Error";
 
 const Completion = () => {
-  const { result, handleRetry, artistHandle, thoughts, funnelType } =
-    useFunnelAnalysisProvider();
+  const { agent, hasError } = useFunnelAnalysisProvider();
   const { getPrompts } = usePromptsProvider();
 
   useEffect(() => {
-    if (result) getPrompts(JSON.stringify(result), true);
+    if (agent) getPrompts(JSON.stringify(agent), true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [result]);
-
-  const isCompletedAnalysis = result?.segments?.length > 0;
+  }, [agent]);
 
   return (
-    <div>
-      {isCompletedAnalysis && <CompletedAnalysis />}
-      {isFinishedScraping(thoughts) &&
-        !isCompletedAnalysis &&
-        thoughts[`${funnelType}`] && (
-          <>
-            {`The account @${artistHandle || result?.name} does not have any engagement. Please try again with a handle with at least one comment on its videos. `}
-            <span onClick={handleRetry} className="underline cursor-pointer">
-              Click here to retry.
-            </span>
-          </>
-        )}
-    </div>
+    <>
+      {hasError ? <Error status={hasError?.status} /> : <CompletedAnalysis />}
+    </>
   );
 };
 

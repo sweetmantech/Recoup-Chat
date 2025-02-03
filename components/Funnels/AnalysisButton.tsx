@@ -1,5 +1,8 @@
-import { useAgentSocketProvider } from "@/providers/AgentSocketProvider";
+import createArtist from "@/lib/createArtist";
+import { useAgentsProvider } from "@/providers/AgentsProvider";
+import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
+import { useUserProvider } from "@/providers/UserProvder";
 
 const AnalysisButton = ({
   className,
@@ -8,16 +11,30 @@ const AnalysisButton = ({
   className?: string;
   containerClasses?: string;
 }) => {
-  const { username, setThoughts, setResult, funnelType, setIsLoading } =
+  const { username, funnelType, setIsLoading, setIsInitializing } =
     useFunnelAnalysisProvider();
-  const { lookupProfiles } = useAgentSocketProvider();
+  const { runAgents, lookupProfiles } = useAgentsProvider();
+  const { getArtists } = useArtistProvider();
+  const { userData } = useUserProvider();
 
   const handleClick = async () => {
-    setThoughts({});
-    setResult(null);
+    setIsInitializing(true);
     setIsLoading(true);
     try {
-      await lookupProfiles(funnelType as string);
+      if (!userData?.account_id) return;
+      const newArtist = await createArtist(username, userData.account_id);
+      await getArtists(newArtist.account_id);
+      if (funnelType === "wrapped") {
+        lookupProfiles("wrapped", newArtist);
+        return;
+      }
+      await runAgents({
+        artistId: newArtist.account_id,
+        name: newArtist.name,
+        handles: {
+          [`${funnelType}`]: username,
+        },
+      });
     } catch (error) {
       console.error("Error during analysis:", error);
       setIsLoading(false);

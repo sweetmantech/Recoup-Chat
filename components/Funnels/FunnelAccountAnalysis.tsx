@@ -6,6 +6,7 @@ import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const FunnelAccountAnalysis = () => {
   const { isLoading } = useFunnelAnalysisProvider();
+
   return <>{isLoading ? <AnalysisChat /> : <FunnelAccountInput />}</>;
 };
 

@@ -1,19 +1,17 @@
 import { useRouter } from "next/navigation";
 import FunnelCard from "./FunnelCard";
 import { useArtistProvider } from "@/providers/ArtistProvider";
-import { useAgentSocketProvider } from "@/providers/AgentSocketProvider";
+import { useAgentsProvider } from "@/providers/AgentsProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const Agents = () => {
   const { push } = useRouter();
   const { selectedArtist } = useArtistProvider();
-  const { lookupProfiles } = useAgentSocketProvider();
-  const { setIsLoading, setResult, setThoughts } = useFunnelAnalysisProvider();
+  const { lookupProfiles } = useAgentsProvider();
+  const { setIsLoading } = useFunnelAnalysisProvider();
 
   const handleClick = (funnelName: string) => {
     if (selectedArtist) {
-      setThoughts({});
-      setResult(null);
       setIsLoading(true);
       lookupProfiles(funnelName);
       return;

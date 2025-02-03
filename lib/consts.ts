@@ -1,6 +1,7 @@
 // STACK EVENTS
 export const MESSAGE_SENT_EVENT = "message_sent";
 export const ACTION_EVENT = "action_sent";
+export const AGENT_RUN = "agent_run";
 export const LUH_TYLER_3D_SCORE = "luh-tyler-3d-score";
 export const MESSAGE_SENT_POINT = 1;
 export const PAYMENT_CREDITS_POINT = 1;

@@ -1,20 +1,35 @@
 import capitalize from "@/lib/capitalize";
-import { Funnel_Type } from "@/types/Funnel";
+import { Funnel_Type, STEP_OF_AGENT } from "@/types/Funnel";
 import { useParams, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { v4 as uuidV4 } from "uuid";
 
 const useFunnelAnalysisParams = () => {
   const [username, setUsername] = useState("");
-  const [thoughts, setThoughts] = useState<any>({});
-  const [result, setResult] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const artistHandle = username.replaceAll("@", "");
   const [segments, setSegments] = useState<Array<any>>([]);
   const { funnel_type: funnelType } = useParams();
   const { push } = useRouter();
   const [handles, setHandles] = useState<any>({});
   const [isCheckingHandles, setIsCheckingHandles] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(false);
+  const [isCheckingAgentId, setIsCheckingAgentId] = useState(false);
+  const [isCheckingAgentStatus, setIsCheckingAgentStatus] = useState(false);
+  const [isLoadingAgent, setIsLoadingAgent] = useState(false);
+  const [isLoadingSegments, setIsLoadingSegments] = useState(false);
+  const [agentId, setAgentId] = useState<string | null>(null);
+  const [agent, setAgent] = useState<any>(null);
+  const [agentsStatus, setAgentsStatus] = useState<any>([]);
+
+  const hasError =
+    agentsStatus.some(
+      (agentStatus: any) =>
+        agentStatus.status === STEP_OF_AGENT.ERROR ||
+        agentStatus.status === STEP_OF_AGENT.UNKNOWN_PROFILE,
+    ) &&
+    !agentsStatus.some(
+      (agentStatus: any) => agentStatus.status === STEP_OF_AGENT.FINISHED,
+    );
 
   const funnelName = useMemo(() => {
     if (!funnelType) return "";
@@ -23,33 +38,43 @@ const useFunnelAnalysisParams = () => {
   }, [funnelType]);
 
   const handleRetry = () => {
-    setResult(null);
     setSegments([]);
-    setThoughts({});
     setUsername("");
     setIsLoading(false);
     push(`/funnels/${funnelType}/${uuidV4()}`);
   };
 
   return {
+    isInitializing,
+    setIsCheckingAgentId,
+    isCheckingAgentId,
+    setIsInitializing,
     isLoading,
     setIsLoading,
-    artistHandle,
     segments,
     setSegments,
-    result,
-    setResult,
     setUsername,
-    setThoughts,
     funnelName,
     funnelType,
-    thoughts,
     handleRetry,
     username,
     handles,
     setHandles,
     isCheckingHandles,
     setIsCheckingHandles,
+    setIsCheckingAgentStatus,
+    isCheckingAgentStatus,
+    setIsLoadingSegments,
+    isLoadingSegments,
+    setAgent,
+    setAgentId,
+    setAgentsStatus,
+    agentsStatus,
+    agent,
+    agentId,
+    setIsLoadingAgent,
+    isLoadingAgent,
+    hasError,
   };
 };
 

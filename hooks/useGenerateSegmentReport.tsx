@@ -8,7 +8,7 @@ import { useParams } from "next/navigation";
 const useGenerateSegmentReport = () => {
   const { append } = useChatProvider();
   const { funnelType } = useFunnelAnalysisProvider();
-  const { chat_id: chatId } = useParams();
+  const { analysis_id: analysisId } = useParams();
   const { isPrepared } = useUserProvider();
   const {
     toggleModal,
@@ -48,14 +48,14 @@ const useGenerateSegmentReport = () => {
       openReportChat(
         segmentName,
         funnel_type as string,
-        report_id || (chatId as string),
+        report_id || (analysisId as string),
       );
       return;
     }
     setSuccessCallbackParams(
       new URLSearchParams({
         segmentName,
-        reportId: report_id || (chatId as string),
+        reportId: report_id || (analysisId as string),
       }).toString(),
     );
     toggleModal(minimumCredits === 5);

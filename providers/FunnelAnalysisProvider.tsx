@@ -2,7 +2,7 @@
 
 import useFunnelAnalysis from "@/hooks/useFunnelAnalysis";
 import React, { createContext, useContext, useMemo } from "react";
-import { AgentSocketProvider } from "./AgentSocketProvider";
+import { AgentsProvider } from "./AgentsProvider";
 
 const FunnelAnalysisContext = createContext<
   ReturnType<typeof useFunnelAnalysis>
@@ -19,7 +19,7 @@ const FunnelAnalysisProvider = ({
 
   return (
     <FunnelAnalysisContext.Provider value={value}>
-      <AgentSocketProvider>{children}</AgentSocketProvider>
+      <AgentsProvider>{children}</AgentsProvider>
     </FunnelAnalysisContext.Provider>
   );
 };

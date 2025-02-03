@@ -1,12 +1,12 @@
-import { useAgentSocketProvider } from "@/providers/AgentSocketProvider";
+import { useAgentsProvider } from "@/providers/AgentsProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const InputHandles = () => {
   const { handles, setHandles } = useFunnelAnalysisProvider();
-  const { openAgentSocket } = useAgentSocketProvider();
+  const { runAgents } = useAgentsProvider();
 
   const handleContinue = () => {
-    openAgentSocket();
+    runAgents();
   };
 
   // eslint-disable-next-line

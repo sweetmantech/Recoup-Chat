@@ -1,5 +1,5 @@
 import { getSupabaseServerAdminClient } from "@/packages/supabase/src/clients/server-admin-client";
-import { STEP_OF_ANALYSIS } from "@/types/Funnel";
+import { STEP_OF_AGENT } from "@/types/Funnel";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
     const { data } = await client
       .from("funnel_analytics")
       .select("*")
-      .gt("status", STEP_OF_ANALYSIS.UNKNOWN_PROFILE)
+      .gt("status", STEP_OF_AGENT.UNKNOWN_PROFILE)
       .eq("artistId", artistId)
       .order("timestamp", { ascending: false });
 

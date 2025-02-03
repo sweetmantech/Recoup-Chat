@@ -12,7 +12,7 @@ type AccountResponse = {
  * @throws Error if phone number is not provided or if there's a database error
  */
 export async function getAccountByPhone(
-  phone: string
+  phone: string,
 ): Promise<AccountResponse> {
   if (!phone) {
     throw new Error("Phone number is required");

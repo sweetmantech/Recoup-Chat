@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
             ...account,
           },
         },
-        { status: 200 }
+        { status: 200 },
       );
     }
 
@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
           organization: "",
         },
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error(error);
@@ -78,7 +78,7 @@ export async function GET(request: NextRequest) {
     if (!phone) {
       return Response.json(
         { error: "Phone number is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 

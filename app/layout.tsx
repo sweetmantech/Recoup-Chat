@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "react-toastify/dist/ReactToastify.css";
 import Providers from "@/providers/Providers";
 import { DESCRIPTION, TITLE } from "@/lib/consts";
 import Sidebar from "@/components/Sidebar";
@@ -8,6 +9,7 @@ import { Suspense } from "react";
 import ArtistSettingModal from "@/components/ArtistSettingModal";
 import MobileDownloadModal from "@/components/ModalDownloadModal";
 import ArtistsSidebar from "@/components/AutoPilot/ArtistsSidebar";
+import { ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -48,6 +50,7 @@ export default function RootLayout({
               </div>
               <MobileDownloadModal />
             </div>
+            <ToastContainer />
           </Providers>
         </Suspense>
       </body>
