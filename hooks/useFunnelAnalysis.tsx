@@ -1,6 +1,6 @@
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useUserProvider } from "@/providers/UserProvder";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import useFunnelAnalysisParams from "./useFunnelAnalysisParams";
 import getAgent from "@/lib/supabase/getAgent";
@@ -15,6 +15,7 @@ const useFunnelAnalysis = () => {
   const { agent_id: agentId } = useParams();
   const { address } = useUserProvider();
   const { getArtists } = useArtistProvider();
+  const { push } = useRouter();
 
   const getAgentTimer: any = async () => {
     if (!agentId) {
@@ -29,6 +30,7 @@ const useFunnelAnalysis = () => {
       params.setIsCheckingAgentStatus(true);
       params.setIsLoadingAgent(false);
       clearInterval(timer);
+      push("/funnels/wrapped");
       return;
     }
     params.setIsLoadingAgent(false);
@@ -58,7 +60,10 @@ const useFunnelAnalysis = () => {
   };
 
   useEffect(() => {
-    if (agentId && address) runAgentTimer();
+    if (agentId && address) {
+      params.setIsLoading(true);
+      runAgentTimer();
+    }
     return () => clearInterval(timer);
   }, [agentId, address]);
 

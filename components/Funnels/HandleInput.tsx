@@ -2,12 +2,13 @@ import useRunAgent from "@/hooks/useRunAgent";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const HandleInput = () => {
-  const { username, setUsername, funnelType } = useFunnelAnalysisProvider();
+  const { username, setUsername, funnelType, isLoading } =
+    useFunnelAnalysisProvider();
   const { handleAnalyze } = useRunAgent();
 
   // eslint-disable-next-line
   const handleKeyDown = (e: any) => {
-    if (!username) return;
+    if (!username || isLoading) return;
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleAnalyze();
