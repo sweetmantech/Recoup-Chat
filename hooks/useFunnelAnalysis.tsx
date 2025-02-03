@@ -1,7 +1,7 @@
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useFunnelAnalysisParams from "./useFunnelAnalysisParams";
 import getAnalysisSegments from "@/lib/agent/getAnalysisSegments";
 import getAgentIdFromStack from "@/lib/stack/getAgentIdFromStack";
@@ -9,45 +9,54 @@ import getAgent from "@/lib/supabase/getAgent";
 import getAgentsStatus from "@/lib/agent/getAgentsStatus";
 import isFinishedScraping from "@/lib/agent/isFinishedScraping";
 import { STEP_OF_AGENT } from "@/types/Funnel";
+import getAgentsInfoFromStack from "@/lib/stack/getAgentsInfoFromStack";
 
 const useFunnelAnalysis = () => {
   const params = useFunnelAnalysisParams();
   const { analysis_id: analysisId } = useParams();
   const { address } = useUserProvider();
   const { getArtists } = useArtistProvider();
-  const [agentId, setAgentId] = useState<string | null>(null);
-  const [agent, setAgent] = useState<any>(null);
-  const [agentsStatus, setAgentsStatus] = useState<any>([]);
 
   const hasError =
-    agentsStatus.some(
+    params.agentsStatus.some(
       (agentStatus: any) =>
         agentStatus.status === STEP_OF_AGENT.ERROR ||
         agentStatus.status === STEP_OF_AGENT.UNKNOWN_PROFILE,
     ) &&
-    !agentsStatus.some(
+    !params.agentsStatus.some(
       (agentStatus: any) => agentStatus.status === STEP_OF_AGENT.FINISHED,
     );
 
   const getAgentTimer = async (timer: any = null) => {
-    if (!agentId) {
+    if (!params.agentId) {
       clearInterval(timer);
       return;
     }
     params.setIsLoading(true);
-    if (!agentsStatus.length) params.setIsCheckingAgentStatus(true);
-    const agent = await getAgent(agentId);
+    if (!params.agentsStatus.length) params.setIsCheckingAgentStatus(true);
+    params.setIsLoadingAgent(true);
+    const { agent, comments } = await getAgent(params.agentId);
     if (!agent) {
       params.setIsCheckingAgentStatus(true);
+      params.setIsLoadingAgent(false);
       return;
     }
+    params.setIsLoadingAgent(false);
     getArtists();
-    setAgent(agent);
+    params.setAgent(agent);
     params.setIsCheckingAgentStatus(false);
     const status = getAgentsStatus(agent);
-    setAgentsStatus(status);
+    params.setAgentsStatus(status);
     params.setIsInitializing(false);
     if (isFinishedScraping(status)) {
+      params.setIsLoadingSegments(true);
+      const { segments } = await getAgentsInfoFromStack(
+        params.agentId,
+        comments.slice(0, 500),
+        address,
+      );
+      params.setSegments(segments);
+      params.setIsLoadingSegments(false);
       clearInterval(timer);
       return;
     }
@@ -58,17 +67,19 @@ const useFunnelAnalysis = () => {
       getAgentTimer(timer);
     }, 10000);
     return () => clearInterval(timer);
-  }, [agentId]);
+  }, [params.agentId]);
 
   useEffect(() => {
+    params.setSegments([]);
+    params.setAgent(null);
     const init = async () => {
       params.setIsCheckingAgentId(true);
       const agentId = await getAgentIdFromStack(analysisId as string, address);
-      if (agentId) setAgentId(agentId);
+      if (agentId) params.setAgentId(agentId);
       params.setIsCheckingAgentId(false);
     };
     if (!analysisId || !address) {
-      setAgentId(null);
+      params.setAgentId(null);
       return;
     }
     init();
@@ -76,10 +87,6 @@ const useFunnelAnalysis = () => {
 
   return {
     ...params,
-    setAgentId,
-    agent,
-    agentsStatus,
-    setAgentsStatus,
     hasError,
   };
 };

@@ -7,10 +7,16 @@ const getAgent = async (agentId: string) => {
     );
     const data = await response.json();
 
-    return data.agent;
+    return {
+      agent: data.agent,
+      comments: data?.comments || null,
+    };
   } catch (error) {
     console.error(error);
-    return null;
+    return {
+      agents: null,
+      comments: null,
+    };
   }
 };
 

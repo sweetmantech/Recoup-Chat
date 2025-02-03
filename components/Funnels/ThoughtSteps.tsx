@@ -18,7 +18,9 @@ const ThoughtSteps = () => {
             <Thought thought={agentStatus} />
           </div>
         ))}
-      {isCheckingAgentStatus && agentsStatus.length === 0 && `Looking at Agent Status...`}
+      {isCheckingAgentStatus &&
+        agentsStatus.length === 0 &&
+        `Looking at Agent Status...`}
     </div>
   );
 };
