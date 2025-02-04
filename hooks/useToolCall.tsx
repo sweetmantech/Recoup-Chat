@@ -15,7 +15,7 @@ const useToolCall = (message: Message) => {
   const toolName = toolInvocationResult?.toolName;
   const specificReportParams = useSpecificReport();
   const { answer, loading, messages } = useToolMessages(question, toolName);
-  useAnalyzeArtistTool(toolName, toolArgs);
+  useAnalyzeArtistTool(toolName, question, toolArgs);
   useSegmentReportTool(toolName, toolArgs);
 
   return {
