@@ -18,7 +18,7 @@ const useToolCall = (message: Message) => {
   const { answer, loading, messages } = useToolMessages(question, toolName);
   useAnalyzeArtistTool(toolName, question, toolArgs);
   useSegmentReportTool(toolName, toolArgs);
-  useCreateArtistTool(toolName, toolArgs);
+  useCreateArtistTool(toolName, question, toolArgs);
 
   return {
     loading,
