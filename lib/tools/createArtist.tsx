@@ -22,7 +22,7 @@ const createArtist = (question: string) =>
     execute: async ({ artist_name }) => {
       return {
         context: {
-          status: ArtistToolResponse.CREATED_ARTIST,
+          status: ArtistToolResponse.CREATE_ARTIST,
           args: {
             artistName: artist_name,
           },

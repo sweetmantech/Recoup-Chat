@@ -1,4 +1,3 @@
-import CreatedArtist from "./CreatedArtist";
 import { ArtistToolResponse } from "@/types/Tool";
 import ArtistsTable from "./ArtistsTable";
 import SubmitArtist from "./SubmitArtist";
@@ -51,7 +50,6 @@ const Artist = () => {
       {status === ArtistToolResponse.MISSING_ARTIST_NAME && (
         <MissingArtist description="Please, click button to create an artist." />
       )}
-      {status === ArtistToolResponse.CREATED_ARTIST && <CreatedArtist />}
       {status === ArtistToolResponse.ARTIST_LIST && <ArtistsTable />}
       {status === ArtistToolResponse.NO_ARTISTS && <SubmitArtist />}
       {status === ArtistToolResponse.MISSING_ARTIST_TIKTOK_USERNAME && (

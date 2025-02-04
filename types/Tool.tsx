@@ -1,6 +1,6 @@
 export enum ArtistToolResponse {
   MISSING_ARTIST_NAME = "MISSING_ARTIST_NAME",
-  CREATED_ARTIST = "CREATED_ARTIST",
+  CREATE_ARTIST = "CREATE_ARTIST",
   NO_ARTISTS = "NO_ARTISTS",
   NO_CAMPAIGNS = "NO_CAMPAIGNS",
   ARTIST_LIST = "ARTIST_LIST",
@@ -27,4 +27,5 @@ export enum Tools {
   getPitchReport = "getPitchReport",
   analyzeArtist = "analyzeArtist",
   getInstrumentalStyleSuggestions = "getInstrumentalStyleSuggestions",
+  createArtist = "createArtist",
 }
