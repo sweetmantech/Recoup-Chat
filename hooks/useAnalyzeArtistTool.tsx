@@ -27,6 +27,7 @@ const useAnalyzeArtistTool = (
           content: `I am trying here. https://chat.recoupable.com/funnels/${agentType}`,
         },
         { id: uuidV4(), content: question || "", role: "user" },
+        chatId as string,
       );
       lookupProfiles(agentType);
     };
