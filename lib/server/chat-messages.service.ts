@@ -37,7 +37,7 @@ class ChatMessagesService {
 [Instruction]: 
 *****
 Do not include descriptive text before or after your answer. Answer the question only based on given fans data.
-Please try to provide accurate information about your fans, including their names.
+Please try to provide accurate information about fans, including their names.
 ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
 `;
 
