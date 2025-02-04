@@ -36,7 +36,7 @@ class ChatMessagesService {
 *****
 [Instruction]: 
 *****
-Given data is fans comments data.
+Do not include descriptive text before or after your answer. Answer the question only based on given fans comments data.
 ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
 `;
 
