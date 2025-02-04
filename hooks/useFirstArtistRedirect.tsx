@@ -4,9 +4,6 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { usePrivy } from "@privy-io/react-auth";
 
-/**
- * Hook to redirect to /funnels/wrapped when user has no artists
- */
 export function useFirstArtistRedirect() {
   const router = useRouter();
   const { ready, authenticated, user } = usePrivy();
