@@ -23,7 +23,7 @@ const useMessages = () => {
   const { email, address } = useUserProvider();
   const [toolCall, setToolCall] = useState<any>(null);
   const { selectedArtist } = useArtistProvider();
-  const { chat_Id: chatId } = useParams();
+  const { chat_id: chatId } = useParams();
   const { funnelContext, setFunnelContext } = useFunnels();
   const searchParams = useSearchParams();
   const active_analaysis_id = searchParams.get("active_analaysis_id");
@@ -73,17 +73,17 @@ const useMessages = () => {
   const finalCallback = async (
     message: Message,
     lastQuestion?: Message,
-    newConversationId?: string,
+    newChatId?: string,
     referenceId?: string,
   ) => {
-    const convId = newConversationId || (chatId as string);
+    const uniqueChatId = newChatId || (chatId as string);
     const question = lastQuestion || currentQuestion;
     if (!message.content || !question) return;
     await trackNewMessage(
       address as Address,
       question,
       selectedArtist?.account_id || "",
-      convId,
+      uniqueChatId,
     );
 
     await trackNewMessage(
@@ -94,7 +94,7 @@ const useMessages = () => {
         questionId: question.id,
       },
       selectedArtist?.account_id || "",
-      convId,
+      uniqueChatId,
       referenceId,
     );
     setCurrentQuestion(null);
