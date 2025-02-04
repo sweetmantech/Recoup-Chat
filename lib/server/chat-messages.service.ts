@@ -3,7 +3,7 @@ import "server-only";
 import { AI_MODEL, HTML_RESPONSE_FORMAT_INSTRUCTIONS } from "../consts";
 import createArtist from "../tools/createArtist";
 import getArtists from "../tools/getArtists";
-import getArtistAnalysis from "../tools/getArtistAnalysis";
+import analyzeArtist from "../tools/analyzeArtist";
 import createCampaign from "../tools/createCampaign";
 import getCampaigns from "../tools/getCampaigns";
 import updateArtistInfo from "../tools/updateArtistInfo";
@@ -86,7 +86,7 @@ ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
         getScoreInfo: getScoreInfo(question),
         createArtist: createArtist(question, email),
         getArtists: getArtists(question, email),
-        getArtistAnalysis: getArtistAnalysis(question),
+        analyzeArtist: analyzeArtist(question),
         createCampaign: createCampaign(question, email),
         getCampaigns: getCampaigns(question, email, artistId),
         updateArtistInfo: updateArtistInfo(question),

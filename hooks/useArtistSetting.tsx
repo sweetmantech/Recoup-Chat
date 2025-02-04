@@ -8,7 +8,7 @@ import { useMessagesProvider } from "@/providers/MessagesProvider";
 
 const useArtistSetting = () => {
   const { finalCallback } = useMessagesProvider();
-  const { conversation: conversationId } = useParams();
+  const { chat_id: chatId } = useParams();
   const imageRef = useRef() as any;
   const baseRef = useRef() as any;
   const [image, setImage] = useState("");
@@ -78,7 +78,7 @@ const useArtistSetting = () => {
         content: `Artist Information: Name - ${artistInfo.name} Image - ${artistInfo.image}`,
       },
       { id: uuidV4(), content: question, role: "user" },
-      conversationId as string,
+      chatId as string,
     );
   };
 
