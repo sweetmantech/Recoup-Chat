@@ -11,11 +11,13 @@ const useChatContext = () => {
       const comments = await getCommentsByArtistId(
         selectedArtist?.account_id || "",
       );
-      const formattedComments = comments.map((comment: any) => ({
-        avatar: comment.social.avatar,
-        username: comment.username,
-        profile_url: comment.profile_url,
-      })).slice(0, 500);
+      const formattedComments = comments
+        .map((comment: any) => ({
+          avatar: comment.social.avatar,
+          fanname: comment.username,
+          profile_url: comment.profile_url,
+        }))
+        .slice(0, 500);
       setChatContext(JSON.stringify(formattedComments));
     };
     if (!selectedArtist) {

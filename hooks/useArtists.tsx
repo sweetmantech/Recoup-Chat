@@ -9,6 +9,7 @@ import useInitialArtists from "./useInitialArtists";
 
 const useArtists = () => {
   const artistSetting = useArtistSetting();
+  const [isLoading, setIsLoading] = useState(true);
   const { email } = useUserProvider();
   const [artists, setArtists] = useState<ArtistRecord[]>([]);
   const [selectedArtist, setSelectedArtist] = useState<ArtistRecord | null>(
@@ -52,6 +53,7 @@ const useArtists = () => {
       setArtists(data.artists);
       if (data.artists.length === 0) {
         setSelectedArtist(null);
+        setIsLoading(false);
         return;
       }
       if (artistId) {
@@ -60,6 +62,7 @@ const useArtists = () => {
         );
         if (newUpdatedInfo) setSelectedArtist(newUpdatedInfo);
       }
+      setIsLoading(false);
     },
     [email],
   );
@@ -118,6 +121,8 @@ const useArtists = () => {
     ...artistMode,
     setMenuVisibleArtistId,
     menuVisibleArtistId,
+    setIsLoading,
+    isLoading,
   };
 };
 
