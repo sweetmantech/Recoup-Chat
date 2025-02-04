@@ -1,4 +1,6 @@
+import connectFansToArtist from "@/lib/connectFansToArtist";
 import getFanSegments from "@/lib/getFanSegments";
+import getSegments from "@/lib/getSegments";
 import getAgentsInfoFromStack from "@/lib/stack/getAgentsInfoFromStack";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
@@ -6,13 +8,17 @@ import { useUserProvider } from "@/providers/UserProvder";
 import { useEffect, useState } from "react";
 
 const useFansSegments = () => {
-  const [fansProfiles, setFansProfiles] = useState<any>([]);
+  const [fansSegments, setFansSegments] = useState<any>([]);
   const { conversations } = useConversationsProvider();
   const { address } = useUserProvider();
   const { selectedArtist } = useArtistProvider();
 
   useEffect(() => {
     const init = async () => {
+      const existingSegments = await getSegments(
+        selectedArtist?.account_id || "",
+      );
+      setFansSegments(existingSegments);
       const analyses = conversations.filter(
         (conversation) =>
           conversation.metadata.is_funnel_analysis &&
@@ -40,12 +46,17 @@ const useFansSegments = () => {
         aggregatedSegmentNames,
         aggregatedCommentIds,
       );
+      await connectFansToArtist(fanSegments, selectedArtist?.account_id || "");
+      const updatedSegments = await getSegments(
+        selectedArtist?.account_id || "",
+      );
+      setFansSegments(updatedSegments);
     };
     if (conversations.length && address && selectedArtist) init();
   }, [conversations, address, selectedArtist]);
 
   return {
-    fansProfiles,
+    fansSegments,
   };
 };
 
