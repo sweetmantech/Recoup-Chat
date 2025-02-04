@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
 
     const { data: fan_segments } = await client
       .from("artist_fan_segment")
-      .select("*, fan_profile:socials!artist_fan_segment_fan_social_id_fkey")
+      .select("*, socials!artist_fan_segment_fan_social_id_fkey(*)")
       .in("artist_social_id", account_social_ids);
     return Response.json(
       {
