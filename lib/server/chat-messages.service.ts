@@ -36,6 +36,7 @@ class ChatMessagesService {
 *****
 [Instruction]: 
 *****
+Given data is fans comments data.
 ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
 `;
 
