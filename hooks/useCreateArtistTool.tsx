@@ -17,12 +17,12 @@ const useCreateArtistTool = (
   useEffect(() => {
     const triggerTool = async () => {
       toggleCreation();
-      setName(toolArgs?.artist_name || "");
+      setName(toolArgs?.artistName || "");
       await finalCallback(
         {
           role: "assistant",
           id: uuidV4(),
-          content: `Please, create an artist using creation popup after clicking "New Artist" button.`,
+          content: `You create an artist using creation popup after clicking "New Artist" button.`,
         },
         { id: uuidV4(), content: question || "", role: "user" },
         chatId as string,
