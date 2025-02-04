@@ -6,7 +6,7 @@ import trackAction from "@/lib/stack/trackAction";
 import { useUserProvider } from "@/providers/UserProvder";
 import useStackActions from "./useStackActions";
 import useRunningAgents from "./useRunningAgents";
-import useFansProfiles from "./useFansProfiles";
+import useFansSegments from "./useFansSegments";
 import useSocialActions from "./useSocialActions";
 import useArtistComments from "./useArtistComments";
 
@@ -14,7 +14,7 @@ const useAutopilot = () => {
   const { selectedArtist } = useArtistProvider();
   const { address, email } = useUserProvider();
   const { curLiveAgent } = useRunningAgents();
-  const { fansProfiles } = useFansProfiles();
+  const { fansProfiles } = useFansSegments();
   const {
     analyses,
     segmentName,
