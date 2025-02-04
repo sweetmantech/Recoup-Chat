@@ -72,7 +72,7 @@ ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
       return {
         getVideosInfo: getVideosInfo(question),
         getScoreInfo: getScoreInfo(question),
-        createArtist: createArtist(question, email),
+        createArtist: createArtist(question),
         getArtists: getArtists(question, email),
         analyzeArtist: analyzeArtist(question),
         createCampaign: createCampaign(question, email),

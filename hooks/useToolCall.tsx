@@ -3,6 +3,7 @@ import useToolMessages from "./useToolMessages";
 import useAnalyzeArtistTool from "./useAnalyzeArtistTool";
 import useSegmentReportTool from "./useSegmentsReportTool";
 import useSpecificReport from "./useSpecificReport";
+import useCreateArtistTool from "./useCreateArtistTool";
 
 const useToolCall = (message: Message) => {
   const toolInvocations = [...(message.toolInvocations || [])];
@@ -17,6 +18,7 @@ const useToolCall = (message: Message) => {
   const { answer, loading, messages } = useToolMessages(question, toolName);
   useAnalyzeArtistTool(toolName, question, toolArgs);
   useSegmentReportTool(toolName, toolArgs);
+  useCreateArtistTool(toolName, question, toolArgs);
 
   return {
     loading,

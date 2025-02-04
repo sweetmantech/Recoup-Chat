@@ -4,15 +4,6 @@ import { v4 as uuidV4 } from "uuid";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getToolCallMessage = (toolName: string | undefined, context: any) => {
-  if (
-    toolName === "createArtist" &&
-    context.status === ArtistToolResponse.CREATED_ARTIST
-  )
-    return {
-      id: uuidV4(),
-      content: `Name: ${context.data.name}, ID: ${context.data.id}`,
-      role: "assistant",
-    };
   if (toolName === "getArtists")
     return {
       id: uuidV4(),
