@@ -7,8 +7,7 @@ const ToolContent = () => {
 
   return (
     <div>
-      {(toolName === "createArtist" ||
-        toolName === "getArtists" ||
+      {(toolName === "getArtists" ||
         toolName === "getArtistAnalysis" ||
         toolName === "getVideosInfo" ||
         toolName === "updateArtistInfo") && <Artist />}
