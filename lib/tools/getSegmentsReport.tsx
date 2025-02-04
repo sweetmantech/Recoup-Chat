@@ -4,7 +4,7 @@ import { ArtistToolResponse } from "@/types/Tool";
 
 const getSegmentsReport = (question: string) =>
   tool({
-    description: `**IMPORTANT:** Always call this tool for ANY question related to fan segments report:
+    description: `**IMPORTANT:** Always call this tool for ANY question related to segments report:
 Do NOT attempt to answer questions on these topics without consulting this tool first.
 For Example:
 "Please create a fan segment report for {report_id} using this segment {segment_name}"`,
