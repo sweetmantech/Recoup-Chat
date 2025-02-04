@@ -49,7 +49,7 @@ const useSegmentReportTool = (toolName: string | null, toolArgs: any) => {
       await saveReport(chatId as string, rawContent, nextSteps, false);
       funnelReport.setIsLoadingReport(false);
     };
-    if (toolName === Tools.getSegmentsReport && toolArgs && chatId) init();
+    if (toolName === Tools.getSegmentsReport && toolArgs && !chatId) init();
   }, [toolArgs, toolName, chatId]);
 };
 
