@@ -18,6 +18,7 @@ const useInitialMessages = () => {
   const fetchInitialMessages = useCallback(async () => {
     try {
       if (!address) return;
+      if (!chatId) return;
       const { messages, titleMessage } = await getInitialMessages(
         address,
         chatId as string,
