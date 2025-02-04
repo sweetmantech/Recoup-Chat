@@ -23,7 +23,7 @@ const useMessages = () => {
   const { email, address } = useUserProvider();
   const [toolCall, setToolCall] = useState<any>(null);
   const { selectedArtist } = useArtistProvider();
-  const { conversation: pathId } = useParams();
+  const { chat_Id: chatId } = useParams();
   const { funnelContext, setFunnelContext } = useFunnels();
   const searchParams = useSearchParams();
   const active_analaysis_id = searchParams.get("active_analaysis_id");
@@ -76,7 +76,7 @@ const useMessages = () => {
     newConversationId?: string,
     referenceId?: string,
   ) => {
-    const convId = newConversationId || (pathId as string);
+    const convId = newConversationId || (chatId as string);
     const question = lastQuestion || currentQuestion;
     if (!message.content || !question) return;
     await trackNewMessage(

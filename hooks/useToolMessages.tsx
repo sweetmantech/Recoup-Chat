@@ -8,7 +8,7 @@ import { useMessagesProvider } from "@/providers/MessagesProvider";
 
 const useToolMessages = (question?: string, toolName?: any) => {
   const { finalCallback } = useMessagesProvider();
-  const { conversation: conversationId } = useParams();
+  const { chat_id: chatId } = useParams();
   const { funnelRawReportContent } = useFunnelReportProvider();
 
   const toolCallContext = useMemo(() => {
@@ -41,7 +41,7 @@ const useToolMessages = (question?: string, toolName?: any) => {
           content: question as string,
           role: "user",
         },
-        conversationId as string,
+        chatId as string,
       );
     },
   });

@@ -12,7 +12,7 @@ const useAnalyzeArtistTool = (
 ) => {
   const { lookupProfiles } = useAgentsProvider();
   const { finalCallback } = useMessagesProvider();
-  const { conversation_id: conversationId } = useParams();
+  const { chat_id: chatId } = useParams();
 
   useEffect(() => {
     const triggerTool = async () => {
@@ -30,8 +30,7 @@ const useAnalyzeArtistTool = (
       );
       lookupProfiles(agentType);
     };
-    if (toolName === Tools.analyzeArtist && toolArgs && conversationId)
-      triggerTool();
+    if (toolName === Tools.analyzeArtist && toolArgs && chatId) triggerTool();
   }, [toolName, toolArgs]);
 };
 

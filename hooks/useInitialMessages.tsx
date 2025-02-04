@@ -8,17 +8,17 @@ import { useUserProvider } from "@/providers/UserProvder";
 const useInitialMessages = () => {
   const [initialMessages, setInitialMessages] = useState<StackMessage[]>([]);
   const { address } = useUserProvider();
-  const { conversation: conversationId } = useParams();
+  const { chat_id: chatId } = useParams();
   const [titleMessage, setTitleMessage] = useState<any>(null);
 
   const fetchInitialMessages = useCallback(async () => {
     try {
       setInitialMessages([]);
       if (!address) return;
-      if (!conversationId) return;
+      if (!chatId) return;
       const { messages, titleMessage } = await getInitialMessages(
         address,
-        conversationId as string,
+        chatId as string,
       );
       setTitleMessage(titleMessage);
       const sortedMessages = sortMessages(messages);
@@ -28,7 +28,7 @@ const useInitialMessages = () => {
       console.error("Error fetching initial messages:", error);
       return;
     }
-  }, [address, conversationId]);
+  }, [address, chatId]);
 
   useEffect(() => {
     fetchInitialMessages();

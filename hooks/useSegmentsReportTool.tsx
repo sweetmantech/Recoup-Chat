@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { v4 as uuidV4 } from "uuid";
 
 const useSegmentReportTool = (toolName: string | null, toolArgs: any) => {
-  const { conversation: conversationId } = useParams();
+  const { chat_id: chatId } = useParams();
   const funnelReport = useFunnelReportProvider();
   const { finalCallback } = useMessagesProvider();
 
@@ -46,12 +46,11 @@ const useSegmentReportTool = (toolName: string | null, toolArgs: any) => {
         toolArgs?.agentId,
         toolArgs?.segmentName,
       );
-      await saveReport(conversationId as string, rawContent, nextSteps, false);
+      await saveReport(chatId as string, rawContent, nextSteps, false);
       funnelReport.setIsLoadingReport(false);
     };
-    if (toolName === Tools.getSegmentsReport && toolArgs && conversationId)
-      init();
-  }, [toolArgs, toolName, conversationId]);
+    if (toolName === Tools.getSegmentsReport && toolArgs && chatId) init();
+  }, [toolArgs, toolName, chatId]);
 };
 
 export default useSegmentReportTool;
