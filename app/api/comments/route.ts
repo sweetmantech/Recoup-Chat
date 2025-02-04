@@ -40,7 +40,11 @@ export async function GET(req: NextRequest) {
         .in("id", chunkPostIds);
       if (posts) {
         const post_comments = posts.map((post) => post.post_comments);
-        comments.push(post_comments.flat());
+        comments.push(
+          post_comments
+            .flat()
+            .filter((post_comment) => !socialIds.some((socialId: string) => socialId === post_comment.social_id)),
+        );
         if (comments.flat().length > 500) break;
       }
     }

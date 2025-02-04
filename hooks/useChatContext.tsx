@@ -13,7 +13,6 @@ const useChatContext = () => {
       );
       const formattedComments = comments
         .map((comment: any) => ({
-          avatar: comment.social.avatar,
           fan_name: comment.username,
           comment_text: comment.comment,
           profile_url: comment.profile_url,
