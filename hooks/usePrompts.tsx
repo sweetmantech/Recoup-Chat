@@ -11,9 +11,10 @@ const usePrompts = () => {
   const [currentQuestion, setCurrentQuestion] = useState<Message | null>(null);
   const pathname = usePathname();
   const { funnelRawReportContent } = useFunnelReportProvider();
+  const isNewChat = pathname.includes("/new");
 
   useEffect(() => {
-    if (selectedArtist) {
+    if (selectedArtist && isNewChat) {
       setSuggestions([
         `Who are ${selectedArtist?.name || ""}’s most engaged fans?`,
         `Analyze ${selectedArtist?.name || ""}’s TikTok posts from this week.`,
@@ -21,7 +22,7 @@ const usePrompts = () => {
       return;
     }
     setSuggestions(SUGGESTIONS);
-  }, [selectedArtist, selectedArtist]);
+  }, [selectedArtist, isNewChat]);
 
   const getPrompts = async (content: string, isTikTokAnalysis?: boolean) => {
     const isFunnelReport = content === "Funnel Report";
