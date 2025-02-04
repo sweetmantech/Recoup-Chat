@@ -41,7 +41,8 @@ const useSegmentReportTool = (toolName: string | null, toolArgs: any) => {
 
   useEffect(() => {
     const init = async () => {
-      if (funnelReport.isLoadingReport) funnelReport.setIsLoadingReport(true);
+      if (!funnelReport.isLoadingReport) return;
+      funnelReport.setIsLoadingReport(true);
       const { rawContent, nextSteps } = await funnelReport.setFunnelReport(
         toolArgs?.agentId,
         toolArgs?.segmentName,
@@ -49,7 +50,7 @@ const useSegmentReportTool = (toolName: string | null, toolArgs: any) => {
       await saveReport(chatId as string, rawContent, nextSteps, false);
       funnelReport.setIsLoadingReport(false);
     };
-    if (toolName === Tools.getSegmentsReport && toolArgs && !chatId) init();
+    if (toolName === Tools.getSegmentsReport && toolArgs && chatId) init();
   }, [toolArgs, toolName, chatId]);
 };
 
