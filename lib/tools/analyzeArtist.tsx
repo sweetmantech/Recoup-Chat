@@ -4,7 +4,7 @@ import { ArtistToolResponse } from "@/types/Tool";
 
 const analyzeArtist = (question: string) =>
   tool({
-    description: `IMPORTANT: Always call this tool for questions related to artist ANALYTICS:
+    description: `IMPORTANT: Always direct questions that begin with the word **Analyze** to this tool.
     Do NOT attempt to answer questions on these topics without calling this tool first.
 
     Example questions that MUST trigger this tool:
