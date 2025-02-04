@@ -29,14 +29,14 @@ export async function GET(req: NextRequest) {
 
     const postIds = social_posts.map((social_post) => social_post.post_id);
     const comments = [];
-    const chunkSize = 10;
+    const chunkSize = 100;
     const chunkCount =
       parseInt(Number(postIds.length / chunkSize).toFixed(0), 10) + 1;
     for (let i = 0; i < chunkCount; i++) {
       const chunkPostIds = postIds.slice(chunkSize * i, chunkSize * (i + 1));
       const { data: posts } = await client
         .from("posts")
-        .select("*, post_comments(*)")
+        .select("*, post_comments(*, social:socials(*))")
         .in("id", chunkPostIds);
       if (posts) {
         const post_comments = posts.map((post) => post.post_comments);
@@ -45,7 +45,7 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    return Response.json({ comments: comments.flat() }, { status: 200 });
+    return Response.json({ comments: comments.flat().slice(0, 500) }, { status: 200 });
   } catch (error) {
     console.error(error);
     const message = error instanceof Error ? error.message : "failed";

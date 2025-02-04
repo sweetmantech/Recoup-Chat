@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Message, useChat as useAiChat } from "ai/react";
 import { useCsrfToken } from "@/packages/shared/src/hooks";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useArtistProvider } from "@/providers/ArtistProvider";
@@ -12,6 +12,7 @@ import { Address } from "viem";
 import formattedContent from "@/lib/formattedContent";
 import { usePromptsProvider } from "@/providers/PromptsProvider";
 import useFunnels from "./useFunnels";
+import useChatContext from "./useChatContext";
 
 const useMessages = () => {
   const { currentQuestion, setCurrentQuestion } = usePromptsProvider();
@@ -25,8 +26,7 @@ const useMessages = () => {
   const { selectedArtist } = useArtistProvider();
   const { chat_id: chatId } = useParams();
   const { funnelContext, setFunnelContext } = useFunnels();
-  const searchParams = useSearchParams();
-  const active_analaysis_id = searchParams.get("active_analaysis_id");
+  const { chatContext } = useChatContext();
 
   const {
     messages,
@@ -44,8 +44,7 @@ const useMessages = () => {
     body: {
       email,
       artistId: selectedArtist?.account_id || "",
-      context: funnelContext || "",
-      active_analaysis_id: active_analaysis_id || "",
+      context: funnelContext || chatContext
     },
     initialMessages,
     onToolCall: ({ toolCall }) => {
