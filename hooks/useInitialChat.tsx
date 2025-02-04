@@ -18,7 +18,7 @@ const useInitialChat = () => {
   useEffect(() => {
     if (messages.length) {
       messagesRef.current = messages;
-      if (!pending && !isLoadingReport && funnelRawReportContent)
+      if (!pending && !isLoadingReport)
         getPrompts(messages[messages.length - 1]?.content);
     }
   }, [messages, funnelRawReportContent, pending, isLoadingReport]);
