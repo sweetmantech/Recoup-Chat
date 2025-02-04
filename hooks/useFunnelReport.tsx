@@ -3,11 +3,7 @@ import { useUserProvider } from "@/providers/UserProvder";
 import { useState } from "react";
 
 const useFunnelReport = () => {
-  const [funnelTrends, setFunnelTrends] = useState<any>(null);
-  const [isSearchingTrends, setIsSearchingTrends] = useState(false);
-  const [isGettingVideos, setIsGettingVideos] = useState(false);
   const [isLoadingReport, setIsLoadingReport] = useState(false);
-  const [funnelVideos, setFunnelVideos] = useState<any>(null);
   const [funnelNextSteps, setFunnelNextSteps] = useState("");
   const [funnelReportContent, setFunnelReportContent] = useState("");
   const [funnelRawReportContent, setFunnelRawReportContent] = useState("");
@@ -36,11 +32,6 @@ const useFunnelReport = () => {
     };
   };
 
-  const initReport = () => {
-    setFunnelTrends(null);
-    setFunnelVideos({});
-  };
-
   const clearReportCache = () => {
     setFunnelNextSteps("");
     setFunnelRawReportContent("");
@@ -50,16 +41,7 @@ const useFunnelReport = () => {
   };
 
   return {
-    initReport,
     setFunnelReport,
-    isSearchingTrends,
-    setFunnelTrends,
-    setIsSearchingTrends,
-    funnelTrends,
-    setIsGettingVideos,
-    isGettingVideos,
-    setFunnelVideos,
-    funnelVideos,
     setFunnelNextSteps,
     funnelNextSteps,
     funnelReportContent,

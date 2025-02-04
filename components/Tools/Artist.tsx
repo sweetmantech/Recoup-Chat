@@ -4,7 +4,6 @@ import ArtistsTable from "./ArtistsTable";
 import SubmitArtist from "./SubmitArtist";
 import { useToolCallProvider } from "@/providers/ToolCallProvider";
 import MissingTikTok from "./MissingTikTok";
-import TikTokPfp from "./TikTokPfp";
 import { useEffect } from "react";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import UpdateArtistInfo from "./UpdateArtistInfo";
@@ -59,7 +58,6 @@ const Artist = () => {
         <MissingTikTok />
       )}
       {status === ArtistToolResponse.MISSING_VIDEO_URL && <MissingVideoUrl />}
-      {status === ArtistToolResponse.TIKTOK_TRENDS && <TikTokPfp />}
       {status === ArtistToolResponse.UPDATED_ARTIST_INFO && (
         <>
           {!isOpenSettingModal && (

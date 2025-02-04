@@ -1,7 +1,7 @@
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { Message, useChat } from "ai/react";
 import { useParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { v4 as uuidV4 } from "uuid";
 import { Tools } from "@/types/Tool";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
@@ -9,22 +9,13 @@ import { useMessagesProvider } from "@/providers/MessagesProvider";
 const useToolMessages = (question?: string, toolName?: any) => {
   const { finalCallback } = useMessagesProvider();
   const { conversation: conversationId } = useParams();
-  const {
-    funnelTrends,
-    funnelVideos,
-    initReport,
-    isSearchingTrends,
-    funnelRawReportContent,
-  } = useFunnelReportProvider();
+  const { funnelRawReportContent } = useFunnelReportProvider();
 
   const toolCallContext = useMemo(() => {
-    if (funnelTrends) return funnelTrends;
-    if (funnelVideos) return funnelVideos;
     if (funnelRawReportContent) return funnelRawReportContent;
     return null;
-  }, [funnelTrends, funnelVideos, funnelRawReportContent]);
+  }, [funnelRawReportContent]);
 
-  const [beginCall, setBeginCall] = useState(false);
   const {
     messages,
     append,
@@ -59,26 +50,11 @@ const useToolMessages = (question?: string, toolName?: any) => {
     (message: Message) => message.role === "assistant",
   )?.[0]?.content;
 
-  useEffect(() => {
-    const init = async () => {
-      await append({
-        id: uuidV4(),
-        content: question as string,
-        role: "user",
-      });
-      initReport();
-      setBeginCall(false);
-    };
-    if (!beginCall || !question || !toolCallContext) return;
-    init();
-  }, [beginCall, question, toolCallContext]);
-
   return {
     messages,
     append,
-    loading: loading || isSearchingTrends,
+    loading: loading,
     answer,
-    setBeginCall,
   };
 };
 

@@ -17,6 +17,7 @@ export enum ArtistToolResponse {
   FUNNEL_SEGMENT_REPORT = "FUNNEL_SEGMENT_REPORT",
   FUNNEL_PITCH_REPORT = "FUNNEL_PITCH_REPORT",
   INSTRUMENTAL_STYLE_SUGGESTION = "INSTRUMENTAL_STYLE_SUGGESTION",
+  ANALYZE_ARTIST = "ANALYZE_ARTIST",
 }
 
 export enum Tools {
@@ -24,6 +25,6 @@ export enum Tools {
   getVideosInfo = "getVideosInfo",
   getSegmentsReport = "getSegmentsReport",
   getPitchReport = "getPitchReport",
-  getArtistAnalysis = "getArtistAnalysis",
+  analyzeArtist = "analyzeArtist",
   getInstrumentalStyleSuggestions = "getInstrumentalStyleSuggestions",
 }

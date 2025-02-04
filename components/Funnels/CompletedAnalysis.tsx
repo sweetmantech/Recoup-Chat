@@ -11,24 +11,26 @@ const CompletedAnalysis = () => {
     useFunnelAnalysisProvider();
   const { selectedArtist } = useArtistProvider();
   const isLoading = isLoadingSegments || isLoadingAgent;
+
+  const FanSegmentLabel = () => (
+    <p className="text-lg md:text-xl text-xl font-bold py-4"> Fan Segments</p>
+  );
   return (
     <>
       <p className="text-lg md:text-xl font-bold pb-4">
         <span className="capitalize">{funnelName}</span> Analysis complete✅
       </p>
       {isLoading ? (
-        <Skeleton className="w-full h-10" />
-      ) : (
-        <p>{`${selectedArtist?.name} has ${getAggregatedSocialProfiles(selectedArtist)?.followerCount} followers. We've analyzed your most recent 100 engagements in this quick scan. Select a fan segmentation below to generate a detailed report for brand partnership opportunities.`}</p>
-      )}
-      <p className="text-lg md:text-xl text-xl font-bold py-4"> Fan Segments</p>
-      {isLoading ? (
         <>
+          <Skeleton className="w-full h-10" />
+          <FanSegmentLabel />
           <Skeleton className="w-full h-10" />
           <SegmentsSkeleton />
         </>
       ) : (
         <>
+          <p>{`${selectedArtist?.name} has ${getAggregatedSocialProfiles(selectedArtist)?.followerCount} followers. We've analyzed your most recent 100 engagements in this quick scan. Select a fan segmentation below to generate a detailed report for brand partnership opportunities.`}</p>
+          <FanSegmentLabel />
           <p>{`We categorized ${selectedArtist?.name}'s fans into ${Object.keys(segments).length} different segments - click any to explore. The agent is running in the background and will notify you of new insights!`}</p>
           <Segments />
         </>

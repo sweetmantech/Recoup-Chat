@@ -24,8 +24,10 @@ For Example:
       return {
         context: {
           status: ArtistToolResponse.FUNNEL_SEGMENT_REPORT,
-          agentId: report_id,
-          segmentName: segment_name,
+          args: {
+            agentId: report_id,
+            segmentName: segment_name,
+          },
         },
         question,
       };
