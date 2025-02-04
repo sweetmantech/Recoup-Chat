@@ -15,6 +15,7 @@ const useFansSegments = () => {
 
   useEffect(() => {
     const init = async () => {
+      setFansSegments([]);
       const existingSegments = await getSegments(
         selectedArtist?.account_id || "",
       );
