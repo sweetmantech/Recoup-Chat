@@ -13,9 +13,11 @@ const useInitialMessages = () => {
 
   const fetchInitialMessages = useCallback(async () => {
     try {
-      setInitialMessages([]);
       if (!address) return;
-      if (!chatId) return;
+      if (!chatId) {
+        setInitialMessages([]);
+        return;
+      }
       const { messages, titleMessage } = await getInitialMessages(
         address,
         chatId as string,
