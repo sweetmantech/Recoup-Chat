@@ -9,12 +9,10 @@ import getCampaigns from "../tools/getCampaigns";
 import updateArtistInfo from "../tools/updateArtistInfo";
 import getScoreInfo from "../tools/getScoreInfo";
 import getBaseCampaign from "../chat/getBaseCampaign";
-import instructions from "@/evals/scripts/instructions.json";
 import getVideosInfo from "../tools/getVideosInfo";
 import getSegmentsReport from "../tools/getSegmentsReport";
 import getPitchReport from "../tools/getPitchReport";
 import getInstrumentalStyleSuggestions from "../tools/getInstrumentalStyleSuggestions";
-import getFunnelChatContext from "../getFunnelChatContext";
 
 export function createChatMessagesService() {
   return new ChatMessagesService();
@@ -27,29 +25,19 @@ class ChatMessagesService {
     question: string,
     email: string,
     artistId: string,
-    active_analaysis_id: string,
     context: string,
   ) {
     const tools = this.fetchRelevantTools(question, email, artistId);
-    let chatContext = await getFunnelChatContext(active_analaysis_id);
-    if (!chatContext) chatContext = context;
-    if (!chatContext)
-      chatContext = await this.fetchRelevantContext(email, artistId);
     const systemMessage = `
 *****
-[Context]: ${chatContext}
+[Context]: ${context}
 *****
 [Question]: ${question}
 *****
 [Instruction]: 
 *****
-${
-  context || active_analaysis_id
-    ? `
-If question is related with content calendar, content calendar should reference the expertes and post urls & timestamp!.
-`
-    : `${instructions.get_campaign}`
-}
+Do not include descriptive text before or after your answer. Answer the question only based on given fans data.
+Please try to provide accurate information about fans, including their names.
 ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
 `;
 

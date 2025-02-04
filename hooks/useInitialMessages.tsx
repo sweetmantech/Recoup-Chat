@@ -11,9 +11,12 @@ const useInitialMessages = () => {
   const { chat_id: chatId } = useParams();
   const [titleMessage, setTitleMessage] = useState<any>(null);
 
+  useEffect(() => {
+    if (!chatId) setInitialMessages([]);
+  }, [chatId]);
+
   const fetchInitialMessages = useCallback(async () => {
     try {
-      setInitialMessages([]);
       if (!address) return;
       if (!chatId) return;
       const { messages, titleMessage } = await getInitialMessages(

@@ -4,12 +4,13 @@ import { Mousewheel } from "swiper/modules";
 import Swiper from "swiper";
 import { usePromptsProvider } from "@/providers/PromptsProvider";
 import SuggestionPill from "./SuggestionPill";
+import { Skeleton } from "../ui/skeleton";
 
 Swiper.use([Mousewheel]);
 
 const SideSuggestions = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const { suggestions } = usePromptsProvider();
+  const { prompts } = usePromptsProvider();
 
   return (
     <div className="relative py-2">
@@ -40,11 +41,13 @@ const SideSuggestions = () => {
           },
         }}
       >
-        {[...suggestions, ...suggestions, ...suggestions].map(
-          (suggestion: string) => (
-            <SuggestionPill suggestion={suggestion} key={suggestion} />
-          ),
-        )}
+        {prompts?.length
+          ? [...prompts, ...prompts, ...prompts].map((suggestion: string) => (
+              <SuggestionPill suggestion={suggestion} key={suggestion} />
+            ))
+          : Array.from({ length: 4 }).map((_, index) => (
+              <Skeleton className="min-w-[200px] h-[66px]" key={index} />
+            ))}
       </Slider>
     </div>
   );

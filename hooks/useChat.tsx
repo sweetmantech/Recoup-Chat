@@ -4,26 +4,24 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
-import { useInitialMessagesProvider } from "@/providers/InititalMessagesProvider";
 import { usePromptsProvider } from "@/providers/PromptsProvider";
 
 const useChat = () => {
   const { login, address } = useUserProvider();
   const { push } = useRouter();
-  const { conversationId, trackGeneralChat, conversationRef } =
+  const { chatId, trackGeneralChat, conversationRef } =
     useConversationsProvider();
   const searchParams = useSearchParams();
   const isReportChat = searchParams.get("is_funnel_report");
   const { input, appendAiChat, handleAiChatSubmit } = useMessagesProvider();
   const { setCurrentQuestion } = usePromptsProvider();
-  const { fetchInitialMessages } = useInitialMessagesProvider();
 
   const goToNewConversation = async (
     content: string,
     is_funnel_report: boolean = false,
     active_analaysis_id: string = "",
   ) => {
-    if (conversationId) return;
+    if (chatId) return;
     const newId = uuidV4();
     conversationRef.current = newId;
     await trackGeneralChat(

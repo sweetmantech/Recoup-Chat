@@ -6,23 +6,29 @@ import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 
 const usePrompts = () => {
-  const { selectedArtist } = useArtistProvider();
-  const [suggestions, setSuggestions] = useState(SUGGESTIONS);
+  const { selectedArtist, artists, setSelectedArtist, isLoading } =
+    useArtistProvider();
+  const [prompts, setPrompts] = useState<string[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState<Message | null>(null);
   const pathname = usePathname();
   const { funnelRawReportContent } = useFunnelReportProvider();
   const isNewChat = pathname.includes("/new");
 
   useEffect(() => {
+    if (isLoading) return;
     if (selectedArtist && isNewChat) {
-      setSuggestions([
+      setPrompts([
         `Who are ${selectedArtist?.name || ""}’s most engaged fans?`,
         `Analyze ${selectedArtist?.name || ""}’s TikTok posts from this week.`,
       ]);
       return;
     }
-    setSuggestions(SUGGESTIONS);
-  }, [selectedArtist, isNewChat]);
+    if (artists.length) {
+      setSelectedArtist(artists[0]);
+      return;
+    }
+    setPrompts(SUGGESTIONS);
+  }, [selectedArtist, isNewChat, artists, isLoading]);
 
   const getPrompts = async (content: string, isTikTokAnalysis?: boolean) => {
     const isFunnelReport = content === "Funnel Report";
@@ -46,11 +52,11 @@ const usePrompts = () => {
     });
     const data = await response.json();
     if (!data?.questions) return;
-    setSuggestions(() => [...data.questions]);
+    setPrompts(() => [...data.questions]);
   };
 
   return {
-    suggestions,
+    prompts,
     setCurrentQuestion,
     currentQuestion,
     getPrompts,
