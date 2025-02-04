@@ -41,7 +41,7 @@ const useSegmentReportTool = (toolName: string | null, toolArgs: any) => {
 
   useEffect(() => {
     const init = async () => {
-      if (!funnelReport.isLoadingReport) return;
+      if (funnelReport.isLoadingReport) return;
       funnelReport.setIsLoadingReport(true);
       const { rawContent, nextSteps } = await funnelReport.setFunnelReport(
         toolArgs?.agentId,
