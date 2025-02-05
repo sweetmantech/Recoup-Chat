@@ -40,7 +40,6 @@ const useAutopilot = () => {
 
   useEffect(() => {
     const init = async () => {
-      if (actions.length >= 3) return;
       if (existingActions.length) {
         const filtered = defaultActions.filter(
           (action) => !existingActions.some((ele: any) => ele.id === action.id),
@@ -66,7 +65,7 @@ const useAutopilot = () => {
       }
     };
     init();
-  }, [defaultActions, existingActions, comments, actions]);
+  }, [defaultActions, existingActions, comments]);
 
   return {
     actions,
