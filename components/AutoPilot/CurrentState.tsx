@@ -19,7 +19,7 @@ const CurrentState = () => {
               className="text-left"
               onClick={handleClickState}
             >
-              {curLiveAgent ? runningAgentState : eventsLogs[0].metadata.title}
+              {curLiveAgent ? runningAgentState : eventsLogs[0].title}
             </button>
           ) : (
             <>

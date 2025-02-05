@@ -19,16 +19,13 @@ const useChat = () => {
   const goToNewConversation = async (
     content: string,
     is_funnel_report: boolean = false,
-    active_analaysis_id: string = "",
   ) => {
     if (chatId) return;
     const newId = uuidV4();
     conversationRef.current = newId;
-    trackGeneralChat(content, newId, is_funnel_report, active_analaysis_id);
+    trackGeneralChat(content, newId, is_funnel_report);
     const urlParmas = new URLSearchParams();
     if (is_funnel_report) urlParmas.set("is_funnel_report", "true");
-    if (active_analaysis_id)
-      urlParmas.set("active_analaysis_id", active_analaysis_id);
     push(`/${newId}?${urlParmas}`);
   };
 
@@ -43,12 +40,11 @@ const useChat = () => {
   const append = async (
     message: Message,
     is_funnel_report: boolean = false,
-    active_analaysis_id: string = "",
   ) => {
     if (!isPrepared()) return;
     setCurrentQuestion(message);
     appendAiChat(message);
-    goToNewConversation(message.content, is_funnel_report, active_analaysis_id);
+    goToNewConversation(message.content, is_funnel_report);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

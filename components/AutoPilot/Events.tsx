@@ -10,12 +10,12 @@ const Events = () => {
       <div className="flex flex-col max-h-[100px] overflow-y-auto md:max-h-full font-inter">
         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
         {eventsLogs.map((action: any) => (
-          <p className="text-xs md:text-sm" key={action.metadata.id}>
+          <p className="text-xs md:text-sm" key={action?.id}>
             <span className="text-xs">
               {new Date(action.timestamp).toLocaleString()}
             </span>{" "}
             &nbsp;
-            {action.metadata.title || action.metadata.label}
+            {action?.title}
           </p>
         ))}
       </div>

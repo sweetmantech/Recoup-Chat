@@ -5,6 +5,7 @@ import getAgentsInfoFromStack from "@/lib/stack/getAgentsInfoFromStack";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { useUserProvider } from "@/providers/UserProvder";
+import { ACTIONS } from "@/types/Autopilot";
 import { useEffect, useState } from "react";
 
 const useFansSegments = () => {
@@ -12,6 +13,7 @@ const useFansSegments = () => {
   const { conversations } = useConversationsProvider();
   const { address } = useUserProvider();
   const { selectedArtist } = useArtistProvider();
+  const [action, setAction] = useState<any>([]);
 
   useEffect(() => {
     const init = async () => {
@@ -56,8 +58,21 @@ const useFansSegments = () => {
     if (conversations.length && address && selectedArtist) init();
   }, [conversations, address, selectedArtist]);
 
+  useEffect(() => {
+    if (fansSegments.length)
+      setAction([
+        {
+          type: ACTIONS.FANS_PROFILES,
+          title: "Export Fans Profiles",
+          id: ACTIONS.FANS_PROFILES,
+          timestamp: new Date().getTime(),
+        },
+      ]);
+  }, [fansSegments]);
+
   return {
     fansSegments,
+    fansSegmentsAction: action,
   };
 };
 

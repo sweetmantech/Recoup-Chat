@@ -35,9 +35,9 @@ const useClickCurrentState = () => {
       );
       return;
     }
-    if (eventsLogs[0].metadata.is_funnel_analysis)
+    if (eventsLogs[0].is_funnel_analysis)
       push(
-        `/funnels/${eventsLogs[0].metadata.funnel_name}/${eventsLogs[0].metadata.conversationId}`,
+        `/funnels/${eventsLogs[0].funnel_name}/${eventsLogs[0].conversationId}`,
       );
   };
 

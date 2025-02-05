@@ -4,10 +4,12 @@ export enum ACTIONS {
   REPORT,
   CONTENT_CALENDAR,
   FANS_PROFILES,
+  AI_ACTION,
 }
 
 export type ACTION = {
   type: number;
-  id: number | string;
+  id: any;
   title: string;
+  timestamp: any;
 };
