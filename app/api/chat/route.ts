@@ -38,7 +38,6 @@ export async function POST(req: Request) {
         parameters: z.object({
           artist_name: z
             .string()
-            .optional()
             .describe("The name of the artist to be created."),
         }),
         execute: async ({ artist_name }) => ({
