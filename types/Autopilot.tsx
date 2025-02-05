@@ -9,6 +9,7 @@ export enum ACTIONS {
 
 export type ACTION = {
   type: number;
-  id: number | string;
+  id: any;
   title: string;
+  timestamp: any;
 };
