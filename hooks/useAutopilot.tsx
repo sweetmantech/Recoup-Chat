@@ -1,5 +1,5 @@
 import { useArtistProvider } from "@/providers/ArtistProvider";
-import { ACTION, ACTIONS } from "@/types/Autopilot";
+import { ACTIONS } from "@/types/Autopilot";
 import { useEffect, useMemo, useState } from "react";
 import trackAction from "@/lib/stack/trackAction";
 import { useUserProvider } from "@/providers/UserProvder";
@@ -8,6 +8,9 @@ import useRunningAgents from "./useRunningAgents";
 import useFansSegments from "./useFansSegments";
 import useSocialActions from "./useSocialActions";
 import useArtistComments from "./useArtistComments";
+import getNewAction from "@/lib/getNewAction";
+import { v4 as uuidV4 } from "uuid";
+import { timeStamp } from "console";
 
 const useAutopilot = () => {
   const { selectedArtist } = useArtistProvider();
@@ -37,11 +40,33 @@ const useAutopilot = () => {
   };
 
   useEffect(() => {
-    const filtered = defaultActions.filter(
-      (action) => !existingActions.some((ele: any) => ele.id === action.id),
-    );
-    setActions(filtered);
-  }, [defaultActions, existingActions]);
+    const init = async () => {
+      if (existingActions.length) {
+        const filtered = defaultActions.filter(
+          (action) => !existingActions.some((ele: any) => ele.id === action.id),
+        );
+        setActions(filtered);
+        if (filtered.length < 3 && comments.length) {
+          const newActionPromise = Array.from({
+            length: 3 - filtered.length,
+          }).map(async () => {
+            const newAction = await getNewAction(comments);
+            if (newAction)
+              setActions([
+                {
+                  type: ACTIONS.AI_ACTION,
+                  title: newAction,
+                  id: uuidV4(),
+                  timeStamp: new Date().getTime(),
+                },
+              ]);
+          });
+          await Promise.all(newActionPromise);
+        }
+      }
+    };
+    init();
+  }, [defaultActions, existingActions, comments]);
 
   return {
     actions,

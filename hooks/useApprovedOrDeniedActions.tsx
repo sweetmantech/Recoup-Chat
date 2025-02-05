@@ -12,7 +12,7 @@ const useApprovedOrDeniedActions = () => {
   const [actions, setActions] = useState<any>([]);
   const [stackEvents, setStackEvents] = useState<any>([]);
 
-  const { conversations } = useConversationsProvider()
+  const { conversations } = useConversationsProvider();
 
   const getExistingActions = useCallback(async () => {
     if (!selectedArtist?.account_id || !address) {
@@ -28,16 +28,18 @@ const useApprovedOrDeniedActions = () => {
 
   const getStackEvents = useCallback(() => {
     if (conversations.length) {
-      const analyses = conversations.filter((ele: any) => ele.metadata.is_funnel_analysis)
+      const analyses = conversations.filter(
+        (ele: any) => ele.metadata.is_funnel_analysis,
+      );
       const events = analyses.map((ele: any) => ({
         id: ele.uniqueId,
         type: "Analysis",
         title: ele.metadata.title,
-        timestamp: new Date(ele.timestamp).getTime()
-      }))
-      setStackEvents(events)
+        timestamp: new Date(ele.timestamp).getTime(),
+      }));
+      setStackEvents(events);
     }
-  }, [conversations])
+  }, [conversations]);
 
   const addExistingActions = (action: any) => {
     setActions([action, ...actions]);
@@ -47,14 +49,16 @@ const useApprovedOrDeniedActions = () => {
   useEffect(() => {
     getExistingActions();
   }, [getExistingActions]);
-  
+
   useEffect(() => {
     getStackEvents();
-  }, [getStackEvents])
+  }, [getStackEvents]);
 
   const existingActions = useMemo(() => {
-    return [...stackEvents, ...actions].sort((a, b) => b.timestamp - a.timestamp)
-  }, [stackEvents, actions])
+    return [...stackEvents, ...actions].sort(
+      (a, b) => b.timestamp - a.timestamp,
+    );
+  }, [stackEvents, actions]);
 
   return {
     existingActions,
