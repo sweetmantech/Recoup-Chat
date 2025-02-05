@@ -1,7 +1,7 @@
 import "server-only";
 
 import { openai } from "@ai-sdk/openai";
-import { CoreTool, streamText } from "ai";
+import { streamText } from "ai";
 // import { encodeChat } from "gpt-tokenizer";
 import { z } from "zod";
 
