@@ -29,14 +29,14 @@ export async function GET(req: NextRequest) {
 
     const postIds = social_posts.map((social_post) => social_post.post_id);
     const comments = [];
-    const chunkSize = 100;
+    const chunkSize = 10;
     const chunkCount =
       parseInt(Number(postIds.length / chunkSize).toFixed(0), 10) + 1;
     for (let i = 0; i < chunkCount; i++) {
       const chunkPostIds = postIds.slice(chunkSize * i, chunkSize * (i + 1));
       const { data: posts } = await client
         .from("posts")
-        .select("*, post_comments(*, social:socials(*))")
+        .select("*, post_comments(*, social:socials(*), post:posts(*))")
         .in("id", chunkPostIds);
       if (posts) {
         const post_comments = posts.map((post) => post.post_comments);
@@ -54,10 +54,20 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    return Response.json(
-      { comments: comments.flat().slice(0, 500) },
-      { status: 200 },
-    );
+    const formattedComments = comments
+      .flat()
+      .slice(0, 500)
+      .map((comment) => ({
+        comment: comment.comment,
+        commented_at: comment.commented_at,
+        post_url: comment.post.post_url,
+        commented_fan: {
+          username: comment.social.username,
+          profile_url: comment.social.profile_url,
+        },
+        id: comment.id,
+      }));
+    return Response.json({ comments: formattedComments }, { status: 200 });
   } catch (error) {
     console.error(error);
     const message = error instanceof Error ? error.message : "failed";

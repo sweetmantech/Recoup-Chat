@@ -11,14 +11,7 @@ const useChatContext = () => {
       const comments = await getCommentsByArtistId(
         selectedArtist?.account_id || "",
       );
-      const formattedComments = comments
-        .map((comment: any) => ({
-          fan_name: comment.username,
-          comment_text: comment.comment,
-          profile_url: comment.profile_url,
-        }))
-        .slice(0, 500);
-      setChatContext(JSON.stringify(formattedComments));
+      setChatContext(JSON.stringify(comments));
     };
     if (!selectedArtist) {
       setChatContext("");
