@@ -2,7 +2,7 @@ import "server-only";
 
 import { openai } from "@ai-sdk/openai";
 import { CoreTool, LanguageModelV1, streamText } from "ai";
-import { encodeChat } from "gpt-tokenizer";
+// import { encodeChat } from "gpt-tokenizer";
 import { z } from "zod";
 
 import { createChatMessagesService } from "./chat-messages.service";
@@ -71,30 +71,27 @@ class ChatLLMService {
       artistId,
       chatContext,
     );
-    const systemMessage = settings.systemMessage;
-    const maxTokens = settings.maxTokens;
+    // const systemMessage = settings.systemMessage;
+    // const maxTokens = settings.maxTokens;
     const tools = settings.tools;
     // we need to limit the history length so not to exceed the max tokens of the model
     // let's assume for simplicity that all models have a max tokens of 128000
     // so we need to make sure that the history doesn't exceed output length + system message length
-    const maxModelTokens = 228000;
+    // const maxModelTokens = 228000;
 
-    const maxHistoryLength = maxModelTokens - systemMessage.length - maxTokens;
-    let decodedHistory = encodeChat(messages, "o1-mini");
+    // const maxHistoryLength = maxModelTokens - systemMessage.length - maxTokens;
+    // let decodedHistory = encodeChat(messages, "o1-mini");
 
-    if (decodedHistory.length > maxHistoryLength) {
-      while (decodedHistory.length > maxHistoryLength) {
-        messages.shift();
-        decodedHistory = encodeChat(messages, "o1-mini");
-      }
-    }
+    // if (decodedHistory.length > maxHistoryLength) {
+    //   while (decodedHistory.length > maxHistoryLength) {
+    //     messages.shift();
+    //     decodedHistory = encodeChat(messages, "o1-mini");
+    //   }
+    // }
 
     // we use the openai model to generate a response
     const result = await streamText({
       model: openai(settings.model) as LanguageModelV1,
-      system: settings.systemMessage,
-      maxTokens: settings.maxTokens,
-      temperature: 0.7,
       messages,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       tools: tools as Record<string, CoreTool<any, any>> | undefined,
