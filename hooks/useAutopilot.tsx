@@ -1,5 +1,4 @@
 import { useArtistProvider } from "@/providers/ArtistProvider";
-import { ACTIONS } from "@/types/Autopilot";
 import { useEffect, useMemo, useState } from "react";
 import trackAction from "@/lib/stack/trackAction";
 import { useUserProvider } from "@/providers/UserProvder";
@@ -8,8 +7,7 @@ import useRunningAgents from "./useRunningAgents";
 import useFansSegments from "./useFansSegments";
 import useSocialActions from "./useSocialActions";
 import useArtistComments from "./useArtistComments";
-import getNewAction from "@/lib/getNewAction";
-import { v4 as uuidV4 } from "uuid";
+import useNewActions from "./useNewActions";
 
 const useAutopilot = () => {
   const { selectedArtist } = useArtistProvider();
@@ -20,6 +18,7 @@ const useAutopilot = () => {
   const { comments, artistActions } = useArtistComments();
   const [actions, setActions] = useState<any>([]);
   const { existingActions, addExistingActions } = useApprovedOrDeniedActions();
+  const { newActionUsed, newActions } = useNewActions(comments);
 
   const defaultActions = useMemo(
     () => [...fansSegmentsAction, ...socialActions, ...artistActions],
@@ -39,33 +38,17 @@ const useAutopilot = () => {
   };
 
   useEffect(() => {
-    const init = async () => {
-      if (existingActions.length) {
-        const filtered = defaultActions.filter(
-          (action) => !existingActions.some((ele: any) => ele.id === action.id),
-        );
-        setActions(filtered);
-        if (filtered.length < 3 && comments.length) {
-          const temp: any = [];
-          const newActionPromise = Array.from({
-            length: 3 - filtered.length,
-          }).map(async () => {
-            const newAction = await getNewAction(comments);
-            if (newAction)
-              temp.push({
-                type: ACTIONS.AI_ACTION,
-                title: newAction,
-                id: uuidV4(),
-                timeStamp: new Date().getTime(),
-              });
-          });
-          await Promise.all(newActionPromise);
-          setActions(temp);
-        }
+    if (existingActions.length) {
+      const filtered = defaultActions.filter(
+        (action) => !existingActions.some((ele: any) => ele.id === action.id),
+      );
+      if (filtered.length < 3) {
+        setActions([...newActions.slice(0, 3 - filtered.length), ...filtered]);
+        return;
       }
-    };
-    init();
-  }, [defaultActions, existingActions, comments]);
+      setActions(filtered);
+    }
+  }, [defaultActions, existingActions, comments, newActions.length]);
 
   return {
     actions,
@@ -75,6 +58,7 @@ const useAutopilot = () => {
     fansSegments,
     curLiveAgent,
     addExistingActions,
+    newActionUsed,
   };
 };
 
