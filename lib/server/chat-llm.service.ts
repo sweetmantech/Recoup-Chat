@@ -79,7 +79,7 @@ class ChatLLMService {
     // so we need to make sure that the history doesn't exceed output length + system message length
     // const maxModelTokens = 228000;
 
-    // const maxHistoryLength = maxModelTokens - systemMessage.length - maxTokens;
+    // const maxHistoryLength = maxModelTokens - systemMessage.length - maxTokens; 
     // let decodedHistory = encodeChat(messages, "o1-mini");
 
     // if (decodedHistory.length > maxHistoryLength) {
@@ -91,10 +91,10 @@ class ChatLLMService {
 
     // we use the openai model to generate a response
     const result = streamText({
-      model: openai(settings.model),
+      model: openai('o3-mini'),
       messages,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      tools: tools as Record<string, CoreTool<any, any>> | undefined,
+      // tools: tools as Record<string, CoreTool<any, any>> | undefined,
     });
 
     return result.toDataStreamResponse();
