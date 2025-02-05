@@ -15,11 +15,11 @@ export async function POST(req: NextRequest) {
         {
           role: "user",
           content: `
-            Context: ${context}
-            Question: How can we offer the most valuable recommendations based on the activeArtist context?
-            Note:  Response shoule be more formal, no more than 50 characters.
+            [Context]: ${context}
+            [Instruction]: Let me know the most valuable recommendations based on the given comments data of [Context].
+            [Note]: Response shoule be more formal, no more than 50 characters.
             
-            Example Answers:
+            [Example Answers]:
               What posts have they been releasing this week?
               What engagement have they received this week?
               How is this changing from older data?

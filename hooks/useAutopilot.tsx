@@ -10,7 +10,6 @@ import useSocialActions from "./useSocialActions";
 import useArtistComments from "./useArtistComments";
 import getNewAction from "@/lib/getNewAction";
 import { v4 as uuidV4 } from "uuid";
-import { timeStamp } from "console";
 
 const useAutopilot = () => {
   const { selectedArtist } = useArtistProvider();
@@ -41,32 +40,33 @@ const useAutopilot = () => {
 
   useEffect(() => {
     const init = async () => {
+      if (actions.length >= 3) return;
       if (existingActions.length) {
         const filtered = defaultActions.filter(
           (action) => !existingActions.some((ele: any) => ele.id === action.id),
         );
         setActions(filtered);
         if (filtered.length < 3 && comments.length) {
+          const temp: any = [];
           const newActionPromise = Array.from({
             length: 3 - filtered.length,
           }).map(async () => {
             const newAction = await getNewAction(comments);
             if (newAction)
-              setActions([
-                {
-                  type: ACTIONS.AI_ACTION,
-                  title: newAction,
-                  id: uuidV4(),
-                  timeStamp: new Date().getTime(),
-                },
-              ]);
+              temp.push({
+                type: ACTIONS.AI_ACTION,
+                title: newAction,
+                id: uuidV4(),
+                timeStamp: new Date().getTime(),
+              });
           });
           await Promise.all(newActionPromise);
+          setActions(temp);
         }
       }
     };
     init();
-  }, [defaultActions, existingActions, comments]);
+  }, [defaultActions, existingActions, comments, actions]);
 
   return {
     actions,
