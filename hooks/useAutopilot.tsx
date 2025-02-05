@@ -1,9 +1,9 @@
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { ACTION, ACTIONS } from "@/types/Autopilot";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import trackAction from "@/lib/stack/trackAction";
 import { useUserProvider } from "@/providers/UserProvder";
-import useStackActions from "./useStackActions";
+import useApprovedOrDeniedActions from "./useApprovedOrDeniedActions";
 import useRunningAgents from "./useRunningAgents";
 import useFansSegments from "./useFansSegments";
 import useSocialActions from "./useSocialActions";
@@ -11,63 +11,46 @@ import useArtistComments from "./useArtistComments";
 
 const useAutopilot = () => {
   const { selectedArtist } = useArtistProvider();
-  const { address, email } = useUserProvider();
+  const { address } = useUserProvider();
   const { curLiveAgent } = useRunningAgents();
-  const { fansSegments } = useFansSegments();
+  const { fansSegments, fansSegmentsAction } = useFansSegments();
   const { socialActions } = useSocialActions();
-  const { comments } = useArtistComments();
-  const [actions, setActions] = useState<Array<ACTION>>([]);
-  const { stackActions, getStackActions } = useStackActions();
-  const eventsLogs = stackActions;
+  const { comments, artistActions } = useArtistComments();
+  const [actions, setActions] = useState<any>([]);
+  const { existingActions, addExistingActions } = useApprovedOrDeniedActions();
+
+  const defaultActions = useMemo(
+    () => [...fansSegmentsAction, ...socialActions, ...artistActions],
+    [fansSegmentsAction, socialActions, artistActions],
+  );
 
   const deny = async (index: number) => {
     const temp = [...actions];
     temp.splice(index, 1);
     setActions([...temp]);
-    await trackAction(
+    trackAction(
       address,
       actions[index],
       selectedArtist?.account_id || "",
       false,
-      {},
     );
-    getStackActions();
   };
 
   useEffect(() => {
-    const temp = [...socialActions];
-    if (comments.length) {
-      temp.push({
-        type: ACTIONS.POST_REACTION,
-        title: "Post Reaction",
-        id: ACTIONS.POST_REACTION,
-      });
-      temp.push({
-        type: ACTIONS.CONTENT_CALENDAR,
-        title: "Content Calendar",
-        id: ACTIONS.CONTENT_CALENDAR,
-      });
-    }
-    if (fansSegments.length)
-      setActions([
-        ...temp,
-        {
-          type: ACTIONS.FANS_PROFILES,
-          title: "Export Fans Profiles",
-          id: ACTIONS.FANS_PROFILES,
-        },
-      ]);
-  }, [socialActions, stackActions, fansSegments, email, comments]);
+    const filtered = defaultActions.filter(
+      (action) => !existingActions.some((ele: any) => ele.id === action.id),
+    );
+    setActions(filtered);
+  }, [defaultActions, existingActions]);
 
   return {
     actions,
     deny,
     comments,
-    stackActions,
-    eventsLogs,
-    getStackActions,
+    eventsLogs: existingActions,
     fansSegments,
     curLiveAgent,
+    addExistingActions,
   };
 };
 

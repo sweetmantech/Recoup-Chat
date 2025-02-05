@@ -36,7 +36,13 @@ const getActions = async (eventType: string, walletAddress: Address) => {
     events = events.concat(data);
   }
 
-  return events;
+  return (
+    events
+      // eslint-disable-next-line
+      .map((event: any) => event?.metadata || null)
+      // eslint-disable-next-line
+      .filter((event: any) => event)
+  );
 };
 
 export default getActions;
