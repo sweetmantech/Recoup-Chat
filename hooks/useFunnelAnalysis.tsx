@@ -14,7 +14,7 @@ const useFunnelAnalysis = () => {
   const params = useFunnelAnalysisParams();
   const { agent_id: agentId } = useParams();
   const { address } = useUserProvider();
-  const { getArtists } = useArtistProvider();
+  const { getArtists, artists, selectedArtist } = useArtistProvider();
   const { push } = useRouter();
 
   const getAgentTimer: any = async () => {
@@ -22,12 +22,12 @@ const useFunnelAnalysis = () => {
       clearInterval(timer);
       return;
     }
-    params.setIsLoading(true);
     if (!params.agentsStatus.length) params.setIsCheckingAgentStatus(true);
+    params.setIsLoading(true);
     params.setIsLoadingAgent(true);
     const { agent, comments } = await getAgent(agentId as string);
     if (!agent) {
-      params.setIsCheckingAgentStatus(true);
+      params.setIsCheckingAgentStatus(false);
       params.setIsLoadingAgent(false);
       clearInterval(timer);
       push("/funnels/wrapped");
@@ -49,6 +49,15 @@ const useFunnelAnalysis = () => {
       );
       params.setSegments(segments);
       params.setIsLoadingSegments(false);
+      const artistIds = await getArtistsByAgent(agent);
+      params.setIsLoadingAgent(false);
+      const selectedArtistId = artistIds.find(
+        (ele: string) => ele === selectedArtist?.account_id,
+      );
+      const existingArtist = artists.find((artist) =>
+        artistIds.includes(artist.account_id),
+      );
+      getArtists(selectedArtistId || existingArtist?.account_id);
       clearInterval(timer);
       return;
     }
@@ -60,13 +69,13 @@ const useFunnelAnalysis = () => {
   };
 
   useEffect(() => {
-    if (agentId && address) {
+    if (agentId && address && artists.length) {
       params.setIsCheckingHandles(false);
       params.setIsLoading(true);
       runAgentTimer();
     }
     return () => clearInterval(timer);
-  }, [agentId, address]);
+  }, [agentId, address, artists.length]);
 
   return {
     ...params,

@@ -13,7 +13,7 @@ const useFunnelAnalysisParams = () => {
   const [handles, setHandles] = useState<any>({});
   const [isCheckingHandles, setIsCheckingHandles] = useState(false);
   const [isInitializing, setIsInitializing] = useState(false);
-  const [isCheckingAgentStatus, setIsCheckingAgentStatus] = useState(false);
+  const [isCheckingAgentStatus, setIsCheckingAgentStatus] = useState(true);
   const [isLoadingAgent, setIsLoadingAgent] = useState(false);
   const [isLoadingSegments, setIsLoadingSegments] = useState(false);
   const [agent, setAgent] = useState<any>(null);

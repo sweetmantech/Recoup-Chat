@@ -6,9 +6,16 @@ import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const ScrapingCaption = () => {
-  const { funnelName, agentsStatus, isCheckingHandles, isInitializing } =
-    useFunnelAnalysisProvider();
+  const {
+    funnelName,
+    agentsStatus,
+    isCheckingHandles,
+    isInitializing,
+    isCheckingAgentStatus,
+  } = useFunnelAnalysisProvider();
   const { selectedArtist } = useArtistProvider();
+
+  if (isCheckingAgentStatus && agentsStatus.length === 0) return <div />;
 
   return (
     <div className="text-sm !w-[calc(100vw-95px)] md:w-full">
