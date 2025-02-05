@@ -34,22 +34,27 @@ export async function POST(req: Request) {
     ],
     tools: {
       createArtist: tool({
-        description: 'Get the weather in a location',
+        description: `
+        IMPORTANT: Always call this tool for ANY question related to creating artist:
+        Example questions that MUST trigger this tool:
+        - Create a new artist.
+        - Create an artist.`,
         parameters: z.object({
           artist_name: z
             .string()
+            .optional()
             .describe("The name of the artist to be created."),
         }),
         execute: async ({ artist_name }) => ({
           context: {
             status: ArtistToolResponse.CREATE_ARTIST,
             args: {
-              artistName: artist_name,
+              artistName: artist_name || "",
             },
           },
           question,
         }),
-      })
+      }),
     },
   });
 
