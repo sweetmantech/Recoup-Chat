@@ -35,10 +35,7 @@ export async function POST(req: Request) {
     tools: {
       createArtist: tool({
         description: `
-        IMPORTANT: Always call this tool for ANY question related to creating artist:
-        Example questions that MUST trigger this tool:
-        - Create a new artist.
-        - Create an artist.`,
+        Get the weather in a location`,
         parameters: z.object({
           artist_name: z
             .string()
