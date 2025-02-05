@@ -5,7 +5,7 @@ import { streamText } from "ai";
 import { z } from "zod";
 
 import { AI_MODEL } from "../consts";
-import getTools from "../chat/getTools";
+// import getTools from "../chat/getTools";
 import getSystemMessage from "../chat/getSystemMessage";
 
 export const ChatMessagesSchema = z.object({
@@ -55,7 +55,7 @@ class ChatLLMService {
           content: getSystemMessage(chatContext, question),
         },
       ],
-      tools: getTools(lastMessage.content),
+      // tools: getTools(lastMessage.content),
     });
 
     return result.toDataStreamResponse();
