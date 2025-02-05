@@ -69,7 +69,6 @@ const useConversations = () => {
   };
 
   const trackChat = async (titlemetadata: any) => {
-    trackNewChatEvent(address, titlemetadata);
     clearInterval(timer);
     streamedIndex = 1;
     timer = setInterval(() => {
@@ -83,6 +82,7 @@ const useConversations = () => {
     setStreaming(true);
     addConversations(titlemetadata);
     setStreaming(false);
+    trackNewChatEvent(address, titlemetadata);
   };
 
   const fetchConversations = async (walletAddress: Address) => {
