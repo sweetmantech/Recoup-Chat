@@ -59,7 +59,7 @@ const useConversations = () => {
       return;
     }
     setQuotaExceeded(false);
-    await trackChat({
+    trackChat({
       title: response.replaceAll(`\"`, ""),
       is_funnel_report,
       active_analaysis_id,
@@ -69,7 +69,7 @@ const useConversations = () => {
   };
 
   const trackChat = async (titlemetadata: any) => {
-    await trackNewChatEvent(address, titlemetadata);
+    trackNewChatEvent(address, titlemetadata);
     clearInterval(timer);
     streamedIndex = 1;
     timer = setInterval(() => {
