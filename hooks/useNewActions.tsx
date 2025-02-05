@@ -18,7 +18,7 @@ const useNewActions = (comments: any) => {
             type: ACTIONS.AI_ACTION,
             title: newAction,
             id: uuidV4(),
-            timeStamp: new Date().getTime(),
+            timestamp: new Date().getTime(),
           });
       });
       await Promise.all(newActionPromise);
@@ -37,7 +37,7 @@ const useNewActions = (comments: any) => {
             type: ACTIONS.AI_ACTION,
             title: newAction,
             id: uuidV4(),
-            timeStamp: new Date().getTime(),
+            timestamp: new Date().getTime(),
           },
         ]);
       }
