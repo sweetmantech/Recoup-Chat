@@ -27,7 +27,7 @@ const useNewActions = (comments: any) => {
   }, [comments]);
 
   const newActionUsed = async (id: string) => {
-    const remainedActions = newActions.filter((ele: any) => ele.id === id);
+    const remainedActions = newActions.filter((ele: any) => ele.id !== id);
     if (remainedActions.length < 3) {
       const newAction = await getNewAction(comments);
       if (newAction) {
