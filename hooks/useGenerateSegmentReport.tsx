@@ -2,6 +2,7 @@ import { useUserProvider } from "@/providers/UserProvder";
 import { v4 as uuidV4 } from "uuid";
 import { useChatProvider } from "@/providers/ChatProvider";
 import { usePaymentProvider } from "@/providers/PaymentProvider";
+import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 
 const useGenerateSegmentReport = () => {
   const { append } = useChatProvider();
@@ -14,12 +15,14 @@ const useGenerateSegmentReport = () => {
     credits,
     subscriptionActive,
   } = usePaymentProvider();
+  const { setIsLoadingReport } = useFunnelReportProvider();
 
   const openReportChat = (
     agentId: string,
     segmentName: string,
     funnelType: string,
   ) => {
+    setIsLoadingReport(true);
     append(
       {
         id: uuidV4(),
