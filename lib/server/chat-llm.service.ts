@@ -91,7 +91,7 @@ class ChatLLMService {
 
     // we use the openai model to generate a response
     const result = await streamText({
-      model: openai(settings.model) as LanguageModelV1,
+      model: openai(settings.model),
       messages,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       tools: tools as Record<string, CoreTool<any, any>> | undefined,
