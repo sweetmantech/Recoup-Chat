@@ -34,8 +34,7 @@ export async function POST(req: Request) {
     ],
     tools: {
       createArtist: tool({
-        description: `
-        Get the weather in a location`,
+        description: `Get the weather in a location`,
         parameters: z.object({
           artist_name: z
             .string()
