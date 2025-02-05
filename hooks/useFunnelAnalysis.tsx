@@ -7,6 +7,7 @@ import getAgent from "@/lib/supabase/getAgent";
 import getAgentsStatus from "@/lib/agent/getAgentsStatus";
 import isFinishedScraping from "@/lib/agent/isFinishedScraping";
 import getAgentsInfoFromStack from "@/lib/stack/getAgentsInfoFromStack";
+import getArtistsByAgent from "@/lib/getArtistsByAgent";
 
 let timer: any = null;
 
