@@ -33,17 +33,18 @@ const Messages = ({
       className={`w-full mt-4 max-w-3xl mx-auto overflow-y-auto grow ${className}`}
     >
       {children || <div />}
-      {messages
-        .slice(isReportChat ? 1 : 0)
-        .map((message: AIMessage, index: number) => (
-          <ToolCallProvider
-            message={message}
-            scrollTo={scrollTo}
-            key={message.id}
-          >
-            <Message message={message} index={index} />
-          </ToolCallProvider>
-        ))}
+      {!isLoadingReport &&
+        messages
+          .slice(isReportChat ? 1 : 0)
+          .map((message: AIMessage, index: number) => (
+            <ToolCallProvider
+              message={message}
+              scrollTo={scrollTo}
+              key={message.id}
+            >
+              <Message message={message} index={index} />
+            </ToolCallProvider>
+          ))}
       {(pending || isLoadingReport) && <Thinking />}
     </ScrollArea>
   );
