@@ -2,9 +2,9 @@ import { openai } from "@ai-sdk/openai";
 import { streamText, tool } from "ai";
 
 import { AI_MODEL } from "@/lib/consts";
-// import getTools from "../chat/getTools";
 import getSystemMessage from "@/lib/chat/getSystemMessage";
 import { z } from "zod";
+import { ArtistToolResponse } from "@/types/Tool";
 
 export async function POST(req: Request) {
   const body = await req.json();
@@ -33,16 +33,32 @@ export async function POST(req: Request) {
       },
     ],
     tools: {
-      getWeather: tool({
-        description: 'Get the weather in a location',
+      createArtist: tool({
+        description: `
+        IMPORTANT: Always call this tool for ANY question related to creating artist:
+        NOTE!!!: This feature will always run when prompted to create an artist, even if you don't get an artist name.
+        Do NOT attempt to answer questions on these topics without calling this tool first!!!
+    
+        Example questions that MUST trigger this tool:
+        - "Create a new artist."
+        - "Create an artist."
+        - "I wanna create a new artist."`,
         parameters: z.object({
-          location: z.string().describe('The location to get the weather for'),
+          artist_name: z
+            .string()
+            .optional()
+            .describe("The name of the artist to be created."),
         }),
-        execute: async ({ location }) => ({
-          location,
-          temperature: 72 + Math.floor(Math.random() * 21) - 10,
+        execute: async ({ artist_name }) => ({
+          context: {
+            status: ArtistToolResponse.CREATE_ARTIST,
+            args: {
+              artistName: artist_name,
+            },
+          },
+          question,
         }),
-      }),
+      })
     },
   });
 
