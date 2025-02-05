@@ -1,7 +1,7 @@
 import "server-only";
 
 import { openai } from "@ai-sdk/openai";
-import { CoreTool, LanguageModelV1, streamText } from "ai";
+import { CoreTool, streamText } from "ai";
 // import { encodeChat } from "gpt-tokenizer";
 import { z } from "zod";
 
@@ -90,7 +90,7 @@ class ChatLLMService {
     // }
 
     // we use the openai model to generate a response
-    const result = await streamText({
+    const result = streamText({
       model: openai(settings.model),
       messages,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
