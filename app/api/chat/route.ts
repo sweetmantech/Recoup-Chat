@@ -1,9 +1,10 @@
 import { openai } from "@ai-sdk/openai";
-import { streamText } from "ai";
+import { streamText, tool } from "ai";
 
 import { AI_MODEL } from "@/lib/consts";
 // import getTools from "../chat/getTools";
 import getSystemMessage from "@/lib/chat/getSystemMessage";
+import { z } from "zod";
 
 export async function POST(req: Request) {
   const body = await req.json();
@@ -31,7 +32,18 @@ export async function POST(req: Request) {
         content: getSystemMessage(chatContext, question),
       },
     ],
-    // tools: getTools(lastMessage.content),
+    tools: {
+      getWeather: tool({
+        description: 'Get the weather in a location',
+        parameters: z.object({
+          location: z.string().describe('The location to get the weather for'),
+        }),
+        execute: async ({ location }) => ({
+          location,
+          temperature: 72 + Math.floor(Math.random() * 21) - 10,
+        }),
+      }),
+    },
   });
 
   return result.toDataStreamResponse();
