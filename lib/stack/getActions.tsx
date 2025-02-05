@@ -39,7 +39,14 @@ const getActions = async (eventType: string, walletAddress: Address) => {
   return (
     events
       // eslint-disable-next-line
-      .map((event: any) => event?.metadata || null)
+      .map((event: any) =>
+        event.metadata
+          ? {
+              ...event?.metadata,
+              timestamp: event.timestamp,
+            }
+          : null,
+      )
       // eslint-disable-next-line
       .filter((event: any) => event)
   );
