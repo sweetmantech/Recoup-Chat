@@ -61,7 +61,10 @@ export async function GET(req: NextRequest) {
         comment: comment.comment,
         commented_at: comment.commented_at,
         post_url: comment.post.post_url,
-        commented_fan: comment.social,
+        commented_fan: {
+          username: comment.social.username,
+          profile_url: comment.social.profile_url,
+        },
         id: comment.id,
       }));
     return Response.json({ comments: formattedComments }, { status: 200 });
