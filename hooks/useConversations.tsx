@@ -50,7 +50,6 @@ const useConversations = () => {
     content: string,
     chatId: string,
     is_funnel_report: boolean,
-    active_analaysis_id: string,
   ) => {
     const response = await getAiTitle(content);
     if (response?.error) {
@@ -59,17 +58,15 @@ const useConversations = () => {
       return;
     }
     setQuotaExceeded(false);
-    await trackChat({
+    trackChat({
       title: response.replaceAll(`\"`, ""),
       is_funnel_report,
-      active_analaysis_id,
       conversationId: chatId,
       accountId: selectedArtist?.account_id,
     });
   };
 
-  const trackChat = async (titlemetadata: any) => {
-    await trackNewChatEvent(address, titlemetadata);
+  const trackChat = (titlemetadata: any) => {
     clearInterval(timer);
     streamedIndex = 1;
     timer = setInterval(() => {
@@ -83,6 +80,7 @@ const useConversations = () => {
     setStreaming(true);
     addConversations(titlemetadata);
     setStreaming(false);
+    trackNewChatEvent(address, titlemetadata);
   };
 
   const fetchConversations = async (walletAddress: Address) => {
