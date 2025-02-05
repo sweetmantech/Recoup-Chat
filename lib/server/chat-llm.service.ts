@@ -65,7 +65,7 @@ class ChatLLMService {
       messages.length > 2
         ? context || messages[messages.length - 2].content
         : context;
-    const settings = await chatMessagesService.getChatSettings(
+    await chatMessagesService.getChatSettings(
       lastMessage.content,
       email,
       artistId,
@@ -73,7 +73,7 @@ class ChatLLMService {
     );
     // const systemMessage = settings.systemMessage;
     // const maxTokens = settings.maxTokens;
-    const tools = settings.tools;
+    // const tools = settings.tools;
     // we need to limit the history length so not to exceed the max tokens of the model
     // let's assume for simplicity that all models have a max tokens of 128000
     // so we need to make sure that the history doesn't exceed output length + system message length
