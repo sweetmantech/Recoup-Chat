@@ -11,7 +11,8 @@ import instructions from "@/evals/scripts/instructions.json";
 const useActionApprove = () => {
   const { selectedArtist, toggleSettingModal, toggleUpdate } =
     useArtistProvider();
-  const { comments, fansSegments, addExistingActions } = useAutopilotProvider();
+  const { comments, fansSegments, addExistingActions, newActionUsed } =
+    useAutopilotProvider();
   const [copied, setCopied] = useState(false);
   const { clearMessagesCache } = useInitialChatProvider();
   const { exportCSV } = useFansCSVExport();
@@ -19,6 +20,14 @@ const useActionApprove = () => {
 
   const handleClick = async (action: ACTION) => {
     clearMessagesCache();
+    if (action.type === ACTIONS.AI_ACTION) {
+      newActionUsed(action?.id);
+      append({
+        id: uuidV4(),
+        role: "user",
+        content: action.title,
+      });
+    }
     if (action.type === ACTIONS.SOCIAL && selectedArtist) {
       toggleUpdate(selectedArtist);
       toggleSettingModal();
