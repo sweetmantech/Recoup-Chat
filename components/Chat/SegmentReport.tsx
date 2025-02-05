@@ -27,6 +27,7 @@ const SegmentReport = ({
     setFunnelNextSteps,
     setFunnelRawReportContent,
     setFunnelReportContent,
+    isLoadingReport,
   } = useFunnelReportProvider();
 
   useEffect(() => {
@@ -48,7 +49,7 @@ const SegmentReport = ({
 
   return (
     <div className="w-full">
-      {isLoading ? (
+      {isLoading || isLoadingReport ? (
         <ReportSkeleton />
       ) : (
         <div className="w-full">
