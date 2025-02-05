@@ -81,12 +81,12 @@ class ChatLLMService {
     const maxModelTokens = 228000;
 
     const maxHistoryLength = maxModelTokens - systemMessage.length - maxTokens;
-    let decodedHistory = encodeChat(messages, AI_MODEL);
+    let decodedHistory = encodeChat(messages, "o1-mini");
 
     if (decodedHistory.length > maxHistoryLength) {
       while (decodedHistory.length > maxHistoryLength) {
         messages.shift();
-        decodedHistory = encodeChat(messages, AI_MODEL);
+        decodedHistory = encodeChat(messages, "o1-mini");
       }
     }
 
