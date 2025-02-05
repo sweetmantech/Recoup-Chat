@@ -32,10 +32,10 @@ const useApprovedOrDeniedActions = () => {
         (ele: any) => ele.metadata.is_funnel_analysis,
       );
       const events = analyses.map((ele: any) => ({
-        id: ele?.metadata?.uniqueId,
+        id: ele.uniqueId,
         type: "Analysis",
+        title: ele.metadata.title,
         timestamp: new Date(ele.timestamp).getTime(),
-        ...ele.metadata,
       }));
       setStackEvents(events);
     }
