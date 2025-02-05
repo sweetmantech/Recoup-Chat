@@ -4,6 +4,7 @@ export enum ACTIONS {
   REPORT,
   CONTENT_CALENDAR,
   FANS_PROFILES,
+  AI_ACTION,
 }
 
 export type ACTION = {

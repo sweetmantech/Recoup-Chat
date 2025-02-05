@@ -27,6 +27,7 @@ const useSocialActions = () => {
             type: ACTIONS.SOCIAL,
             title: `${social}: ${selectedArtist?.name}`,
             id: social,
+            timestamp: new Date().getTime(),
           };
           socialActionsTemp.push(socialAction);
         }
