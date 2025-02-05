@@ -6,7 +6,6 @@ import { encodeChat } from "gpt-tokenizer";
 import { z } from "zod";
 
 import { createChatMessagesService } from "./chat-messages.service";
-import { AI_MODEL } from "../consts";
 
 export const ChatMessagesSchema = z.object({
   messages: z.array(
