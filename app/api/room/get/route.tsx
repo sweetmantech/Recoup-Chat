@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
       .select("*, memories(artist_id), room_reports(report_id)")
       .eq("account_id", account_id);
 
-    return Response.json({ rooms, error }, { status: 200 });
+    return Response.json({ rooms: rooms || [], error }, { status: 200 });
   } catch (error) {
     console.error(error);
     const message = error instanceof Error ? error.message : "failed";
