@@ -1,4 +1,4 @@
-import { getSupabaseServerAdminClient } from "@/packages/supabase/src/clients/server-admin-client";
+import supabase from "@/lib/supabase/serverClient";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -9,30 +9,71 @@ export async function POST(req: NextRequest) {
   const accountId = body.accountId;
   const image = body.image;
 
-  const client = getSupabaseServerAdminClient();
-
   try {
-    const { data: found } = await client
+    const { data: found } = await supabase
       .from("accounts")
-      .select("*")
-      .eq("id", accountId);
+      .select("*, account_emails(email), account_info(*)")
+      .eq("id", accountId)
+      .single();
 
-    if (found?.length) {
-      const newUserData = {
-        ...found[0],
-        instruction,
-        name,
-        organization,
-        image,
-      };
-      const { data } = await client
+    if (found) {
+      await supabase
         .from("accounts")
-        .update({ ...newUserData })
+        .update({
+          id: accountId,
+          name,
+        })
         .eq("id", accountId)
         .select("*")
         .single();
-
-      return Response.json({ data }, { status: 200 });
+      const account_info = found.account_info?.[0];
+      if (!account_info) {
+        await supabase
+          .from("account_info")
+          .insert({
+            organization,
+            image,
+            instruction,
+            account_id: accountId,
+          })
+          .eq("account_id", accountId)
+          .select("*")
+          .single();
+        return Response.json(
+          {
+            data: {
+              organization,
+              image,
+              instruction,
+              account_id: accountId,
+              name,
+              email: found.account_emails[0].email,
+            },
+          },
+          { status: 200 },
+        );
+      }
+      const { data: updated_account_info } = await supabase
+        .from("account_info")
+        .update({
+          ...account_info,
+          organization,
+          image,
+          instruction,
+        })
+        .eq("id", account_info.id)
+        .select("*")
+        .single();
+      return Response.json(
+        {
+          data: {
+            ...updated_account_info,
+            name,
+            email: found.account_emails[0].email,
+          },
+        },
+        { status: 200 },
+      );
     }
 
     return Response.json({ data: null }, { status: 400 });

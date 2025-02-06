@@ -1,14 +1,14 @@
 import { useUserProvider } from "@/providers/UserProvder";
-import { v4 as uuidV4 } from "uuid";
-import { useChatProvider } from "@/providers/ChatProvider";
 import { usePaymentProvider } from "@/providers/PaymentProvider";
+import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
-import { useParams } from "next/navigation";
+import { useArtistProvider } from "@/providers/ArtistProvider";
+import createReport from "@/lib/report/createReport";
+import trackNewChatEvent from "@/lib/stack/trackNewChatEvent";
+import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
+import { useRouter } from "next/navigation";
 
 const useGenerateSegmentReport = () => {
-  const { append } = useChatProvider();
-  const { funnelType } = useFunnelAnalysisProvider();
-  const { chat_id: chatId } = useParams();
   const { isPrepared } = useUserProvider();
   const {
     toggleModal,
@@ -18,44 +18,46 @@ const useGenerateSegmentReport = () => {
     credits,
     subscriptionActive,
   } = usePaymentProvider();
+  const { setIsLoadingReport } = useFunnelReportProvider();
+  const { funnelType } = useFunnelAnalysisProvider();
+  const { selectedArtist } = useArtistProvider();
+  const { email, address } = useUserProvider();
+  const { addConversation } = useConversationsProvider();
+  const { push } = useRouter();
 
-  const openReportChat = (
-    segmentName: string,
-    funnel_type: string,
-    report_id: string,
-  ) => {
-    append(
-      {
-        id: uuidV4(),
-        role: "user",
-        content: `Please create a ${funnel_type} fan segment report for ${report_id} using this segment ${segmentName}.`,
-      },
-      true,
-    );
+  const openReportChat = async (agentId: string, segmentName: string) => {
+    setIsLoadingReport(true);
+    const reportId = await createReport({
+      agentId,
+      address,
+      segmentName,
+      email,
+      artistId: selectedArtist?.account_id,
+    });
+    const metadta = {
+      title: `${segmentName} Report`,
+      account_id: selectedArtist?.account_id,
+      is_funnel_report: true,
+      conversationId: reportId,
+    };
+    trackNewChatEvent(address, metadta);
+    addConversation(metadta);
+    push(`/report/${reportId}`);
   };
 
-  const handleGenerateReport = async (
-    segmentName: string,
-    funnel_type: string | undefined = undefined,
-    report_id: string | undefined = undefined,
-  ) => {
+  const handleGenerateReport = async (agentId: string, segmentName: string) => {
     if (!isPrepared()) return;
     if (isLoadingCredits) return;
-    const type = funnel_type || funnelType;
-    const minimumCredits = type === "wrapped" ? 5 : 1;
+    const minimumCredits = funnelType === "wrapped" ? 5 : 1;
     if (credits >= minimumCredits || subscriptionActive) {
       if (!subscriptionActive) await creditUsed(minimumCredits);
-      openReportChat(
-        segmentName,
-        funnel_type as string,
-        report_id || (chatId as string),
-      );
+      openReportChat(agentId, segmentName);
       return;
     }
     setSuccessCallbackParams(
       new URLSearchParams({
         segmentName,
-        reportId: report_id || (chatId as string),
+        agentId,
       }).toString(),
     );
     toggleModal(minimumCredits === 5);

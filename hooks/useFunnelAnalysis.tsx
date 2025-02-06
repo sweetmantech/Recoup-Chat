@@ -1,81 +1,86 @@
 import { useArtistProvider } from "@/providers/ArtistProvider";
-import { useInitialChatProvider } from "@/providers/InitialChatProvider";
-import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { useUserProvider } from "@/providers/UserProvder";
-import { useParams } from "next/navigation";
-import { useCallback, useEffect } from "react";
-import getFunnelAnalysis from "@/lib/getFunnelAnalysis";
-import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import useFunnelAnalysisParams from "./useFunnelAnalysisParams";
-import getAggregatedArtist from "@/lib/agent/getAggregatedArtist";
-import getAggregatedProfile from "@/lib/agent/getAggregatedProfile";
-import getAnalysisSegments from "@/lib/agent/getAnalysisSegments";
-import getAnalysisThoughts from "@/lib/agent/getAnalaysisThoughts";
-import getWrappedAnalysis from "@/lib/agent/getWrappedAnalysis";
-import getAggregatedSocialProfile from "@/lib/agent/getAggregatedSocialProfile";
+import getAgent from "@/lib/supabase/getAgent";
+import getAgentsStatus from "@/lib/agent/getAgentsStatus";
+import isFinishedScraping from "@/lib/agent/isFinishedScraping";
+import getAgentsInfoFromStack from "@/lib/stack/getAgentsInfoFromStack";
+import getArtistsByAgent from "@/lib/getArtistsByAgent";
+
+let timer: any = null;
 
 const useFunnelAnalysis = () => {
   const params = useFunnelAnalysisParams();
-  const { setSelectedArtist, selectedArtist, getArtists } = useArtistProvider();
-  const { chat_id: chatId } = useParams();
-  const { clearMessagesCache } = useInitialChatProvider();
-  const {
-    clearReportCache,
-    setBannerArtistName,
-    setBannerImage,
-    setFunnelAnalysis,
-  } = useFunnelReportProvider();
-  const { fetchConversations } = useConversationsProvider();
+  const { agent_id: agentId } = useParams();
   const { address } = useUserProvider();
+  const { getArtists, artists, selectedArtist } = useArtistProvider();
+  const { push } = useRouter();
 
-  const getAnalysis = useCallback(async () => {
-    if (!chatId) return;
-    clearReportCache();
-    clearMessagesCache();
-    const funnel_analyses: any = await getFunnelAnalysis(chatId as string);
-    if (!funnel_analyses || funnel_analyses?.length === 0) return;
-    setFunnelAnalysis(funnel_analyses);
-    const wrappedAnalysis = getWrappedAnalysis(funnel_analyses);
-    const artist: any = getAggregatedArtist(funnel_analyses);
-    const aggregatedArtistProfile: any = getAggregatedProfile(
-      params.funnelType as string,
-      artist,
-      selectedArtist,
-    );
-    const artistProfile = wrappedAnalysis
-      ? wrappedAnalysis?.funnel_analytics_profile?.[0]?.artists
-      : aggregatedArtistProfile;
-    getArtists();
-    setSelectedArtist(artistProfile);
-    setBannerImage(artistProfile?.image);
-    setBannerArtistName(artistProfile?.name);
-    const analyticsSegments = getAnalysisSegments(funnel_analyses);
-    const aggregatedThoughts = getAnalysisThoughts(funnel_analyses);
-    params.setThoughts({
-      ...params.thoughts,
-      ...aggregatedThoughts,
-    });
-    params.setSegments(analyticsSegments);
-    const aggregatedArtistSocialProfile =
-      getAggregatedSocialProfile(funnel_analyses);
-    const artistSocialProfile = wrappedAnalysis
-      ? wrappedAnalysis?.funnel_analytics_profile?.[0]
-      : aggregatedArtistSocialProfile;
-    params.setResult({
-      segments: analyticsSegments,
-      ...artistSocialProfile,
-    });
+  const getAgentTimer: any = async () => {
+    if (!agentId) {
+      clearInterval(timer);
+      return;
+    }
+    if (!params.agentsStatus.length) params.setIsCheckingAgentStatus(true);
     params.setIsLoading(true);
-    fetchConversations(address);
-  }, [chatId]);
+    params.setIsLoadingAgent(true);
+    const { agent, comments } = await getAgent(agentId as string);
+    if (!agent) {
+      params.setIsCheckingAgentStatus(false);
+      params.setIsLoadingAgent(false);
+      clearInterval(timer);
+      push("/funnels/wrapped");
+      return;
+    }
+    params.setIsLoadingAgent(false);
+    getArtists();
+    params.setAgent(agent);
+    params.setIsCheckingAgentStatus(false);
+    const status = getAgentsStatus(agent);
+    params.setAgentsStatus(status);
+    params.setIsInitializing(false);
+    if (isFinishedScraping(status)) {
+      params.setIsLoadingSegments(true);
+      const { segments } = await getAgentsInfoFromStack(
+        agentId as string,
+        address,
+        comments.slice(0, 500),
+      );
+      params.setSegments(segments);
+      params.setIsLoadingSegments(false);
+      const artistIds = await getArtistsByAgent(agent);
+      params.setIsLoadingAgent(false);
+      const selectedArtistId = artistIds.find(
+        (ele: string) => ele === selectedArtist?.account_id,
+      );
+      const existingArtist = artists.find((artist) =>
+        artistIds.includes(artist.account_id),
+      );
+      getArtists(selectedArtistId || existingArtist?.account_id);
+      clearInterval(timer);
+      return;
+    }
+  };
+
+  const runAgentTimer = () => {
+    getAgentTimer();
+    timer = setInterval(() => getAgentTimer(timer), 10000);
+  };
 
   useEffect(() => {
-    getAnalysis();
-  }, [getAnalysis]);
+    if (agentId && address && artists.length) {
+      params.setIsCheckingHandles(false);
+      params.setIsLoading(true);
+      runAgentTimer();
+    }
+    return () => clearInterval(timer);
+  }, [agentId, address, artists.length]);
 
   return {
-    getAnalysis,
     ...params,
+    runAgentTimer,
   };
 };
 

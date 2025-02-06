@@ -1,6 +1,8 @@
 // STACK EVENTS
 export const MESSAGE_SENT_EVENT = "message_sent";
-export const ACTION_EVENT = "action_sent";
+export const NEW_CHAT_EVENT = "new_chat_run";
+export const ACTION_EVENT = "action_approve_or_denyy";
+export const AGENT_RUN = "agent_run";
 export const LUH_TYLER_3D_SCORE = "luh-tyler-3d-score";
 export const MESSAGE_SENT_POINT = 1;
 export const PAYMENT_CREDITS_POINT = 1;
@@ -8,16 +10,24 @@ export const CHAT_POINT_SYSTEM_ID = 4172;
 export const SCORE_POINT_SYSTEM_ID = 4186;
 export const AGENT_API = "https://api.recoupable.com";
 export const ONE_DAY_MILLISECONDS = 24 * 60 * 60 * 1000;
+export const SOCIAL_DEFAULT_PLATFORMS = [
+  "Apple",
+  "YouTube",
+  "Twitter",
+  "TikTok",
+  "Instagram",
+  "Spotify",
+];
 
 // Vercel AI SDK
-export const AI_MODEL = "gpt-4o-mini";
+export const AI_MODEL = "o3-mini";
 
 export const TITLE = "Recoup";
 export const DESCRIPTION =
   "Recoup is an AI agent platform for smarter song rollouts, unforgettable fan experiences, and lasting artist growth. Empowering music executives with actionable insights and next-gen tools to elevate every artist and engage every fan.";
 
 export const SUGGESTIONS = [
-  "How is my current campaign going?",
+  "Create an artist.",
   "Analyze my artists' TikTok account.",
 ];
 

@@ -1,56 +1,47 @@
-import getThoughtStatus from "@/lib/getThoughtStatus";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
-import { STEP_OF_ANALYSIS } from "@/types/Funnel";
+import { STEP_OF_AGENT } from "@/types/Funnel";
 import StreamingThought from "./StreamThought";
-import isFinishedScraping from "@/lib/agent/isFinishedScraping";
+import getThoughtStatus from "@/lib/agent/getAgentStatus";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const Thought = ({ funnel, thought }: { funnel: string; thought: any }) => {
-  const { artistHandle, funnelType, funnelName, thoughts } =
-    useFunnelAnalysisProvider();
+const Thought = ({ thought }: { thought: any }) => {
+  const { funnelName, agentsStatus } = useFunnelAnalysisProvider();
   const { selectedArtist, toggleSettingModal } = useArtistProvider();
 
-  const socialLink = selectedArtist?.artist_social_links?.find(
-    (social) => social.type === funnel.toUpperCase() && social.link,
-  );
-  const isError = thought.status === STEP_OF_ANALYSIS.ERROR;
-  const isComplete =
-    thought.status === STEP_OF_ANALYSIS.FINISHED || (socialLink && isError);
-  const handle =
-    funnelType === "wrapped"
-      ? selectedArtist?.name || artistHandle
-      : artistHandle;
+  const isError =
+    thought.status === STEP_OF_AGENT.ERROR ||
+    thought.status === STEP_OF_AGENT.UNKNOWN_PROFILE;
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const statusMessages: any = {
-    [STEP_OF_ANALYSIS.INITITAL]: `Looking at ${handle}'s profile.`,
-    [STEP_OF_ANALYSIS.PROFILE]: `Looking at ${handle}'s profile.`,
-    [STEP_OF_ANALYSIS.TRACKS]: `Looking at ${handle}'s tracks.`,
-    [STEP_OF_ANALYSIS.ALBUMS]: `Looking at ${handle}'s albums.`,
-    [STEP_OF_ANALYSIS.POSTURLS]: `Reviewing ${handle}'s top-performing videos.`,
-    [STEP_OF_ANALYSIS.VIDEO_COMMENTS]: getThoughtStatus(thought.progress),
-    [STEP_OF_ANALYSIS.SEGMENTS]: `Grouping all of the @${handle}'s ${funnelName} Fans into the segments.`,
-    [STEP_OF_ANALYSIS.SAVING_ANALYSIS]: `Saving video comments scrapped data.`,
-    [STEP_OF_ANALYSIS.CREATING_ARTIST]: `Setting up artist mode.`,
+    [STEP_OF_AGENT.INITIAL]: `Looking at ${selectedArtist?.name}'s profile.`,
+    [STEP_OF_AGENT.UNKNOWN_PROFILE]: `Make sure you're using the correct handle on ${thought.type}.`,
+    [STEP_OF_AGENT.PROFILE]: `Looking at ${selectedArtist?.name}'s profile.`,
+    [STEP_OF_AGENT.TRACKS]: `Looking at ${selectedArtist?.name}'s tracks.`,
+    [STEP_OF_AGENT.POST_COMMENTS]: getThoughtStatus(thought.progress),
+    [STEP_OF_AGENT.ALBUMS]: `Looking at ${selectedArtist?.name}'s albums.`,
+    [STEP_OF_AGENT.POSTURLS]: `Reviewing ${selectedArtist?.name}'s top-performing videos.`,
+    [STEP_OF_AGENT.SEGMENTS]: `Grouping all of the @${selectedArtist?.name}'s ${funnelName} Fans into the segments.`,
+    [STEP_OF_AGENT.SAVING_ANALYSIS]: `Saving video comments scrapped data.`,
+    [STEP_OF_AGENT.CREATED_ARTIST]: `Setting up artist mode.`,
+    [STEP_OF_AGENT.SETTING_UP_ARTIST]: `Setting up artist mode.`,
+    [STEP_OF_AGENT.FINISHED]: `${thought.type} analysis complete ✅`,
   };
 
   return (
     <>
-      <span>
-        {funnelType === "wrapped" &&
-          !isFinishedScraping(thoughts) &&
-          `${funnel.toUpperCase()}: `}
-      </span>
-      <StreamingThought text={statusMessages[thought.status] || ""} />
-      {isError && !isFinishedScraping(thoughts) && !socialLink && (
+      {agentsStatus.length > 1 && <span>{thought.type}: </span>}
+      <StreamingThought
+        text={
+          statusMessages[thought.status] ||
+          `Looking at ${selectedArtist?.name}'s profile.`
+        }
+      />
+      {isError && (
         <span onClick={toggleSettingModal} className="underline cursor-pointer">
           Click here to retry.
         </span>
-      )}
-      {isComplete && !isFinishedScraping(thoughts) && (
-        <StreamingThought
-          text={`${funnel} analysis complete ✅`}
-        ></StreamingThought>
       )}
     </>
   );

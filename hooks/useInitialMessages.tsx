@@ -1,5 +1,4 @@
-import { Address } from "viem";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import getInitialMessages from "@/lib/stack/getInitialMessages";
 import { sortMessages, flattenMessagePairs } from "@/lib/sortMessages";
 import { StackMessage } from "@/types/Stack";
@@ -9,35 +8,34 @@ import { useUserProvider } from "@/providers/UserProvder";
 const useInitialMessages = () => {
   const [initialMessages, setInitialMessages] = useState<StackMessage[]>([]);
   const { address } = useUserProvider();
-  const { conversation: pathId } = useParams();
+  const { chat_id: chatId } = useParams();
   const [titleMessage, setTitleMessage] = useState<any>(null);
 
   useEffect(() => {
-    const init = async () => {
-      const initialMessages = await fetchInitialMessages(address);
-      if (initialMessages) setInitialMessages(initialMessages);
-    };
-    if (!address) return;
-    init();
-  }, [address]);
+    if (!chatId) setInitialMessages([]);
+  }, [chatId]);
 
-  const fetchInitialMessages = async (walletAddress: Address) => {
+  const fetchInitialMessages = useCallback(async () => {
     try {
-      const convId = pathId as string;
-      if (!convId) return;
+      if (!address) return;
+      if (!chatId) return;
       const { messages, titleMessage } = await getInitialMessages(
-        walletAddress,
-        convId,
+        address,
+        chatId as string,
       );
       setTitleMessage(titleMessage);
       const sortedMessages = sortMessages(messages);
       const flattenedMessages = flattenMessagePairs(sortedMessages);
-      return flattenedMessages;
+      setInitialMessages(flattenedMessages);
     } catch (error) {
       console.error("Error fetching initial messages:", error);
       return;
     }
-  };
+  }, [address, chatId]);
+
+  useEffect(() => {
+    fetchInitialMessages();
+  }, [fetchInitialMessages]);
 
   return {
     initialMessages,

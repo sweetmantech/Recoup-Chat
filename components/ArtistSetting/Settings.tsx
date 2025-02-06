@@ -12,7 +12,7 @@ import KnowledgeSelect from "./KnowledgeSelect";
 import Inputs from "./Inputs";
 import DeleteModal from "./DeleteModal";
 import { useState } from "react";
-import { useAgentSocketProvider } from "@/providers/AgentSocketProvider";
+import { useAgentsProvider } from "@/providers/AgentsProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const Settings = () => {
@@ -27,8 +27,8 @@ const Settings = () => {
     editableArtist,
   } = useArtistProvider();
   const [isVisibleDeleteModal, setIsVisibleDeleteModal] = useState(false);
-  const { lookupProfiles } = useAgentSocketProvider();
-  const { setIsLoading, setResult, setThoughts } = useFunnelAnalysisProvider();
+  const { lookupProfiles } = useAgentsProvider();
+  const { setIsLoading } = useFunnelAnalysisProvider();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSave = async () => {
@@ -36,8 +36,6 @@ const Settings = () => {
     setSelectedArtist(artistInfo);
     toggleSettingModal();
     if (editableArtist) return;
-    setResult(null);
-    setThoughts({});
     setIsLoading(true);
     lookupProfiles("wrapped", artistInfo);
   };

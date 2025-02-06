@@ -13,9 +13,15 @@ const getHandles = async (handle: string) => {
         tiktok: "",
       };
     const data = await response.json();
-    return data.data;
+    const handles = data?.data;
+    return {
+      spotify: handles?.spotify?.replaceAll("@", "") || "",
+      twitter: handles?.twitter?.replaceAll("@", "") || "",
+      instagram: handles?.instagram?.replaceAll("@", "") || "",
+      tiktok: handles?.tiktok?.replaceAll("@", "") || "",
+    };
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return {
       spotify: "",
       twitter: "",

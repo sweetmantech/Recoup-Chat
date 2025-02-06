@@ -2,11 +2,16 @@
 
 import AutoPilot from "@/components/AutoPilot";
 import { AutopilotProvider } from "@/providers/AutopilotProvider";
+import { useFirstArtistRedirect } from "@/hooks/useFirstArtistRedirect";
 
-const AutoPilotPage = () => (
-  <AutopilotProvider>
-    <AutoPilot />
-  </AutopilotProvider>
-);
+const AutoPilotPage = () => {
+  useFirstArtistRedirect();
+
+  return (
+    <AutopilotProvider>
+      <AutoPilot />
+    </AutopilotProvider>
+  );
+};
 
 export default AutoPilotPage;

@@ -3,7 +3,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const useFunnels = () => {
-  const { funnelRawReportContent, funnelAnalysis } = useFunnelReportProvider();
+  const { funnelRawReportContent } = useFunnelReportProvider();
   const [funnelContext, setFunnelContext] = useState("");
   const searchParams = useSearchParams();
   const is_funnel_report = searchParams.get("is_funnel_report");
@@ -17,9 +17,7 @@ const useFunnels = () => {
       is_funnel_report ||
       active_analaysis_id
     ) {
-      setFunnelContext(
-        funnelRawReportContent || JSON.stringify(funnelAnalysis),
-      );
+      setFunnelContext(funnelRawReportContent);
     }
   }, [pathname, is_funnel_report]);
 

@@ -1,108 +1,64 @@
 import { useArtistProvider } from "@/providers/ArtistProvider";
-import { SOCIAL_LINK } from "@/types/Agent";
-import { ACTION, ACTIONS } from "@/types/Autopilot";
-import { useEffect, useState } from "react";
-import useAnalysisActions from "./useAnalysisActions";
+import { useEffect, useMemo, useState } from "react";
 import trackAction from "@/lib/stack/trackAction";
 import { useUserProvider } from "@/providers/UserProvder";
-import useStackActions from "./useStackActions";
+import useApprovedOrDeniedActions from "./useApprovedOrDeniedActions";
 import useRunningAgents from "./useRunningAgents";
-import useFansProfiles from "./useFansProfiles";
+import useFansSegments from "./useFansSegments";
+import useSocialActions from "./useSocialActions";
+import useArtistComments from "./useArtistComments";
+import useNewActions from "./useNewActions";
 
 const useAutopilot = () => {
-  const [socialActions, setSocialActions] = useState<Array<any>>([]);
   const { selectedArtist } = useArtistProvider();
   const { address } = useUserProvider();
   const { curLiveAgent } = useRunningAgents();
-  const { fansProfiles } = useFansProfiles();
-  const {
-    comments,
-    analyses,
-    segmentName,
-    actions: analysisActions,
-    funnelType,
-    reportId,
-  } = useAnalysisActions();
-  const [actions, setActions] = useState<Array<ACTION>>([]);
-  const { stackActions, getStackActions } = useStackActions();
-  const eventsLogs = [...analyses, ...stackActions].sort(
-    (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
+  const { fansSegments, fansSegmentsAction } = useFansSegments();
+  const { socialActions } = useSocialActions();
+  const { comments, artistActions } = useArtistComments();
+  const [actions, setActions] = useState<any>([]);
+  const { existingActions, addExistingActions } = useApprovedOrDeniedActions();
+  const { newActionUsed, newActions } = useNewActions(comments);
+
+  const defaultActions = useMemo(
+    () => [...fansSegmentsAction, ...socialActions, ...artistActions],
+    [fansSegmentsAction, socialActions, artistActions],
   );
 
   const deny = async (index: number) => {
     const temp = [...actions];
     temp.splice(index, 1);
     setActions([...temp]);
-    await trackAction(
+    trackAction(
       address,
       actions[index],
-      selectedArtist?.id || "",
+      selectedArtist?.account_id || "",
       false,
-      {},
     );
-    getStackActions();
   };
 
   useEffect(() => {
-    if (selectedArtist) {
-      const socialActionsTemp: any = [];
-      selectedArtist?.artist_social_links?.map((link: SOCIAL_LINK) => {
-        if (!link.link) {
-          const socialAction = {
-            type: ACTIONS.SOCIAL,
-            title: `${link.type.toUpperCase()}: ${selectedArtist?.name}`,
-            id: link.id,
-          };
-          socialActionsTemp.push(socialAction);
-        }
-      });
-      setSocialActions(socialActionsTemp);
-    }
-  }, [selectedArtist]);
-
-  useEffect(() => {
-    const temp = [...socialActions, ...analysisActions];
-    const filtered = temp.filter((ele) => {
-      const approvedIndex = stackActions.findIndex(
-        (stackAction: any) => stackAction.metadata.id === ele.id,
+    if (existingActions.length) {
+      const filtered = defaultActions.filter(
+        (action) => !existingActions.some((ele: any) => ele.id === action.id),
       );
-      if (approvedIndex >= 0) return false;
-      return true;
-    });
-    setActions([...filtered]);
-    if (fansProfiles.length > 0) {
-      // eslint-disable-next-line
-      const stackProfilesEvent = stackActions.filter(
-        (event: any) =>
-          event.metadata.id === ACTIONS.FANS_PROFILES &&
-          event.metadata.isApproved &&
-          event.metadata?.fansCount === fansProfiles.length,
-      );
-      if (stackProfilesEvent.length === 0)
-        setActions([
-          ...filtered,
-          {
-            type: ACTIONS.FANS_PROFILES,
-            title: "Export Fans Profiles",
-            id: ACTIONS.FANS_PROFILES,
-          },
-        ]);
+      if (filtered.length < 3) {
+        setActions([...newActions.slice(0, 3 - filtered.length), ...filtered]);
+        return;
+      }
+      setActions(filtered);
     }
-  }, [analysisActions, socialActions, stackActions, fansProfiles]);
+  }, [defaultActions, existingActions, comments, newActions.length]);
 
   return {
     actions,
     deny,
     comments,
-    analyses,
-    segmentName,
-    funnelType,
-    reportId,
-    stackActions,
-    eventsLogs,
-    getStackActions,
-    fansProfiles,
+    eventsLogs: existingActions,
+    fansSegments,
     curLiveAgent,
+    addExistingActions,
+    newActionUsed,
   };
 };
 

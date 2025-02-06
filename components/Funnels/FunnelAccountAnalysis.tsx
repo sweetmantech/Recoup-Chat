@@ -1,12 +1,13 @@
 "use client";
 
+import { useArtistProvider } from "@/providers/ArtistProvider";
 import AnalysisChat from "./AnalysisChat";
-import FunnelAccountInput from "./FunnelAccountInput";
-import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
+import AgentSkeleton from "./AgentSkeleton";
 
 const FunnelAccountAnalysis = () => {
-  const { isLoading } = useFunnelAnalysisProvider();
-  return <>{isLoading ? <AnalysisChat /> : <FunnelAccountInput />}</>;
+  const { selectedArtist } = useArtistProvider();
+
+  return <>{selectedArtist ? <AnalysisChat /> : <AgentSkeleton />}</>;
 };
 
 export default FunnelAccountAnalysis;

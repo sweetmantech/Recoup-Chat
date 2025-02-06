@@ -1,33 +1,15 @@
-import { getSupabaseServerAdminClient } from "@/packages/supabase/src/clients/server-admin-client";
+import getArtistsByEmail from "@/lib/supabase/getArtistsByEmail";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   const email = req.nextUrl.searchParams.get("email");
 
   try {
-    const client = getSupabaseServerAdminClient();
-    const { data } = await client
-      .from("accounts")
-      .select("*")
-      .eq("email", email);
-    if (!data || !data?.length)
-      return Response.json({ artists: [] }, { status: 200 });
-
-    const user = data[0];
-    const artistIds = user.artistIds || [];
-    const { data: artists } = await client
-      .from("artists")
-      .select(
-        `
-        *,
-        artist_social_links (
-          *
-        )
-      `,
-      )
-      .in("id", artistIds);
+    const artists = await getArtistsByEmail(email as string);
     return Response.json(
-      { artists: artists?.reverse() || [] },
+      {
+        artists,
+      },
       { status: 200 },
     );
   } catch (error) {

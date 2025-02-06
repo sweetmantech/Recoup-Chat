@@ -1,21 +1,32 @@
-import { getSupabaseServerAdminClient } from "@/packages/supabase/src/clients/server-admin-client";
+import supabase from "../supabase/serverClient";
 
-const getFunnelAnalysis = async (chat_id: string) => {
-  const client = getSupabaseServerAdminClient();
-  const { data } = await client
+const getFunnelAnalysis = async (pilotId: string) => {
+  const { data } = await supabase
     .from("funnel_analytics")
     .select(
       `*,
+      accounts (
+        *,
+        account_info (
+          *
+        ),
+        account_socials (
+          *
+        )
+      ),
       funnel_analytics_segments (
         icon,
         name,
         size
       ),
-      funnel_analytics_profile (
+      funnel_analytics_accounts (
         *,
-        artists (
+        accounts (
           *,
-          artist_social_links (
+          account_info (
+            *
+          ),
+          account_socials (
             *
           )
         )
@@ -28,7 +39,7 @@ const getFunnelAnalysis = async (chat_id: string) => {
         timestamp
       )`,
     )
-    .eq("chat_id", chat_id);
+    .eq("pilot_id", pilotId);
 
   return data;
 };

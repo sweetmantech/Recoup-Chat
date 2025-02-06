@@ -4,43 +4,24 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
-import { useInitialMessagesProvider } from "@/providers/InititalMessagesProvider";
 import { usePromptsProvider } from "@/providers/PromptsProvider";
 
 const useChat = () => {
   const { login, address } = useUserProvider();
   const { push } = useRouter();
-  const { conversationId, trackGeneralChat, conversationRef } =
+  const { chatId, trackGeneralChat, conversationRef } =
     useConversationsProvider();
   const searchParams = useSearchParams();
-  const reportEnabled = searchParams.get("is_funnel_report");
+  const isReportChat = searchParams.get("is_funnel_report");
   const { input, appendAiChat, handleAiChatSubmit } = useMessagesProvider();
   const { setCurrentQuestion } = usePromptsProvider();
-  const { fetchInitialMessages } = useInitialMessagesProvider();
 
-  const goToNewConversation = async (
-    content: string,
-    is_funnel_report: boolean = false,
-    active_analaysis_id: string = "",
-  ) => {
-    if (conversationId) return;
+  const createNewConversation = async (content: string) => {
+    if (chatId) return;
     const newId = uuidV4();
     conversationRef.current = newId;
-    await trackGeneralChat(
-      content,
-      newId,
-      is_funnel_report,
-      active_analaysis_id,
-    );
-    const urlParmas = new URLSearchParams();
-    if (is_funnel_report) urlParmas.set("is_funnel_report", "true");
-    if (active_analaysis_id)
-      urlParmas.set("active_analaysis_id", active_analaysis_id);
-    push(`/${newId}?${urlParmas}`);
-  };
-
-  const clearQuery = async () => {
-    await fetchInitialMessages(address);
+    trackGeneralChat(content, newId);
+    push(`/${newId}`);
   };
 
   const isPrepared = () => {
@@ -51,15 +32,11 @@ const useChat = () => {
     return true;
   };
 
-  const append = async (
-    message: Message,
-    is_funnel_report: boolean = false,
-    active_analaysis_id: string = "",
-  ) => {
+  const append = async (message: Message) => {
     if (!isPrepared()) return;
     setCurrentQuestion(message);
     appendAiChat(message);
-    goToNewConversation(message.content, is_funnel_report, active_analaysis_id);
+    createNewConversation(message.content);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -71,14 +48,13 @@ const useChat = () => {
       id: uuidV4(),
     });
     handleAiChatSubmit(e);
-    goToNewConversation(input);
+    createNewConversation(input);
   };
 
   return {
     handleSubmit,
     append,
-    clearQuery,
-    reportEnabled,
+    isReportChat,
   };
 };
 

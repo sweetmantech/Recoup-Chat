@@ -9,6 +9,7 @@ import useInitialArtists from "./useInitialArtists";
 
 const useArtists = () => {
   const artistSetting = useArtistSetting();
+  const [isLoading, setIsLoading] = useState(true);
   const { email } = useUserProvider();
   const [artists, setArtists] = useState<ArtistRecord[]>([]);
   const [selectedArtist, setSelectedArtist] = useState<ArtistRecord | null>(
@@ -27,7 +28,7 @@ const useArtists = () => {
   );
   const [menuVisibleArtistId, setMenuVisibleArtistId] = useState<any>("");
   const activeArtistIndex = artists.findIndex(
-    (artist: ArtistRecord) => artist.id === selectedArtist?.id,
+    (artist: ArtistRecord) => artist.account_id === selectedArtist?.account_id,
   );
 
   const sorted =
@@ -41,64 +42,60 @@ const useArtists = () => {
 
   const getArtists = useCallback(
     async (artistId?: string) => {
-      if (!email) return;
+      if (!email) {
+        setArtists([]);
+        return;
+      }
       const response = await fetch(
         `/api/artists?email=${encodeURIComponent(email as string)}`,
       );
       const data = await response.json();
       setArtists(data.artists);
+      if (data.artists.length === 0) {
+        setSelectedArtist(null);
+        setIsLoading(false);
+        return;
+      }
       if (artistId) {
         const newUpdatedInfo = data.artists.find(
-          (artist: ArtistRecord) => artist.id === artistId,
+          (artist: ArtistRecord) => artist.account_id === artistId,
         );
         if (newUpdatedInfo) setSelectedArtist(newUpdatedInfo);
       }
+      setIsLoading(false);
     },
     [email],
   );
-  const saveSetting = async (
-    name?: string,
-    image?: string,
-    socialUrls?: {
-      tiktok_url?: string;
-      twitter_url?: string;
-      spotify_url?: string;
-      instagram_url?: string;
-    },
-    mode?: string,
-  ) => {
+  const saveSetting = async () => {
     setUpdating(true);
-    const saveMode = mode || artistMode.settingMode;
+    const saveMode = artistMode.settingMode;
     try {
+      const profileUrls = {
+        TWITTER: artistSetting.twitter,
+        TIKTOK: artistSetting.tiktok,
+        YOUTUBE: artistSetting.youtube,
+        INSTAGRAM: artistSetting.instagram,
+        SPOTIFY: artistSetting.spotifyUrl,
+        APPLE: artistSetting.appleUrl,
+      };
       const data = await saveArtist({
-        name: name || artistSetting.name,
-        image: image || artistSetting.image,
-        tiktok_url: socialUrls ? socialUrls?.tiktok_url : artistSetting.tiktok,
-        youtube_url: artistSetting.youtube,
-        apple_url: artistSetting.appleUrl,
-        instagram_url: socialUrls
-          ? socialUrls?.instagram_url
-          : artistSetting.instagram,
-        twitter_url: socialUrls
-          ? socialUrls?.twitter_url
-          : artistSetting.twitter,
-        spotify_url: socialUrls
-          ? socialUrls?.spotify_url
-          : artistSetting.spotifyUrl,
+        name: artistSetting.name,
+        image: artistSetting.image,
+        profileUrls,
         instruction: artistSetting.instruction,
         label: artistSetting.label,
         knowledges: artistSetting.bases,
         artistId:
           saveMode === SETTING_MODE.CREATE
             ? ""
-            : artistSetting.editableArtist?.id,
+            : artistSetting.editableArtist?.account_id,
         email,
       });
-      await getArtists(data.artistInfo?.id);
+      await getArtists(data.artist?.account_id);
       setUpdating(false);
       if (artistMode.settingMode === SETTING_MODE.CREATE)
         artistMode.setSettingMode(SETTING_MODE.UPDATE);
-      return data.artistInfo;
+      return data.artist;
     } catch (error) {
       console.error(error);
       setUpdating(false);
@@ -124,6 +121,8 @@ const useArtists = () => {
     ...artistMode,
     setMenuVisibleArtistId,
     menuVisibleArtistId,
+    setIsLoading,
+    isLoading,
   };
 };
 

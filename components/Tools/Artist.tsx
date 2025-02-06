@@ -1,10 +1,8 @@
-import CreatedArtist from "./CreatedArtist";
 import { ArtistToolResponse } from "@/types/Tool";
 import ArtistsTable from "./ArtistsTable";
 import SubmitArtist from "./SubmitArtist";
 import { useToolCallProvider } from "@/providers/ToolCallProvider";
 import MissingTikTok from "./MissingTikTok";
-import TikTokPfp from "./TikTokPfp";
 import { useEffect } from "react";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import UpdateArtistInfo from "./UpdateArtistInfo";
@@ -52,14 +50,12 @@ const Artist = () => {
       {status === ArtistToolResponse.MISSING_ARTIST_NAME && (
         <MissingArtist description="Please, click button to create an artist." />
       )}
-      {status === ArtistToolResponse.CREATED_ARTIST && <CreatedArtist />}
       {status === ArtistToolResponse.ARTIST_LIST && <ArtistsTable />}
       {status === ArtistToolResponse.NO_ARTISTS && <SubmitArtist />}
       {status === ArtistToolResponse.MISSING_ARTIST_TIKTOK_USERNAME && (
         <MissingTikTok />
       )}
       {status === ArtistToolResponse.MISSING_VIDEO_URL && <MissingVideoUrl />}
-      {status === ArtistToolResponse.TIKTOK_TRENDS && <TikTokPfp />}
       {status === ArtistToolResponse.UPDATED_ARTIST_INFO && (
         <>
           {!isOpenSettingModal && (

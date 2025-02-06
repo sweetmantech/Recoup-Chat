@@ -1,35 +1,43 @@
+import isFinishedScraping from "@/lib/agent/isFinishedScraping";
 import Completion from "./Completion";
 import Loading from "@/components/Loading";
-import isFinishedScraping from "@/lib/agent/isFinishedScraping";
 import isScraping from "@/lib/agent/isScraping";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const ScrapingCaption = () => {
-  const { artistHandle, funnelName, funnelType, thoughts, isCheckingHandles } =
-    useFunnelAnalysisProvider();
+  const {
+    funnelName,
+    agentsStatus,
+    isCheckingHandles,
+    isInitializing,
+    isCheckingAgentStatus,
+  } = useFunnelAnalysisProvider();
   const { selectedArtist } = useArtistProvider();
+
+  if (isCheckingAgentStatus && agentsStatus.length === 0) return <div />;
 
   return (
     <div className="text-sm !w-[calc(100vw-95px)] md:w-full">
       {isCheckingHandles ? (
         <div className="flex gap-2 items-center">
-          Verifying @{selectedArtist?.name || artistHandle}
+          Verifying @{selectedArtist?.name}
           ’s Social Handles...
           <Loading />
         </div>
       ) : (
         <>
-          {isFinishedScraping(thoughts) && <Completion />}
-          {isScraping(thoughts) && (
-            <div className="flex gap-2 items-center">
-              Scraping @
-              {funnelType === "wrapped"
-                ? selectedArtist?.name || artistHandle
-                : artistHandle}
-              ’s {funnelName}...
-              <Loading />
-            </div>
+          {!isInitializing && (
+            <>
+              {isScraping(agentsStatus) && (
+                <div className="flex gap-2 items-center">
+                  Scraping @{selectedArtist?.name}
+                  ’s {funnelName}...
+                  <Loading />
+                </div>
+              )}
+              {isFinishedScraping(agentsStatus) && <Completion />}
+            </>
           )}
         </>
       )}

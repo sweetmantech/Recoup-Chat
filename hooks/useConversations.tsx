@@ -4,10 +4,9 @@ import { Conversation } from "@/types/Stack";
 import getConversations from "@/lib/stack/getConversations";
 import { useParams, useRouter } from "next/navigation";
 import { useUserProvider } from "@/providers/UserProvder";
-import trackChatTitle from "@/lib/stack/trackChatTitle";
+import trackNewChatEvent from "@/lib/stack/trackNewChatEvent";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import getAiTitle from "@/lib/getAiTitle";
-import { v4 as uuidV4 } from "uuid";
 
 let timer: any = null;
 let streamedIndex = 1;
@@ -15,81 +14,54 @@ let streamedIndex = 1;
 const useConversations = () => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const { address } = useUserProvider();
-  const { conversation } = useParams();
-  const conversationRef = useRef(conversation as string);
+  const { chat_id: chatId } = useParams();
+  const conversationRef = useRef(chatId as string);
   const [streamingTitle, setStreamingTitle] = useState("");
   const [streaming, setStreaming] = useState(false);
   const { selectedArtist } = useArtistProvider();
   const [allConverstaions, setAllConverstaions] = useState<Conversation[]>([]);
   const [quotaExceeded, setQuotaExceeded] = useState(false);
   const { push } = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
+
+  const addConversation = (newmetadata: any) => {
+    setAllConverstaions([
+      { metadata: newmetadata, timestamp: new Date().getTime() } as any,
+      ...allConverstaions,
+    ]);
+  };
 
   useEffect(() => {
     if (address) {
       fetchConversations(address);
+      return;
     }
+    setAllConverstaions([]);
   }, [address]);
 
   useEffect(() => {
-    if (!selectedArtist?.id) {
-      setConversations(allConverstaions);
-      return;
-    }
     const filtered = allConverstaions.filter(
-      (item: any) => item.metadata.artistId === selectedArtist?.id,
+      (item: any) => item.metadata.accountId === selectedArtist?.account_id,
     );
-    setConversations(filtered);
+    setConversations([...filtered]);
   }, [selectedArtist, allConverstaions]);
 
-  const trackGeneralChat = async (
-    content: string,
-    chatId: string,
-    is_funnel_report: boolean,
-    active_analaysis_id: string,
-  ) => {
+  const trackGeneralChat = async (content: string, chatId: string) => {
     const response = await getAiTitle(content);
     if (response?.error) {
       setQuotaExceeded(true);
-      push(`/${uuidV4()}`);
+      push("/");
       return;
     }
     setQuotaExceeded(false);
-    await trackNewTitle(
-      {
-        title: response.replaceAll(`\"`, ""),
-        is_funnel_report,
-        artistId: selectedArtist?.id,
-        active_analaysis_id,
-      },
-      chatId,
-    );
-    fetchConversations(address);
+    trackChat({
+      title: response.replaceAll(`\"`, ""),
+      conversationId: chatId,
+      accountId: selectedArtist?.account_id,
+    });
   };
 
-  const trackFunnelAnalysisChat = async (
-    username: string,
-    artistId: string,
-    chatId: string,
-    funnelName: string,
-  ) => {
-    await trackNewTitle(
-      {
-        title: `${funnelName} Analysis: ${username}`,
-        is_funnel_analysis: true,
-        artistId,
-        funnel_name: funnelName,
-      },
-      chatId,
-    );
-  };
-
-  const trackNewTitle = async (titlemetadata: any, conversationId: string) => {
-    await trackChatTitle(
-      address,
-      titlemetadata,
-      conversationId,
-      selectedArtist?.id || "",
-    );
+  const trackChat = (titlemetadata: any) => {
     clearInterval(timer);
     streamedIndex = 1;
     timer = setInterval(() => {
@@ -101,14 +73,16 @@ const useConversations = () => {
       streamedIndex++;
     }, 50);
     setStreaming(true);
-    await fetchConversations(address);
+    addConversation(titlemetadata);
     setStreaming(false);
+    trackNewChatEvent(address, titlemetadata);
   };
 
   const fetchConversations = async (walletAddress: Address) => {
     try {
       const data = await getConversations(walletAddress);
       setAllConverstaions(data);
+      setIsLoading(false);
     } catch (error) {
       console.error("Error fetching initial messages:", error);
       return [];
@@ -116,18 +90,18 @@ const useConversations = () => {
   };
 
   return {
+    addConversation,
     fetchConversations,
     conversations,
     conversationRef,
-    conversationId: conversation,
+    chatId,
     streamingTitle,
-    trackNewTitle,
     streaming,
-    trackFunnelAnalysisChat,
     setQuotaExceeded,
     quotaExceeded,
     trackGeneralChat,
     allConverstaions,
+    isLoading,
   };
 };
 

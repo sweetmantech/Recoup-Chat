@@ -16,8 +16,8 @@ const useCredits = () => {
   const { append } = useChatProvider();
   const { funnelType } = useFunnelAnalysisProvider();
   const { email } = useUserProvider();
-  const { chat_id: chatId } = useParams();
-  const funnelReportId = reportId || chatId;
+  const { agent_id: agentId } = useParams();
+  const funnelReportId = reportId || agentId;
 
   useEffect(() => {
     const init = async () => {
@@ -28,14 +28,11 @@ const useCredits = () => {
       if (paymentStatus === "paid") {
         if (!session?.metadata?.credit_updated) {
           await checkSession(session.id, session?.metadata?.accountId);
-          append(
-            {
-              id: uuidV4(),
-              role: "user",
-              content: `Please create a ${funnelType || ""} fan segment report for ${funnelReportId} using this segment ${segmentName}.`,
-            },
-            true,
-          );
+          append({
+            id: uuidV4(),
+            role: "user",
+            content: `Please create a ${funnelType || ""} fan segment report for ${funnelReportId} using this segment ${segmentName}.`,
+          });
         }
       }
     };

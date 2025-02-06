@@ -1,14 +1,9 @@
 import getIpfsLink from "@/lib/ipfs/getIpfsLink";
 import { uploadFile } from "@/lib/ipfs/uploadToIpfs";
-import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ArtistRecord } from "@/types/Artist";
-import { v4 as uuidV4 } from "uuid";
-import { useMessagesProvider } from "@/providers/MessagesProvider";
 
 const useArtistSetting = () => {
-  const { finalCallback } = useMessagesProvider();
-  const { conversation: conversationId } = useParams();
   const imageRef = useRef() as any;
   const baseRef = useRef() as any;
   const [image, setImage] = useState("");
@@ -70,18 +65,6 @@ const useArtistSetting = () => {
     setKnowledgeUploading(false);
   };
 
-  const updateCallback = (artistInfo: ArtistRecord) => {
-    finalCallback(
-      {
-        role: "assistant",
-        id: uuidV4(),
-        content: `Artist Information: Name - ${artistInfo.name} Image - ${artistInfo.image}`,
-      },
-      { id: uuidV4(), content: question, role: "user" },
-      conversationId as string,
-    );
-  };
-
   const clearParams = () => {
     setName("");
     setImage("");
@@ -113,7 +96,7 @@ const useArtistSetting = () => {
         TIKTOK: setTikTok,
       };
       Object.entries(socialMediaTypes).forEach(([type, setter]) => {
-        const link = editableArtist?.artist_social_links?.find(
+        const link = editableArtist?.account_socials?.find(
           (item) => item.type === type,
         )?.link;
         setter(link || "");
@@ -151,7 +134,6 @@ const useArtistSetting = () => {
     imageUploading,
     question,
     setQuestion,
-    updateCallback,
     clearParams,
     knowledgeUploading,
     handleDeleteKnowledge,

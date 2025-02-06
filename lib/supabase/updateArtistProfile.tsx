@@ -1,4 +1,4 @@
-import { getSupabaseServerAdminClient } from "@/packages/supabase/src/clients/server-admin-client";
+import supabase from "./serverClient";
 
 const updateArtistProfile = async (
   artistId: string,
@@ -9,60 +9,81 @@ const updateArtistProfile = async (
   label: string,
   knowledges: string,
 ) => {
-  const client = getSupabaseServerAdminClient();
-
   if (artistId) {
-    const { data } = await client
-      .from("artists")
-      .select("*")
-      .eq("id", artistId);
-
-    if (!data || !data?.length) throw Error("artist does not exist.");
-
-    const artistData = data[0];
-
-    const { data: artistInfo } = await client
-      .from("artists")
+    const { data } = await supabase
+      .from("accounts")
       .update({
-        ...artistData,
-        image,
         name,
-        instruction,
-        knowledges,
-        label,
+        id: artistId,
       })
       .eq("id", artistId)
-      .select("*");
+      .select("*")
+      .single();
 
-    return artistInfo?.[0].id;
+    if (!data) throw Error("artist does not exist.");
+
+    const { data: account_info } = await supabase
+      .from("account_info")
+      .select("*")
+      .eq("account_id", artistId)
+      .single();
+    if (account_info) {
+      await supabase
+        .from("account_info")
+        .update({
+          ...account_info,
+          image,
+          instruction,
+          knowledges,
+          label,
+        })
+        .eq("account_id", artistId)
+        .select("*");
+    } else {
+      await supabase
+        .from("account_info")
+        .insert({
+          image,
+          instruction,
+          knowledges,
+          label,
+          account_id: artistId,
+        })
+        .select("*")
+        .single();
+    }
+    return artistId;
   } else {
-    const { data: artistInfo } = await client
-      .from("artists")
+    const { data } = await supabase
+      .from("account_emails")
+      .select("*")
+      .eq("email", email)
+      .single();
+
+    const { data: newArtistAccount } = await supabase
+      .from("accounts")
       .insert({
-        image,
         name,
-        instruction,
-        knowledges,
-        label,
-        timestamp: Date.now(),
       })
       .select("*")
       .single();
 
-    const { data: account } = await client
-      .from("accounts")
-      .select("*")
-      .eq("email", email);
-    if (!account || !account.length) throw Error("Account does not exist.");
-
-    await client
-      .from("accounts")
-      .update({
-        ...account[0],
-        artistIds: [...account[0].artistIds, artistInfo.id],
+    await supabase
+      .from("account_artist_ids")
+      .insert({
+        account_id: data.account_id,
+        artist_id: newArtistAccount.id,
       })
-      .eq("id", account[0].id);
-    return artistInfo.id;
+      .select("*")
+      .single();
+    await supabase.from("account_info").insert({
+      image,
+      instruction,
+      knowledges,
+      label,
+      account_id: newArtistAccount.id,
+    });
+    return newArtistAccount.id;
   }
 };
 

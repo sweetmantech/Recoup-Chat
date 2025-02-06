@@ -1,12 +1,12 @@
-import { useAgentSocketProvider } from "@/providers/AgentSocketProvider";
+import { useAgentsProvider } from "@/providers/AgentsProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
 const InputHandles = () => {
   const { handles, setHandles } = useFunnelAnalysisProvider();
-  const { openAgentSocket } = useAgentSocketProvider();
+  const { runAgents } = useAgentsProvider();
 
   const handleContinue = () => {
-    openAgentSocket();
+    runAgents();
   };
 
   // eslint-disable-next-line
@@ -32,7 +32,7 @@ const InputHandles = () => {
       <button
         onClick={handleContinue}
         type="button"
-        className="bg-black px-4 py-2 text-white rounded-md mt-1 hover:bg-white hover:text-black border-grey-700 border transition-all duration-[200ms]"
+        className="disabled:opacity-50 disabled:cursor-not-allowed bg-black px-4 py-2 text-white rounded-md mt-1 hover:bg-white hover:text-black border-grey-700 border transition-all duration-[200ms]"
       >
         Continue
       </button>

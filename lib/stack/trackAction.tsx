@@ -10,15 +10,13 @@ import { ACTION } from "@/types/Autopilot";
 const trackAction = async (
   address: Address,
   action: ACTION,
-  artistId: string,
+  accountId: string,
   isApproved: boolean,
-  // eslint-disable-next-line
-  metadata: any,
 ) => {
   try {
     const stackClient = getStackClient(CHAT_POINT_SYSTEM_ID);
     const uniqueId = `${address}-${Date.now()}`;
-    const eventName = `${ACTION_EVENT}-${artistId}`;
+    const eventName = `${ACTION_EVENT}-${accountId}`;
     await stackClient.track(eventName, {
       points: MESSAGE_SENT_POINT,
       account: address,
@@ -26,7 +24,6 @@ const trackAction = async (
       metadata: {
         ...action,
         isApproved,
-        ...metadata,
       },
     });
   } catch (error) {

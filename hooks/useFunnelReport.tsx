@@ -1,58 +1,53 @@
-import getFullReport from "@/lib/getFullReport";
-import getReportNextSteps from "@/lib/getReportNextSteps";
-import { useUserProvider } from "@/providers/UserProvder";
-import { useState } from "react";
+import getSegmentReport from "@/lib/report/getSegmentReport";
+import { useParams, usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+
+let timer: any = null;
 
 const useFunnelReport = () => {
-  const [funnelTrends, setFunnelTrends] = useState<any>(null);
-  const [isSearchingTrends, setIsSearchingTrends] = useState(false);
-  const [isGettingVideos, setIsGettingVideos] = useState(false);
-  const [isGettingAnalysis, setIsGettingAnalysis] = useState(false);
-  const [funnelVideos, setFunnelVideos] = useState<any>(null);
-  const [funnelAnalysis, setFunnelAnalysis] = useState<any>(null);
+  const [isLoadingReport, setIsLoadingReport] = useState(true);
   const [funnelNextSteps, setFunnelNextSteps] = useState("");
   const [funnelReportContent, setFunnelReportContent] = useState("");
   const [funnelRawReportContent, setFunnelRawReportContent] = useState("");
-  const [funnelSummary, setFunnelSummary] = useState("");
   const [bannerImage, setBannerImage] = useState("");
   const [bannerArtistName, setBannerArtistName] = useState("");
   const [pitchName, setPitchName] = useState("");
-  const { email } = useUserProvider();
+  const { chat_id: chatId } = useParams();
+  const pathname = usePathname();
+  const isReportPage = pathname.includes("/report");
 
-  const setFunnelReport = async (analysis: any, profiles: any) => {
-    setIsGettingAnalysis(true);
-    setFunnelAnalysis(analysis);
-    const bannerArtist = profiles?.find(
-      (profile: any) => profile?.nickname && profile?.avatar,
-    );
-    setBannerImage(bannerArtist?.avatar);
-    setBannerArtistName(bannerArtist?.nickname);
-    const { reportContent, rawContent } = await getFullReport({
-      ...analysis,
-      artistImage: bannerArtist?.avatar,
-      artistName: bannerArtist?.nickname,
-      email,
-    });
-    setFunnelReportContent(reportContent);
-    setFunnelRawReportContent(rawContent);
-    const nextSteps = await getReportNextSteps(analysis);
-    setFunnelNextSteps(nextSteps);
-    setIsGettingAnalysis(false);
-
-    return {
-      rawContent,
-      nextSteps,
-    };
+  const getFunnelReport = async () => {
+    if (chatId && isReportPage) {
+      const {
+        artistImage,
+        artistName,
+        reportContent,
+        rawReportContent,
+        nextSteps,
+      } = await getSegmentReport(chatId as string);
+      if (!rawReportContent) return;
+      setFunnelReportContent(reportContent);
+      setFunnelRawReportContent(rawReportContent);
+      setFunnelNextSteps(nextSteps);
+      setBannerImage(artistImage);
+      setBannerArtistName(artistName);
+      setIsLoadingReport(false);
+      clearInterval(timer);
+      return;
+    }
+    clearReportCache();
+    setIsLoadingReport(true);
+    clearInterval(timer);
   };
 
-  const initReport = () => {
-    setFunnelTrends(null);
-    setFunnelVideos({});
-  };
+  useEffect(() => {
+    getFunnelReport();
+    timer = setInterval(getFunnelReport, 3000);
+    return () => clearInterval(timer);
+  }, [chatId, isReportPage]);
 
   const clearReportCache = () => {
     setFunnelNextSteps("");
-    setFunnelSummary("");
     setFunnelRawReportContent("");
     setFunnelReportContent("");
     setBannerArtistName("");
@@ -60,28 +55,14 @@ const useFunnelReport = () => {
   };
 
   return {
-    initReport,
-    setFunnelReport,
-    isSearchingTrends,
-    setFunnelTrends,
-    setIsSearchingTrends,
-    funnelTrends,
-    setIsGettingVideos,
-    isGettingVideos,
-    setFunnelVideos,
-    funnelVideos,
-    setFunnelAnalysis,
     setFunnelNextSteps,
     funnelNextSteps,
     funnelReportContent,
-    setIsGettingAnalysis,
-    isGettingAnalysis,
+    setIsLoadingReport,
+    isLoadingReport,
     setFunnelReportContent,
-    funnelAnalysis,
     setFunnelRawReportContent,
     funnelRawReportContent,
-    funnelSummary,
-    setFunnelSummary,
     clearReportCache,
     bannerImage,
     bannerArtistName,

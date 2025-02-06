@@ -1,5 +1,15 @@
-import FunnelAccountAnalysis from "@/components/Funnels/FunnelAccountAnalysis";
+"use client";
 
-const FunnelAccountAnalysisFunnel = () => <FunnelAccountAnalysis />;
+import FunnelAccountInput from "@/components/Funnels/FunnelAccountInput";
+import VerifyingSocials from "@/components/Funnels/VerifyingSocials";
+import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
-export default FunnelAccountAnalysisFunnel;
+const FunnelPage = () => {
+  const { isCheckingHandles } = useFunnelAnalysisProvider();
+
+  return (
+    <>{isCheckingHandles ? <VerifyingSocials /> : <FunnelAccountInput />}</>
+  );
+};
+
+export default FunnelPage;

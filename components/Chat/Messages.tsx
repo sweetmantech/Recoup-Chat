@@ -1,4 +1,3 @@
-import { useChatProvider } from "@/providers/ChatProvider";
 import { useEffect } from "react";
 import { ScrollArea } from "react-scroll-to";
 import Thinking from "./Thinking";
@@ -17,32 +16,29 @@ const Messages = ({
   className?: string;
   children?: React.ReactNode;
 }) => {
-  const { reportEnabled } = useChatProvider();
   const { messages, pending } = useMessagesProvider();
-  const { suggestions } = usePromptsProvider();
+  const { prompts } = usePromptsProvider();
   const scrollTo = () => scroll({ smooth: true, y: Number.MAX_SAFE_INTEGER });
 
   useEffect(() => {
     scrollTo();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [messages, pending, suggestions]);
+  }, [messages, pending, prompts]);
 
   return (
     <ScrollArea
-      className={`w-full mt-4 max-w-3xl mx-auto overflow-y-auto ${messages.length && "grow"} ${className}`}
+      className={`w-full mt-4 max-w-3xl mx-auto overflow-y-auto grow ${className}`}
     >
       {children || <div />}
-      {messages
-        .slice(reportEnabled ? 1 : 0)
-        .map((message: AIMessage, index: number) => (
-          <ToolCallProvider
-            message={message}
-            scrollTo={scrollTo}
-            key={message.id}
-          >
-            <Message message={message} index={index} />
-          </ToolCallProvider>
-        ))}
+      {messages.map((message: AIMessage, index: number) => (
+        <ToolCallProvider
+          message={message}
+          scrollTo={scrollTo}
+          key={message.id}
+        >
+          <Message message={message} index={index} />
+        </ToolCallProvider>
+      ))}
       {pending && <Thinking />}
     </ScrollArea>
   );

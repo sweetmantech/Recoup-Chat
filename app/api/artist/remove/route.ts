@@ -1,13 +1,11 @@
-import { getSupabaseServerAdminClient } from "@/packages/supabase/src/clients/server-admin-client";
+import supabase from "@/lib/supabase/serverClient";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   const artistId = req.nextUrl.searchParams.get("artistId");
 
   try {
-    const client = getSupabaseServerAdminClient();
-    await client.from("artists").delete().eq("id", artistId);
-    await client.from("artist_social_links").delete().eq("artistId", artistId);
+    await supabase.from("accounts").delete().eq("id", artistId);
     return Response.json({ success: true }, { status: 200 });
   } catch (error) {
     console.error(error);
