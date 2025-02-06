@@ -14,6 +14,7 @@ export async function GET(req: NextRequest) {
       })
       .select("*")
       .single();
+
     return Response.json({ new_room, error }, { status: 400 });
   } catch (error) {
     console.error(error);
