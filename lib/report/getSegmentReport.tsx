@@ -6,7 +6,7 @@ const getSegmentReport = async (reportId: string) => {
     const data = await response.json();
 
     return {
-      reportContent: getPdfReport(data?.report || ""),
+      reportContent: getPdfReport(data?.data?.report || ""),
       rawReportContent: data.data?.report,
       nextSteps: data.data?.next_steps,
       artistImage: data.data?.artist?.account_info?.[0].image,

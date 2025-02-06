@@ -1,15 +1,10 @@
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import ReportHTML from "./ReportHTML";
-import ReportSummaryNote from "./ReportNextSteps";
+import ReportNextSteps from "./ReportNextSteps";
 import ReportSkeleton from "./ReportSkeleton";
 
 const SegmentReport = () => {
-  const {
-    funnelRawReportContent,
-    funnelNextSteps,
-    funnelReportContent,
-    isLoadingReport,
-  } = useFunnelReportProvider();
+  const { isLoadingReport } = useFunnelReportProvider();
 
   return (
     <div className="px-3 w-full">
@@ -18,11 +13,8 @@ const SegmentReport = () => {
       ) : (
         <div className="w-full">
           <div>
-            <ReportHTML rawContent={funnelRawReportContent} />
-            <ReportSummaryNote
-              reportContent={funnelReportContent}
-              nextSteps={funnelNextSteps}
-            />
+            <ReportHTML />
+            <ReportNextSteps />
           </div>
         </div>
       )}
