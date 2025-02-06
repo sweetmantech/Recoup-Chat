@@ -8,4 +8,5 @@ export type Conversation = {
   room_reports: Array<{
     report_id: string;
   }>;
+  updated_at: string;
 };
