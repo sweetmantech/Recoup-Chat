@@ -26,7 +26,7 @@ const useFunnelReport = () => {
         nextSteps,
       } = await getSegmentReport(chatId as string);
       if (!rawReportContent) return;
-      setFunnelNextSteps(reportContent);
+      setFunnelReportContent(reportContent);
       setFunnelRawReportContent(rawReportContent);
       setFunnelNextSteps(nextSteps);
       setBannerImage(artistImage);
