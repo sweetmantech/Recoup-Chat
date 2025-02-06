@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import ChatInput from "../Chat/ChatInput";
 import Messages from "../Chat/Messages";
@@ -7,17 +7,25 @@ import SegmentReport from "./SegmentReport";
 
 const ReportPage = () => {
   return (
-    <div className="size-full flex flex-col items-center justify-center bg-white rounded-xl overflow-hidden flex flex-col px-4 pb-5 md:pt-[14px]">
-      <ScrollTo>
-        {({ scroll }) => (
-          <>
-            <SegmentReport />
-            <Messages scroll={scroll} />
-          </>
-        )}
-      </ScrollTo>
-      <ChatInput />
-    </div>
+    <main className="grow py-2">
+      <div className="px-4 md:max-w-3xl md:mx-auto md:w-full h-full md:pt-4 flex flex-col bg-white">
+        <div className="md:grow flex flex-col pb-4 h-full">
+          <ScrollTo>
+            {({ scroll }) => (
+              <>
+                <>
+                  <SegmentReport />
+                  <Messages scroll={scroll} />
+                </>
+              </>
+            )}
+          </ScrollTo>
+          <div className="space-y-2">
+            <ChatInput />
+          </div>
+        </div>
+      </div>
+    </main>
   );
 };
 
