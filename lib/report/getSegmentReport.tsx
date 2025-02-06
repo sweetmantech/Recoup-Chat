@@ -7,10 +7,10 @@ const getSegmentReport = async (reportId: string) => {
 
     return {
       reportContent: getPdfReport(data.report),
-      rawReportContent: data.report,
-      nextSteps: data.next_steps,
-      artistImage: data.artist.account_info?.[0].image,
-      artistName: data.artist.name,
+      rawReportContent: data.data?.report,
+      nextSteps: data.data?.next_steps,
+      artistImage: data.data?.artist?.account_info?.[0].image,
+      artistName: data.data?.artist?.name,
     };
   } catch (error) {
     console.error(error);
