@@ -5,17 +5,14 @@ import { useParams } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useArtistProvider } from "@/providers/ArtistProvider";
-import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { useInitialMessagesProvider } from "@/providers/InititalMessagesProvider";
 import trackNewMessage from "@/lib/stack/trackNewMessage";
 import { Address } from "viem";
 import formattedContent from "@/lib/formattedContent";
-import { usePromptsProvider } from "@/providers/PromptsProvider";
 import useFunnels from "./useFunnels";
 import useChatContext from "./useChatContext";
 
 const useMessages = () => {
-  const { currentQuestion, setCurrentQuestion } = usePromptsProvider();
   const csrfToken = useCsrfToken();
   const { initialMessages, fetchInitialMessages } =
     useInitialMessagesProvider();
@@ -75,7 +72,7 @@ const useMessages = () => {
     referenceId?: string,
   ) => {
     const uniqueChatId = newChatId || (chatId as string);
-    const question = lastQuestion || currentQuestion;
+    const question = lastQuestion;
     if (!message.content || !question) return;
     await trackNewMessage(
       address as Address,
@@ -95,7 +92,6 @@ const useMessages = () => {
       uniqueChatId,
       referenceId,
     );
-    setCurrentQuestion(null);
     fetchInitialMessages();
   };
 

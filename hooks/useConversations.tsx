@@ -1,54 +1,44 @@
-import { Address } from "viem";
-import { useEffect, useState } from "react";
-import { Conversation } from "@/types/Stack";
-import getConversations from "@/lib/stack/getConversations";
-import { useParams, useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import { useParams } from "next/navigation";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useArtistProvider } from "@/providers/ArtistProvider";
+import getConversations from "@/lib/getConversations";
+import { Conversation } from "@/types/Chat";
 
 const useConversations = () => {
-  const [conversations, setConversations] = useState<Conversation[]>([]);
-  const { address } = useUserProvider();
+  const { userData } = useUserProvider();
   const { chat_id: chatId } = useParams();
-  const [streamingTitle, setStreamingTitle] = useState("");
-  const [streaming, setStreaming] = useState(false);
   const { selectedArtist } = useArtistProvider();
   const [allConverstaions, setAllConverstaions] = useState<Conversation[]>([]);
   const [quotaExceeded, setQuotaExceeded] = useState(false);
-  const { push } = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 
-  const addConversation = (newmetadata: any) => {
-    setAllConverstaions([
-      { metadata: newmetadata, timestamp: new Date().getTime() } as any,
-      ...allConverstaions,
-    ]);
+  const addConversation = (conversation: any) => {
+    setAllConverstaions([conversation, ...allConverstaions]);
   };
 
   useEffect(() => {
-    if (address) {
-      fetchConversations(address);
+    if (userData) {
+      fetchConversations();
       return;
     }
-    setAllConverstaions([]);
-  }, [address]);
+    return () => setAllConverstaions([]);
+  }, [userData]);
 
-  useEffect(() => {
-    const filtered = allConverstaions.filter(
-      (item: any) => item.metadata.accountId === selectedArtist?.account_id,
+  const conversations = useMemo(() => {
+    const filtered = allConverstaions.filter((item: Conversation) =>
+      item.memories.some(
+        (memory: { artist_id: string }) =>
+          memory.artist_id === selectedArtist?.account_id,
+      ),
     );
-    setConversations([...filtered]);
+    return filtered;
   }, [selectedArtist, allConverstaions]);
 
-  const fetchConversations = async (walletAddress: Address) => {
-    try {
-      const data = await getConversations(walletAddress);
-      setAllConverstaions(data);
-      setIsLoading(false);
-    } catch (error) {
-      console.error("Error fetching initial messages:", error);
-      return [];
-    }
+  const fetchConversations = async () => {
+    const data = await getConversations(userData.id);
+    setAllConverstaions(data);
+    setIsLoading(false);
   };
 
   return {
@@ -56,8 +46,6 @@ const useConversations = () => {
     fetchConversations,
     conversations,
     chatId,
-    streamingTitle,
-    streaming,
     setQuotaExceeded,
     quotaExceeded,
     allConverstaions,
