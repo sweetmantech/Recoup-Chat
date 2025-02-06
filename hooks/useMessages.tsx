@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { Message, useChat as useAiChat } from "ai/react";
 import { useCsrfToken } from "./useCsrfToken";
 import { useParams } from "next/navigation";
-import { useQueryClient } from "@tanstack/react-query";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useInitialMessagesProvider } from "@/providers/InititalMessagesProvider";
@@ -16,8 +15,7 @@ const useMessages = () => {
   const csrfToken = useCsrfToken();
   const { initialMessages, fetchInitialMessages } =
     useInitialMessagesProvider();
-  const queryClient = useQueryClient();
-  const { email, address } = useUserProvider();
+  const { address } = useUserProvider();
   const [toolCall, setToolCall] = useState<any>(null);
   const { selectedArtist } = useArtistProvider();
   const { chat_id: chatId } = useParams();
@@ -38,24 +36,13 @@ const useMessages = () => {
       "X-CSRF-Token": csrfToken,
     },
     body: {
-      email,
-      artistId: selectedArtist?.account_id || "",
+      artistId: selectedArtist?.account_id,
       context: funnelContext || chatContext,
+      roomId: chatId,
     },
     initialMessages,
     onToolCall: ({ toolCall }) => {
       setToolCall(toolCall as any);
-    },
-    onFinish: async (message) => {
-      setToolCall(null);
-      // await finalCallback(
-      //   message,
-      //   messagesRef.current[messagesRef.current.length - 2],
-      //   conversationRef.current,
-      // );
-      void queryClient.invalidateQueries({
-        queryKey: ["credits", email],
-      });
     },
   });
 

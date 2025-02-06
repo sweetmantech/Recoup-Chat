@@ -8,10 +8,9 @@ import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import isAnalysisTool from "@/lib/isAnalysisTool";
 
 const ToolFollowUp = ({ message }: { message: AIMessage }) => {
-  const { loading, answer, toolName, context } = useToolCallProvider();
+  const { toolName, context } = useToolCallProvider();
   const { isLoadingReport } = useFunnelReportProvider();
-  const content = message.content || answer;
-  const isThinking = loading || isLoadingReport;
+  const content = message.content;
 
   useEffect(() => {
     scrollTo();
@@ -24,7 +23,7 @@ const ToolFollowUp = ({ message }: { message: AIMessage }) => {
     <div>
       {isAnalysisTool(toolName) && (
         <>
-          {isThinking && !content ? (
+          {isLoadingReport && !content ? (
             <div className="flex gap-2 items-center">
               <p className="text-sm">{getStatusMessage(context)}</p>
               <LoaderCircle className="h-4 w-4 animate-spin" />

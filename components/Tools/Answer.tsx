@@ -1,5 +1,3 @@
-import Insights from "./Insights";
-
 const Answer = ({
   content,
   role,
@@ -14,7 +12,6 @@ const Answer = ({
         __html: decodeURIComponent(content?.replaceAll("%", "&#37;") || ""),
       }}
     />
-    <Insights />
   </section>
 );
 
