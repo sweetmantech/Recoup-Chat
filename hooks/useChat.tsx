@@ -18,7 +18,7 @@ const useChat = () => {
     if (chatId) return;
     const room = await createRoom(userData.id, content);
     addConversation(room);
-    push(`/2b610e4f-0f04-4f8c-8f6b-a17834eebb11`);
+    push(`/${room.id}`);
   };
 
   const isPrepared = () => {
