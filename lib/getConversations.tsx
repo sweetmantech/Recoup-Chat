@@ -1,6 +1,6 @@
 const getConversations = async (account_id: string) => {
   try {
-    const response = await fetch(`/api/room?account_id=${account_id}`);
+    const response = await fetch(`/api/room/get?account_id=${account_id}`);
     const data = await response.json();
 
     return data.rooms;
