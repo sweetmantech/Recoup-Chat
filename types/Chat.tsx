@@ -1,5 +1,5 @@
 export type Conversation = {
-  title: string;
+  topic: string;
   id: string;
   account_id: string;
   memories: Array<{
