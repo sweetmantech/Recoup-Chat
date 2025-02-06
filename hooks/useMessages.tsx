@@ -19,7 +19,6 @@ const useMessages = () => {
   const csrfToken = useCsrfToken();
   const { initialMessages, fetchInitialMessages } =
     useInitialMessagesProvider();
-  const { conversationRef } = useConversationsProvider();
   const queryClient = useQueryClient();
   const { email, address } = useUserProvider();
   const [toolCall, setToolCall] = useState<any>(null);
@@ -52,11 +51,11 @@ const useMessages = () => {
     },
     onFinish: async (message) => {
       setToolCall(null);
-      await finalCallback(
-        message,
-        messagesRef.current[messagesRef.current.length - 2],
-        conversationRef.current,
-      );
+      // await finalCallback(
+      //   message,
+      //   messagesRef.current[messagesRef.current.length - 2],
+      //   conversationRef.current,
+      // );
       void queryClient.invalidateQueries({
         queryKey: ["credits", email],
       });

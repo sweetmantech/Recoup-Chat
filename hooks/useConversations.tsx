@@ -15,7 +15,6 @@ const useConversations = () => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const { address } = useUserProvider();
   const { chat_id: chatId } = useParams();
-  const conversationRef = useRef(chatId as string);
   const [streamingTitle, setStreamingTitle] = useState("");
   const [streaming, setStreaming] = useState(false);
   const { selectedArtist } = useArtistProvider();
@@ -93,7 +92,6 @@ const useConversations = () => {
     addConversation,
     fetchConversations,
     conversations,
-    conversationRef,
     chatId,
     streamingTitle,
     streaming,

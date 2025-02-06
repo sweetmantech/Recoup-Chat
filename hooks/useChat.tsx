@@ -5,23 +5,25 @@ import { useUserProvider } from "@/providers/UserProvder";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
 import { usePromptsProvider } from "@/providers/PromptsProvider";
+import createRoom from "@/lib/createRoom";
+import useConversations from "./useConversations";
 
 const useChat = () => {
-  const { login, address } = useUserProvider();
+  const { login, address, userData } = useUserProvider();
   const { push } = useRouter();
-  const { chatId, trackGeneralChat, conversationRef } =
+  const { chatId, } =
     useConversationsProvider();
   const searchParams = useSearchParams();
   const isReportChat = searchParams.get("is_funnel_report");
   const { input, appendAiChat, handleAiChatSubmit } = useMessagesProvider();
   const { setCurrentQuestion } = usePromptsProvider();
+  const { addConversation } = useConversations()
 
-  const createNewConversation = async (content: string) => {
+  const createNewRoom = async (content: string) => {
     if (chatId) return;
-    const newId = uuidV4();
-    conversationRef.current = newId;
-    trackGeneralChat(content, newId);
-    push(`/${newId}`);
+    const room = await createRoom(userData.account_id, content)
+    addConversation(room);
+    push(`/${room.id}`);
   };
 
   const isPrepared = () => {
@@ -36,7 +38,7 @@ const useChat = () => {
     if (!isPrepared()) return;
     setCurrentQuestion(message);
     appendAiChat(message);
-    createNewConversation(message.content);
+    createNewRoom(message.content);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -48,7 +50,7 @@ const useChat = () => {
       id: uuidV4(),
     });
     handleAiChatSubmit(e);
-    createNewConversation(input);
+    createNewRoom(input);
   };
 
   return {
