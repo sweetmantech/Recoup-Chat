@@ -2,6 +2,8 @@ import getSegmentReport from "@/lib/report/getSegmentReport";
 import { useParams, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
+let timer: any = null;
+
 const useFunnelReport = () => {
   const [isLoadingReport, setIsLoadingReport] = useState(true);
   const [funnelNextSteps, setFunnelNextSteps] = useState("");
@@ -14,27 +16,33 @@ const useFunnelReport = () => {
   const pathname = usePathname();
   const isReportPage = pathname.includes("/report");
 
+  const getFunnelReport = async () => {
+    if (chatId && isReportPage) {
+      const {
+        artistImage,
+        artistName,
+        reportContent,
+        rawReportContent,
+        nextSteps,
+      } = await getSegmentReport(chatId as string);
+      if (!rawReportContent) return;
+      setFunnelNextSteps(reportContent);
+      setFunnelRawReportContent(rawReportContent);
+      setFunnelNextSteps(nextSteps);
+      setBannerImage(artistImage);
+      setBannerArtistName(artistName);
+      setIsLoadingReport(false);
+      clearInterval(timer);
+    }
+    clearReportCache();
+    setIsLoadingReport(true);
+    clearInterval(timer);
+  };
+
   useEffect(() => {
-    const getFunnelReport = async () => {
-      if (chatId && isReportPage) {
-        const {
-          artistImage,
-          artistName,
-          reportContent,
-          rawReportContent,
-          nextSteps,
-        } = await getSegmentReport(chatId as string);
-        setFunnelNextSteps(reportContent);
-        setFunnelRawReportContent(rawReportContent);
-        setFunnelNextSteps(nextSteps);
-        setBannerImage(artistImage);
-        setBannerArtistName(artistName);
-        setIsLoadingReport(false);
-      }
-      clearReportCache();
-      setIsLoadingReport(true);
-    };
     getFunnelReport();
+    timer = setInterval(getFunnelReport, 3000);
+    return () => clearInterval(timer);
   }, [chatId, isReportPage]);
 
   const clearReportCache = () => {
