@@ -3,7 +3,7 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
 import createRoom from "@/lib/createRoom";
-import useConversations from "./useConversations";
+import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 
 const useChat = () => {
   const { login, address, userData } = useUserProvider();
@@ -12,13 +12,13 @@ const useChat = () => {
   const searchParams = useSearchParams();
   const isReportChat = searchParams.get("is_funnel_report");
   const { input, appendAiChat, handleAiChatSubmit } = useMessagesProvider();
-  const { addConversation } = useConversations();
+  const { addConversation } = useConversationsProvider();
 
   const createNewRoom = async (content: string) => {
     if (chatId) return;
     const room = await createRoom(userData.id, content);
     addConversation(room);
-    push(`/${room.id}`);
+    push(`/2b610e4f-0f04-4f8c-8f6b-a17834eebb11`);
   };
 
   const isPrepared = () => {
