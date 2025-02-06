@@ -33,6 +33,7 @@ const useFunnelReport = () => {
       setBannerArtistName(artistName);
       setIsLoadingReport(false);
       clearInterval(timer);
+      return;
     }
     clearReportCache();
     setIsLoadingReport(true);

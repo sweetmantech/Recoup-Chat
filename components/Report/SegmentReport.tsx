@@ -12,7 +12,7 @@ const SegmentReport = () => {
   } = useFunnelReportProvider();
 
   return (
-    <div className="w-full">
+    <div className="px-3 w-full">
       {isLoadingReport ? (
         <ReportSkeleton />
       ) : (
