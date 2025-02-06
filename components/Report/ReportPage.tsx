@@ -1,3 +1,5 @@
+"use client"
+
 import ChatInput from "../Chat/ChatInput";
 import Messages from "../Chat/Messages";
 import { ScrollTo } from "react-scroll-to";
