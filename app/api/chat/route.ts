@@ -21,15 +21,6 @@ export async function POST(req: Request) {
 
   const question = lastMessage.content;
 
-  if (messages.length > 1) {
-    const prevReponse = messages[messages.length - 2];
-    createMemories({
-      room_id,
-      artist_id,
-      content: prevReponse,
-    });
-  }
-
   createMemories({
     room_id,
     artist_id,
