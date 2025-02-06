@@ -11,17 +11,16 @@ import useConversations from "./useConversations";
 const useChat = () => {
   const { login, address, userData } = useUserProvider();
   const { push } = useRouter();
-  const { chatId, } =
-    useConversationsProvider();
+  const { chatId } = useConversationsProvider();
   const searchParams = useSearchParams();
   const isReportChat = searchParams.get("is_funnel_report");
   const { input, appendAiChat, handleAiChatSubmit } = useMessagesProvider();
   const { setCurrentQuestion } = usePromptsProvider();
-  const { addConversation } = useConversations()
+  const { addConversation } = useConversations();
 
   const createNewRoom = async (content: string) => {
     if (chatId) return;
-    const room = await createRoom(userData.account_id, content)
+    const room = await createRoom(userData.account_id, content);
     addConversation(room);
     push(`/${room.id}`);
   };

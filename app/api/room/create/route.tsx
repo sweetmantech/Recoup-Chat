@@ -4,6 +4,7 @@ import { NextRequest } from "next/server";
 export async function GET(req: NextRequest) {
   const topic = req.nextUrl.searchParams.get("topic");
   const account_id = req.nextUrl.searchParams.get("account_id");
+  const report_id = req.nextUrl.searchParams.get("report_id");
 
   try {
     const { data: new_room, error } = await supabase
@@ -15,6 +16,11 @@ export async function GET(req: NextRequest) {
       .select("*")
       .single();
 
+    if (report_id)
+      await supabase.from("room_reports").insert({
+        room_id: new_room.id,
+        report_id,
+      });
     return Response.json({ new_room, error }, { status: 400 });
   } catch (error) {
     console.error(error);
