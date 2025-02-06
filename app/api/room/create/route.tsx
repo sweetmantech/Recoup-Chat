@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
         room_id: new_room.id,
         report_id,
       });
-    return Response.json({ new_room, error }, { status: 400 });
+    return Response.json({ new_room, error }, { status: 200 });
   } catch (error) {
     console.error(error);
     const message = error instanceof Error ? error.message : "failed";
