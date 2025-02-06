@@ -8,18 +8,10 @@ const createRoom = async (account_id: string, content: string) => {
       `/api/room/create?account_id=${account_id}&topic=${encodeURIComponent(topic)}`,
     );
     const data = await response.json();
-    return {
-      ...data.new_room,
-      topic,
-      account_id,
-    };
+    return data.new_room;
   } catch (error) {
     console.error(error);
-    return {
-      id: "",
-      topic: "",
-      account_id: "",
-    };
+    return null;
   }
 };
 
