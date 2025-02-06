@@ -4,7 +4,7 @@ import RecentChatSkeleton from "./RecentChatSkeleton";
 import { Conversation } from "@/types/Chat";
 
 const RecentChats = ({ toggleModal }: { toggleModal: () => void }) => {
-  const { conversations, isLoading } = useConversationsProvider();
+  const { allConverstaions, isLoading } = useConversationsProvider();
   const { handleClick } = useClickChat();
 
   return (
@@ -18,18 +18,20 @@ const RecentChats = ({ toggleModal }: { toggleModal: () => void }) => {
           <RecentChatSkeleton />
         ) : (
           <>
-            {conversations.map((conversation: Conversation, index: number) => (
-              <button
-                className="flex gap-2 items-center"
-                key={index}
-                type="button"
-                onClick={() => handleClick(conversation, toggleModal)}
-              >
-                <p className="text-sm truncate max-w-[200px]">
-                  {conversation.title}
-                </p>
-              </button>
-            ))}
+            {allConverstaions.map(
+              (conversation: Conversation, index: number) => (
+                <button
+                  className="flex gap-2 items-center"
+                  key={index}
+                  type="button"
+                  onClick={() => handleClick(conversation, toggleModal)}
+                >
+                  <p className="text-sm truncate max-w-[200px]">
+                    {conversation.title}
+                  </p>
+                </button>
+              ),
+            )}
           </>
         )}
       </div>

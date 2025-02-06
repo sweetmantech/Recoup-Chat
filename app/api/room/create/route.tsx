@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
         new_room: {
           ...new_room,
           memories: [],
-          rooms_reports: [report_id],
+          rooms_reports: report_id ? [report_id] : [],
         },
         error,
       },
