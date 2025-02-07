@@ -12,7 +12,7 @@ const useChat = () => {
   const { userData, isPrepared } = useUserProvider();
   const { push } = useRouter();
   const { chat_id: chatId, agent_id: agentId } = useParams();
-  const { input, appendAiChat } = useMessagesProvider();
+  const { input, appendAiChat, chatContext } = useMessagesProvider();
   const { addConversation } = useConversationsProvider();
   const { messages, pending } = useMessagesProvider();
   const { getPrompts } = usePromptsProvider();
