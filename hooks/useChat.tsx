@@ -15,7 +15,7 @@ const useChat = () => {
   const { userData, isPrepared } = useUserProvider();
   const { push } = useRouter();
   const { chat_id: chatId, agent_id: agentId } = useParams();
-  const { input, appendAiChat, handleAiChatSubmit } = useMessagesProvider();
+  const { input, appendAiChat } = useMessagesProvider();
   const { addConversation } = useConversationsProvider();
   const { funnelRawReportContent, isLoadingReport } = useFunnelReportProvider();
   const { messages, pending } = useMessagesProvider();
