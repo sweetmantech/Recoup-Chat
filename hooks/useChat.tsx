@@ -6,7 +6,7 @@ import createRoom from "@/lib/createRoom";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { usePromptsProvider } from "@/providers/PromptsProvider";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import createMemory from "@/lib/createMemory";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { v4 as uuidV4 } from "uuid";
@@ -21,6 +21,7 @@ const useChat = () => {
   const { messages, pending } = useMessagesProvider();
   const { getPrompts } = usePromptsProvider();
   const { selectedArtist } = useArtistProvider();
+  const [triggerAppend, setTriggerAppend] = useState<any>(null);
 
   const createNewRoom = async (content: string) => {
     if (chatId) return;
@@ -39,8 +40,8 @@ const useChat = () => {
 
   const append = async (message: Message) => {
     if (!isPrepared()) return;
-    await createNewRoom(message.content);
-    appendAiChat(message);
+    createNewRoom(message.content);
+    setTriggerAppend(message);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -52,6 +53,13 @@ const useChat = () => {
       role: "user",
     });
   };
+
+  useEffect(() => {
+    if (triggerAppend && chatId) {
+      appendAiChat(triggerAppend);
+      setTriggerAppend(null);
+    }
+  }, [triggerAppend, chatId]);
 
   useEffect(() => {
     if (messages.length && (chatId || agentId)) {

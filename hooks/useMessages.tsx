@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useChat as useAiChat } from "ai/react";
 import { useCsrfToken } from "./useCsrfToken";
-import { useParams } from "next/navigation";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useInitialMessagesProvider } from "@/providers/InititalMessagesProvider";
 import useChatContext from "./useChatContext";
+import { useParams } from "next/navigation";
 import createMemory from "@/lib/createMemory";
 
 const useMessages = () => {
@@ -15,29 +15,6 @@ const useMessages = () => {
   const { chatContext } = useChatContext();
   const { chat_id: chatId } = useParams();
 
-  const aiChatConfig = useMemo(
-    () => ({
-      api: `/api/chat`,
-      headers: {
-        "X-CSRF-Token": csrfToken,
-      },
-      body: {
-        artistId: selectedArtist?.account_id,
-        context: chatContext,
-        roomId: chatId,
-      },
-      initialMessages,
-      onToolCall: ({ toolCall }: any) => {
-        setToolCall(toolCall as any);
-      },
-      onFinish: (message: any) => {
-        console.log("ZIAD", chatId);
-        // createMemory(message, chatId.current, selectedArtist?.account_id || "");
-      },
-    }),
-    [chatId, chatContext, selectedArtist],
-  );
-
   const {
     messages,
     input,
@@ -47,7 +24,24 @@ const useMessages = () => {
     isLoading: pending,
     setMessages,
     reload: reloadAiChat,
-  } = useAiChat(aiChatConfig);
+  } = useAiChat({
+    api: `/api/chat`,
+    headers: {
+      "X-CSRF-Token": csrfToken,
+    },
+    body: {
+      artistId: selectedArtist?.account_id,
+      context: chatContext,
+      roomId: chatId,
+    },
+    initialMessages,
+    onToolCall: ({ toolCall }) => {
+      setToolCall(toolCall as any);
+    },
+    onFinish: (message) => {
+      createMemory(message, chatId as string, selectedArtist?.account_id || "");
+    },
+  });
 
   useEffect(() => {
     setMessages(initialMessages);
