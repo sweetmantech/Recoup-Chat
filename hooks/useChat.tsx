@@ -17,12 +17,15 @@ const useChat = () => {
   const { messages, pending } = useMessagesProvider();
   const { getPrompts } = usePromptsProvider();
   const [appendActive, setAppendActive] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const createNewRoom = async (content: string) => {
     if (chatId) return;
+    setIsLoading(true);
     const room = await createRoom(userData.id, content);
     addConversation(room);
     push(`/${room.id}`);
+    setIsLoading(false);
   };
 
   const append = async (message: Message) => {
@@ -57,6 +60,7 @@ const useChat = () => {
   return {
     handleSubmit,
     append,
+    isLoading,
   };
 };
 
