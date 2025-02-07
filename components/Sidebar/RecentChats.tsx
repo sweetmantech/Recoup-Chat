@@ -1,7 +1,7 @@
 import useClickChat from "@/hooks/useClickChat";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import RecentChatSkeleton from "./RecentChatSkeleton";
-import { Conversation } from "@/types/Chat";
+import capitalize from "@/lib/capitalize";
 
 const RecentChats = ({ toggleModal }: { toggleModal: () => void }) => {
   const { allConverstaions, isLoading } = useConversationsProvider();
@@ -18,20 +18,20 @@ const RecentChats = ({ toggleModal }: { toggleModal: () => void }) => {
           <RecentChatSkeleton />
         ) : (
           <>
-            {allConverstaions.map(
-              (conversation: Conversation, index: number) => (
-                <button
-                  className="flex gap-2 items-center"
-                  key={index}
-                  type="button"
-                  onClick={() => handleClick(conversation, toggleModal)}
-                >
-                  <p className="text-sm truncate max-w-[200px]">
-                    {conversation.topic}
-                  </p>
-                </button>
-              ),
-            )}
+            {/* eslint-disable-next-line */}
+            {allConverstaions.map((conversation: any, index: number) => (
+              <button
+                className="flex gap-2 items-center"
+                key={index}
+                type="button"
+                onClick={() => handleClick(conversation, toggleModal)}
+              >
+                <p className="text-sm truncate max-w-[200px]">
+                  {conversation?.topic ||
+                    `${capitalize(conversation?.type)} Analysis`}
+                </p>
+              </button>
+            ))}
           </>
         )}
       </div>

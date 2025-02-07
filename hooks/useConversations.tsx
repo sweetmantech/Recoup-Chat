@@ -1,17 +1,20 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useParams } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import getConversations from "@/lib/getConversations";
 import { Conversation } from "@/types/Chat";
+import useArtistAgents from "./useArtistAgents";
+import { ArtistAgent } from "@/lib/supabase/getArtistAgents";
 
 const useConversations = () => {
   const { userData } = useUserProvider();
-  const { chat_id: chatId } = useParams();
   const { selectedArtist } = useArtistProvider();
-  const [allConverstaions, setAllConverstaions] = useState<Conversation[]>([]);
+  const [allConverstaions, setAllConverstaions] = useState<
+    Array<Conversation | ArtistAgent>
+  >([]);
   const [quotaExceeded, setQuotaExceeded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const { agents } = useArtistAgents();
 
   const addConversation = (conversation: any) => {
     setAllConverstaions([conversation, ...allConverstaions]);
@@ -19,25 +22,27 @@ const useConversations = () => {
 
   useEffect(() => {
     if (userData) {
-      fetchConversations();
+      fetchConversations(agents);
       return;
     }
     return () => setAllConverstaions([]);
-  }, [userData]);
+  }, [userData, agents]);
 
   const conversations = useMemo(() => {
-    const filtered = allConverstaions.filter((item: Conversation) =>
-      item.memories.some(
-        (memory: { artist_id: string }) =>
-          memory.artist_id === selectedArtist?.account_id,
-      ),
+    const filtered = allConverstaions.filter(
+      (item: Conversation | ArtistAgent) =>
+        (item as any)?.memories &&
+        (item as any)?.memories?.some(
+          (memory: { artist_id: string }) =>
+            memory.artist_id === selectedArtist?.account_id,
+        ),
     );
     return filtered;
   }, [selectedArtist, allConverstaions]);
 
-  const fetchConversations = async () => {
+  const fetchConversations = async (agents: ArtistAgent[]) => {
     const data = await getConversations(userData.id);
-    setAllConverstaions(data);
+    setAllConverstaions([...data, ...agents]);
     setIsLoading(false);
   };
 
