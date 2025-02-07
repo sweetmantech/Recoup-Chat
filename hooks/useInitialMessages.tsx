@@ -17,13 +17,13 @@ const useInitialMessages = () => {
     try {
       if (!userData.id) return;
       if (!chatId) return;
-      const { messages } = await getInitialMessages(chatId as string);
+      const messages = await getInitialMessages(chatId as string);
       setInitialMessages(messages);
     } catch (error) {
       console.error("Error fetching initial messages:", error);
       return;
     }
-  }, [chatId]);
+  }, [chatId, userData]);
 
   useEffect(() => {
     fetchInitialMessages();

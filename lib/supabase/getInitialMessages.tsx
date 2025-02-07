@@ -3,7 +3,12 @@ const getInitialMessages = async (chatId: string) => {
     const response = await fetch(`/api/memories/get?roomId=${chatId}`);
     const data = await response.json();
 
-    return data.data;
+    const memories = data?.data || [];
+
+    // eslint-disable-next-line
+    return memories.map((memory: any) => ({
+      ...memory.content,
+    }));
   } catch (error) {
     console.error(error);
     return [];

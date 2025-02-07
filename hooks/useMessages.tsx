@@ -45,6 +45,7 @@ const useMessages = () => {
       setToolCall(toolCall as any);
     },
     onFinish: (message) => {
+      console.log("ZIAD HERE", chatId);
       createMemory(message, chatId as string, selectedArtist?.account_id || "");
     },
   });
