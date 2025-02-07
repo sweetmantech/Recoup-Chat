@@ -46,7 +46,7 @@ const useConversations = () => {
     addConversation,
     fetchConversations,
     conversations,
-    chatId: chatId.current,
+    chatId,
     setQuotaExceeded,
     quotaExceeded,
     allConverstaions,

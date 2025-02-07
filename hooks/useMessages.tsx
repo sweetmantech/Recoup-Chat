@@ -7,6 +7,7 @@ import { useInitialMessagesProvider } from "@/providers/InititalMessagesProvider
 import useChatContext from "./useChatContext";
 import createMemory from "@/lib/createMemory";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
+import { useQueryClient } from "@tanstack/react-query";
 
 const useMessages = () => {
   const csrfToken = useCsrfToken();
@@ -15,6 +16,7 @@ const useMessages = () => {
   const { selectedArtist } = useArtistProvider();
   const { chatContext } = useChatContext();
   const { chatId } = useConversationsProvider();
+  const queryClient = useQueryClient();
 
   const {
     messages,
@@ -40,7 +42,12 @@ const useMessages = () => {
       setToolCall(toolCall as any);
     },
     onFinish: (message) => {
-      createMemory(message, chatId, selectedArtist?.account_id || "");
+      console.log("ZIAD", chatId)
+      // createMemory(message, chatId.current, selectedArtist?.account_id || "");
+
+      void queryClient.invalidateQueries({
+        queryKey: ["credits", chatId],
+      });
     },
   });
 
