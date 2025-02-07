@@ -25,7 +25,6 @@ const useChat = () => {
     const room = await createRoom(userData.id, content);
     addConversation(room);
     push(`/${room.id}`);
-    setIsLoading(false);
   };
 
   const append = async (message: Message) => {
@@ -48,6 +47,7 @@ const useChat = () => {
     if (appendActive && chatId) {
       appendAiChat(appendActive);
       setAppendActive(null);
+      setIsLoading(false);
       return;
     }
   }, [appendActive, chatId]);

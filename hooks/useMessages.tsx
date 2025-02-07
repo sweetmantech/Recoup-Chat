@@ -15,21 +15,7 @@ const useMessages = () => {
   const { chatContext } = useChatContext();
   const { chat_id: chatId } = useParams();
   const { userData } = useUserProvider();
-  const [initialMessages, setInitialMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const fetch = async () => {
-      if (!userData?.id) return;
-      if (!chatId) return;
-      setIsLoading(true);
-      const messages = await getInitialMessages(chatId as string);
-      setInitialMessages(messages);
-      setMessages(initialMessages);
-      setIsLoading(false);
-    };
-    fetch();
-  }, [chatId, userData]);
 
   const {
     messages,
@@ -50,7 +36,6 @@ const useMessages = () => {
       context: chatContext,
       roomId: chatId,
     },
-    initialMessages,
     onToolCall: ({ toolCall }) => {
       setToolCall(toolCall as any);
     },
@@ -58,6 +43,18 @@ const useMessages = () => {
       createMemory(message, chatId as string, selectedArtist?.account_id || "");
     },
   });
+
+  useEffect(() => {
+    const fetch = async () => {
+      if (!userData?.id) return;
+      if (!chatId) return;
+      setIsLoading(true);
+      const initialMessages = await getInitialMessages(chatId as string);
+      setMessages(initialMessages);
+      setIsLoading(false);
+    };
+    fetch();
+  }, [chatId, userData]);
 
   return {
     reloadAiChat,
