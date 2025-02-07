@@ -1,15 +1,13 @@
 import { createPdf } from "@/lib/pdf/createPdf";
-import { useInitialMessagesProvider } from "@/providers/InititalMessagesProvider";
 import { useState } from "react";
 
 const useDownloadReport = () => {
   const [downloading, setDownloading] = useState(false);
-  const { titleMessage } = useInitialMessagesProvider();
 
   const downloadReport = async () => {
     setDownloading(true);
     try {
-      const reportTitle = titleMessage?.metadata?.title;
+      const reportTitle = "report";
       const doc = await createPdf({
         pdfDomElementId: "segment-report",
         name: `${reportTitle}.pdf`,
