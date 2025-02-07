@@ -6,8 +6,6 @@ import createRoom from "@/lib/createRoom";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { usePromptsProvider } from "@/providers/PromptsProvider";
 import { useEffect, useState } from "react";
-import createMemory from "@/lib/createMemory";
-import { useArtistProvider } from "@/providers/ArtistProvider";
 import { v4 as uuidV4 } from "uuid";
 
 const useChat = () => {
@@ -18,28 +16,19 @@ const useChat = () => {
   const { addConversation } = useConversationsProvider();
   const { messages, pending } = useMessagesProvider();
   const { getPrompts } = usePromptsProvider();
-  const { selectedArtist } = useArtistProvider();
-  const [triggerAppend, setTriggerAppend] = useState<any>(null);
+  const [appendActive, setAppendActive] = useState<any>(null);
 
   const createNewRoom = async (content: string) => {
     if (chatId) return;
     const room = await createRoom(userData.id, content);
     addConversation(room);
-    createMemory(
-      {
-        role: "user",
-        content,
-      },
-      room.id,
-      selectedArtist?.account_id || "",
-    );
     push(`/${room.id}`);
   };
 
   const append = async (message: Message) => {
     if (!isPrepared()) return;
     createNewRoom(message.content);
-    setTriggerAppend(message);
+    setAppendActive(message);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -53,12 +42,12 @@ const useChat = () => {
   };
 
   useEffect(() => {
-    if (triggerAppend && chatId) {
-      appendAiChat(triggerAppend);
-      setTriggerAppend(null);
+    if (appendActive && chatId) {
+      appendAiChat(appendActive);
+      setAppendActive(null);
       return;
     }
-  }, [triggerAppend, chatId]);
+  }, [appendActive, chatId]);
 
   useEffect(() => {
     if (messages.length && (chatId || agentId) && !pending)
