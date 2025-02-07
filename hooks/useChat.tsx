@@ -60,8 +60,6 @@ const useChat = () => {
       setTriggerAppend(null);
       return;
     }
-    setTriggerAppend(null);
-    return () => setTriggerAppend(null);
   }, [triggerAppend, chatId]);
 
   useEffect(() => {
