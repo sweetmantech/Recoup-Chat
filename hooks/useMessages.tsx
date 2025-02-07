@@ -18,9 +18,9 @@ const useMessages = () => {
   const { address } = useUserProvider();
   const [toolCall, setToolCall] = useState<any>(null);
   const { selectedArtist } = useArtistProvider();
-  const { chat_id: chatId } = useParams();
+  const { chat_id } = useParams();
   const { chatContext } = useChatContext();
-
+  const chatId = useRef(chat_id as string);
   const {
     messages,
     input,
@@ -38,53 +38,21 @@ const useMessages = () => {
     body: {
       artistId: selectedArtist?.account_id,
       context: chatContext,
-      roomId: chatId,
+      roomId: chatId.current,
     },
     initialMessages,
     onToolCall: ({ toolCall }) => {
       setToolCall(toolCall as any);
     },
     onFinish: (message) => {
-      console.log("ZIAD HERE", chatId);
-      createMemory(message, chatId as string, selectedArtist?.account_id || "");
+      if (!chatId.current) return;
+      createMemory(message, chatId.current, selectedArtist?.account_id || "");
     },
   });
-
-  const messagesRef = useRef(messages);
 
   useEffect(() => {
     setMessages(initialMessages);
   }, [initialMessages]);
-
-  const finalCallback = async (
-    message: Message,
-    lastQuestion?: Message,
-    newChatId?: string,
-    referenceId?: string,
-  ) => {
-    const uniqueChatId = newChatId || (chatId as string);
-    const question = lastQuestion;
-    if (!message.content || !question) return;
-    await trackNewMessage(
-      address as Address,
-      question,
-      selectedArtist?.account_id || "",
-      uniqueChatId,
-    );
-
-    await trackNewMessage(
-      address as Address,
-      {
-        ...message,
-        content: formattedContent(message.content),
-        questionId: question.id,
-      },
-      selectedArtist?.account_id || "",
-      uniqueChatId,
-      referenceId,
-    );
-    fetchInitialMessages();
-  };
 
   return {
     reloadAiChat,
@@ -94,10 +62,8 @@ const useMessages = () => {
     input,
     setMessages,
     messages,
-    messagesRef,
     pending,
     toolCall,
-    finalCallback,
     chatContext,
   };
 };
