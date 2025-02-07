@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Message, useChat as useAiChat } from "ai/react";
 import { useCsrfToken } from "./useCsrfToken";
 import { useParams } from "next/navigation";
@@ -38,16 +38,20 @@ const useMessages = () => {
     body: {
       artistId: selectedArtist?.account_id,
       context: chatContext,
-      roomId: chatId.current,
+      roomId: useMemo(() => chat_id as string, [chat_id]),
     },
     initialMessages,
     onToolCall: ({ toolCall }) => {
       setToolCall(toolCall as any);
     },
-    onFinish: (message) => {
-      if (!chatId.current) return;
-      createMemory(message, chatId.current, selectedArtist?.account_id || "");
-    },
+    onFinish: useCallback(
+      (message: any) => {
+        console.log("ZIAD", chatId.current);
+        if (!chatId.current) return;
+        createMemory(message, chatId.current, selectedArtist?.account_id || "");
+      },
+      [chatId],
+    ),
   });
 
   useEffect(() => {
