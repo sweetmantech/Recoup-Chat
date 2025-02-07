@@ -6,16 +6,15 @@ import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useInitialMessagesProvider } from "@/providers/InititalMessagesProvider";
 import useChatContext from "./useChatContext";
 import createMemory from "@/lib/createMemory";
+import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 
 const useMessages = () => {
   const csrfToken = useCsrfToken();
-  const { initialMessages } =
-    useInitialMessagesProvider();
+  const { initialMessages } = useInitialMessagesProvider();
   const [toolCall, setToolCall] = useState<any>(null);
   const { selectedArtist } = useArtistProvider();
-  const { chat_id } = useParams();
   const { chatContext } = useChatContext();
-  const chatId = useRef(chat_id as string)
+  const { chatId } = useConversationsProvider();
 
   const {
     messages,
@@ -34,15 +33,14 @@ const useMessages = () => {
     body: {
       artistId: selectedArtist?.account_id,
       context: chatContext,
-      roomId: chatId.current,
+      roomId: chatId,
     },
     initialMessages,
     onToolCall: ({ toolCall }) => {
       setToolCall(toolCall as any);
     },
     onFinish: (message) => {
-      console.log("ziad", chatId.current)
-      createMemory(message, chatId.current, selectedArtist?.account_id || "");
+      createMemory(message, chatId, selectedArtist?.account_id || "");
     },
   });
 
