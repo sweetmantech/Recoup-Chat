@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   if (!artistIds.length) {
     return NextResponse.json(
       { error: "At least one Artist ID is required" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     console.error("Error fetching segments:", error);
     return NextResponse.json(
       { error: "Failed to fetch segments" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -56,10 +56,10 @@ export async function POST(req: NextRequest) {
               answer
                 ?.replaceAll("\n", "")
                 ?.replaceAll("json", "")
-                ?.replaceAll("```", "")
+                ?.replaceAll("```", ""),
             )?.data || [],
         },
-        { status: 200 }
+        { status: 200 },
       );
     } catch (error) {
       console.error(error);
