@@ -7,12 +7,11 @@ import { Conversation } from "@/types/Chat";
 
 const useConversations = () => {
   const { userData } = useUserProvider();
-  const { chat_id } = useParams();
+  const { chat_id: chatId } = useParams();
   const { selectedArtist } = useArtistProvider();
   const [allConverstaions, setAllConverstaions] = useState<Conversation[]>([]);
   const [quotaExceeded, setQuotaExceeded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const chatId = useRef(chat_id as string);
 
   const addConversation = (conversation: any) => {
     setAllConverstaions([conversation, ...allConverstaions]);
@@ -46,7 +45,6 @@ const useConversations = () => {
     addConversation,
     fetchConversations,
     conversations,
-    chatId,
     setQuotaExceeded,
     quotaExceeded,
     allConverstaions,

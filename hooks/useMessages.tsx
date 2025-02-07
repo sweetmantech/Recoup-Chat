@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useChat as useAiChat } from "ai/react";
 import { useCsrfToken } from "./useCsrfToken";
 import { useParams } from "next/navigation";
@@ -6,8 +6,6 @@ import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useInitialMessagesProvider } from "@/providers/InititalMessagesProvider";
 import useChatContext from "./useChatContext";
 import createMemory from "@/lib/createMemory";
-import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
-import { useQueryClient } from "@tanstack/react-query";
 
 const useMessages = () => {
   const csrfToken = useCsrfToken();
@@ -15,8 +13,7 @@ const useMessages = () => {
   const [toolCall, setToolCall] = useState<any>(null);
   const { selectedArtist } = useArtistProvider();
   const { chatContext } = useChatContext();
-  const { chatId } = useConversationsProvider();
-  const queryClient = useQueryClient();
+  const { chat_id: chatId } = useParams();
 
   const aiChatConfig = useMemo(
     () => ({
