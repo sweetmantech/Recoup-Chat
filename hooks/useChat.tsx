@@ -5,7 +5,6 @@ import { useMessagesProvider } from "@/providers/MessagesProvider";
 import createRoom from "@/lib/createRoom";
 import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { usePromptsProvider } from "@/providers/PromptsProvider";
-import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 import { useEffect, useState } from "react";
 import createMemory from "@/lib/createMemory";
 import { useArtistProvider } from "@/providers/ArtistProvider";
@@ -17,7 +16,6 @@ const useChat = () => {
   const { chat_id: chatId, agent_id: agentId } = useParams();
   const { input, appendAiChat } = useMessagesProvider();
   const { addConversation } = useConversationsProvider();
-  const { funnelRawReportContent, isLoadingReport } = useFunnelReportProvider();
   const { messages, pending } = useMessagesProvider();
   const { getPrompts } = usePromptsProvider();
   const { selectedArtist } = useArtistProvider();
@@ -63,11 +61,9 @@ const useChat = () => {
   }, [triggerAppend, chatId]);
 
   useEffect(() => {
-    if (messages.length && (chatId || agentId)) {
-      if (!pending && !isLoadingReport)
-        getPrompts(messages[messages.length - 1]?.content);
-    }
-  }, [messages, funnelRawReportContent, pending, isLoadingReport, agentId]);
+    if (messages.length && (chatId || agentId) && !pending)
+      getPrompts(messages[messages.length - 1]?.content);
+  }, [messages, pending, agentId, chatId]);
 
   return {
     handleSubmit,

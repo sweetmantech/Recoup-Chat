@@ -21,13 +21,12 @@ export async function POST(req: Request) {
 
   const question = lastMessage.content;
 
-  if (!room_id) {
+  if (room_id)
     createMemories({
       room_id,
       artist_id,
       content: lastMessage,
     });
-  }
 
   const result = streamText({
     model: openai(AI_MODEL),
