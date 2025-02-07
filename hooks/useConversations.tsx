@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useArtistProvider } from "@/providers/ArtistProvider";
@@ -45,7 +45,6 @@ const useConversations = () => {
     addConversation,
     fetchConversations,
     conversations,
-    chatId,
     setQuotaExceeded,
     quotaExceeded,
     allConverstaions,
