@@ -4,7 +4,7 @@ import { streamText } from "ai";
 import { AI_MODEL } from "@/lib/consts";
 import getSystemMessage from "@/lib/chat/getSystemMessage";
 import getTools from "@/lib/chat/getTools";
-import createMemories from "@/lib/createMemories";
+import createMemories from "@/lib/supabase/createMemories";
 
 export async function POST(req: Request) {
   const body = await req.json();
@@ -21,11 +21,13 @@ export async function POST(req: Request) {
 
   const question = lastMessage.content;
 
-  createMemories({
-    room_id,
-    artist_id,
-    content: lastMessage,
-  });
+  if (!room_id) {
+    createMemories({
+      room_id,
+      artist_id,
+      content: lastMessage,
+    });
+  }
 
   const result = streamText({
     model: openai(AI_MODEL),

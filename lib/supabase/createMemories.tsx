@@ -1,4 +1,4 @@
-import supabase from "./supabase/serverClient";
+import supabase from "./serverClient";
 
 // eslint-disable-next-line
 const createMemories = async (memory: any) => {

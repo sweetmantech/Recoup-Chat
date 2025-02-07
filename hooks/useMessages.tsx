@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Message, useChat as useAiChat } from "ai/react";
 import { useCsrfToken } from "./useCsrfToken";
 import { useParams } from "next/navigation";
@@ -8,8 +8,8 @@ import { useInitialMessagesProvider } from "@/providers/InititalMessagesProvider
 import trackNewMessage from "@/lib/stack/trackNewMessage";
 import { Address } from "viem";
 import formattedContent from "@/lib/formattedContent";
-import useFunnels from "./useFunnels";
 import useChatContext from "./useChatContext";
+import createMemory from "@/lib/createMemory";
 
 const useMessages = () => {
   const csrfToken = useCsrfToken();
@@ -19,7 +19,6 @@ const useMessages = () => {
   const [toolCall, setToolCall] = useState<any>(null);
   const { selectedArtist } = useArtistProvider();
   const { chat_id: chatId } = useParams();
-  const { funnelContext, setFunnelContext } = useFunnels();
   const { chatContext } = useChatContext();
 
   const {
@@ -30,6 +29,7 @@ const useMessages = () => {
     append: appendAiChat,
     isLoading: pending,
     setMessages,
+    reload: reloadAiChat,
   } = useAiChat({
     api: `/api/chat`,
     headers: {
@@ -37,12 +37,15 @@ const useMessages = () => {
     },
     body: {
       artistId: selectedArtist?.account_id,
-      context: funnelContext || chatContext,
+      context: chatContext,
       roomId: chatId,
     },
     initialMessages,
     onToolCall: ({ toolCall }) => {
       setToolCall(toolCall as any);
+    },
+    onFinish: (message) => {
+      createMemory(message, chatId as string, selectedArtist?.account_id || "");
     },
   });
 
@@ -83,6 +86,7 @@ const useMessages = () => {
   };
 
   return {
+    reloadAiChat,
     appendAiChat,
     handleAiChatSubmit,
     handleInputChange,
@@ -93,7 +97,7 @@ const useMessages = () => {
     pending,
     toolCall,
     finalCallback,
-    setFunnelContext,
+    chatContext,
   };
 };
 

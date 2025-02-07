@@ -10,7 +10,6 @@ import { FunnelReportProvider } from "./FunnelReportProvider";
 import { PaymentProvider } from "./PaymentProvider";
 import { InitialMessagesProvider } from "./InititalMessagesProvider";
 import { MessagesProvider } from "./MessagesProvider";
-import { InitialChatProvider } from "./InitialChatProvider";
 import { PromptsProvider } from "./PromptsProvider";
 import { FunnelAnalysisProvider } from "./FunnelAnalysisProvider";
 
@@ -26,15 +25,13 @@ const Providers = ({ children }: { children: React.ReactNode }) => (
               <PromptsProvider>
                 <InitialMessagesProvider>
                   <MessagesProvider>
-                    <InitialChatProvider>
-                      <ChatProvider>
-                        <PaymentProvider>
-                          <FunnelAnalysisProvider>
-                            {children}
-                          </FunnelAnalysisProvider>
-                        </PaymentProvider>
-                      </ChatProvider>
-                    </InitialChatProvider>
+                    <ChatProvider>
+                      <PaymentProvider>
+                        <FunnelAnalysisProvider>
+                          {children}
+                        </FunnelAnalysisProvider>
+                      </PaymentProvider>
+                    </ChatProvider>
                   </MessagesProvider>
                 </InitialMessagesProvider>
               </PromptsProvider>
