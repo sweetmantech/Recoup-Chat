@@ -39,8 +39,8 @@ const useChat = () => {
 
   const append = async (message: Message) => {
     if (!isPrepared()) return;
+    await createNewRoom(message.content);
     appendAiChat(message);
-    createNewRoom(message.content);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

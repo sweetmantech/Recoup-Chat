@@ -1,26 +1,22 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Message, useChat as useAiChat } from "ai/react";
+import { useEffect, useRef, useState } from "react";
+import { useChat as useAiChat } from "ai/react";
 import { useCsrfToken } from "./useCsrfToken";
 import { useParams } from "next/navigation";
-import { useUserProvider } from "@/providers/UserProvder";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useInitialMessagesProvider } from "@/providers/InititalMessagesProvider";
-import trackNewMessage from "@/lib/stack/trackNewMessage";
-import { Address } from "viem";
-import formattedContent from "@/lib/formattedContent";
 import useChatContext from "./useChatContext";
 import createMemory from "@/lib/createMemory";
 
 const useMessages = () => {
   const csrfToken = useCsrfToken();
-  const { initialMessages, fetchInitialMessages } =
+  const { initialMessages } =
     useInitialMessagesProvider();
-  const { address } = useUserProvider();
   const [toolCall, setToolCall] = useState<any>(null);
   const { selectedArtist } = useArtistProvider();
   const { chat_id } = useParams();
   const { chatContext } = useChatContext();
-  const chatId = useRef(chat_id as string);
+  const chatId = useRef(chat_id as string)
+
   const {
     messages,
     input,
@@ -38,20 +34,16 @@ const useMessages = () => {
     body: {
       artistId: selectedArtist?.account_id,
       context: chatContext,
-      roomId: useMemo(() => chat_id as string, [chat_id]),
+      roomId: chatId.current,
     },
     initialMessages,
     onToolCall: ({ toolCall }) => {
       setToolCall(toolCall as any);
     },
-    onFinish: useCallback(
-      (message: any) => {
-        console.log("ZIAD", chatId.current);
-        if (!chatId.current) return;
-        createMemory(message, chatId.current, selectedArtist?.account_id || "");
-      },
-      [chatId],
-    ),
+    onFinish: (message) => {
+      console.log("ziad", chatId.current)
+      createMemory(message, chatId.current, selectedArtist?.account_id || "");
+    },
   });
 
   useEffect(() => {
