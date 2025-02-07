@@ -20,7 +20,7 @@ const useMessages = () => {
 
   useEffect(() => {
     const fetch = async () => {
-      if (!userData.id) return;
+      if (!userData?.id) return;
       if (!chatId) return;
       setIsLoading(true);
       const messages = await getInitialMessages(chatId as string);
