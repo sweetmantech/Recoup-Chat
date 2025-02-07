@@ -58,7 +58,10 @@ const useChat = () => {
     if (triggerAppend && chatId) {
       appendAiChat(triggerAppend);
       setTriggerAppend(null);
+      return;
     }
+    setTriggerAppend(null);
+    return () => setTriggerAppend(null);
   }, [triggerAppend, chatId]);
 
   useEffect(() => {
