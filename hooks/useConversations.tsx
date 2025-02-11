@@ -22,7 +22,7 @@ const useConversations = () => {
 
   useEffect(() => {
     if (userData) {
-      fetchConversations(agents);
+      fetchConversations();
       return;
     }
     return () => setAllConverstaions([]);
@@ -40,7 +40,7 @@ const useConversations = () => {
     return filtered;
   }, [selectedArtist, allConverstaions]);
 
-  const fetchConversations = async (agents: ArtistAgent[]) => {
+  const fetchConversations = async () => {
     const data = await getConversations(userData.id);
     setAllConverstaions([...data, ...agents]);
     setIsLoading(false);
