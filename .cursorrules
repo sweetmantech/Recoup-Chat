@@ -63,6 +63,8 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 - Include info useful for debugging in the program output.
 - Read the file before you try to edit it.
 - Due to Cursor's limit, when you use `git` and `gh` and need to submit a multiline commit message, first write the message in a file, and then use `git commit -F <filename>` or similar command to commit. And then remove the file. Include "[Cursor] " in the commit message and PR title.
+- Keep all files under 100 lines of code to maintain readability and follow single responsibility principle
+- Split hooks/components when they grow too large or handle multiple concerns
 
 ## Cursor learned
 
@@ -81,6 +83,16 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 ### Task Description
 
 Awaiting new task...
+
+### Analysis Steps
+
+[ ] 1. Investigation - Review requirements - Identify key components - Understand current implementation
+
+[ ] 2. Planning - Break down the task - Consider implementation approaches - Choose simplest solution that meets needs
+
+[ ] 3. Implementation - Follow single responsibility principle - Keep files under 100 lines - Add necessary documentation
+
+[ ] 4. Testing - Test main functionality - Check edge cases - Verify requirements are met
 
 ### Progress
 

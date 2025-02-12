@@ -1,71 +1,48 @@
-import getHandles from "@/lib/getHandles";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useRouter } from "next/navigation";
 import { ArtistRecord } from "@/types/Artist";
-import callAgentApi from "@/lib/agent/callAgentApi";
-import trackAgentChat from "@/lib/stack/trackAgentChat";
-import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
+import useHandleLookup from "./useHandleLookup";
+import useAgentRunner from "./useAgentRunner";
+
+interface AgentData {
+  artistId?: string;
+  name?: string;
+  handles?: Record<string, string>;
+}
 
 const useAgents = () => {
-  const {
-    handles,
-    setHandles,
-    setIsCheckingHandles,
-    funnelType,
-    setIsInitializing,
-    setAgentsStatus,
-    setIsLoading,
-    runAgentTimer,
-  } = useFunnelAnalysisProvider();
+  const { setHandles, setIsCheckingHandles, handles } =
+    useFunnelAnalysisProvider();
   const { push } = useRouter();
   const { address, isPrepared } = useUserProvider();
   const { selectedArtist } = useArtistProvider();
-  const { addConversation } = useConversationsProvider();
+  const { lookupHandles } = useHandleLookup();
+  const { runAgent } = useAgentRunner();
 
   const lookupProfiles = async (
     funnelType: string,
-    scrapingArtist: ArtistRecord | null = null,
+    scrapingArtist: ArtistRecord | null = null
   ) => {
     if (!isPrepared()) return;
     setHandles({});
     setIsCheckingHandles(true);
     push(`/funnels/${funnelType}`);
-    const handle = scrapingArtist?.name || selectedArtist?.name || "";
-    const socialHandles: any = await getHandles(handle);
-    if (funnelType === "wrapped") {
-      setHandles(socialHandles);
-      return;
-    }
-    setHandles({
-      [`${funnelType}`]: socialHandles[`${funnelType}`],
-    });
+
+    const artist = scrapingArtist || selectedArtist;
+    const newHandles = await lookupHandles(artist, funnelType);
+    setHandles(newHandles);
   };
 
-  const runAgents = async (agentdata: any = null) => {
+  const runAgents = async (agentdata: AgentData | null = null) => {
     const agentArtistId = agentdata?.artistId || selectedArtist?.account_id;
     const agentArtistName = agentdata?.name || selectedArtist?.name || "";
     const agentArtistHandles = agentdata?.handles || handles;
+
     if (!agentArtistId) return;
-    setAgentsStatus([]);
-    setIsInitializing(true);
-    setIsLoading(true);
-    const agentId = await callAgentApi(
-      agentArtistHandles,
-      funnelType as string,
-      agentArtistId,
-    );
-    if (!agentId) return;
-    push(`/funnels/${funnelType}/${agentId}`);
-    runAgentTimer();
-    await trackAgentChat(
-      address,
-      agentArtistName,
-      agentArtistId,
-      agentId as string,
-      funnelType as string,
-    );
+
+    await runAgent(address, agentArtistId, agentArtistName, agentArtistHandles);
   };
 
   return {
