@@ -76,72 +76,12 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Artist Popup Image Upload Migration to Arweave
+## Current Task: None
 
 ### Task Description
 
-Migrate the artist popup's image upload functionality from IPFS to Arweave for improved permanence and reliability.
-
-### Reference Implementation
-
-- Temporary reference implementation available in @zero-to-arweave directory
-- Need to extract and adapt relevant code to the main application
-- Reference implementation will be removed before deployment
-
-### Analysis & Requirements
-
-1. Current State:
-
-   - Artist popup uses IPFS for image uploads
-   - Need to maintain/improve current UX and error handling
-
-2. Target State:
-   - Use Arweave for permanent storage
-   - Maintain existing upload flow
-   - Ensure proper error handling
-   - Keep or improve user experience
-
-### Action Plan
-
-[X] Review reference implementation in zero-to-arweave
-[ ] Identify required dependencies and configurations
-[ ] Extract and adapt necessary code from reference implementation
-[ ] Update artist popup frontend components
-[ ] Implement Arweave upload functionality
-[ ] Add proper error handling and loading states
-[ ] Test the implementation
-[ ] Clean up and documentation
+Awaiting new task...
 
 ### Progress
 
-[X] Review reference implementation in zero-to-arweave
-Key findings:
-
-1. Uses @ardrive/turbo-sdk for Arweave integration
-2. Requires ARWEAVE_KEY environment variable (base64 encoded JSON key)
-3. Implementation consists of:
-   - Frontend: File selection and upload UI with progress/status
-   - API: /api/upload endpoint handling file upload to Arweave
-4. Key features to port:
-   - File upload with metadata (Content-Type, File-Name)
-   - Progress tracking and error handling
-   - Transaction ID display and gateway links
-   - Proper stream handling for file upload
-
-[X] Add @ardrive/turbo-sdk dependency to the main project
-[X] Create API endpoint for Arweave upload
-
-- Created app/api/upload/route.ts for handling file uploads
-- Fixed duplicate route issue by removing route.tsx
-  [X] Update artist popup component with new upload functionality
-- Created lib/arweave/uploadToArweave.tsx for Arweave upload function
-- Updated useArtistSetting hook to use Arweave instead of IPFS
-- Added proper TypeScript types and error handling
-
-Next steps:
-[ ] Set up environment variable for ARWEAVE_KEY
-[ ] Test the implementation
-[ ] Clean up old IPFS code
-[ ] Add proper error handling UI for upload failures
-
-Current focus: Setting up the ARWEAVE_KEY environment variable.
+Ready for new task assignment.
