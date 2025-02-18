@@ -206,3 +206,70 @@ Task: Update web components to use artist_segments table for segment names and f
 3. Add documentation
 
 Would you like me to implement the split functions in getSegments.ts?
+
+## Current Task: Update Segment Report API Parameters
+
+Task: Update the client call to pass only the new segmentId parameter and remove legacy variables from the call to api.recoupable.com/api/create_report.
+
+### Current Implementation Analysis
+
+1. Current API Call:
+
+   - Endpoint: `${AGENT_API}/api/create_report`
+   - Parameters:
+     - agentId: string
+     - address: string
+     - segmentName: string
+     - email: string
+     - artistId: string
+
+2. Required Changes:
+   - Simplify to only use segmentId
+   - Remove legacy parameters
+   - Update API documentation
+   - Update client code
+
+### Implementation Plan
+
+[X] API Documentation:
+
+- [x] Create documentation for /api/create_report endpoint
+- [x] Document new parameter structure
+- [x] Get documentation verified
+
+[X] Client Code Updates:
+
+- [x] Update createReport.tsx to use new parameter structure
+- [x] Update useGenerateSegmentReport hook
+- [x] Remove unused parameters
+- [x] Add proper TypeScript types
+
+[X] Bug Fixes:
+
+- [x] Fixed getArtistSegments to return correct segment ID (using segment_id instead of artist_segments.id)
+
+[ ] Testing:
+
+- [ ] Verify API documentation accuracy
+- [ ] Test report generation with new parameters
+- [ ] Ensure backward compatibility if needed
+
+### Progress
+
+✓ Analyzed current implementation
+✓ Identified parameters to remove
+✓ Created implementation plan
+✓ Created API documentation
+✓ Added TypeScript types for request/response
+✓ Updated createReport function to use new types
+✓ Updated useGenerateSegmentReport hook
+✓ Updated Segments component to use segment ID
+✓ Fixed segment ID bug in getArtistSegments
+
+### Next Steps
+
+1. Test the changes with fixed segment IDs
+2. Ensure backward compatibility
+3. Deploy the changes
+
+Would you like me to help you test the changes?

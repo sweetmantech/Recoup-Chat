@@ -3,13 +3,11 @@ import LucideIcon from "@/components/LucideIcon";
 import useCredits from "@/hooks/useCredits";
 import useGenerateSegmentReport from "@/hooks/useGenerateSegmentReport";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
-import { useParams } from "next/navigation";
 
 const Segments = () => {
   useCredits();
   const { handleGenerateReport } = useGenerateSegmentReport();
   const { segments } = useFunnelAnalysisProvider();
-  const { agent_id: agentId } = useParams();
 
   if (!segments?.length) return null;
 
@@ -20,9 +18,7 @@ const Segments = () => {
           className="w-full border-grey-light border-[1px] rounded-md px-3 py-2 flex gap-2 items-center shadow-grey"
           type="button"
           key={segment.id}
-          onClick={() =>
-            handleGenerateReport((agentId as string) || "", segment.name)
-          }
+          onClick={() => handleGenerateReport(segment.id, segment.name)}
         >
           {segment.icon ? (
             <LucideIcon name={segment.icon} />
