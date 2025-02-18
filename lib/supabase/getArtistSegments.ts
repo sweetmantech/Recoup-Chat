@@ -1,55 +1,56 @@
-import supabase from "./serverClient";
+import { getArtistSegmentNames } from "./getArtistSegmentNames";
+import { getSegmentCounts } from "./getSegmentCounts";
 
-export interface ArtistSegment {
+export interface Segment {
   id: string;
   name: string;
   size: number;
   icon?: string;
-  artist_social_id: string;
+}
+
+export interface ArtistSegment {
+  id: string;
+  segment_id: string;
+  artist_account_id: string;
+  created_at: string;
+  segment: {
+    id: string;
+    name: string;
+  };
+}
+
+export interface SegmentCount {
+  segment_id: string;
+  count: number;
+}
+
+export interface FanSegment {
+  id: string;
+  artist_segment_id: string;
+  fan_social_id: string;
   created_at: string;
 }
 
-interface RawArtistSegment {
-  id: string;
-  segment_name: string;
-  fan_social_id: string;
-  artist_social_id: string;
-  updated_at: string;
+export interface SegmentWithCount extends ArtistSegment {
+  fan_count: number;
 }
 
-export async function getArtistSegments(
-  artistSocialIds: string[],
-): Promise<ArtistSegment[]> {
-  const { data, error } = await supabase
-    .from("artist_fan_segment")
-    .select("*")
-    .in("artist_social_id", artistSocialIds);
+/**
+ * Get all segments with their fan counts for an artist
+ */
+export async function getArtistSegments(artistId: string): Promise<Segment[]> {
+  const segments = await getArtistSegmentNames(artistId);
+  if (!segments.length) return [];
 
-  if (error) {
-    console.error("Error fetching artist segments:", error);
-    return [];
-  }
+  const segmentIds = segments.map((s) => s.segment_id);
+  const counts = await getSegmentCounts(segmentIds);
 
-  if (!data) return [];
+  const countMap = new Map(counts.map((c) => [c.segment_id, c.count]));
 
-  // Group segments by name and count occurrences for size
-  const segmentGroups = (data as RawArtistSegment[]).reduce(
-    (acc, segment) => {
-      const key = segment.segment_name;
-      if (!acc[key]) {
-        acc[key] = {
-          id: segment.id,
-          name: segment.segment_name,
-          size: 0,
-          artist_social_id: segment.artist_social_id,
-          created_at: segment.updated_at,
-        };
-      }
-      acc[key].size++;
-      return acc;
-    },
-    {} as Record<string, ArtistSegment>,
-  );
-
-  return Object.values(segmentGroups);
+  return segments.map((segment) => ({
+    id: segment.id,
+    name: segment.segment.name,
+    size: countMap.get(segment.segment_id) || 0,
+    icon: undefined,
+  }));
 }

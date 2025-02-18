@@ -8,10 +8,12 @@ import { useArtistSegments } from "@/hooks/useArtistSegments";
 
 const SegmentsWrapper = () => {
   const { selectedArtist } = useArtistProvider();
-  const socialIds =
-    selectedArtist?.account_socials?.map((social) => social.id) || [];
 
-  const { data: segments, isLoading, error } = useArtistSegments(socialIds);
+  const {
+    data: segments,
+    isLoading,
+    error,
+  } = useArtistSegments(selectedArtist?.account_id);
 
   if (!selectedArtist || isLoading) {
     return (
