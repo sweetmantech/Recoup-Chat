@@ -84,101 +84,74 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Implement Segment Page Click Handling (Step 15)
+## Current Task: Small Chat Improvement (Task 17)
+
+### Current Architecture Analysis
+
+1. Component Structure:
+
+   - Main Chat components in /components/Chat/
+   - Core components: Chat, Messages, ChatInput, Message
+   - Supporting components: ChatSkeleton, InitialChat, Thinking
+
+2. State Management:
+
+   - Multiple providers:
+     - MessagesProvider: Handles chat messages and input
+     - ChatProvider: Manages chat room and submission
+     - ToolCallProvider: Handles tool-specific functionality
+   - Uses React Context for state distribution
+   - Relies on vercel/ai for chat functionality
+
+3. Data Flow:
+
+   - User input → ChatInput → ChatProvider
+   - Messages stored in MessagesProvider
+   - API communication through useChat hook
+   - Message persistence in Supabase
+
+4. Pain Points Identified:
+   - Any type used in Message component
+   - Complex provider nesting
+   - Tight coupling between providers
+   - Message component handles both user and assistant messages
+
+### Proposed Improvement
+
+Focus: Split Message Component and Type Safety
+
+1. Separate Message Types:
+
+   - Create UserMessage and AssistantMessage components
+   - Add proper TypeScript interfaces
+   - Improve maintainability and type safety
+
+2. Benefits:
+   - Better type safety
+   - Clearer component responsibilities
+   - Easier to maintain and test
+   - More intuitive code organization
 
 ### Implementation Plan
 
-1. [ ] Update imports in /segments/page.tsx:
+[x] Create Message type definitions - Added ChatMessage.tsx with proper types - Included support for all message roles - Added type safety for message content
 
-```typescript
-import { Segments } from "@/components/Funnels/Segments";
-import { SegmentsSkeleton } from "@/components/Funnels/SegmentsSkeleton";
-import { useArtistSegments } from "@/hooks/useArtistSegments";
-import { useArtistProvider } from "@/providers/ArtistProvider";
-```
+[x] Create separate message components - Created UserMessage component - Created AssistantMessage component - Each component handles its specific message type
 
-2. [ ] Replace SegmentsWrapper component:
+[x] Update Messages component to use new components - Updated Message.tsx to use new components - Added proper type checking - Improved handling of different message types
 
-```typescript
-const SegmentsWrapper = () => {
-  const { selectedArtist } = useArtistProvider();
-  const { data: segments, isLoading, error } = useArtistSegments(
-    selectedArtist?.account_id
-  );
-
-  if (!selectedArtist || isLoading) {
-    return <SegmentsSkeleton />;
-  }
-
-  if (error) {
-    return (
-      <div className="text-lg text-center text-red-500 py-8">
-        Failed to load segments
-      </div>
-    );
-  }
-
-  if (!segments?.length) {
-    return (
-      <div className="text-lg text-center py-8">
-        No segments found for this artist.
-      </div>
-    );
-  }
-
-  return <Segments segments={segments} />;
-};
-```
-
-3. [ ] Update page layout:
-
-```typescript
-const SegmentsPage: NextPage = () => {
-  return (
-    <div className="max-w-screen min-h-screen p-4">
-      <h1 className="text-lg md:text-xl font-bold pb-4">Fan Segments</h1>
-      <SegmentsWrapper />
-    </div>
-  );
-};
-```
-
-### Benefits
-
-1. Minimal Changes:
-
-   - No modifications to existing components
-   - Only updating the segments page
-   - Reusing all existing functionality
-
-2. Consistent UX:
-
-   - Same loading states as funnel page
-   - Same segment button behavior
-   - Same report generation flow
-
-3. Maintainable:
-   - Single source of truth in Segments component
-   - Shared loading states
-   - Consistent error handling
-
-### Next Steps
-
-1. [ ] Make file changes as outlined above
-2. [ ] Test report generation works
-3. [ ] Verify loading states match funnel page
-4. [ ] Test error handling
+[x] Add proper TypeScript types to providers - Updated Messages component with proper types - Ensured compatibility with vercel/ai types
 
 ### Progress
 
-✓ Simplified approach identified
-✓ Implementation plan created
-✓ File changes specified
-[ ] Implementation
-[ ] Testing
+✓ Completed implementation
+✓ Added type safety
+✓ Split message components
+✓ Improved code organization
 
-# Scratchpad
+### Notes
 
-## Current Task: None
-
-Ready for next task.
+- Successfully improved type safety
+- Maintained existing functionality
+- Improved code maintainability
+- Ready for testing and review
