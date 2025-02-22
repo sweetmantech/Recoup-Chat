@@ -1,14 +1,13 @@
-import { openai } from "@ai-sdk/openai";
-import { streamText } from "ai";
-
-import { AI_MODEL } from "@/lib/consts";
-import getSystemMessage from "@/lib/chat/getSystemMessage";
-import getTools from "@/lib/chat/getTools";
+import { Message } from "@ai-sdk/react";
+import { ChatOpenAI } from "@langchain/openai";
+import { formatPrompt } from "@/lib/chat/prompts";
 import createMemories from "@/lib/supabase/createMemories";
+import { AI_MODEL } from "@/lib/consts";
+import { LangChainAdapter } from "ai";
 
 export async function POST(req: Request) {
   const body = await req.json();
-  const messages = body.messages;
+  const messages = body.messages as Message[];
   const context = body.context;
   const artist_id = body.artistId;
   const room_id = body.roomId;
@@ -21,26 +20,28 @@ export async function POST(req: Request) {
 
   const question = lastMessage.content;
 
-  if (room_id)
+  if (room_id) {
     createMemories({
       room_id,
       artist_id,
       content: lastMessage,
     });
+  }
 
-  const result = streamText({
-    model: openai(AI_MODEL),
-    messages: [
-      ...messages,
-      {
-        role: "system",
-        content: getSystemMessage(context, question),
-      },
-    ],
-    tools: getTools(question),
+  const formattedPrompt = await formatPrompt(
+    context,
+    question,
+    lastMessage.content
+  );
+
+  const model = new ChatOpenAI({
+    modelName: AI_MODEL,
+    streaming: true,
   });
 
-  return result.toDataStreamResponse();
+  const stream = await model.stream(formattedPrompt);
+
+  return LangChainAdapter.toDataStreamResponse(stream);
 }
 
 export const dynamic = "force-dynamic";
