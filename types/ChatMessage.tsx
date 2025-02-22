@@ -1,11 +1,10 @@
-import { Message } from "ai";
+import type { Message } from "@ai-sdk/react";
 
-export type MessageRole = "user" | "assistant" | "system" | "data";
+export type MessageRole = Message["role"];
 
 export interface BaseMessage extends Message {
   role: MessageRole;
   content: string;
-  metadata?: Record<string, unknown>;
 }
 
 export interface UserMessage extends BaseMessage {
@@ -14,10 +13,6 @@ export interface UserMessage extends BaseMessage {
 
 export interface AssistantMessage extends BaseMessage {
   role: "assistant";
-  toolCall?: {
-    name: string;
-    arguments: Record<string, unknown>;
-  };
 }
 
 export interface SystemMessage extends BaseMessage {
@@ -28,11 +23,7 @@ export interface DataMessage extends BaseMessage {
   role: "data";
 }
 
-export type ChatMessage =
-  | UserMessage
-  | AssistantMessage
-  | SystemMessage
-  | DataMessage;
+export type ChatMessage = Message;
 
 export interface MessageProps {
   message: ChatMessage;

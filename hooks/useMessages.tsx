@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Message, useChat as useAiChat } from "ai/react";
+import { useChat } from "@ai-sdk/react";
+import type { Message } from "@ai-sdk/react";
 import { useCsrfToken } from "./useCsrfToken";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import useChatContext from "./useChatContext";
@@ -10,7 +11,6 @@ import getInitialMessages from "@/lib/supabase/getInitialMessages";
 
 const useMessages = () => {
   const csrfToken = useCsrfToken();
-  const [toolCall, setToolCall] = useState<any>(null);
   const { selectedArtist } = useArtistProvider();
   const { chatContext } = useChatContext();
   const { chat_id: chatId } = useParams();
@@ -23,10 +23,10 @@ const useMessages = () => {
     handleInputChange,
     handleSubmit: handleAiChatSubmit,
     append: appendAiChat,
-    isLoading: pending,
+    status,
     setMessages,
     reload: reloadAiChat,
-  } = useAiChat({
+  } = useChat({
     api: `/api/chat`,
     headers: {
       "X-CSRF-Token": csrfToken,
@@ -36,10 +36,7 @@ const useMessages = () => {
       context: chatContext,
       roomId: chatId,
     },
-    onToolCall: ({ toolCall }) => {
-      setToolCall(toolCall as any);
-    },
-    onFinish: (message) => {
+    onFinish: (message: Message) => {
       createMemory(message, chatId as string, selectedArtist?.account_id || "");
     },
   });
@@ -54,7 +51,7 @@ const useMessages = () => {
       setIsLoading(false);
     };
     fetch();
-  }, [chatId, userData]);
+  }, [chatId, userData, setMessages]);
 
   return {
     reloadAiChat,
@@ -64,8 +61,7 @@ const useMessages = () => {
     input,
     setMessages,
     messages,
-    pending,
-    toolCall,
+    pending: status === "streaming" || status === "submitted",
     chatContext,
     isLoading,
   };
