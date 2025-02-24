@@ -1,47 +1,62 @@
 import { Message } from "@ai-sdk/react";
-import { ChatOpenAI } from "@langchain/openai";
-import { formatPrompt } from "@/lib/chat/prompts";
 import createMemories from "@/lib/supabase/createMemories";
-import { AI_MODEL } from "@/lib/consts";
 import { LangChainAdapter } from "ai";
+import initializeAgent from "@/lib/agent/initializeAgent";
+import { HumanMessage } from "@langchain/core/messages";
+import getTransformedStream from "@/lib/agent/getTransformedStream";
 
 export async function POST(req: Request) {
-  const body = await req.json();
-  const messages = body.messages as Message[];
-  const context = body.context;
-  const artist_id = body.artistId;
-  const room_id = body.roomId;
+  try {
+    const body = await req.json();
+    const messages = body.messages as Message[];
+    const artist_id = body.artistId;
+    const room_id = body.roomId;
 
-  const lastMessage = messages[messages.length - 1];
+    const lastMessage = messages[messages.length - 1];
+    if (!lastMessage) {
+      throw new Error("No messages provided");
+    }
 
-  if (!lastMessage) {
-    throw new Error("No messages provided");
-  }
+    const question = lastMessage.content;
+    if (room_id) {
+      await createMemories({
+        room_id,
+        artist_id,
+        content: lastMessage,
+      });
+    }
 
-  const question = lastMessage.content;
-
-  if (room_id) {
-    createMemories({
-      room_id,
-      artist_id,
-      content: lastMessage,
+    const { agent } = await initializeAgent({
+      threadId: room_id || "default",
     });
+
+    const messageInput = {
+      messages: [new HumanMessage(question)],
+    };
+
+    const stream = await agent.stream(messageInput);
+    const transformedStream = getTransformedStream(stream);
+    return LangChainAdapter.toDataStreamResponse(transformedStream);
+  } catch (error) {
+    console.error("[Chat] Error processing request:", {
+      error,
+      message: error instanceof Error ? error.message : "Unknown error",
+      stack: error instanceof Error ? error.stack : undefined,
+    });
+
+    return new Response(
+      JSON.stringify({
+        error: "Failed to process chat message",
+        details: error instanceof Error ? error.message : "Unknown error",
+      }),
+      {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
   }
-
-  const formattedPrompt = await formatPrompt(
-    context,
-    question,
-    lastMessage.content
-  );
-
-  const model = new ChatOpenAI({
-    modelName: AI_MODEL,
-    streaming: true,
-  });
-
-  const stream = await model.stream(formattedPrompt);
-
-  return LangChainAdapter.toDataStreamResponse(stream);
 }
 
 export const dynamic = "force-dynamic";
