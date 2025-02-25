@@ -1,9 +1,7 @@
-import { Suspense } from "react";
 import { getSegmentRoom } from "@/lib/supabase/getSegmentRoom";
-import { Skeleton } from "@/components/ui/skeleton";
+import { getSegmentWithArtist } from "@/lib/supabase/getSegmentWithArtist";
 import { createRoomWithReport } from "@/lib/supabase/createRoomWithReport";
 import { createSegmentRoom } from "@/lib/supabase/createSegmentRoom";
-import { getSegmentWithArtist } from "@/lib/supabase/getSegmentWithArtist";
 import createReport from "@/lib/report/createReport";
 import { redirect } from "next/navigation";
 
@@ -14,17 +12,15 @@ interface PageProps {
 }
 
 export default async function Page({ params }: PageProps) {
-  // First check if segment room exists - outside try-catch
   const segmentRoom = await getSegmentRoom(params.segmentId);
-  console.log("Existing segment room:", segmentRoom);
 
-  // Redirect immediately if room exists
-  if (segmentRoom) {
+  if (segmentRoom?.room_id) {
     redirect(`/${segmentRoom.room_id}`);
   }
 
+  let newRoomId: string | null = null;
+
   try {
-    // Get segment details and artist account ID
     const {
       segment,
       artistAccountId,
@@ -39,21 +35,11 @@ export default async function Page({ params }: PageProps) {
       throw new Error("Artist account not found for segment");
     }
 
-    console.log("Found segment:", {
-      id: segment.id,
-      name: segment.name,
-      artistAccountId,
-    });
-
-    // Generate report first
     const reportId = await createReport(segment.id);
     if (!reportId) {
       throw new Error("Failed to generate segment report");
     }
 
-    console.log("Generated report:", { reportId });
-
-    // Create a new room with the report
     const { new_room, error: roomError } = await createRoomWithReport({
       account_id: artistAccountId,
       topic: `Segment: ${segment.name}`,
@@ -64,36 +50,20 @@ export default async function Page({ params }: PageProps) {
       throw new Error(roomError?.message || "Failed to create room");
     }
 
-    console.log("Created room:", { id: new_room.id });
+    newRoomId = new_room.id;
 
-    // Create segment room record
-    const newSegmentRoom = await createSegmentRoom({
+    await createSegmentRoom({
       segment_id: params.segmentId,
       room_id: new_room.id,
     });
-
-    console.log("Created segment room:", newSegmentRoom);
-
-    // Redirect to chat page after creating new room
-    redirect(`/${new_room.id}`);
   } catch (e) {
     console.error("Error in segment page:", e);
-    return (
-      <Suspense
-        fallback={
-          <div className="max-w-screen min-h-screen p-4">
-            <Skeleton className="h-8 w-48 mb-4" />
-            <Skeleton className="h-[200px] w-full" />
-          </div>
-        }
-      >
-        <div className="max-w-screen min-h-screen p-4">
-          <div className="text-red-500">
-            Error:{" "}
-            {e instanceof Error ? e.message : "An unexpected error occurred"}
-          </div>
-        </div>
-      </Suspense>
-    );
+    throw e;
   }
+
+  if (newRoomId) {
+    redirect(`/${newRoomId}`);
+  }
+
+  throw new Error("Failed to create or find room");
 }
