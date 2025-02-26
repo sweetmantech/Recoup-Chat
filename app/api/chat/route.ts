@@ -11,6 +11,7 @@ export async function POST(req: Request) {
     const messages = body.messages as Message[];
     const artist_id = body.artistId;
     const room_id = body.roomId;
+    const segment_id = body.segmentId;
 
     const lastMessage = messages[messages.length - 1];
     if (!lastMessage) {
@@ -28,6 +29,7 @@ export async function POST(req: Request) {
 
     const { agent } = await initializeAgent({
       threadId: room_id || "default",
+      segmentId: segment_id,
     });
 
     const messageInput = {
@@ -37,6 +39,7 @@ export async function POST(req: Request) {
     const stream = await agent.stream(messageInput, {
       configurable: {
         thread_id: room_id || "default",
+        segmentId: segment_id,
       },
     });
     const transformedStream = getTransformedStream(stream);
