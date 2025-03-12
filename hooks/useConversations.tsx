@@ -16,7 +16,7 @@ const useConversations = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { agents } = useArtistAgents();
 
-  const addConversation = (conversation: any) => {
+  const addConversation = (conversation: Conversation | ArtistAgent) => {
     setAllConverstaions([conversation, ...allConverstaions]);
   };
 
@@ -31,11 +31,7 @@ const useConversations = () => {
   const conversations = useMemo(() => {
     const filtered = allConverstaions.filter(
       (item: Conversation | ArtistAgent) =>
-        (item as any)?.memories &&
-        (item as any)?.memories?.some(
-          (memory: { artist_id: string }) =>
-            memory.artist_id === selectedArtist?.account_id,
-        ),
+        'artist_id' in item && item.artist_id === selectedArtist?.account_id
     );
     return filtered;
   }, [selectedArtist, allConverstaions]);
