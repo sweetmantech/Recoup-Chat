@@ -9,7 +9,7 @@ import { ArtistAgent } from "@/lib/supabase/getArtistAgents";
 const useConversations = () => {
   const { userData } = useUserProvider();
   const { selectedArtist } = useArtistProvider();
-  const [allConverstaions, setAllConverstaions] = useState<
+  const [allConversations, setAllConversations] = useState<
     Array<Conversation | ArtistAgent>
   >([]);
   const [quotaExceeded, setQuotaExceeded] = useState(false);
@@ -17,7 +17,7 @@ const useConversations = () => {
   const { agents } = useArtistAgents();
 
   const addConversation = (conversation: Conversation | ArtistAgent) => {
-    setAllConverstaions([conversation, ...allConverstaions]);
+    setAllConversations([conversation, ...allConversations]);
   };
 
   useEffect(() => {
@@ -25,20 +25,20 @@ const useConversations = () => {
       fetchConversations();
       return;
     }
-    return () => setAllConverstaions([]);
+    return () => setAllConversations([]);
   }, [userData, agents]);
 
   const conversations = useMemo(() => {
-    const filtered = allConverstaions.filter(
+    const filtered = allConversations.filter(
       (item: Conversation | ArtistAgent) =>
         'artist_id' in item && item.artist_id === selectedArtist?.account_id
     );
     return filtered;
-  }, [selectedArtist, allConverstaions]);
+  }, [selectedArtist, allConversations]);
 
   const fetchConversations = async () => {
     const data = await getConversations(userData.id);
-    setAllConverstaions([...data, ...agents]);
+    setAllConversations([...data, ...agents]);
     setIsLoading(false);
   };
 
@@ -48,7 +48,7 @@ const useConversations = () => {
     conversations,
     setQuotaExceeded,
     quotaExceeded,
-    allConverstaions,
+    allConversations,
     isLoading,
   };
 };

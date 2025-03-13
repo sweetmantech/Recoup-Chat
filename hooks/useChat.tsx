@@ -3,7 +3,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
 import createRoom from "@/lib/createRoom";
-import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
+import { useConversationsProvider } from "@/providers/ConversationsProvider";
 import { usePromptsProvider } from "@/providers/PromptsProvider";
 import { useEffect, useState } from "react";
 import { v4 as uuidV4 } from "uuid";
