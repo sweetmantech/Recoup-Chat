@@ -1,17 +1,16 @@
 "use client";
 
-import AutoPilot from "@/components/AutoPilot";
-import { AutopilotProvider } from "@/providers/AutopilotProvider";
+import ChatSkeleton from "@/components/Chat/ChatSkeleton";
+import InitialChat from "@/components/Chat/InitialChat";
+import { useChatProvider } from "@/providers/ChatProvider";
 import { useFirstArtistRedirect } from "@/hooks/useFirstArtistRedirect";
 
-const AutoPilotPage = () => {
+const HomePage = () => {
   useFirstArtistRedirect();
-
-  return (
-    <AutopilotProvider>
-      <AutoPilot />
-    </AutopilotProvider>
-  );
+  const { isLoading } = useChatProvider();
+  
+  if (isLoading) return <ChatSkeleton />;
+  return <InitialChat />;
 };
 
-export default AutoPilotPage;
+export default HomePage;
