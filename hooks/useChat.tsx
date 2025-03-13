@@ -7,6 +7,7 @@ import { useConversationsProvider } from "@/providers/ConverstaionsProvider";
 import { usePromptsProvider } from "@/providers/PromptsProvider";
 import { useEffect, useState } from "react";
 import { v4 as uuidV4 } from "uuid";
+import { useArtistProvider } from "@/providers/ArtistProvider";
 
 const useChat = () => {
   const { userData, isPrepared } = useUserProvider();
@@ -16,13 +17,18 @@ const useChat = () => {
   const { addConversation } = useConversationsProvider();
   const { messages, pending } = useMessagesProvider();
   const { getPrompts } = usePromptsProvider();
-  const [appendActive, setAppendActive] = useState<any>(null);
+  const { selectedArtist } = useArtistProvider();
+  const [appendActive, setAppendActive] = useState<Message | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const createNewRoom = async (content: string) => {
     if (chatId) return;
     setIsLoading(true);
-    const room = await createRoom(userData.id, content);
+    const room = await createRoom(
+      userData.id, 
+      content, 
+      selectedArtist?.account_id
+    );
     addConversation(room);
     push(`/${room.id}`);
   };
