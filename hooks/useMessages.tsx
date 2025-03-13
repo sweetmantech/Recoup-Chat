@@ -40,7 +40,7 @@ const useMessages = () => {
     },
     onFinish: (message: Message) => {
       if (chatId) {
-        createMemory(message, chatId, selectedArtist?.account_id || "");
+        createMemory(message, chatId);
       }
     },
   });
