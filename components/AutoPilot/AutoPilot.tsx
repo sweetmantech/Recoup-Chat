@@ -7,12 +7,12 @@ import Events from "./Events";
 import Approvals from "./Approvals";
 import { useUserProvider } from "@/providers/UserProvder";
 import { Skeleton } from "@/components/ui/skeleton";
-import useLoginRedirect from "@/hooks/useLoginRedirect";
+import useAutoLogin from "@/hooks/useAutoLogin";
 
 const AutoPilot = () => {
   const { selectedArtist } = useArtistProvider();
   const { email } = useUserProvider();
-  useLoginRedirect();
+  useAutoLogin();
   const showSkeleton = !selectedArtist || !email;
 
   return (

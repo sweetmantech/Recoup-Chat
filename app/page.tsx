@@ -4,11 +4,11 @@ import ChatSkeleton from "@/components/Chat/ChatSkeleton";
 import InitialChat from "@/components/Chat/InitialChat";
 import { useChatProvider } from "@/providers/ChatProvider";
 import { useFirstArtistRedirect } from "@/hooks/useFirstArtistRedirect";
-import useLoginRedirect from "@/hooks/useLoginRedirect";
+import useAutoLogin from "@/hooks/useAutoLogin";
 
 const HomePage = () => {
   useFirstArtistRedirect();
-  useLoginRedirect();
+  useAutoLogin();
   const { isLoading } = useChatProvider();
   
   if (isLoading) return <ChatSkeleton />;
