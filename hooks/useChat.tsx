@@ -13,7 +13,7 @@ const useChat = () => {
   const { userData, isPrepared } = useUserProvider();
   const { push } = useRouter();
   const { chat_id: chatId, agent_id: agentId } = useParams();
-  const { input, appendAiChat } = useMessagesProvider();
+  const { input, appendAiChat, handleInputChange } = useMessagesProvider();
   const { addConversation } = useConversationsProvider();
   const { messages, pending } = useMessagesProvider();
   const { getPrompts } = usePromptsProvider();
@@ -47,6 +47,7 @@ const useChat = () => {
       content: input,
       role: "user",
     });
+    handleInputChange({ target: { value: '' } } as React.ChangeEvent<HTMLTextAreaElement>);
   };
 
   useEffect(() => {
