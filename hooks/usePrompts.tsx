@@ -6,8 +6,7 @@ import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useFunnelReportProvider } from "@/providers/FunnelReportProvider";
 
 const usePrompts = () => {
-  const { selectedArtist, artists, setSelectedArtist, isLoading } =
-    useArtistProvider();
+  const { selectedArtist, isLoading } = useArtistProvider();
   const [prompts, setPrompts] = useState<string[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState<Message | null>(null);
   const pathname = usePathname();
@@ -23,12 +22,8 @@ const usePrompts = () => {
       ]);
       return;
     }
-    if (artists.length) {
-      setSelectedArtist(artists[0]);
-      return;
-    }
     setPrompts(SUGGESTIONS);
-  }, [selectedArtist, isNewChat, artists, isLoading]);
+  }, [selectedArtist, isNewChat, isLoading]);
 
   const getPrompts = async (content: string, isTikTokAnalysis?: boolean) => {
     const isFunnelReport = content === "Funnel Report";
