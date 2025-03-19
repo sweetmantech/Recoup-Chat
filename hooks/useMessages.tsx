@@ -29,6 +29,7 @@ const useMessages = () => {
     setMessages,
     reload: reloadAiChat,
   } = useChat({
+    id: chatId,
     api: `/api/chat`,
     headers: {
       "X-CSRF-Token": csrfToken,
@@ -44,6 +45,12 @@ const useMessages = () => {
       }
     },
   });
+
+  useEffect(() => {
+    if (!chatId) {
+      setMessages([]);
+    }
+  }, [chatId, setMessages]);
 
   useEffect(() => {
     const fetch = async () => {
