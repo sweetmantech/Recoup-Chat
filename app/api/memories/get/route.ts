@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { queryMemories } from "@/lib/supabase/getServerMessages";
+import queryMemories from "@/lib/supabase/queryMemories";
 
 export async function GET(req: NextRequest) {
   const roomId = req.nextUrl.searchParams.get("roomId");

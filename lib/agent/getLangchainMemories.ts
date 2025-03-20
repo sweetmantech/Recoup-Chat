@@ -1,28 +1,13 @@
 import { HumanMessage, AIMessage, BaseMessage } from "@langchain/core/messages";
-import supabase from "./serverClient";
+import queryMemories from "@/lib/supabase/queryMemories";
 
-// Shared query function for database access
-export async function queryMemories(roomId: string, options?: { 
-  ascending?: boolean;
-  limit?: number;
-}) {
-  const ascending = options?.ascending ?? false;
-  const limit = options?.limit;
-  
-  let query = supabase
-    .from("memories")
-    .select("*")
-    .eq("room_id", roomId)
-    .order("updated_at", { ascending });
-    
-  if (limit) {
-    query = query.limit(limit);
-  }
-  
-  return query;
-}
-
-export async function getServerMessages(roomId: string, limit = 100): Promise<BaseMessage[]> {
+/**
+ * Retrieves memories from Supabase and converts them to LangChain message format
+ * @param roomId The room ID to get memories for
+ * @param limit Maximum number of memories to retrieve (default: 100)
+ * @returns Array of LangChain BaseMessage objects in chronological order
+ */
+export default async function getLangchainMemories(roomId: string, limit = 100): Promise<BaseMessage[]> {
   try {
     const { data, error } = await queryMemories(roomId, { ascending: false, limit });
     
@@ -42,9 +27,10 @@ export async function getServerMessages(roomId: string, limit = 100): Promise<Ba
       return new HumanMessage(content.content);
     });
     
+    // Return messages in chronological order (oldest first)
     return langChainMessages.reverse();
   } catch (error) {
-    console.error("Error in getServerMessages:", error);
+    console.error("Error in getLangchainMemories:", error);
     return [];
   }
 } 
