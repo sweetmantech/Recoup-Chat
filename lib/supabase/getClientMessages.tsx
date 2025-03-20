@@ -9,7 +9,8 @@ const getClientMessages = async (chatId: string) => {
     return memories.map((memory: { content: { role: string; content: string } }) => ({
       ...memory.content,
     }));
-  } catch {
+  } catch (error) {
+    console.error(error);
     return [];
   }
 };
