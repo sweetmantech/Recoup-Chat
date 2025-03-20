@@ -1,9 +1,9 @@
 /**
- * This function is safe to use in the browser as it uses
- * the public anon key and returns data in the chat interface format
+ * Fetches chat messages for UI display.
+ * Safe for browser use - calls server API endpoint with public permissions.
  * 
- * @param chatId The ID of the chat room to fetch messages for
- * @returns Array of messages formatted for the chat UI
+ * @param chatId Chat room ID to fetch messages for
+ * @returns Messages formatted for the chat UI
  */
 const getClientMessages = async (chatId: string) => {
   try {
@@ -12,13 +12,11 @@ const getClientMessages = async (chatId: string) => {
 
     const memories = data?.data || [];
 
-    // Format the messages for the UI
-    // eslint-disable-next-line
-    return memories.map((memory: any) => ({
+    // Format messages for UI consumption
+    return memories.map((memory: { content: { role: string; content: string } }) => ({
       ...memory.content,
     }));
-  } catch (error) {
-    console.error("[getClientMessages] Error:", error);
+  } catch {
     return [];
   }
 };

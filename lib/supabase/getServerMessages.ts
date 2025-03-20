@@ -2,17 +2,18 @@ import { HumanMessage, AIMessage, BaseMessage } from "@langchain/core/messages";
 import supabase from "./serverClient";
 
 /**
- * Server-side message fetching function that uses the service role key
- * This function should ONLY be used server-side as it has elevated privileges
- * and returns data in LangChain format for AI processing
+ * Server-side message fetching function that uses the service role key.
+ * ONLY for server-side use with elevated database privileges.
  * 
- * @param roomId The ID of the chat room to fetch messages for
- * @param limit Maximum number of messages to retrieve (default: 100)
- * @returns Array of LangChain messages in chronological order
+ * Retrieves messages newest-first for efficiency, then reverses for
+ * chronological order to maintain proper conversation context.
+ * 
+ * @param roomId Chat room ID to fetch messages for
+ * @param limit Maximum messages to retrieve (default: 100)
+ * @returns LangChain messages in chronological order
  */
 export async function getServerMessages(roomId: string, limit = 100): Promise<BaseMessage[]> {
   try {
-    // Fetch most recent messages first (for efficiency), then reverse
     const { data, error } = await supabase
       .from("memories")
       .select("*")
@@ -24,7 +25,7 @@ export async function getServerMessages(roomId: string, limit = 100): Promise<Ba
       return [];
     }
     
-    // Convert to LangChain message format
+    // Convert database records to LangChain message format
     const langChainMessages = data.map((memory) => {
       const content = memory.content;
       
@@ -37,10 +38,9 @@ export async function getServerMessages(roomId: string, limit = 100): Promise<Ba
       return new HumanMessage(content.content);
     });
     
-    // Reverse to get chronological order (earliest first)
+    // Reverse to get chronological order (oldest first) for proper conversation context
     return langChainMessages.reverse();
-  } catch (error) {
-    console.error("[getServerMessages] Error:", error);
+  } catch {
     return [];
   }
 } 

@@ -1,6 +1,10 @@
 import { getServerMessages } from "@/lib/supabase/getServerMessages";
 import { NextRequest } from "next/server";
 
+/**
+ * API endpoint to retrieve chat messages for a specific room.
+ * Transforms LangChain format to client UI format.
+ */
 export async function GET(req: NextRequest) {
   const roomId = req.nextUrl.searchParams.get("roomId");
 
@@ -9,20 +13,18 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    // Use getServerMessages for consistency
+    // Retrieve messages using the server function for consistency
     const messages = await getServerMessages(roomId);
     
-    // Transform LangChain messages to client format
+    // Transform messages from LangChain format to client format
     const clientMessages = messages.map(msg => ({
       role: msg._getType() === 'human' ? 'user' : 'assistant',
       content: msg.content,
     }));
 
     return Response.json({ data: clientMessages }, { status: 200 });
-  } catch (error) {
-    console.error("[api/memories/get] Error:", error);
-    const message = error instanceof Error ? error.message : "failed";
-    return Response.json({ message }, { status: 400 });
+  } catch {
+    return Response.json({ message: "Failed to retrieve messages" }, { status: 400 });
   }
 }
 

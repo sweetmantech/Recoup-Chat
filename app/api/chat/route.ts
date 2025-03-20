@@ -6,6 +6,9 @@ import { HumanMessage, BaseMessage } from "@langchain/core/messages";
 import getTransformedStream from "@/lib/agent/getTransformedStream";
 import { getServerMessages } from "@/lib/supabase/getServerMessages";
 
+/**
+ * Chat API that includes up to 100 previous messages for conversation context.
+ */
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -31,16 +34,12 @@ export async function POST(req: Request) {
       segmentId: segment_id,
     });
 
-    // Get previous messages from the database if a room_id is provided
     let previousMessages: BaseMessage[] = [];
     if (room_id) {
       previousMessages = await getServerMessages(room_id, 100);
     }
 
-    // Create the current message
     const currentMessage = new HumanMessage(question);
-    
-    // Combine previous messages with the current message
     const allMessages: BaseMessage[] = [...previousMessages, currentMessage];
 
     const messageInput = {
@@ -61,8 +60,6 @@ export async function POST(req: Request) {
     console.error("[Chat] Error processing request:", {
       error,
       message: error instanceof Error ? error.message : "Unknown error",
-      stack: error instanceof Error ? error.stack : undefined,
-      cause: error instanceof Error ? error.cause : undefined,
     });
 
     return new Response(
