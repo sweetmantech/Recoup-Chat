@@ -30,7 +30,6 @@ export async function getServerMessages(roomId: string, limit = 100): Promise<Ba
       return [];
     }
     
-    
     const langChainMessages = data.map((memory) => {
       const content = memory.content;
       
@@ -43,9 +42,9 @@ export async function getServerMessages(roomId: string, limit = 100): Promise<Ba
       return new HumanMessage(content.content);
     });
     
-    
     return langChainMessages.reverse();
-  } catch {
+  } catch (error) {
+    console.error("Error in getServerMessages:", error);
     return [];
   }
 } 
