@@ -1,14 +1,30 @@
 import { HumanMessage, AIMessage, BaseMessage } from "@langchain/core/messages";
 import supabase from "./serverClient";
 
+// Shared query function for database access
+export async function queryMemories(roomId: string, options?: { 
+  ascending?: boolean;
+  limit?: number;
+}) {
+  const ascending = options?.ascending ?? false;
+  const limit = options?.limit;
+  
+  let query = supabase
+    .from("memories")
+    .select("*")
+    .eq("room_id", roomId)
+    .order("updated_at", { ascending });
+    
+  if (limit) {
+    query = query.limit(limit);
+  }
+  
+  return query;
+}
+
 export async function getServerMessages(roomId: string, limit = 100): Promise<BaseMessage[]> {
   try {
-    const { data, error } = await supabase
-      .from("memories")
-      .select("*")
-      .eq("room_id", roomId)
-      .order("updated_at", { ascending: false })
-      .limit(limit);
+    const { data, error } = await queryMemories(roomId, { ascending: false, limit });
     
     if (error || !data || data.length === 0) {
       return [];

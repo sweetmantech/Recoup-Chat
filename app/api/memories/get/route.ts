@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import supabase from "@/lib/supabase/serverClient";
+import { queryMemories } from "@/lib/supabase/getServerMessages";
 
 export async function GET(req: NextRequest) {
   const roomId = req.nextUrl.searchParams.get("roomId");
@@ -9,12 +9,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    
-    const { data, error } = await supabase
-      .from("memories")
-      .select("*")
-      .eq("room_id", roomId)
-      .order("updated_at", { ascending: true });
+    const { data, error } = await queryMemories(roomId, { ascending: true });
     
     if (error) {
       throw error;
