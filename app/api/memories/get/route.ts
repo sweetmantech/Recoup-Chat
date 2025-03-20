@@ -1,9 +1,6 @@
 import { NextRequest } from "next/server";
 import supabase from "@/lib/supabase/serverClient";
 
-/**
- * API endpoint to retrieve chat messages for a specific room.
- */
 export async function GET(req: NextRequest) {
   const roomId = req.nextUrl.searchParams.get("roomId");
 
@@ -12,7 +9,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    // Query messages directly using the same format as before
+    
     const { data, error } = await supabase
       .from("memories")
       .select("*")

@@ -6,9 +6,6 @@ import { HumanMessage, BaseMessage } from "@langchain/core/messages";
 import getTransformedStream from "@/lib/agent/getTransformedStream";
 import { getServerMessages } from "@/lib/supabase/getServerMessages";
 
-/**
- * Chat API that includes up to 100 previous messages for conversation context.
- */
 export async function POST(req: Request) {
   try {
     const body = await req.json();
