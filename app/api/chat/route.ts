@@ -2,8 +2,9 @@ import { Message } from "@ai-sdk/react";
 import createMemories from "@/lib/supabase/createMemories";
 import { LangChainAdapter } from "ai";
 import initializeAgent from "@/lib/agent/initializeAgent";
-import { HumanMessage } from "@langchain/core/messages";
+import { HumanMessage, BaseMessage } from "@langchain/core/messages";
 import getTransformedStream from "@/lib/agent/getTransformedStream";
+import { getServerMessages } from "@/lib/supabase/getServerMessages";
 
 export async function POST(req: Request) {
   try {
@@ -30,8 +31,20 @@ export async function POST(req: Request) {
       segmentId: segment_id,
     });
 
+    // Get previous messages from the database if a room_id is provided
+    let previousMessages: BaseMessage[] = [];
+    if (room_id) {
+      previousMessages = await getServerMessages(room_id, 100);
+    }
+
+    // Create the current message
+    const currentMessage = new HumanMessage(question);
+    
+    // Combine previous messages with the current message
+    const allMessages: BaseMessage[] = [...previousMessages, currentMessage];
+
     const messageInput = {
-      messages: [new HumanMessage(question)],
+      messages: allMessages,
     };
 
     const stream = await agent.stream(messageInput, {
