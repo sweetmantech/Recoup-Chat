@@ -1,19 +1,11 @@
-import { tool } from "@langchain/core/tools";
+import { Tool } from "ai";
 import { z } from "zod";
 import { getSegmentFans } from "../supabase/getSegmentFans";
 
-export const getSegmentFansTool = tool(
-  async (_input: Record<string, never>, runnable) => {
-    const segmentId = runnable.configurable?.segmentId;
-    if (!segmentId) {
-      const error = "No segment ID provided in context";
-      console.error("[SegmentFansTool] Error:", error);
-      return JSON.stringify({
-        fans: [],
-        error,
-      });
-    }
-
+const getSegmentFansTool = (segmentId: string): Tool => ({
+  description: "Get all fans belonging to the current segment",
+  parameters: z.object({}),
+  execute: async () => {
     try {
       const fans = await getSegmentFans(segmentId);
       const response = JSON.stringify({ fans, error: null });
@@ -31,9 +23,6 @@ export const getSegmentFansTool = tool(
       });
     }
   },
-  {
-    name: "get_segment_fans",
-    description: "Get all fans belonging to the current segment",
-    schema: z.object({}),
-  }
-);
+});
+
+export default getSegmentFansTool;

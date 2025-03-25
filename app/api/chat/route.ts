@@ -1,10 +1,8 @@
-import { Message } from "@ai-sdk/react";
+import { Message, streamText, Tool } from "ai";
+import { anthropic } from "@ai-sdk/anthropic";
 import createMemories from "@/lib/supabase/createMemories";
-import { LangChainAdapter } from "ai";
-import initializeAgent from "@/lib/agent/initializeAgent";
-import { HumanMessage, BaseMessage } from "@langchain/core/messages";
-import getTransformedStream from "@/lib/agent/getTransformedStream";
-import getLangchainMemories from "@/lib/agent/getLangchainMemories";
+import getSegmentFansTool from "@/lib/tools/getSegmentFans";
+import { DESCRIPTION } from "@/lib/consts";
 
 export async function POST(req: Request) {
   try {
@@ -18,7 +16,6 @@ export async function POST(req: Request) {
       throw new Error("No messages provided");
     }
 
-    const question = lastMessage.content;
     if (room_id) {
       await createMemories({
         room_id,
@@ -26,33 +23,31 @@ export async function POST(req: Request) {
       });
     }
 
-    const { agent } = await initializeAgent({
-      threadId: room_id || "default",
-      segmentId: segment_id,
-    });
-
-    let previousMessages: BaseMessage[] = [];
-    if (room_id) {
-      previousMessages = await getLangchainMemories(room_id, 100);
-    }
-
-    const currentMessage = new HumanMessage(question);
-    const allMessages: BaseMessage[] = [...previousMessages, currentMessage];
-
-    const messageInput = {
-      messages: allMessages,
+    const streamTextOpts = {
+      model: anthropic("claude-3-7-sonnet-20250219"),
+      system: DESCRIPTION,
+      messages,
+      providerOptions: {
+        anthropic: {
+          thinking: { type: "enabled", budgetTokens: 12000 },
+        },
+      },
+      maxSteps: 11,
+      toolCallStreaming: true,
     };
 
-    const stream = await agent.stream(messageInput, {
-      configurable: {
-        thread_id: room_id || "default",
-        segmentId: segment_id,
-      },
+    if (segment_id) {
+      const fanSegmentTool = getSegmentFansTool(segment_id);
+      const tools = [fanSegmentTool] as Tool[];
+      // @ts-expect-error tools type
+      streamTextOpts.tools = tools;
+    }
+
+    const result = streamText(streamTextOpts);
+
+    return result.toDataStreamResponse({
+      sendReasoning: true,
     });
-
-    const transformedStream = getTransformedStream(stream);
-
-    return LangChainAdapter.toDataStreamResponse(transformedStream);
   } catch (error) {
     console.error("[Chat] Error processing request:", {
       error,
@@ -73,7 +68,3 @@ export async function POST(req: Request) {
     );
   }
 }
-
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
-export const fetchCache = "force-no-store";
