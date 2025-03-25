@@ -1,9 +1,13 @@
+"use client";
+
 import { useEffect } from "react";
 import { ScrollArea } from "react-scroll-to";
-import Thinking from "./Thinking";
-import Message from "./Message";
+import { cn } from "@/lib/utils";
+import { ReasoningMessagePart } from "./ReasoningMessagePart";
+import { TextMessagePart } from "./TextMessagePart";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
 import { usePromptsProvider } from "@/providers/PromptsProvider";
+import { IconRobot } from "@tabler/icons-react";
 
 const Messages = ({
   scroll,
@@ -25,17 +29,57 @@ const Messages = ({
 
   return (
     <ScrollArea
-      className={`w-full mt-4 max-w-3xl mx-auto overflow-y-auto grow ${className}`}
+      className={cn(
+        "w-full h-full max-w-3xl mx-auto overflow-y-auto",
+        className
+      )}
     >
       {children || <div />}
       {messages.map((message) => (
-        <Message
+        <div
           key={message.id}
-          message={message}
-          index={messages.indexOf(message)}
-        />
+          className={cn("flex items-start gap-x-3 py-4 px-4", {
+            "bg-secondary/50": message.role === "assistant",
+            "justify-end": message.role === "user",
+          })}
+        >
+          {message.role === "assistant" && (
+            <div className="flex h-6 w-6 shrink-0 select-none items-center justify-center rounded-md border bg-background shadow">
+              <IconRobot className="h-4 w-4" />
+            </div>
+          )}
+          <div
+            className={cn("flex flex-col space-y-1.5", {
+              "w-fit": message.role === "user",
+            })}
+          >
+            {message.parts?.map((part, i) => {
+              if (part.type === "reasoning") {
+                return (
+                  <ReasoningMessagePart
+                    key={i}
+                    part={part}
+                    isReasoning={
+                      pending && i === (message.parts?.length ?? 0) - 1
+                    }
+                  />
+                );
+              }
+              return <TextMessagePart key={i} part={part} />;
+            }) || (
+              <TextMessagePart part={{ type: "text", text: message.content }} />
+            )}
+          </div>
+        </div>
       ))}
-      {pending && <Thinking />}
+      {pending && (
+        <div className="flex items-center gap-x-3 py-4 px-4 bg-secondary/50">
+          <div className="flex h-6 w-6 shrink-0 select-none items-center justify-center rounded-md border bg-background shadow">
+            <IconRobot className="h-4 w-4" />
+          </div>
+          <div>Hmm...</div>
+        </div>
+      )}
     </ScrollArea>
   );
 };

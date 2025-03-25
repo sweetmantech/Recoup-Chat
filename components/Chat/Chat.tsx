@@ -17,12 +17,14 @@ const Chat = ({ reportId }: ChatProps) => {
   if (isLoading) return <ChatSkeleton />;
 
   return (
-    <div className="size-full flex flex-col items-center justify-center bg-white rounded-xl overflow-hidden flex flex-col px-4 pb-5 md:pt-[14px]">
+    <div className="flex flex-col h-full">
       <ScrollTo>
         {({ scroll }) => (
-          <Messages scroll={scroll}>
-            {reportId && <ChatReport reportId={reportId} />}
-          </Messages>
+          <div className="flex-1 min-h-0">
+            <Messages scroll={scroll}>
+              {reportId && <ChatReport reportId={reportId} />}
+            </Messages>
+          </div>
         )}
       </ScrollTo>
       <ChatInput />
