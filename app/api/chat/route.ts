@@ -10,6 +10,7 @@ export async function POST(req: Request) {
     const messages = body.messages as Message[];
     const room_id = body.roomId;
     const segment_id = body.segmentId;
+    const artist_id = body.artistId;
 
     const lastMessage = messages[messages.length - 1];
     if (!lastMessage) {
@@ -24,10 +25,15 @@ export async function POST(req: Request) {
     }
 
     const tools = await getMcpTools(segment_id);
+    const activeArtistContext = artist_id
+      ? ` The active artist_account_id is ${artist_id}`
+      : undefined;
+
+    const system = DESCRIPTION + activeArtistContext;
 
     const streamTextOpts = {
       model: anthropic("claude-3-7-sonnet-20250219"),
-      system: DESCRIPTION,
+      system,
       messages,
       providerOptions: {
         anthropic: {
@@ -64,3 +70,7 @@ export async function POST(req: Request) {
     );
   }
 }
+
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+export const revalidate = 0;
