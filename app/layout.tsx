@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import Providers from "@/providers/Providers";
-import { DESCRIPTION, TITLE } from "@/lib/consts";
+import { META_DESCRIPTION, TITLE } from "@/lib/consts";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import { Suspense } from "react";
@@ -13,10 +13,10 @@ import { ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {
   title: TITLE,
-  description: DESCRIPTION,
+  description: META_DESCRIPTION,
   openGraph: {
     title: TITLE,
-    description: DESCRIPTION,
+    description: META_DESCRIPTION,
     images: `/logo.png`,
   },
   manifest: "/manifest.json",
