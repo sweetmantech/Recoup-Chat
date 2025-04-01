@@ -66,16 +66,10 @@ const useArtistSetting = () => {
           const type = file.type;
           const { uri } = await uploadFile(file);
           
-          let content;
-          if (["text/plain", "text/markdown", "application/json"].includes(type)) {
-            content = await file.text();
-          }
-          
           temp.push({
             name,
             url: uri,
-            type,
-            content
+            type
           });
         }
       }

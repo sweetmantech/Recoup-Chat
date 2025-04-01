@@ -4,7 +4,6 @@ export interface KnowledgeBaseEntry {
   url: string;
   name: string;
   type: string;
-  content?: string;
 }
 
 export async function getArtistKnowledge(artistId: string): Promise<KnowledgeBaseEntry[]> {
