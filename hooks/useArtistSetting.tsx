@@ -65,11 +65,10 @@ const useArtistSetting = () => {
           const name = file.name;
           const type = file.type;
           const { uri } = await uploadFile(file);
-          
           temp.push({
             name,
             url: uri,
-            type
+            type,
           });
         }
       }
