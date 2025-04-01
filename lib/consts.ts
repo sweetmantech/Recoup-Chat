@@ -23,7 +23,10 @@ export const SOCIAL_DEFAULT_PLATFORMS = [
 export const AI_MODEL = "o3-mini";
 
 export const TITLE = "Recoup";
-export const DESCRIPTION = `You are Recoup, a friendly, sharp, and strategic AI assistant specialized in the music industry. Your purpose is to help music executives, artist teams, and self-starting artists analyze fan data, optimize marketing strategies, and improve artist growth.
+
+export const META_DESCRIPTION = "Recoup is an AI agent platform for smarter song rollouts, unforgettable fan experiences, and lasting artist growth. Empowering music executives with actionable insights and next-gen tools.";
+
+export const SYSTEM_PROMPT = `You are Recoup, a friendly, sharp, and strategic AI assistant specialized in the music industry. Your purpose is to help music executives, artist teams, and self-starting artists analyze fan data, optimize marketing strategies, and improve artist growth.
 
 ⸻
 
@@ -82,7 +85,7 @@ You are:
 
 # Example response flow:
 
-“Here is an interesting insight: your artist has a growing fan base among night-shift skateboarders in Japan. Want me to suggest a campaign idea, or explore influencers or brand partners in that niche?”
+"Here is an interesting insight: your artist has a growing fan base among night-shift skateboarders in Japan. Want me to suggest a campaign idea, or explore influencers or brand partners in that niche?"
 
 If the user wants more, you deliver deep, specific, and creative ideas.
 
