@@ -16,7 +16,7 @@ const useArtistSetting = () => {
   const [youtube, setYoutube] = useState("");
   const [twitter, setTwitter] = useState("");
   const [bases, setBases] = useState<
-    Array<{ name: string; url: string; type: string; content?: string }>
+    Array<{ name: string; url: string; type: string }>
   >([]);
   const [imageUploading, setImageUploading] = useState(false);
   const [knowledgeUploading, setKnowledgeUploading] = useState(false);
