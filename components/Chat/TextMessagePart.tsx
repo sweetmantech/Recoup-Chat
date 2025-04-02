@@ -11,7 +11,7 @@ interface TextMessagePartProps {
 }
 
 // Converts indented lines to proper markdown bullet lists
-const preprocessMarkdown = (text: string): string => {
+const convertIndentToBullet = (text: string): string => {
   if (!text) return '';
   
   const lines = text.split('\n');
@@ -25,7 +25,7 @@ const preprocessMarkdown = (text: string): string => {
 };
 
 export function TextMessagePart({ part }: TextMessagePartProps) {
-  const processedText = preprocessMarkdown(part.text);
+  const processedText = convertIndentToBullet(part.text);
   
   return (
     <div className={styles.markdown}>
