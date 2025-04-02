@@ -5,7 +5,7 @@ import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import { TextPart } from "@/types/reasoning";
 import styles from "./markdown.module.css";
-import { convertIndentToBullet } from "@/lib/utils/textFormatting";
+import { convertIndentToBullet } from "@/lib/utils/markdown";
 
 interface TextMessagePartProps {
   part: TextPart;
