@@ -89,6 +89,11 @@
   position: relative;
 }
 
+.markdown ul li {
+  list-style-type: disc;
+  display: list-item;
+}
+
 .markdown ul li::marker {
   color: rgba(0, 0, 0, 0.65);
 }

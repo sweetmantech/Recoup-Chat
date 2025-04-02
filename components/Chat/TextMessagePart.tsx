@@ -10,14 +10,30 @@ interface TextMessagePartProps {
   part: TextPart;
 }
 
+// Converts indented lines to proper markdown bullet lists
+const preprocessMarkdown = (text: string): string => {
+  if (!text) return '';
+  
+  const lines = text.split('\n');
+  
+  return lines.map(line => {
+    if (/^\s{2,}[A-Za-z]/.test(line) && !line.trim().startsWith('*') && !line.trim().startsWith('-')) {
+      return line.replace(/^\s+/, '* ');
+    }
+    return line;
+  }).join('\n');
+};
+
 export function TextMessagePart({ part }: TextMessagePartProps) {
+  const processedText = preprocessMarkdown(part.text);
+  
   return (
     <div className={styles.markdown}>
       <Markdown 
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw]}
       >
-        {part.text}
+        {processedText}
       </Markdown>
     </div>
   );
