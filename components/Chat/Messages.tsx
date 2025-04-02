@@ -39,7 +39,6 @@ const Messages = ({
         <div
           key={message.id}
           className={cn("flex items-start gap-x-3 py-4 px-4", {
-            "bg-secondary/50": message.role === "assistant",
             "justify-end": message.role === "user",
           })}
         >
@@ -50,10 +49,14 @@ const Messages = ({
           )}
           <div
             className={cn("flex flex-col space-y-1.5", {
-              "w-fit": message.role === "user",
+              "inline-flex items-center bg-secondary/70 rounded-full px-4 py-2": message.role === "user" 
             })}
           >
-            {message.parts?.map((part, i) => {
+            {message.role === "user" ? (
+              <span className="text-sm font-sans text-pretty">
+                {message.content}
+              </span>
+            ) : message.parts?.map((part, i) => {
               if (part.type === "reasoning") {
                 return (
                   <ReasoningMessagePart
@@ -73,7 +76,7 @@ const Messages = ({
         </div>
       ))}
       {pending && (
-        <div className="flex items-center gap-x-3 py-4 px-4 bg-secondary/50">
+        <div className="flex items-center gap-x-3 py-4 px-4">
           <div className="flex h-6 w-6 shrink-0 select-none items-center justify-center rounded-md border bg-background shadow">
             <IconRobot className="h-4 w-4" />
           </div>

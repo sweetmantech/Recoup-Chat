@@ -1,7 +1,9 @@
 "use client";
 
 import Markdown from "react-markdown";
+import remarkGfm from 'remark-gfm';
 import { TextPart } from "@/types/reasoning";
+import styles from "./markdown.module.css";
 
 interface TextMessagePartProps {
   part: TextPart;
@@ -9,8 +11,10 @@ interface TextMessagePartProps {
 
 export function TextMessagePart({ part }: TextMessagePartProps) {
   return (
-    <div className="flex flex-col gap-4">
-      <Markdown>{part.text}</Markdown>
+    <div className={styles.markdown}>
+      <Markdown remarkPlugins={[remarkGfm]}>
+        {part.text}
+      </Markdown>
     </div>
   );
 }
