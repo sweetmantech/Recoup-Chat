@@ -154,6 +154,7 @@
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  table-layout: fixed;
 }
 
 .markdown th {
@@ -165,12 +166,14 @@
   border-bottom: 2px solid rgba(0, 0, 0, 0.12);
   position: relative;
   letter-spacing: 0.01em;
+  word-break: break-word;
 }
 
 .markdown td {
   padding: 0.9em 1em;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   vertical-align: top;
+  word-break: break-word;
 }
 
 .markdown tr:nth-child(even) {
@@ -293,53 +296,21 @@
   background-color: rgba(30, 64, 175, 0.08);
 }
 
-/* Tables */
-.markdown table {
-  border-collapse: separate;
-  border-spacing: 0;
-  width: 100%;
-  margin: 1.5em 0;
-  font-size: 0.95em;
-  line-height: 1.5;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.markdown th {
-  background-color: rgba(0, 0, 0, 0.05);
-  font-weight: 600;
-  padding: 0.8em 1em;
-  text-align: left;
-  color: rgba(0, 0, 0, 0.85);
-  border-bottom: 2px solid rgba(0, 0, 0, 0.12);
-  position: relative;
-}
-
-.markdown td {
-  padding: 0.8em 1em;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  vertical-align: top;
-}
-
-.markdown tr:last-child td {
-  border-bottom: none;
-}
-
-.markdown tr:nth-child(even) {
-  background-color: rgba(0, 0, 0, 0.02);
-}
-
-.markdown tbody tr:hover {
-  background-color: rgba(0, 0, 0, 0.03);
-}
-
-/* Mobile tables - make them scroll horizontally if needed */
+/* Mobile tables styles */
 @media (max-width: 640px) {
   .markdown table {
     display: block;
+    width: 100%;
     overflow-x: auto;
-    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+    table-layout: auto;
+  }
+  
+  .markdown th,
+  .markdown td {
+    white-space: normal;
+    min-width: 140px; /* Ensure columns don't get too narrow */
   }
 }
 
@@ -455,5 +426,33 @@
   
   .markdown h3 {
     font-size: 1.1em;
+  }
+
+  /* Improve table layouts on mobile */
+  .markdown table {
+    margin: 1em 0;
+    font-size: 0.9em;
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+    table-layout: auto;
+    white-space: normal;
+  }
+  
+  .markdown th,
+  .markdown td {
+    padding: 0.7em 0.8em;
+    word-break: normal;
+    min-width: 100px;
+  }
+
+  /* Ensure blockquotes don't cause overflow */
+  .markdown blockquote {
+    padding: 0.6em 1em;
+    margin: 1em 0;
+    max-width: 100%;
+    overflow-x: auto;
   }
 } 

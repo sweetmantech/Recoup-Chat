@@ -39,6 +39,11 @@ const ChatMarkdown: React.FC<ChatMarkdownProps> = ({ children }) => {
           },
           img: ({ ...props }) => (
             <img className="max-w-full h-auto" {...props} alt={props.alt || ''} />
+          ),
+          table: ({ ...props }) => (
+            <div className="overflow-x-auto w-full max-w-full">
+              <table className="w-full" {...props} />
+            </div>
           )
         }}
       >
