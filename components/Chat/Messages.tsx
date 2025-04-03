@@ -8,6 +8,7 @@ import { TextMessagePart } from "./TextMessagePart";
 import { useMessagesProvider } from "@/providers/MessagesProvider";
 import { usePromptsProvider } from "@/providers/PromptsProvider";
 import { IconRobot } from "@tabler/icons-react";
+import ChatMarkdown from "./ChatMarkdown";
 
 const Messages = ({
   scroll,
@@ -53,9 +54,9 @@ const Messages = ({
             })}
           >
             {message.role === "user" ? (
-              <span className="text-sm font-sans text-pretty break-words w-full whitespace-pre-wrap">
+              <ChatMarkdown>
                 {message.content}
-              </span>
+              </ChatMarkdown>
             ) : message.parts?.map((part, i) => {
               if (part.type === "reasoning") {
                 return (
