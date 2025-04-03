@@ -14,6 +14,15 @@ export function TextMessagePart({ part }: TextMessagePartProps) {
     <div className={styles.markdown}>
       <Markdown 
         remarkPlugins={[remarkGfm]}
+        components={{
+          a: ({ ...props }) => (
+            <a 
+              {...props} 
+              target="_blank" 
+              rel="noopener noreferrer"
+            />
+          )
+        }}
       >
         {part.text}
       </Markdown>

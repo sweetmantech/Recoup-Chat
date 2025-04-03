@@ -12,6 +12,15 @@ const UserMessage = ({ message }: UserMessageProps) => {
     <div className={styles.markdown}>
       <Markdown
         remarkPlugins={[remarkGfm]}
+        components={{
+          a: ({ ...props }) => (
+            <a 
+              {...props} 
+              target="_blank" 
+              rel="noopener noreferrer"
+            />
+          )
+        }}
       >
         {decodeURIComponent(message.content.replaceAll("%", "&#37;") || "")}
       </Markdown>
