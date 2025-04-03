@@ -3,6 +3,9 @@
   line-height: 1.6;
   font-size: 1rem;
   color: rgba(0, 0, 0, 0.85);
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+  width: 100%;
 }
 
 /* Improved paragraph spacing */
@@ -455,4 +458,17 @@
     max-width: 100%;
     overflow-x: auto;
   }
+}
+
+/* Ensure table container allows scroll but doesn't cause parent to scroll */
+.markdown table {
+  max-width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* Force table to be contained within its parent */
+.markdown div > table {
+  max-width: 100%;
+  width: 100%;
 } 

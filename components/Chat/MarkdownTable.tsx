@@ -9,10 +9,12 @@ const MarkdownTable: React.FC<MarkdownTableProps & React.TableHTMLAttributes<HTM
   ...props 
 }) => {
   return (
-    <div className="overflow-x-auto w-full max-w-full">
-      <table className="w-full" {...props}>
-        {children}
-      </table>
+    <div className="w-full max-w-full overflow-visible">
+      <div className="overflow-x-auto w-full max-w-full relative" style={{ maxWidth: '100%' }}>
+        <table className="w-auto min-w-full" {...props}>
+          {children}
+        </table>
+      </div>
     </div>
   );
 };
