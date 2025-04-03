@@ -29,11 +29,10 @@ const useConversations = () => {
   }, [userData, agents]);
 
   const conversations = useMemo(() => {
-    const filtered = allConversations.filter(
+    return allConversations.filter(
       (item: Conversation | ArtistAgent) =>
         'artist_id' in item && item.artist_id === selectedArtist?.account_id
     );
-    return filtered;
   }, [selectedArtist, allConversations]);
 
   const fetchConversations = async () => {
