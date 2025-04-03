@@ -1,23 +1,17 @@
 import React from "react";
+import { type Components } from "react-markdown";
 
-interface MarkdownCodeProps {
-  children?: React.ReactNode;
+interface CodeBlockProps extends React.HTMLAttributes<HTMLElement> {
   inline?: boolean;
-  className?: string;
-  // Add any other props that might be passed from react-markdown
-  [key: string]: any;
 }
 
-const MarkdownCode: React.FC<MarkdownCodeProps> = ({ 
-  children,
-  inline,
-  className,
-  ...props 
-}) => {
+const MarkdownCode: Components['code'] = (props: CodeBlockProps) => {
+  const { inline, className, children } = props;
+
   if (!inline) {
     return (
       <pre className="max-w-full overflow-x-auto p-4 bg-gray-100 rounded-md my-2">
-        <code className={className} {...props}>
+        <code className={className}>
           {children}
         </code>
       </pre>
@@ -25,7 +19,7 @@ const MarkdownCode: React.FC<MarkdownCodeProps> = ({
   }
   
   return (
-    <code className="px-1 py-0.5 rounded-sm bg-gray-100" {...props}>
+    <code className="px-1 py-0.5 rounded-sm bg-gray-100">
       {children}
     </code>
   );
