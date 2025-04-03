@@ -4,9 +4,11 @@ interface MarkdownCodeProps {
   children?: React.ReactNode;
   inline?: boolean;
   className?: string;
+  // Add any other props that might be passed from react-markdown
+  [key: string]: any;
 }
 
-const MarkdownCode: React.FC<MarkdownCodeProps & React.HTMLAttributes<HTMLElement>> = ({ 
+const MarkdownCode: React.FC<MarkdownCodeProps> = ({ 
   children,
   inline,
   className,

@@ -18,16 +18,12 @@ const ChatMarkdown: React.FC<ChatMarkdownProps> = ({ children }) => {
       <Markdown
         remarkPlugins={[remarkGfm]}
         components={{
-          a: ({ ...props }) => <MarkdownA {...props} />,
-          pre: ({ ...props }) => <MarkdownPre {...props} />,
-          // @ts-expect-error - Types between react-markdown and our component don't align perfectly
-          code: ({ inline, className, children, ...props }) => (
-            <MarkdownCode inline={inline} className={className} {...props}>
-              {children}
-            </MarkdownCode>
-          ),
-          img: ({ ...props }) => <MarkdownImg {...props} />,
-          table: ({ ...props }) => <MarkdownTable {...props} />
+          a: MarkdownA,
+          pre: MarkdownPre,
+          // Type issues are handled in the component itself
+          code: MarkdownCode,
+          img: MarkdownImg,
+          table: MarkdownTable
         }}
       >
         {children}
