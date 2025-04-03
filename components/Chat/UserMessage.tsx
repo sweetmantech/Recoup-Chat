@@ -1,4 +1,7 @@
 import type { Message } from "@ai-sdk/react";
+import Markdown from "react-markdown";
+import remarkGfm from 'remark-gfm';
+import styles from "./markdown.module.css";
 
 interface UserMessageProps {
   message: Message;
@@ -6,14 +9,13 @@ interface UserMessageProps {
 
 const UserMessage = ({ message }: UserMessageProps) => {
   return (
-    <div
-      className="text-sm font-sans text-pretty break-words"
-      dangerouslySetInnerHTML={{
-        __html: decodeURIComponent(
-          message.content.replaceAll("%", "&#37;") || ""
-        ),
-      }}
-    />
+    <div className={styles.markdown}>
+      <Markdown
+        remarkPlugins={[remarkGfm]}
+      >
+        {decodeURIComponent(message.content.replaceAll("%", "&#37;") || "")}
+      </Markdown>
+    </div>
   );
 };
 
