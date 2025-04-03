@@ -407,4 +407,53 @@
 .markdown > h2 + p,
 .markdown > h3 + p {
   margin-top: 0.5em;
+}
+
+/* Mobile responsiveness improvements */
+@media (max-width: 640px) {
+  .markdown {
+    /* Ensure content doesn't overflow container */
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+  }
+
+  /* Prevent code blocks from causing horizontal scroll */
+  .markdown pre {
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre-wrap;
+  }
+
+  /* Ensure inline code wraps properly */
+  .markdown code {
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  /* Adjust image sizing for mobile */
+  .markdown img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Make links wrap */
+  .markdown a {
+    word-break: break-word;
+  }
+  
+  /* Scale down headings for mobile */
+  .markdown h1 {
+    font-size: 1.6em;
+  }
+  
+  .markdown h2 {
+    font-size: 1.3em;
+  }
+  
+  .markdown h3 {
+    font-size: 1.1em;
+  }
 } 

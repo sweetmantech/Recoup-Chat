@@ -49,11 +49,11 @@ const Messages = ({
           )}
           <div
             className={cn("flex flex-col space-y-1.5", {
-              "inline-flex items-center bg-secondary/70 rounded-full px-4 py-2": message.role === "user" 
+              "flex items-start bg-secondary/70 rounded-xl px-4 py-3 max-w-[85%] md:max-w-[70%] break-words": message.role === "user" 
             })}
           >
             {message.role === "user" ? (
-              <span className="text-sm font-sans text-pretty">
+              <span className="text-sm font-sans text-pretty break-words w-full whitespace-pre-wrap">
                 {message.content}
               </span>
             ) : message.parts?.map((part, i) => {

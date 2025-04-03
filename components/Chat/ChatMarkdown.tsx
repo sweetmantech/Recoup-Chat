@@ -9,7 +9,7 @@ interface ChatMarkdownProps {
 
 const ChatMarkdown: React.FC<ChatMarkdownProps> = ({ children }) => {
   return (
-    <div className={styles.markdown}>
+    <div className={`${styles.markdown} w-full max-w-full overflow-hidden`}>
       <Markdown
         remarkPlugins={[remarkGfm]}
         components={{
@@ -19,6 +19,12 @@ const ChatMarkdown: React.FC<ChatMarkdownProps> = ({ children }) => {
               target="_blank" 
               rel="noopener noreferrer"
             />
+          ),
+          pre: ({ ...props }) => (
+            <pre className="max-w-full overflow-x-auto" {...props} />
+          ),
+          img: ({ ...props }) => (
+            <img className="max-w-full h-auto" {...props} alt={props.alt || ''} />
           )
         }}
       >
