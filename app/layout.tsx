@@ -10,6 +10,7 @@ import ArtistSettingModal from "@/components/ArtistSettingModal";
 import MobileDownloadModal from "@/components/ModalDownloadModal";
 import ArtistsSidebar from "@/components/AutoPilot/ArtistsSidebar";
 import { ToastContainer } from "react-toastify";
+import { Analytics } from '@vercel/analytics/react';
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -53,6 +54,7 @@ export default function RootLayout({
             <ToastContainer />
           </Providers>
         </Suspense>
+        <Analytics />
       </body>
     </html>
   );
