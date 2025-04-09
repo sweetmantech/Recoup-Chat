@@ -1,24 +1,27 @@
 import { SYSTEM_PROMPT } from "@/lib/consts";
 import getKnowledgeBaseContext from "@/lib/agent/getKnowledgeBaseContext";
+import getArtistIdForRoom from "../supabase/getArtistIdForRoom";
 
-export async function getSystemPrompt(roomId?: string, artistId?: string): Promise<string> {
-  let systemPrompt = SYSTEM_PROMPT;
+export async function getSystemPrompt({
+  roomId,
+  artistId,
+}: {
+  roomId?: string;
+  artistId?: string;
+}): Promise<string> {
+  const resolvedArtistId = artistId || (await getArtistIdForRoom(roomId || ""));
 
-  if (roomId) {
-    const artistKnowledge = await getKnowledgeBaseContext(roomId);
-    if (artistKnowledge) {
-      systemPrompt = `${SYSTEM_PROMPT}
+  let systemPrompt = `${SYSTEM_PROMPT} The active artist_account_id is ${resolvedArtistId}`;
+
+  const knowledge = await getKnowledgeBaseContext(resolvedArtistId || "");
+  if (knowledge) {
+    systemPrompt = `${systemPrompt}
 -----ARTIST KNOWLEDGE BASE-----
-${artistKnowledge}
+${knowledge}
 -----END KNOWLEDGE BASE-----`;
-    }
-  }
-
-  if (artistId) {
-    systemPrompt += ` The active artist_account_id is ${artistId}`;
   }
 
   return systemPrompt;
 }
 
-export default getSystemPrompt; 
+export default getSystemPrompt;
