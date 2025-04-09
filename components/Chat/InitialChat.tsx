@@ -1,20 +1,17 @@
-import { useEffect, useState, useRef } from "react";
+import { useRef } from "react";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import ChatInput from "./ChatInput";
 import ChatGreeting from "./ChatGreeting";
 import ChatPrompt from "./ChatPrompt";
+import useVisibilityDelay from "@/hooks/useVisibilityDelay";
 
 /**
  * Initial chat interface that shows a greeting and prompt
  * with responsive layout for both mobile and desktop
  */
 const InitialChat = () => {
-  // Refs and state
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  // Data providers
   const { userData } = useUserProvider();
   const { selectedArtist } = useArtistProvider();
 
@@ -23,18 +20,10 @@ const InitialChat = () => {
     userData !== undefined && selectedArtist !== undefined
   );
 
-  // Trigger visibility once we have the complete data we need
-  useEffect(() => {
-    // Only show content when we have data AND required fields are loaded
-    if (!hasRequiredData) return;
-
-    // Give browser time to prepare before revealing content
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, [hasRequiredData, userData?.name, selectedArtist?.name]);
+  const { isVisible } = useVisibilityDelay({
+    shouldBeVisible: hasRequiredData,
+    deps: [userData?.name, selectedArtist?.name],
+  });
 
   return (
     <div className="size-full flex flex-col sm:items-center sm:justify-center">
