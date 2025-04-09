@@ -1,53 +1,39 @@
 "use client";
 
 import cn from "classnames";
-import { useChat } from "@ai-sdk/react";
 import { Messages } from "./messages";
-import { useArtistProvider } from "@/providers/ArtistProvider";
-import { useUserProvider } from "@/providers/UserProvder";
-import useRoomCreation from "@/hooks/useRoomCreation";
 import ChatInput from "./ChatInput";
+import ChatSkeleton from "../Chat/ChatSkeleton";
+import { useVercelChat } from "@/hooks/useVercelChat";
 
 interface ChatProps {
   roomId?: string;
 }
 
 export function Chat({ roomId }: ChatProps) {
-  const { selectedArtist } = useArtistProvider();
-  const { userData } = useUserProvider();
-  const { roomId: internalRoomId, createNewRoom } = useRoomCreation({
-    initialRoomId: roomId,
-    userId: userData?.id,
-    artistId: selectedArtist?.account_id,
-  });
+  const {
+    messages,
+    status,
+    isLoading,
+    hasError,
+    isGeneratingResponse,
+    handleSendMessage,
+    stop,
+  } = useVercelChat({ roomId });
 
-  const { messages, append, status, stop } = useChat({
-    id: "recoup-chat", // Constant ID prevents state reset when route changes
-    api: `/api/chat/vercel`,
-    body: {
-      roomId: internalRoomId,
-    },
-    onError: () => {
-      console.error("An error occurred, please try again!");
-    },
-  });
+  if (isLoading || (!!roomId && messages.length === 0)) {
+    return <ChatSkeleton />;
+  }
 
-  const isGeneratingResponse = ["streaming", "submitted"].includes(status);
-
-  const handleSendMessage = (content: string) => {
-    const message = {
-      role: "user" as const,
-      content,
-      createdAt: new Date(),
-    };
-
-    // Always append message first for immediate feedback
-    append(message);
-
-    if (!internalRoomId) {
-      createNewRoom(content);
-    }
-  };
+  if (hasError) {
+    return (
+      <div className="flex items-center justify-center h-dvh">
+        <div className="text-red-500">
+          Failed to load messages. Please try again later.
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -59,7 +45,7 @@ export function Chat({ roomId }: ChatProps) {
         }
       )}
     >
-      {messages.length > 0 ? (
+      {messages.length > 0 || !!roomId ? (
         <Messages messages={messages} status={status} />
       ) : (
         <div className="flex flex-col gap-0.5 sm:text-2xl text-xl w-full">

@@ -24,7 +24,7 @@ export function ReasoningMessagePart({
   part,
   isReasoning,
 }: ReasoningMessagePartProps) {
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const variants = {
     collapsed: {
@@ -42,7 +42,9 @@ export function ReasoningMessagePart({
   };
 
   useEffect(() => {
-    if (!isReasoning) {
+    if (isReasoning) {
+      setIsExpanded(true);
+    } else {
       setIsExpanded(false);
     }
   }, [isReasoning]);
@@ -179,7 +181,12 @@ export function Messages({ messages, status }: MessagesProps) {
       ))}
 
       {status === "submitted" && (
-        <div className="text-zinc-500 mb-12 w-full">Hmm...</div>
+        <div className="text-zinc-500 mb-12 w-full flex items-center gap-2">
+          Hmm...
+          <div className="inline-block animate-spin">
+            <SpinnerIcon />
+          </div>
+        </div>
       )}
     </div>
   );

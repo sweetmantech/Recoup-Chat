@@ -22,7 +22,7 @@ export function useRoomCreation({
   const { addConversation } = useConversationsProvider();
 
   const createNewRoom = async (content: string) => {
-    if (roomId || isCreatingRoom || !userId || !artistId) return;
+    if (roomId || isCreatingRoom || !userId) return;
 
     try {
       setIsCreatingRoom(true);
