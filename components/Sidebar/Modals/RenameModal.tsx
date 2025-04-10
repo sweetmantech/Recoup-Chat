@@ -32,6 +32,18 @@ const RenameModal = ({ isOpen, onClose, chatRoom, onRename }: RenameModalProps) 
     }
   }, [isOpen, chatRoom]);
   
+  // Reset state when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      // Small delay to prevent visual flicker if modal is reopened quickly
+      const timer = setTimeout(() => {
+        setIsSubmitting(false);
+        setError("");
+      }, 200);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
+  
   if (!isOpen || !chatRoom) return null;
 
   // Validation function
@@ -83,13 +95,22 @@ const RenameModal = ({ isOpen, onClose, chatRoom, onRename }: RenameModalProps) 
         throw new Error(result.message || 'Failed to rename chat');
       }
       
+      // Call the callback to update UI first
       onRename(name);
+      
+      // Only close the modal after rename is complete
       onClose();
     } catch (err) {
       console.error('Error renaming chat:', err);
       setError(err instanceof Error ? err.message : 'Failed to rename chat. Please try again.');
-    } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false); // Make sure to reset isSubmitting on error
+    }
+  };
+
+  // Don't allow closing the modal during submission
+  const handleModalClose = () => {
+    if (!isSubmitting) {
+      onClose();
     }
   };
 
@@ -98,7 +119,7 @@ const RenameModal = ({ isOpen, onClose, chatRoom, onRename }: RenameModalProps) 
   const buttonText = isSubmitting ? 'Renaming...' : 'Rename';
 
   return (
-    <Modal onClose={onClose}>
+    <Modal onClose={handleModalClose}>
       <div className="p-4 relative">
         <h2 className="text-xl font-semibold mb-5">Rename Chat</h2>
         <form onSubmit={handleSubmit}>

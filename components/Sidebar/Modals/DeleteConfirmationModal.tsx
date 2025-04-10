@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Modal from "@/components/Modal";
 import type { Conversation } from "@/types/Chat";
 import type { ArtistAgent } from "@/lib/supabase/getArtistAgents";
@@ -18,6 +18,18 @@ const getChatId = (item: Conversation | ArtistAgent): string => isChatRoom(item)
 const DeleteConfirmationModal = ({ isOpen, onClose, chatRoom, onDelete }: DeleteConfirmationModalProps) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState("");
+  
+  // Reset state when modal opens/closes
+  useEffect(() => {
+    if (!isOpen) {
+      // Small delay to prevent visual flicker if modal is reopened quickly
+      const timer = setTimeout(() => {
+        setIsDeleting(false);
+        setError("");
+      }, 200);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
   
   if (!isOpen || !chatRoom) return null;
   
@@ -42,12 +54,15 @@ const DeleteConfirmationModal = ({ isOpen, onClose, chatRoom, onDelete }: Delete
         throw new Error(result.message || 'Failed to delete chat');
       }
       
+      // Call the onDelete callback to update the UI
       onDelete();
+      
+      // Only close the modal after deletion is complete
       onClose();
     } catch (error) {
       console.error('Error deleting chat:', error);
-      setIsDeleting(false);
       setError(error instanceof Error ? error.message : 'Failed to delete chat. Please try again.');
+      setIsDeleting(false); // Make sure to reset isDeleting on error
     }
   };
 
