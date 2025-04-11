@@ -10,7 +10,7 @@ interface UseVercelChatProps {
 
 /**
  * A hook that provides all chat functionality for the Vercel Chat component
- * Combines useChat, useRoomCreation, usePendingMessages, and useMessageLoader
+ * Combines useChat, and useMessageLoader
  * Accesses user and artist data directly from providers
  */
 export function useVercelChat({ id }: UseVercelChatProps) {

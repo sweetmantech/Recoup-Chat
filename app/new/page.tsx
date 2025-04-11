@@ -1,13 +1,14 @@
-"use client";
+import { Chat } from "@/components/VercelChat/chat";
+import generateUUID from "@/lib/generateUUID";
 
-import ChatSkeleton from "@/components/Chat/ChatSkeleton";
-import InitialChat from "@/components/Chat/InitialChat";
-import { useChatProvider } from "@/providers/ChatProvider";
+export const dynamic = "force-dynamic";
 
-const NewChatPage = () => {
-  const { isLoading } = useChatProvider();
-  if (isLoading) return <ChatSkeleton />;
-  return <InitialChat />;
-};
+export default async function Home() {
+  const id = generateUUID();
 
-export default NewChatPage;
+  return (
+    <div className="flex flex-col size-full items-center">
+      <Chat id={id} />
+    </div>
+  );
+}

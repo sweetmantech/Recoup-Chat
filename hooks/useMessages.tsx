@@ -12,12 +12,12 @@ import { ChatMessage } from "@/types/reasoning";
 const useMessages = () => {
   const csrfToken = useCsrfToken();
   const { selectedArtist } = useArtistProvider();
-  const params = useParams();
-  const chatId =
-    typeof params.chat_id === "string" ? params.chat_id : undefined;
+  const { roomId } = useParams();
   const { userData } = useUserProvider();
   const [isLoading, setIsLoading] = useState(false);
-  const { data: segmentData, isError: segmentError } = useChatSegment(chatId);
+  const { data: segmentData, isError: segmentError } = useChatSegment(
+    roomId as string
+  );
 
   const {
     messages,
@@ -29,40 +29,40 @@ const useMessages = () => {
     setMessages,
     reload: reloadAiChat,
   } = useChat({
-    id: chatId,
+    id: roomId as string,
     api: `/api/chat`,
     headers: {
       "X-CSRF-Token": csrfToken,
     },
     body: {
       artistId: selectedArtist?.account_id,
-      roomId: chatId,
+      roomId: roomId as string,
       segmentId: segmentData?.segmentId,
     },
     onFinish: (message) => {
-      if (chatId) {
-        createMemory(message as ChatMessage, chatId);
+      if (roomId) {
+        createMemory(message as ChatMessage, roomId as string);
       }
     },
   });
 
   useEffect(() => {
-    if (!chatId) {
+    if (!roomId) {
       setMessages([]);
     }
-  }, [chatId, setMessages]);
+  }, [roomId, setMessages]);
 
   useEffect(() => {
     const fetch = async () => {
       if (!userData?.id) return;
-      if (!chatId) return;
+      if (!roomId) return;
       setIsLoading(true);
-      const initialMessages = await getClientMessages(chatId);
+      const initialMessages = await getClientMessages(roomId as string);
       setMessages(initialMessages as ChatMessage[]);
       setIsLoading(false);
     };
     fetch();
-  }, [chatId, userData, setMessages]);
+  }, [roomId, userData, setMessages]);
 
   if (segmentError) {
     console.error("[useMessages] Error fetching segment:", segmentError);
