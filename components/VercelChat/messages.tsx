@@ -143,8 +143,8 @@ export function Messages({ messages, status, children }: MessagesProps) {
           )}
         >
           <div
-            className={cn("flex flex-col gap-4", {
-              "dark:bg-zinc-800 bg-zinc-200 p-2 rounded-xl w-fit ml-auto":
+            className={cn("flex flex-col gap-2", {
+              "dark:bg-zinc-800 bg-zinc-100 px-5 py-3.5 rounded-xl w-fit ml-auto max-w-[85%] md:max-w-[65%]":
                 message.role === "user",
               "": message.role === "assistant",
             })}

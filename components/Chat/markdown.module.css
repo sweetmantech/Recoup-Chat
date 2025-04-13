@@ -10,12 +10,22 @@
 
 /* Improved paragraph spacing */
 .markdown p {
-  margin-bottom: 1.2em;
-  line-height: 1.7;
+  margin-bottom: 0.6em;
+  line-height: 1.4;
+  max-width: 100%;
+  text-align: left;
 }
 
+/* Remove margin for last paragraph to fix chat bubble spacing */
+.markdown p:last-child {
+  margin-bottom: 0;
+}
+
+/* Add subtle indentation for paragraphs after the first one */
 .markdown p + p {
-  margin-top: 0.8em;
+  margin-top: 0.6em;
+  padding-left: 0.2em;
+  border-left: 2px solid rgba(0, 0, 0, 0.03);
 }
 
 /* Better content section spacing */

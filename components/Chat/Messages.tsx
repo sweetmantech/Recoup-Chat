@@ -31,7 +31,7 @@ const Messages = ({
   return (
     <ScrollArea
       className={cn(
-        "w-full h-full max-w-3xl mx-auto overflow-y-auto",
+        "w-full h-full max-w-3xl mx-auto overflow-y-auto pb-4",
         className
       )}
     >
@@ -39,7 +39,7 @@ const Messages = ({
       {messages.map((message) => (
         <div
           key={message.id}
-          className={cn("flex items-start gap-x-3 py-4 px-4", {
+          className={cn("flex items-start gap-x-3 py-5 px-4", {
             "justify-end": message.role === "user",
           })}
         >
@@ -49,8 +49,8 @@ const Messages = ({
             </div>
           )}
           <div
-            className={cn("flex flex-col space-y-1.5", {
-              "flex items-start bg-secondary/70 rounded-xl px-4 py-3 max-w-[85%] md:max-w-[70%] break-words": message.role === "user" 
+            className={cn("flex flex-col", {
+              "flex items-start bg-secondary/70 rounded-xl px-12 py-8 max-w-[75%] md:max-w-[65%] break-words border-4 border-red-500": message.role === "user" 
             })}
           >
             {message.role === "user" ? (
