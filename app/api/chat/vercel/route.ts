@@ -15,6 +15,7 @@ import getRoom from "@/lib/supabase/getRoom";
 import { createRoomWithReport } from "@/lib/supabase/createRoomWithReport";
 import generateUUID from "@/lib/generateUUID";
 import { generateChatTitle } from "@/lib/chat/generateChatTitle";
+import { sendNewConversationNotification } from "@/lib/telegram/sendNewConversationNotification";
 
 export async function POST(request: NextRequest) {
   const {
@@ -32,34 +33,42 @@ export async function POST(request: NextRequest) {
   } = await request.json();
   const selectedModelId = "sonnet-3.7";
 
-  const room = await getRoom(roomId);
+  const [room, tools] = await Promise.all([getRoom(roomId), getMcpTools()]);
   let conversationName = room?.topic;
 
   if (!room) {
     conversationName = await generateChatTitle(messages[0].content);
 
-    await createRoomWithReport({
-      account_id: accountId,
-      topic: conversationName,
-      artist_id: artistId || undefined,
-      chat_id: roomId || undefined,
-    });
+    await Promise.all([
+      createRoomWithReport({
+        account_id: accountId,
+        topic: conversationName,
+        artist_id: artistId || undefined,
+        chat_id: roomId || undefined,
+      }),
+      sendNewConversationNotification({
+        email,
+        conversationId: roomId,
+        topic: conversationName,
+        firstMessage: messages[0].content,
+      }),
+    ]);
   }
 
-  const system = await getSystemPrompt({
-    roomId,
-    artistId,
-    email,
-    conversationName,
-  });
-
   const { lastMessage } = validateMessages(messages);
-  await createMemories({
-    room_id: roomId,
-    content: lastMessage,
-  });
 
-  const tools = await getMcpTools();
+  const [, system] = await Promise.all([
+    createMemories({
+      room_id: roomId,
+      content: lastMessage,
+    }),
+    getSystemPrompt({
+      roomId,
+      artistId,
+      email,
+      conversationName,
+    }),
+  ]);
 
   return createDataStreamResponse({
     execute: (dataStream) => {
