@@ -16,7 +16,7 @@ export default async function Page({ params }: PageProps) {
   const segmentRoom = await getSegmentRoom(segmentId);
 
   if (segmentRoom?.room_id) {
-    redirect(`/${segmentRoom.room_id}`);
+    redirect(`/chat/${segmentRoom.room_id}`);
   }
 
   let newRoomId: string | null = null;
@@ -64,7 +64,7 @@ export default async function Page({ params }: PageProps) {
   }
 
   if (newRoomId) {
-    redirect(`/${newRoomId}`);
+    redirect(`/chat/${newRoomId}`);
   }
 
   throw new Error("Failed to create or find room");

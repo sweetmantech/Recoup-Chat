@@ -112,15 +112,14 @@ export async function POST(request: NextRequest) {
         });
       },
       onError: (e) => {
-        console.error("Error in Vercel Chat", e);
         notifyError(e, body);
+        console.error("Error in chat API:", e);
         return "Oops, an error occurred!";
       },
     });
   } catch (e) {
+    notifyError(e, body);
     console.error("Global error in chat API:", e);
-    await notifyError(e, body);
-
     return new Response(
       JSON.stringify({
         error: "An error occurred",

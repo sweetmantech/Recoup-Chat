@@ -30,7 +30,6 @@ const useMessages = () => {
     reload: reloadAiChat,
   } = useChat({
     id: roomId as string,
-    api: `/api/chat/vercel`,
     headers: {
       "X-CSRF-Token": csrfToken,
     },

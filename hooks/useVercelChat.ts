@@ -24,7 +24,6 @@ export function useVercelChat({ id }: UseVercelChatProps) {
   const { messages, handleSubmit, input, status, stop, setMessages, setInput } =
     useChat({
       id,
-      api: `/api/chat/vercel`,
       body: {
         roomId: id,
         artistId,
@@ -56,7 +55,7 @@ export function useVercelChat({ id }: UseVercelChatProps) {
 
     if (!roomId) {
       // Silently update the URL without affecting the UI or causing remount
-      window.history.replaceState({}, "", `/instant/${id}`);
+      window.history.replaceState({}, "", `/chat/${id}`);
     }
   };
 
