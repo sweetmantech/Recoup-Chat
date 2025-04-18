@@ -33,12 +33,19 @@ const Artist = ({
     setSelectedArtist(artist);
   };
 
+  // Truncate name if longer than 12 characters
+  const displayName = artist?.name 
+    ? artist.name.length > 12 
+      ? `${artist.name.substring(0, 12)}...` 
+      : artist.name
+    : "";
+
   return (
     <button
       className={`${
         isMini
           ? `${isSelectedArtist && "w-fit rounded-full"} flex justify-center items-center`
-          : `flex gap-1 items-center px-2 text-sm rounded-md text-grey-dark hover:bg-grey-light-1 ${isSelectedArtist && "!bg-grey-light-1"}`
+          : `flex gap-3 items-center px-2 text-sm rounded-md text-grey-dark hover:bg-grey-light-1 ${isSelectedArtist && "!bg-grey-light-1"}`
       } py-2 w-full`}
       type="button"
       onClick={handleClick}
@@ -54,9 +61,10 @@ const Artist = ({
         <>
           <div
             key={artist?.account_id}
-            className="text-left grow truncate"
+            className="text-left grow"
+            title={artist?.name || ""}
           >
-            {artist?.name}
+            {displayName}
           </div>
           {(isHovered || isSelectedArtist) && (
             <button
