@@ -27,14 +27,14 @@ const ArtistsSidebar = () => {
 
   return (
     <motion.div
-      className="px-3 py-7 hidden md:flex flex-col gap-2 items-stretch"
+      className={`px-3 py-7 hidden md:flex flex-col gap-2 ${menuExpanded ? 'items-stretch' : 'items-center'}`}
       animate={animate}
       initial={initial}
       transition={{ duration: 0.2 }}
       onMouseOver={() => setMenuExpanded(!isMobile)}
       onMouseOut={() => setMenuExpanded(false)}
     >
-      <div className="no-scrollbar grow flex flex-col overflow-y-auto overflow-x-hidden w-full">
+      <div className={`no-scrollbar grow flex flex-col overflow-y-auto overflow-x-hidden ${menuExpanded ? 'w-full' : 'items-center'}`}>
         {email &&
           sorted.map((artist: ArtistRecord | null) => (
             <Artist
