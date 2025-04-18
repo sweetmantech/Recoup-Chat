@@ -36,8 +36,8 @@ const Artist = ({
       className={`${
         isMini
           ? `${isSelectedArtist && "w-fit rounded-full"}`
-          : `flex gap-1 justify-between items-center px-2 text-sm rounded-md text-grey-dark hover:bg-grey-light-1 ${isSelectedArtist && "!bg-grey-light-1"}`
-      } py-2`}
+          : `flex gap-1 items-center px-2 text-sm rounded-md text-grey-dark hover:bg-grey-light-1 ${isSelectedArtist && "!bg-grey-light-1"}`
+      } py-2 w-full`}
       type="button"
       onClick={handleClick}
     >
@@ -50,16 +50,20 @@ const Artist = ({
         <>
           <div
             key={artist?.account_id}
-            className="text-left max-w-[100px] truncate"
+            className="text-left grow truncate"
           >
             {artist?.name}
           </div>
           <button
             type="button"
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               if (artist) toggleUpdate(artist);
               toggleSettingModal();
             }}
+            className="ml-auto flex-shrink-0"
+            title="Edit artist settings"
+            aria-label="Edit artist settings"
           >
             <EllipsisVertical className="size-5" />
           </button>
