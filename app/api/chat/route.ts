@@ -17,6 +17,7 @@ import generateUUID from "@/lib/generateUUID";
 import { generateChatTitle } from "@/lib/chat/generateChatTitle";
 import { sendNewConversationNotification } from "@/lib/telegram/sendNewConversationNotification";
 import { notifyError } from "@/lib/errors/notifyError";
+import filterMessageContentForMemories from "@/lib/messages/filterMessageContentForMemories";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -62,8 +63,9 @@ export async function POST(request: NextRequest) {
 
     const [, system] = await Promise.all([
       createMemories({
+        id: lastMessage.id,
         room_id: roomId,
-        content: lastMessage,
+        content: filterMessageContentForMemories(lastMessage),
       }),
       getSystemPrompt({
         roomId,
@@ -89,10 +91,10 @@ export async function POST(request: NextRequest) {
                 messages: [lastMessage],
                 responseMessages: response.messages,
               });
-
               await createMemories({
+                id: assistantMessage.id,
                 room_id: roomId,
-                content: assistantMessage,
+                content: filterMessageContentForMemories(assistantMessage),
               });
             } catch (_) {
               notifyError(_, body);
