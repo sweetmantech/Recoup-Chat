@@ -38,7 +38,7 @@ export function ArtistSelectionOverlay() {
     } else {
       setShowTooltip(false);
     }
-  }, [selectedArtist, isOpenSettingModal, authenticated, ready, isMobile, hasArtists]);
+  }, [selectedArtist, isOpenSettingModal, authenticated, ready, isMobile]);
 
   // Show overlay if no artist is selected and user is authenticated
   const shouldShowOverlay = !selectedArtist && authenticated && ready && !isOpenSettingModal;
@@ -59,7 +59,7 @@ export function ArtistSelectionOverlay() {
       {showTooltip && !isMobile && (
         <div className="fixed inset-0 z-[60] pointer-events-none">
           <motion.div 
-            className="absolute bottom-4"
+            className={`absolute ${hasArtists ? "top-8" : "bottom-4"}`}
             initial={{ right: "8rem" }}
             animate={{ right: isExpanded ? "15rem" : "8rem" }}
             transition={{ duration: 0.2 }}
