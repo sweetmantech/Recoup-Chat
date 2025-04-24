@@ -13,7 +13,7 @@ export const ArtistTooltip = ({
   hasArtists,
   message,
 }: ArtistTooltipProps) => {
-  const { position, arrowStyle } = getTooltipPositioning(isExpanded, hasArtists);
+  const { position } = getTooltipPositioning(isExpanded, hasArtists);
 
   return (
     <div className={`${position} flex items-center gap-0`}>
