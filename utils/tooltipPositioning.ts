@@ -8,7 +8,7 @@ export const getTooltipPositioning = (
   hasArtists: boolean,
 ): TooltipPosition => {
   // Arrow pointing to the right
-  const arrowStyle = 'border-t-8 border-b-8 border-l-8 border-t-transparent border-b-transparent border-l-white -right-2 top-1/2 transform -translate-y-1/2';
+  const arrowStyle = 'w-0 h-0 border-y-[16px] border-l-[16px] border-y-transparent border-l-white absolute -right-4 top-1/2 -translate-y-1/2';
   
   return {
     position: '',  // Position is now handled by the parent container
