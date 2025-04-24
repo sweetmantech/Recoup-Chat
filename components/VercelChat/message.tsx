@@ -1,12 +1,22 @@
 import { UIMessage } from "ai";
-import { ReasoningMessagePart, TextMessagePart } from "./messages";
+import ReasoningMessagePart from "./ReasoningMessagePart";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { AnimatePresence } from "framer-motion";
-import EditButton from "./EditButton";
 import { cn } from "@/lib/utils";
+import { UseChatHelpers } from "@ai-sdk/react";
+import ViewingMessage from "./ViewingMessage";
+import EditingMessage from "./EditingMessage";
 
-const Message = ({ message }: { message: UIMessage }) => {
+const Message = ({
+  message,
+  setMessages,
+  reload,
+}: {
+  message: UIMessage;
+  setMessages: UseChatHelpers["setMessages"];
+  reload: UseChatHelpers["reload"];
+}) => {
   const [mode, setMode] = useState<"view" | "edit">("view");
 
   return (
@@ -33,30 +43,10 @@ const Message = ({ message }: { message: UIMessage }) => {
               const { type } = part;
               const key = `message-${message.id}-part-${partIndex}`;
 
-              if (type === "text") {
-                return (
-                  <div key={key} className="flex flex-row gap-2 items-center">
-                    {message.role === "user" && mode === "view" && (
-                      <EditButton onClick={() => setMode("edit")} />
-                    )}
-                    <div
-                      data-testid="message-content"
-                      className={cn("flex flex-col gap-4", {
-                        "dark:bg-zinc-800 bg-zinc-100 px-5 py-3.5 rounded-xl":
-                          message.role === "user",
-                      })}
-                    >
-                      <TextMessagePart text={part.text} />
-                    </div>
-                  </div>
-                );
-              }
-
               if (part.type === "reasoning") {
                 return (
                   <ReasoningMessagePart
-                    key={`${message.id}-${partIndex}`}
-                    // @ts-expect-error export ReasoningUIPart
+                    key={key}
                     part={part}
                     isReasoning={
                       status === "streaming" &&
@@ -64,6 +54,31 @@ const Message = ({ message }: { message: UIMessage }) => {
                     }
                   />
                 );
+              }
+
+              if (type === "text") {
+                if (mode === "view") {
+                  return (
+                    <ViewingMessage
+                      key={key}
+                      message={message}
+                      partText={part.text}
+                      setMode={setMode}
+                    />
+                  );
+                }
+
+                if (mode === "edit") {
+                  return (
+                    <EditingMessage
+                      key={key}
+                      message={message}
+                      setMode={setMode}
+                      setMessages={setMessages}
+                      reload={reload}
+                    />
+                  );
+                }
               }
             })}
           </div>
