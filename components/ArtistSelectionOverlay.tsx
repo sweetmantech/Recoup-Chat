@@ -6,7 +6,7 @@ import { useSidebarExpansion } from "@/providers/SidebarExpansionContext";
 import { usePrivy } from "@privy-io/react-auth";
 import useIsMobile from "@/hooks/useIsMobile";
 import { ArtistTooltip } from "./common/ArtistTooltip";
-import { isArtistSelected } from "@/utils/artistHelpers";
+import { motion } from "framer-motion";
 
 /**
  * Overlay component that dims the UI when no artist is selected
@@ -21,38 +21,56 @@ export function ArtistSelectionOverlay() {
   const hasArtists = sorted.length > 0;
   const [showTooltip, setShowTooltip] = useState(false);
   
-  // Show tooltip after a short delay for better UX
   useEffect(() => {
-    // Only show tooltip if no artist is selected AND modal is not open
-    // AND user is authenticated AND not on mobile (we have a button for mobile)
-    if (!isArtistSelected(selectedArtist) && !isOpenSettingModal && authenticated && ready && !isMobile) {
+    // Only show tooltip on desktop
+    const shouldShowTooltip = 
+      !selectedArtist && // No artist selected
+      !isMobile &&      // Not on mobile
+      authenticated &&   // User is logged in
+      ready &&          // Privy is ready
+      !isOpenSettingModal; // Modal is closed
+
+    if (shouldShowTooltip) {
       const timer = setTimeout(() => {
         setShowTooltip(true);
-      }, 800);
+      }, 500);
       return () => clearTimeout(timer);
-    } 
-    
-    // Hide tooltip in all other cases
-    setShowTooltip(false);
-  }, [selectedArtist, isOpenSettingModal, authenticated, ready, isMobile]);
+    } else {
+      setShowTooltip(false);
+    }
+  }, [selectedArtist, isOpenSettingModal, authenticated, ready, isMobile, hasArtists]);
 
-  // Early return if artist is selected
-  if (isArtistSelected(selectedArtist)) {
+  // Show overlay if no artist is selected and user is authenticated
+  const shouldShowOverlay = !selectedArtist && authenticated && ready && !isOpenSettingModal;
+
+  if (!shouldShowOverlay) {
     return null;
   }
 
   return (
     <>
-      {/* Non-interactive overlay */}
-      <div className="fixed inset-0 z-30 bg-black/80 backdrop-blur-[1px] transition-opacity duration-300 pointer-events-none shadow-inner" />
+      {/* Semi-transparent overlay */}
+      <div 
+        className="fixed inset-0 z-30 bg-black/80 backdrop-blur-[1px] transition-opacity duration-300 pointer-events-none"
+        style={{ opacity: 1 }}
+      />
       
-      {/* Tooltip */}
-      {showTooltip && !isOpenSettingModal && authenticated && ready && !isMobile && (
-        <ArtistTooltip
-          isExpanded={isExpanded}
-          hasArtists={hasArtists}
-          message={hasArtists ? "Select Your Artist" : "Add Your Artist"}
-        />
+      {/* Tooltip Container - only shown on desktop */}
+      {showTooltip && !isMobile && (
+        <div className="fixed inset-0 z-[60] pointer-events-none">
+          <motion.div 
+            className="absolute bottom-4"
+            initial={{ right: "8rem" }}
+            animate={{ right: isExpanded ? "15rem" : "8rem" }}
+            transition={{ duration: 0.2 }}
+          >
+            <ArtistTooltip
+              isExpanded={isExpanded}
+              hasArtists={hasArtists}
+              message={hasArtists ? "Select Your Artist" : "Add Your Artist"}
+            />
+          </motion.div>
+        </div>
       )}
     </>
   );
