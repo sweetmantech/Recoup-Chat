@@ -64,6 +64,14 @@ export function useVercelChat({ id }: UseVercelChatProps) {
   // 3. We don't already have messages (important for redirects)
   const isLoading = isMessagesLoading && !!id && messages.length === 0;
 
+  // Add debug logs to check message status
+  console.log(`[useVercelChat] Room ${id} state:`, {
+    messagesCount: messages.length,
+    isLoading,
+    isMessagesLoading,
+    status
+  });
+
   const isGeneratingResponse = ["streaming", "submitted"].includes(status);
 
   const deleteTrailingMessages = async () => {

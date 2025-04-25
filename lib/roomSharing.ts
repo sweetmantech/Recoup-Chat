@@ -83,7 +83,21 @@ export async function ensureRoomAccess(
     // If the user already has this exact room, just return its ID
     if (existingRoom) {
       console.log(`User already has access to room: ${sourceRoomId}`);
-      return sourceRoomId;
+      
+      // Check if the room has any messages
+      const { data: roomMessages, error: roomMessagesError } = await supabase
+        .from("memories")
+        .select("id")
+        .eq("room_id", sourceRoomId)
+        .limit(1);
+      
+      if (!roomMessagesError && roomMessages && roomMessages.length > 0) {
+        console.log(`Room ${sourceRoomId} already has messages, returning existing room`);
+        return sourceRoomId;
+      }
+      
+      console.log(`Room ${sourceRoomId} has no messages, will copy from source`);
+      // If room exists but has no messages, continue with the copy process
     }
     
     // Get the source room data (topic and artist_id)
@@ -98,60 +112,94 @@ export async function ensureRoomAccess(
       return null;
     }
     
-    // Generate a new UUID for the room copy
-    const newRoomId = generateUUID();
-    console.log(`Creating new room ${newRoomId} for user ${userId} based on source room ${sourceRoomId}`);
+    // Use existing room ID if available, otherwise generate a new one
+    const roomId = existingRoom ? existingRoom.id : generateUUID();
+    console.log(`${existingRoom ? 'Using existing' : 'Creating new'} room ${roomId} for user ${userId} based on source room ${sourceRoomId}`);
     
-    // Create a new room with the data from the source room
-    const { error: insertError } = await supabase.from("rooms").insert({
-      id: newRoomId,
-      account_id: userId,
-      artist_id: roomData.artist_id,
-      topic: roomData.topic
-    });
-    
-    if (insertError) {
-      console.error("Error creating new room:", insertError.message);
-      return null;
+    // Only insert a new room if one doesn't already exist
+    if (!existingRoom) {
+      // Create a new room with the data from the source room
+      const { error: insertError } = await supabase.from("rooms").insert({
+        id: roomId,
+        account_id: userId,
+        artist_id: roomData.artist_id,
+        topic: roomData.topic
+      });
+      
+      if (insertError) {
+        console.error("Error creating new room:", insertError.message);
+        return null;
+      }
     }
     
     // Copy messages from the source room to the new room
     // First, get messages from the source room
-    const { data: messages, error: messagesError } = await supabase
-      .from("memories")
-      .select("*")
-      .eq("room_id", sourceRoomId)
-      .order("created_at", { ascending: true });
-    
-    if (messagesError) {
-      console.error("Error getting messages from source room:", messagesError.message);
-      // Even if we can't copy messages, return the new room ID since the room was created
-      return newRoomId;
-    }
-    
-    if (messages && messages.length > 0) {
-      // Prepare messages for the new room
-      const newMessages = messages.map(msg => ({
-        ...msg,
-        id: generateUUID(), // Generate new IDs for each message
-        room_id: newRoomId // Set to the new room ID
-      }));
-      
-      // Insert the messages into the new room
-      const { error: insertMessagesError } = await supabase
+    try {
+      console.log("Fetching messages from source room", sourceRoomId, "using updated_at for sorting");
+      const { data: messages, error: messagesError } = await supabase
         .from("memories")
-        .insert(newMessages);
+        .select("id, room_id, content, updated_at")
+        .eq("room_id", sourceRoomId)
+        .order("updated_at", { ascending: true });
       
-      if (insertMessagesError) {
-        console.error("Error copying messages to new room:", insertMessagesError.message);
-        // Even if message copying fails, return the new room ID since the room was created
-      } else {
-        console.log(`Successfully copied ${messages.length} messages to new room ${newRoomId}`);
+      if (messagesError) {
+        console.error("Error getting messages from source room:", messagesError.message);
+        // Even if we can't copy messages, return the room ID since the room was created
+        return roomId;
       }
+      
+      console.log("Source room has", messages?.length || 0, "messages to copy");
+      
+      if (messages && messages.length > 0) {
+        // Log a sample message to debug
+        console.log("Sample memory structure:", Object.keys(messages[0]));
+        
+        // If the target room already has memories, delete them first
+        if (existingRoom) {
+          const { error: deleteError } = await supabase
+            .from("memories")
+            .delete()
+            .eq("room_id", roomId);
+            
+          if (deleteError) {
+            console.error("Error clearing existing messages:", deleteError.message);
+          } else {
+            console.log("Cleared existing messages from room", roomId);
+          }
+        }
+        
+        // Prepare messages for the room - explicitly include only the fields we need
+        const newMessages = messages.map(msg => {
+          return {
+            id: generateUUID(), // Generate new IDs for each message
+            room_id: roomId, // Set to the target room ID
+            content: msg.content,
+            updated_at: msg.updated_at
+          };
+        });
+        
+        console.log("Prepared", newMessages.length, "new messages for insertion with correct schema");
+        
+        // Insert the messages into the room
+        const { error: insertMessagesError } = await supabase
+          .from("memories")
+          .insert(newMessages);
+        
+        if (insertMessagesError) {
+          console.error("Error copying messages to room:", insertMessagesError.message);
+          // Even if message copying fails, return the room ID since the room was created
+        } else {
+          console.log("Successfully copied", messages.length, "messages to room", roomId);
+        }
+      } else {
+        console.log("No messages to copy from source room", sourceRoomId);
+      }
+    } catch (error) {
+      console.error("Error in message copying process:", error);
     }
     
-    console.log(`Successfully created new room ${newRoomId} for user ${userId}`);
-    return newRoomId;
+    console.log(`Successfully set up room ${roomId} for user ${userId}`);
+    return roomId;
   } catch (error) {
     console.error("Unexpected error ensuring room access:", error);
     return null;
