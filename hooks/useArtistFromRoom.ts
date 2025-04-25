@@ -41,7 +41,7 @@ export function useArtistFromRoom(roomId: string) {
         console.log("useArtistFromRoom: Fetching artist for room", roomId);
         // Call our API endpoint to get the artist for the room
         const response = await fetch(
-          `/api/room/artist?roomId=${encodeURIComponent(roomId)}&userId=${encodeURIComponent(userData.id)}`
+          `/api/room/artist?roomId=${encodeURIComponent(roomId)}&accountId=${encodeURIComponent(userData.id)}`
         );
         
         // Handle failed requests

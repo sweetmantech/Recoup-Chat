@@ -9,15 +9,15 @@ import {
  * GET endpoint to get the artist ID associated with a room and ensure the user has access
  * Query parameters:
  * - roomId: The ID of the room to get the artist for
- * - userId: The ID of the user to grant access to (optional)
+ * - accountId: The ID of the user to grant access to (optional)
  */
 export async function GET(req: NextRequest) {
   // Extract query parameters
   const searchParams = req.nextUrl.searchParams;
   const roomId = searchParams.get("roomId");
-  const userId = searchParams.get("userId");
+  const accountId = searchParams.get("accountId");
 
-  console.log(`API called with roomId: ${roomId}, userId: ${userId}`);
+  console.log(`API called with roomId: ${roomId}, accountId: ${accountId}`);
 
   // Validate required parameters
   if (!roomId) {
@@ -39,9 +39,9 @@ export async function GET(req: NextRequest) {
       });
     }
     
-    // If no user ID was provided, just return the artist ID
-    if (!userId) {
-      console.log(`Artist ID found (${artistId}), but no userId provided`);
+    // If no account ID was provided, just return the artist ID
+    if (!accountId) {
+      console.log(`Artist ID found (${artistId}), but no accountId provided`);
       return Response.json({
         artist_id: artistId,
         artist_exists: true,
@@ -49,12 +49,12 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    console.log(`Processing access for userId: ${userId}, artistId: ${artistId}`);
+    console.log(`Processing access for accountId: ${accountId}, artistId: ${artistId}`);
 
     // Process artist access and room access in parallel
     const [newRoomId, artistAccessGranted] = await Promise.all([
-      ensureRoomAccess(roomId, userId),
-      ensureArtistAccess(artistId, userId)
+      ensureRoomAccess(roomId, accountId),
+      ensureArtistAccess(artistId, accountId)
     ]);
 
     console.log(`Access processing results: newRoomId=${newRoomId}, artistAccess=${artistAccessGranted}`);
