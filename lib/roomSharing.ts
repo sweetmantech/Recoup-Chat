@@ -118,7 +118,7 @@ export async function ensureRoomAccess(
     // Copy messages from the source room to the new room
     // First, get messages from the source room
     const { data: messages, error: messagesError } = await supabase
-      .from("chat_messages")
+      .from("memories")
       .select("*")
       .eq("room_id", sourceRoomId)
       .order("created_at", { ascending: true });
@@ -139,7 +139,7 @@ export async function ensureRoomAccess(
       
       // Insert the messages into the new room
       const { error: insertMessagesError } = await supabase
-        .from("chat_messages")
+        .from("memories")
         .insert(newMessages);
       
       if (insertMessagesError) {
