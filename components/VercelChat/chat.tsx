@@ -33,7 +33,7 @@ export function Chat({ id, reportId }: ChatProps) {
   } = useVercelChat({ id });
   const { roomId } = useParams();
   useAutoLogin();
-
+  
   const { isVisible } = useVisibilityDelay({
     shouldBeVisible: messages.length === 0 && !reportId,
     deps: [messages.length, reportId],
