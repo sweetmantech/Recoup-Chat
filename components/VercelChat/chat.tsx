@@ -40,13 +40,6 @@ export function Chat({ id, reportId }: ChatProps) {
     shouldBeVisible: messages.length === 0 && !reportId,
     deps: [messages.length, reportId],
   });
-  
-  console.log(`[Chat] Render state for room ${id}:`, { 
-    isVisible, 
-    messagesCount: messages.length, 
-    isLoading,
-    hasError
-  });
 
   if (isLoading && roomId) {
     return <ChatSkeleton />;

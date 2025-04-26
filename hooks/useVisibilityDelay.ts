@@ -35,26 +35,15 @@ export function useVisibilityDelay({
 }: UseVisibilityDelayOptions) {
   const [isVisible, setIsVisible] = useState(false);
   
-  // Debug logs to understand visibility
-  console.log("[useVisibilityDelay] Input:", { 
-    shouldBeVisible, 
-    currentVisibility: isVisible,
-    depsLength: deps.length,
-    depsFirstItem: deps.length > 0 ? deps[0] : null 
-  });
-
   useEffect(() => {
     // Only proceed if conditions are met
     if (!shouldBeVisible) {
-      console.log("[useVisibilityDelay] Setting visibility to FALSE");
       setIsVisible(false);
       return;
     }
 
     // Add delay for smoother transition
-    console.log("[useVisibilityDelay] Setting timer to show content in", delay, "ms");
     const timer = setTimeout(() => {
-      console.log("[useVisibilityDelay] Timer fired - setting visibility to TRUE");
       setIsVisible(true);
     }, delay);
 
