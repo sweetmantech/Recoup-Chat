@@ -10,66 +10,41 @@ import type { ArtistRecord } from "@/types/Artist";
 export function useArtistFromRoom(roomId: string) {
   const { userData } = useUserProvider();
   const { selectedArtist, artists, setSelectedArtist, getArtists } = useArtistProvider();
-  
-  // Use a ref to track if the hook has already run
   const hasRun = useRef(false);
   
   useEffect(() => {
-    // Skip if already run or missing required data
-    if (hasRun.current || !roomId || !userData?.id) {
-      return;
-    }
-    
-    // Mark the hook as run to prevent additional executions
+    if (hasRun.current || !roomId || !userData?.id) return;
     hasRun.current = true;
     
-    async function selectArtistForRoom() {
+    (async () => {
       try {
-        // Call API endpoint to get the artist for the room
         const response = await fetch(
           `/api/room/artist?roomId=${encodeURIComponent(roomId)}&accountId=${encodeURIComponent(userData.id)}`
         );
         
         if (!response.ok) return;
-        
         const data = await response.json();
         
-        // Handle URL update if we got a new room ID
         if (data.new_room_id && data.new_room_id !== roomId) {
           window.history.replaceState({}, '', `/chat/${data.new_room_id}`);
         }
         
-        if (!data.artist_id) return;
+        if (!data.artist_id || selectedArtist?.account_id === data.artist_id) return;
         
-        // If artist is already selected, we're done
-        if (selectedArtist?.account_id === data.artist_id) return;
+        const artistList = artists as ArtistRecord[];
+        const artist = artistList.find(a => a.account_id === data.artist_id);
         
-        // Try to find the artist in the existing list
-        const artistsArray = artists as ArtistRecord[];
-        const matchingArtist = artistsArray.find(
-          artist => artist.account_id === data.artist_id
-        );
-        
-        if (matchingArtist) {
-          setSelectedArtist(matchingArtist);
+        if (artist) {
+          setSelectedArtist(artist);
         } else {
-          // Refresh artists list and select artist
           await getArtists();
-          
-          const updatedArtistsArray = artists as ArtistRecord[];
-          const updatedMatchingArtist = updatedArtistsArray.find(
-            artist => artist.account_id === data.artist_id
-          );
-          
-          if (updatedMatchingArtist) {
-            setSelectedArtist(updatedMatchingArtist);
-          }
+          const updatedArtistList = artists as ArtistRecord[];
+          const updatedArtist = updatedArtistList.find(a => a.account_id === data.artist_id);
+          if (updatedArtist) setSelectedArtist(updatedArtist);
         }
       } catch (error) {
         console.error("Error selecting artist for room:", error);
       }
-    }
-    
-    selectArtistForRoom();
+    })();
   }, [roomId, userData, selectedArtist, artists, setSelectedArtist, getArtists]);
 } 

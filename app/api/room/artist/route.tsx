@@ -16,34 +16,24 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    // Get the artist ID for the room
     const artistId = await getRoomArtistId(roomId);
+    const response = {
+      artist_id: artistId,
+      artist_exists: !!artistId,
+      room_id: roomId
+    };
     
-    if (!artistId) {
-      return Response.json({
-        artist_id: null,
-        artist_exists: false,
-        room_id: roomId
-      });
-    }
-    
-    // If no account ID provided, just return the artist ID
-    if (!accountId) {
-      return Response.json({
-        artist_id: artistId,
-        artist_exists: true,
-        room_id: roomId
-      });
+    if (!artistId || !accountId) {
+      return Response.json(response);
     }
 
-    // Process artist access and room access in parallel
     const [newRoomId, artistAccessGranted] = await Promise.all([
       ensureRoomAccess(roomId, accountId),
       ensureArtistAccess(artistId, accountId)
     ]);
 
     return Response.json({
-      artist_id: artistId,
+      ...response,
       room_access_granted: !!newRoomId,
       artist_added: artistAccessGranted,
       new_room_id: newRoomId,
@@ -51,10 +41,7 @@ export async function GET(req: NextRequest) {
     });
   } catch (error) {
     console.error("Error processing room artist request:", error);
-    return Response.json(
-      { error: "Failed to process request" },
-      { status: 500 }
-    );
+    return Response.json({ error: "Failed to process request" }, { status: 500 });
   }
 }
 

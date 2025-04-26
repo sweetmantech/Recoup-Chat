@@ -13,7 +13,7 @@ export async function ensureRoomAccess(
   accountId: string
 ): Promise<string | null> {
   try {
-    // Check if the user already has this room
+    // Check for existing room
     const { data: existingRoom } = await supabase
       .from("rooms")
       .select("id")
@@ -21,40 +21,38 @@ export async function ensureRoomAccess(
       .eq("account_id", accountId)
       .maybeSingle();
     
-    // If user has this room and it has messages, just return it
+    // Check if room has messages
     if (existingRoom) {
-      const { data: roomMessages } = await supabase
+      const { data: messages } = await supabase
         .from("memories")
         .select("id")
         .eq("room_id", sourceRoomId)
         .limit(1);
       
-      if (roomMessages && roomMessages.length > 0) {
-        return sourceRoomId;
-      }
+      if (messages && messages.length > 0) return sourceRoomId;
     }
     
     // Get source room data
     const roomData = await getRoom(sourceRoomId);
     if (!roomData?.topic) return null;
     
-    // Use existing room ID or generate new one
+    // Create or use room
     const roomId = existingRoom ? existingRoom.id : generateUUID();
     
     // Create room if it doesn't exist
     if (!existingRoom) {
-      const { error: insertError } = await supabase.from("rooms").insert({
+      const { error } = await supabase.from("rooms").insert({
         id: roomId,
         account_id: accountId,
         artist_id: roomData.artist_id,
         topic: roomData.topic
       });
       
-      if (insertError) return null;
+      if (error) return null;
     }
     
-    // Copy messages from source room to new room
-    await copyRoomMessages(sourceRoomId, roomId, existingRoom !== null);
+    // Copy messages
+    await copyRoomMessages(sourceRoomId, roomId, !!existingRoom);
     
     return roomId;
   } catch (error) {
