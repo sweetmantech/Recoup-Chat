@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { UseChatHelpers } from "@ai-sdk/react";
 import ViewingMessage from "./ViewingMessage";
 import EditingMessage from "./EditingMessage";
+import { getToolCallComponent, getToolResultComponent } from "./ToolComponents";
 
 const Message = ({
   message,
@@ -78,6 +79,24 @@ const Message = ({
                       reload={reload}
                     />
                   );
+                }
+              }
+
+              if (type === "tool-invocation") {
+                const { toolInvocation } = part;
+                const { toolName, toolCallId, state } = toolInvocation;
+
+                if (state === "call") {
+                  return getToolCallComponent({ toolName, toolCallId });
+                }
+
+                if (state === "result") {
+                  const { result } = toolInvocation;
+                  return getToolResultComponent({
+                    toolName,
+                    toolCallId,
+                    result,
+                  });
                 }
               }
             })}
