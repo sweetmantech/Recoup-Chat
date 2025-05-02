@@ -1,12 +1,22 @@
 import React from "react";
 import { type Components } from "react-markdown";
+import MermaidDiagram from "./mermaid/MermaidDiagram";
 
 interface CodeBlockProps extends React.HTMLAttributes<HTMLElement> {
   inline?: boolean;
 }
 
 const MarkdownCode: Components['code'] = (props: CodeBlockProps) => {
+  console.log('MarkdownCode',props);
   const { inline, className, children } = props;
+
+    if(className?.includes('mermaid')){
+      return (
+        <div style={{ backgroundColor: 'white', border: 'none' }}>
+          <MermaidDiagram chart={children as string} />
+        </div>
+      );
+    }
 
   if (!inline) {
     return (
