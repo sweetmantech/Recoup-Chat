@@ -2,8 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import MermaidErrorFallback from './MermaidErrorFallback'; // Import the fallback component
-// Remove Script import
-// import Script from 'next/script';
+import styles from '../markdown.module.css'; // Import the CSS module
 
 // Define a type for the global mermaid object, or use any if types aren't installed
 declare global {
@@ -121,31 +120,26 @@ const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart, id }) => {
   }, [isLibraryLoaded, chart, uniqueId]); // Depend on load state and chart content
 
   useEffect(() => {
-    // Apply styles to the parent element after rendering
-    if (containerRef.current && containerRef.current.parentElement) {
-      const selfElement = containerRef.current;
-      const parent = containerRef.current.parentElement as HTMLElement;
-      const parentSParent = parent.parentElement as HTMLElement;
-      
-      console.log('MermaidDiagram: Debugging parent styling...');
-      console.log('MermaidDiagram: Self element (ref):', selfElement);
-      console.log('MermaidDiagram: Found parent element:', parentSParent);
-      console.log('MermaidDiagram: Parent style BEFORE:', JSON.stringify(parentSParent.style));
+    const parent = containerRef.current?.parentElement as HTMLElement | null;
+    const grandparent = parent?.parentElement as HTMLElement | null;
 
-      // Apply necessary styles to the parent
-      parent.style.backgroundColor = 'white';
-      parent.style.border = 'none';
-      parent.style.padding = '0';
-      parentSParent.style.backgroundColor = 'white';
-      parentSParent.style.border = 'none';
-      parentSParent.style.padding = '0';
-
-      console.log('MermaidDiagram: Parent style AFTER:', JSON.stringify(parent.style));
-
-    } else {
-      console.log('MermaidDiagram: Parent element not found or ref not ready.');
+    if (parent) {
+      parent.classList.add(styles.mermaidParentOverride);
     }
-  }, [isLibraryLoaded, hasError, chart]); // Re-run if the diagram renders or error state changes
+    if (grandparent) {
+      grandparent.classList.add(styles.mermaidGrandparentOverride);
+    }
+
+    // Cleanup function to remove classes when component unmounts or dependencies change
+    return () => {
+      if (parent) {
+        parent.classList.remove(styles.mermaidParentOverride);
+      }
+      if (grandparent) {
+        grandparent.classList.remove(styles.mermaidGrandparentOverride);
+      }
+    };
+  }, [isLibraryLoaded, hasError, chart]); // Keep dependencies as they are working
 
   // Conditional rendering: Show fallback on error, otherwise the diagram container
   if (hasError) {
