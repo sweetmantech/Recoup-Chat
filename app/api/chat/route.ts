@@ -18,6 +18,7 @@ import { generateChatTitle } from "@/lib/chat/generateChatTitle";
 import { sendNewConversationNotification } from "@/lib/telegram/sendNewConversationNotification";
 import { notifyError } from "@/lib/errors/notifyError";
 import filterMessageContentForMemories from "@/lib/messages/filterMessageContentForMemories";
+import { serializeError } from "@/lib/errors/serializeError";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -116,23 +117,17 @@ export async function POST(request: NextRequest) {
       onError: (e) => {
         notifyError(e, body);
         console.error("Error in chat API:", e);
-        return "Oops, an error occurred!";
+        return JSON.stringify(serializeError(e));
       },
     });
   } catch (e) {
     notifyError(e, body);
     console.error("Global error in chat API:", e);
-    return new Response(
-      JSON.stringify({
-        error: "An error occurred",
-        message: "Oops, an error occurred!",
-      }),
-      {
-        status: 500,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    return new Response(JSON.stringify(serializeError(e)), {
+      status: 500,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   }
 }
