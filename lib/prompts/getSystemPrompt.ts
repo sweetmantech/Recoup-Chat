@@ -29,6 +29,12 @@ ${knowledge}
 -----END KNOWLEDGE BASE-----`;
   }
 
+  systemPrompt = `${systemPrompt}
+  
+-----MERMAID INSTRUCTIONS-----
+Alwayys Use mermaid chart to draw diagrams, diagram flowcharts, etc. On your own whenever you need to OR When the user asks for it.
+-----END MERMAID INSTRUCTIONS-----`;
+
   return systemPrompt;
 }
 

@@ -34,7 +34,6 @@ interface MermaidDiagramProps {
  * Dynamically imports the Mermaid library on mount.
  */
 const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart, id }) => {
-  console.log('chart', chart);
   const containerRef = useRef<HTMLPreElement>(null);
   const generatedId = `mermaid-diagram-${React.useId()}`;
   const uniqueId = id || generatedId;
