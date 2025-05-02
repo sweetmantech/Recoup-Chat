@@ -2,6 +2,8 @@ import { ImageSkeleton } from "@/components/ui/ImageSkeleton";
 import { ImageResult } from "@/components/ui/ImageResult";
 import { ImageGenerationResult } from "@/lib/tools/generateImage";
 import MermaidDiagram from "../Chat/mermaid/MermaidDiagram";
+import { GenerateMermaidDiagramResult } from "@/lib/tools/generateMermaidDiagram";
+import { MermaidDiagramSkeleton } from "../ui/MermaidDiagramSkeleton";
 /**
  * Interface for tool call props
  */
@@ -13,7 +15,7 @@ interface ToolCallProps {
 /**
  * Union type for all possible tool results
  */
-type ToolResult = ImageGenerationResult | Record<string, unknown>;
+type ToolResult = ImageGenerationResult | GenerateMermaidDiagramResult | Record<string, unknown>;
 
 /**
  * Interface for tool result props
@@ -31,6 +33,12 @@ export function getToolCallComponent({ toolName, toolCallId }: ToolCallProps) {
     return (
       <div key={toolCallId} className="skeleton">
         <ImageSkeleton />
+      </div>
+    );
+  } else if (toolName === "generate_mermaid_diagram") {
+    return (
+      <div key={toolCallId}>
+        <MermaidDiagramSkeleton />
       </div>
     );
   }
@@ -51,12 +59,6 @@ export function getToolResultComponent({
   toolCallId,
   result,
 }: ToolResultProps) {
-  // console.log('getToolResultComponent', {
-  //   toolName,
-  //   toolCallId,
-  //   result
-  // });
-  // Handle generate_image tool result
   if (toolName === "generate_image") {
     return (
       <div key={toolCallId}>
@@ -64,26 +66,7 @@ export function getToolResultComponent({
       </div>
     );
   } else if (toolName === "generate_mermaid_diagram") {
-    console.log('generate_mermaid_diagram1 result', result);
-    // @ts-expect-error For testing purposes
-    if (!result.isError) {
-      // @ts-expect-error For testing purposes
-      const type = result.content[0].type;
-      console.log('generate_mermaid_diagram1 type', type);
-      if (type === 'text') {
-        // @ts-expect-error For testing purposes
-        const mermaidDiagram = result.content[0].text
-        console.log('generate_mermaid_diagram1 mermaidDiagram', mermaidDiagram);
-        const mermaidDiagramWithoutCodeBlock = mermaidDiagram.replace(/```mermaid\n([\s\S]*?)```/g, '$1').trim();
-        return (
-          <div key={toolCallId}>
-            <MermaidDiagram chart={mermaidDiagramWithoutCodeBlock} />
-          </div>
-        );
-      }
-    } else {
-      return null
-    }
+    return <div key={toolCallId}><MermaidDiagram result={result as GenerateMermaidDiagramResult} /></div>
   }
 }
 
