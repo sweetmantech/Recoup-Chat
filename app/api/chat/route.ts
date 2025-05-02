@@ -16,9 +16,9 @@ import { createRoomWithReport } from "@/lib/supabase/createRoomWithReport";
 import generateUUID from "@/lib/generateUUID";
 import { generateChatTitle } from "@/lib/chat/generateChatTitle";
 import { sendNewConversationNotification } from "@/lib/telegram/sendNewConversationNotification";
-import { notifyError } from "@/lib/errors/notifyError";
 import filterMessageContentForMemories from "@/lib/messages/filterMessageContentForMemories";
 import { serializeError } from "@/lib/errors/serializeError";
+import { sendErrorNotification } from "@/lib/telegram/sendErrorNotification";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -98,7 +98,10 @@ export async function POST(request: NextRequest) {
                 content: filterMessageContentForMemories(assistantMessage),
               });
             } catch (_) {
-              notifyError(_, body);
+              sendErrorNotification({
+                ...body,
+                error: serializeError(_),
+              });
               console.error("Failed to save chat", _);
             }
           },
@@ -115,13 +118,19 @@ export async function POST(request: NextRequest) {
         });
       },
       onError: (e) => {
-        notifyError(e, body);
+        sendErrorNotification({
+          ...body,
+          error: serializeError(e),
+        });
         console.error("Error in chat API:", e);
         return JSON.stringify(serializeError(e));
       },
     });
   } catch (e) {
-    notifyError(e, body);
+    sendErrorNotification({
+      ...body,
+      error: serializeError(e),
+    });
     console.error("Global error in chat API:", e);
     return new Response(JSON.stringify(serializeError(e)), {
       status: 500,
