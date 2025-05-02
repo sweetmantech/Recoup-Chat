@@ -48,7 +48,6 @@ const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart, id }) => {
     let didCancel = false;
 
     const loadMermaid = async () => {
-      console.log('Attempting to dynamically import Mermaid...', uniqueId);
       try {
         // Use the specific ESM build path
         // @ts-expect-error - TypeScript cannot analyze remote modules (Replaced ts-ignore)
@@ -57,7 +56,6 @@ const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart, id }) => {
         const mermaid = mermaidModule.default || mermaidModule;
 
         if (!didCancel) {
-          console.log('Mermaid library imported successfully:', uniqueId, mermaid);
           // Initialize Mermaid (optional, can be done once globally if preferred)
           // mermaid.initialize({ startOnLoad: false });
           mermaidRef.current = mermaid;
@@ -87,7 +85,6 @@ const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart, id }) => {
   useEffect(() => {
     // Render/re-render the chart when the library is loaded and the chart changes
     if (isLibraryLoaded && mermaidRef.current && containerRef.current) {
-      console.log('Rendering Mermaid diagram with imported library:', uniqueId);
       const mermaid = mermaidRef.current;
       const element = containerRef.current;
 

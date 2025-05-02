@@ -7,7 +7,6 @@ interface CodeBlockProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 const MarkdownCode: Components['code'] = (props: CodeBlockProps) => {
-  console.log('MarkdownCode',props);
   const { inline, className, children } = props;
 
     if(className?.includes('mermaid')){
