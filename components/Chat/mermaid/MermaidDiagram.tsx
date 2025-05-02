@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import MermaidErrorFallback from './MermaidErrorFallback'; // Import the fallback component
 import styles from '../markdown.module.css'; // Import the CSS module
+import { Loader } from 'lucide-react';
 
 // Define a type for the global mermaid object, or use any if types aren't installed
 declare global {
@@ -33,7 +34,7 @@ interface MermaidDiagramProps {
  * Renders a Mermaid diagram from a definition string.
  * Dynamically imports the Mermaid library on mount.
  */
-const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart, id }) => {
+const MermaidDiagramInternal: React.FC<MermaidDiagramProps> = ({ chart, id }) => {
   const containerRef = useRef<HTMLPreElement>(null);
   const generatedId = `mermaid-diagram-${React.useId()}`;
   const uniqueId = id || generatedId;
@@ -160,4 +161,51 @@ const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart, id }) => {
   );
 };
 
+const MermaidDiagram = ({ chart, id }: MermaidDiagramProps) => {
+  const [isStreaming, setIsStreaming] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setIsStreaming(true);
+
+    // Set a timer to turn off streaming after 1 second
+    const timer = setTimeout(() => {
+      setIsStreaming(false);
+    }, 2000); // 1000 milliseconds = 1 second
+
+    // Cleanup function: If chart changes before the timer fires, clear the timer
+    return () => clearTimeout(timer);
+  }, [chart]); // Dependency array ensures this runs only when chart changes
+
+  useEffect(() => {
+    if (containerRef.current) {
+      const container = containerRef.current;
+      container.style.backgroundColor = 'white';
+      container.style.border = 'none';
+      container.style.padding = '0';
+
+      const parent = container.parentElement as HTMLElement | null;
+      const grandparent = parent?.parentElement as HTMLElement | null;
+
+      if (parent) {
+        parent.classList.add(styles.mermaidParentOverride);
+      }
+      if (grandparent) {
+        grandparent.classList.add(styles.mermaidGrandparentOverride);
+      }
+
+    }
+  });
+
+  if (isStreaming) { // Use the isStreaming state here
+    return (
+      <div ref={containerRef} className="flex flex-col gap-2 items-center justify-center bg-transparent h-48">
+        <Loader className="w-4 h-4 animate-spin" />
+        <p className="text-sm text-muted-foreground">Analyzing diagram...</p>
+      </div>
+    )
+  }
+
+  return <MermaidDiagramInternal chart={chart} id={id} />
+};
 export default MermaidDiagram; 
