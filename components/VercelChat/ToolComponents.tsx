@@ -1,6 +1,7 @@
 import { ImageSkeleton } from "@/components/ui/ImageSkeleton";
 import { ImageResult } from "@/components/ui/ImageResult";
 import { ImageGenerationResult } from "@/lib/tools/generateImage";
+import MermaidDiagram from "../Chat/mermaid/MermaidDiagram";
 /**
  * Interface for tool call props
  */
@@ -50,6 +51,11 @@ export function getToolResultComponent({
   toolCallId,
   result,
 }: ToolResultProps) {
+  // console.log('getToolResultComponent', {
+  //   toolName,
+  //   toolCallId,
+  //   result
+  // });
   // Handle generate_image tool result
   if (toolName === "generate_image") {
     return (
@@ -57,6 +63,27 @@ export function getToolResultComponent({
         <ImageResult result={result as ImageGenerationResult} />
       </div>
     );
+  } else if (toolName === "generate_mermaid_diagram") {
+    console.log('generate_mermaid_diagram1 result', result);
+    // @ts-expect-error For testing purposes
+    if (!result.isError) {
+      // @ts-expect-error For testing purposes
+      const type = result.content[0].type;
+      console.log('generate_mermaid_diagram1 type', type);
+      if (type === 'text') {
+        // @ts-expect-error For testing purposes
+        const mermaidDiagram = result.content[0].text
+        console.log('generate_mermaid_diagram1 mermaidDiagram', mermaidDiagram);
+        const mermaidDiagramWithoutCodeBlock = mermaidDiagram.replace(/```mermaid\n([\s\S]*?)```/g, '$1').trim();
+        return (
+          <div key={toolCallId}>
+            <MermaidDiagram chart={mermaidDiagramWithoutCodeBlock} />
+          </div>
+        );
+      }
+    } else {
+      return null
+    }
   }
 }
 

@@ -9,13 +9,13 @@ interface CodeBlockProps extends React.HTMLAttributes<HTMLElement> {
 const MarkdownCode: Components['code'] = (props: CodeBlockProps) => {
   const { inline, className, children } = props;
 
-    if(className?.includes('mermaid')){
-      return (
-        <div style={{ backgroundColor: 'white', border: 'none' }}>
-          <MermaidDiagram chart={children as string} />
-        </div>
-      );
-    }
+    // if(className?.includes('mermaid')){
+    //   return (
+    //     <div style={{ backgroundColor: 'white', border: 'none' }}>
+    //       <MermaidDiagram chart={children as string} />
+    //     </div>
+    //   );
+    // }
 
   if (!inline) {
     return (
