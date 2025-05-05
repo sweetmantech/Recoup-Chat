@@ -28,8 +28,7 @@ export function useVercelChat({ id }: UseVercelChatProps) {
   const artistId = selectedArtist?.account_id;
   const [hasChatApiError, setHasChatApiError] = useState(false);
   const messagesRef = useRef<ChatMessage[]>([]);
-  const { fetchConversations } =
-    useConversationsProvider();
+  const { fetchConversations } = useConversationsProvider();
 
   const {
     messages,
