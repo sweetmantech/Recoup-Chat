@@ -49,7 +49,9 @@ function TextArea({
         {...(id && { id: id })}
         value={value}
         placeholder={placeholder}
-        className={`${className ? className : ""} ${hookToForm && fieldError && fieldError?.message ? clasNameError : ""}`}
+        className={`
+          outline-none border-grey border-[1px] focus-visible:ring-0 focus-visible:ring-0 shadow-none
+          ${className ? className : ""} ${hookToForm && fieldError && fieldError?.message ? clasNameError : ""}`}
         {...(!hookToForm && {
           value: value,
           onChange: onChange,
