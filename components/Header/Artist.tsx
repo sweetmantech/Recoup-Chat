@@ -57,7 +57,7 @@ const Artist = ({
           : [
               "flex gap-3 items-center px-2 text-sm rounded-md text-grey-dark",
               isAnyArtistSelected && "hover:bg-grey-light-1",
-              isSelectedArtist && "!bg-grey-light-1"
+              isSelectedArtist && "!bg-[#e3e3e3]"
             ],
         shouldHighlight && "z-50 relative"
       )}
@@ -70,11 +70,11 @@ const Artist = ({
         <div
           className={cn(
             "w-8 aspect-1/1 rounded-full overflow-hidden flex items-center justify-center",
-            isSelectedArtist && "shadow-[1px_1px_1px_1px_#E6E6E6]",
+            isSelectedArtist && "shadow-[1px_1px_1px_1px_#E6E6E6] min-w-8 min-h-8 border-2 border-primary box-content p-0.5",
             shouldHighlight && "brightness-110 shadow-md ring-1 ring-white/30"
           )}
         >
-          <ImageWithFallback src={artist?.image || ""} />
+          <ImageWithFallback src={artist?.image || ""} className="w-full h-full object-cover rounded-full"/>
         </div>
       </div>
       
