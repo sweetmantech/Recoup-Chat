@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import { useArtistProvider } from "@/providers/ArtistProvider";
+import React from "react";
 import { CreateArtistResult } from "@/lib/tools/createArtist";
 import Image from "next/image";
+import useCreateArtistTool from "@/hooks/useCreateArtistTool";
 
 /**
  * Props for the CreateArtistToolResult component
@@ -17,23 +17,7 @@ interface CreateArtistToolResultProps {
 export function CreateArtistToolResult({
   result,
 }: CreateArtistToolResultProps) {
-  const { getArtists } = useArtistProvider();
-
-  useEffect(() => {
-    // Function to refresh artists list and select the new artist
-    const refreshAndSelect = async () => {
-      if (result.artist && result.artist.account_id) {
-        // Refresh the artists list
-        await getArtists(result.artist.account_id);
-      }
-    };
-
-    // Call the refresh function when the component mounts
-    refreshAndSelect();
-
-    // We don't want this effect to run more than once
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { isProcessing, error: processingError } = useCreateArtistTool(result);
 
   // If there's an error or no artist data, show error state
   if (!result.artist) {
@@ -71,9 +55,15 @@ export function CreateArtistToolResult({
         )}
       </div>
 
-      <div>
+      <div className="flex-grow">
         <p className="font-medium">{result.artist.name}</p>
-        <p className="text-sm text-green-600">Artist created successfully</p>
+        <p className="text-sm text-green-600">
+          {isProcessing
+            ? "Setting up artist conversation..."
+            : processingError
+              ? `Created successfully but: ${processingError}`
+              : "Artist created successfully"}
+        </p>
       </div>
     </div>
   );
