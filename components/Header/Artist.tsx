@@ -4,6 +4,7 @@ import ImageWithFallback from "../ImageWithFallback";
 import { EllipsisVertical } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 const Artist = ({
   artist,
@@ -46,11 +47,20 @@ const Artist = ({
 
   return (
     <button
-      className={`${
+      className={cn(
+        "py-2 w-full",
         isMini
-          ? `${isSelectedArtist && "w-fit rounded-full"} flex justify-center items-center`
-          : `flex gap-3 items-center px-2 text-sm rounded-md text-grey-dark ${isAnyArtistSelected ? 'hover:bg-grey-light-1' : ''} ${isSelectedArtist && "!bg-grey-light-1"}`
-      } py-2 w-full ${shouldHighlight ? 'z-50 relative' : ''}`}
+          ? [
+              "flex justify-center items-center",
+              isSelectedArtist && "w-fit rounded-full"
+            ]
+          : [
+              "flex gap-3 items-center px-2 text-sm rounded-md text-grey-dark",
+              isAnyArtistSelected && "hover:bg-grey-light-1",
+              isSelectedArtist && "!bg-grey-light-1"
+            ],
+        shouldHighlight && "z-50 relative"
+      )}
       type="button"
       onClick={handleClick}
       onMouseEnter={() => setIsHovered(true)}
