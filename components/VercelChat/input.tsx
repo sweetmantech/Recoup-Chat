@@ -34,7 +34,7 @@ export function Input({
   return (
     <Textarea
       ref={textareaRef}
-      className="mb-12 resize-none w-full min-h-12 max-h-[200px] overflow-y-auto outline-none bg-transparent placeholder:text-zinc-400 px-2 py-2 disabled:opacity-75 disabled:cursor-not-allowed focus-within:ring-0 focus-visible:ring-0 shadow-none border-none"
+      className="mb-12 resize-none min-h-12 max-h-[200px] overflow-y-auto outline-none placeholder:text-zinc-400 px-2 py-2 disabled:opacity-75 focus-within:ring-0 focus-visible:ring-0 shadow-none border-none"
       placeholder={isDisabled ? "Select an artist first" : "Send a message"}
       value={input}
       disabled={isDisabled}
