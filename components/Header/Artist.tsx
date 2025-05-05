@@ -69,7 +69,7 @@ const Artist = ({
       <div className="relative">
         <div
           className={cn(
-            "w-8 aspect-1/1 rounded-full overflow-hidden flex items-center justify-center p-0.5",
+            "w-8 h-8 aspect-1/1 rounded-full overflow-hidden flex items-center justify-center p-0.5",
             isSelectedArtist && "shadow-[1px_1px_1px_1px_#E6E6E6] min-w-8 min-h-8 border-2 border-primary box-content",
             shouldHighlight && "brightness-110 shadow-md ring-1 ring-white/30"
           )}
