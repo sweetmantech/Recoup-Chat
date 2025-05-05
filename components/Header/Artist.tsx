@@ -48,7 +48,7 @@ const Artist = ({
   return (
     <button
       className={cn(
-        "py-2 w-full",
+        "py-2 w-full outline-none",
         isMini
           ? [
               "flex justify-center items-center",
@@ -57,7 +57,7 @@ const Artist = ({
           : [
               "flex gap-3 items-center px-2 text-sm rounded-md text-grey-dark",
               isAnyArtistSelected && "hover:bg-grey-light-1",
-              isSelectedArtist && "!bg-[#e3e3e3]"
+              isSelectedArtist && "!bg-primary/10"
             ],
         shouldHighlight && "z-50 relative"
       )}
