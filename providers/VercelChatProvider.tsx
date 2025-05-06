@@ -93,7 +93,7 @@ export function VercelChatProvider({
     isLoading,
     hasError,
     isGeneratingResponse,
-    handleSendMessage: handleSendMessageWithClear, // Use the wrapped version
+    handleSendMessage: handleSendMessageWithClear,
     stop,
     setInput,
     input,
