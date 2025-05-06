@@ -19,7 +19,7 @@ function AttachmentsPreview() {
                         className="absolute -top-2 -right-2 bg-zinc-800 text-white rounded-full p-1 size-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
                         aria-label="Remove attachment"
                     >
-                        <span className="text-xs">×</span>
+                        <span className="text-xs">&times;</span>
                     </button>
                 </div>
             ))}
