@@ -7,6 +7,7 @@ import { useRef } from "react";
 function PureAttachmentsButton() {
     const { setAttachments } = useVercelChatContext();
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const MAX_FILES = 10;
 
     const uploadFile = async (file: File) => {
         // Only allow image files for now
@@ -77,7 +78,16 @@ function PureAttachmentsButton() {
 
     const handleFileChange = () => {
         const files = Array.from(fileInputRef.current?.files || []);
-        files.forEach(uploadFile);
+        
+        // Limit to MAX_FILES
+        const filesToUpload = files.slice(0, MAX_FILES);
+        
+        if (files.length > MAX_FILES) {
+            console.warn(`Only the first ${MAX_FILES} files will be uploaded`);
+        }
+        
+        filesToUpload.forEach(uploadFile);
+        
         // Reset the input
         if (fileInputRef.current) {
             fileInputRef.current.value = '';
