@@ -49,6 +49,7 @@ export function Input({
           }
 
           if (isGeneratingResponse) {
+            console.error("Please wait for the model to finish its response!");
             return;
           }
 
