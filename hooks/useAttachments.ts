@@ -1,65 +1,15 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useCallback } from "react";
 import { Attachment } from '@ai-sdk/ui-utils';
-
-// Global store to persist attachments between hook instances
-let globalAttachments: Attachment[] = [];
 
 /**
  * Hook for managing file attachments in chat
  * Handles file attachments state and pending uploads
  */
-const useAttachments = () => {
-    // Initialize state with global value
-    const [attachments, setAttachmentsState] = useState<Attachment[]>(globalAttachments);
-    const isInitialRender = useRef(true);
-    
-    // Sync state with global store on mount
-    useEffect(() => {
-        if (isInitialRender.current) {
-            setAttachmentsState(globalAttachments);
-            isInitialRender.current = false;
-        }
-    }, []);
-    
-    // Update global store when local state changes
-    useEffect(() => {
-        globalAttachments = attachments;
-    }, [attachments]);
-    
-    // Custom setter that handles both direct array updates and functional updates
-    const setAttachments = (
-        attachmentsOrFn: Attachment[] | ((prev: Attachment[]) => Attachment[])
-    ) => {
-        if (typeof attachmentsOrFn === 'function') {
-            setAttachmentsState(prev => {
-                const newState = attachmentsOrFn(prev);
-                
-                // Update global store immediately
-                globalAttachments = newState;
-                
-                return newState;
-            });
-        } else {
-            setAttachmentsState(attachmentsOrFn);
-            
-            // Update global store immediately
-            globalAttachments = attachmentsOrFn;
-        }
-    };
-    
-    // Track attachments that are currently being uploaded
-    const pendingAttachments = attachments.filter(attachment => 
-        // An attachment is pending if it has a temporary URL (blob:) or no URL
-        attachment.url?.startsWith('blob:') || !attachment.url
-    );
-    
-    // Get only the uploaded attachments (not pending)
-    const uploadedAttachments = attachments.filter(attachment => 
-        !pendingAttachments.includes(attachment)
-    );
+export default function useAttachments() {
+    const [attachments, setAttachments] = useState<Attachment[]>([]);
     
     // Remove an attachment by its index
-    const removeAttachment = (indexToRemove: number) => {
+    const removeAttachment = useCallback((indexToRemove: number) => {
         const attachmentToRemove = attachments[indexToRemove];
         
         // If the attachment has a blob URL, revoke it to prevent memory leaks
@@ -67,18 +17,13 @@ const useAttachments = () => {
             URL.revokeObjectURL(attachmentToRemove.url);
         }
         
-        setAttachmentsState(prev => {
-            const newState = prev.filter((_, index) => index !== indexToRemove);
-            
-            // Update global store immediately
-            globalAttachments = newState;
-            
-            return newState;
-        });
-    };
+        setAttachments(prevAttachments => 
+            prevAttachments.filter((_, index) => index !== indexToRemove)
+        );
+    }, [attachments]);
     
     // Clear all attachments
-    const clearAttachments = () => {
+    const clearAttachments = useCallback(() => {
         // Revoke any blob URLs to prevent memory leaks
         attachments.forEach(attachment => {
             if (attachment.url?.startsWith('blob:')) {
@@ -86,11 +31,18 @@ const useAttachments = () => {
             }
         });
         
-        setAttachmentsState([]);
-        
-        // Update global store immediately
-        globalAttachments = [];
-    };
+        setAttachments([]);
+    }, [attachments]);
+
+    // Filter for pending attachments (currently being uploaded)
+    const pendingAttachments = attachments.filter(attachment => 
+        attachment.url?.startsWith('blob:') || !attachment.url
+    );
+    
+    // Get only the uploaded attachments (not pending)
+    const uploadedAttachments = attachments.filter(attachment => 
+        !attachment.url?.startsWith('blob:') && attachment.url
+    );
 
     // Check if there are any pending uploads
     const hasPendingUploads = pendingAttachments.length > 0;
@@ -104,6 +56,4 @@ const useAttachments = () => {
         clearAttachments,
         hasPendingUploads
     };
-};
-
-export default useAttachments;
+}
