@@ -12,7 +12,7 @@ import { useVercelChatContext } from "@/providers/VercelChatProvider";
 import { Attachment } from "@ai-sdk/ui-utils";
 
 interface ChatInputProps {
-  onSendMessage: () => void;
+  onSendMessage: (event: React.FormEvent<HTMLFormElement>) => void;
   isGeneratingResponse: boolean;
   onStop: () => void;
   setInput: (input: string) => void;
@@ -30,19 +30,28 @@ export function ChatInput({
   const { selectedArtist } = useArtistProvider();
   const { hasPendingUploads } = useVercelChatContext();
   const isDisabled = !selectedArtist;
+  
+  // Create a form ref to submit the form programmatically
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const handleSend = () => {
+  const handleSend = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    
     if (input === "" || isDisabled || hasPendingUploads) return;
 
     if (isGeneratingResponse) {
       onStop();
     } else {
-      onSendMessage();
+      onSendMessage(event);
     }
   };
 
   return (
-    <div className="w-full relative p-3 dark:bg-zinc-800 rounded-2xl flex flex-col gap-1 bg-zinc-100">
+    <form 
+      ref={formRef}
+      className="w-full relative p-3 dark:bg-zinc-800 rounded-2xl flex flex-col gap-1 bg-zinc-100"
+      onSubmit={handleSend}
+    >
       <div>
         <AttachmentsPreview />
       </div>
@@ -53,13 +62,13 @@ export function ChatInput({
         input={input}
         setInput={setInput}
         isGeneratingResponse={isGeneratingResponse}
-        onSend={handleSend}
+        onSend={() => formRef.current?.requestSubmit()}
         isDisabled={isDisabled || hasPendingUploads}
       />
 
       <div className="absolute bottom-2.5 right-2.5">
         <button
-          type="button"
+          type="submit"
           className={cn(
             "size-8 flex flex-row justify-center items-center dark:bg-zinc-100 bg-zinc-900 dark:text-zinc-900 text-zinc-100 p-1.5 rounded-full hover:bg-zinc-800 dark:hover:bg-zinc-300 hover:scale-105 active:scale-95 transition-all",
             {
@@ -67,24 +76,17 @@ export function ChatInput({
                 isGeneratingResponse || input === "" || isDisabled || hasPendingUploads,
             }
           )}
-          onClick={handleSend}
           disabled={isGeneratingResponse || input === "" || isDisabled || hasPendingUploads}
         >
           {isGeneratingResponse ? <StopIcon /> : <ArrowUpIcon />}
         </button>
       </div>
-    </div>
+    </form>
   );
 }
 
 function AttachmentsPreview() {
   const { attachments, pendingAttachments, removeAttachment } = useVercelChatContext();
-
-  console.log('attachments', {
-    attachments,
-    pendingAttachments,
-    removeAttachment,
-  });
   
   if (attachments.length === 0) return null;
   

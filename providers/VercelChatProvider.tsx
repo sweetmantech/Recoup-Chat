@@ -12,7 +12,7 @@ interface VercelChatContextType {
   isLoading: boolean;
   hasError: boolean;
   isGeneratingResponse: boolean;
-  handleSendMessage: () => Promise<void>;
+  handleSendMessage: (event: React.FormEvent<HTMLFormElement>) => Promise<void>;
   stop: UseChatHelpers["stop"];
   setInput: UseChatHelpers["setInput"];
   input: UseChatHelpers["input"];
@@ -47,6 +47,17 @@ export function VercelChatProvider({
   chatId,
   initialMessages,
 }: VercelChatProviderProps) {
+  // Use the useAttachments hook to get attachment state and functions
+  const {
+    attachments,
+    pendingAttachments,
+    uploadedAttachments,
+    setAttachments,
+    removeAttachment,
+    clearAttachments,
+    hasPendingUploads,
+  } = useAttachments();
+  
   // Use the useVercelChat hook to get the chat state and functions
   const {
     messages,
@@ -60,18 +71,19 @@ export function VercelChatProvider({
     input,
     setMessages,
     reload,
-  } = useVercelChat({ id: chatId, initialMessages });
-
-  // Use the useAttachments hook to get attachment state and functions
-  const {
-    attachments,
-    pendingAttachments,
-    uploadedAttachments,
-    setAttachments,
-    removeAttachment,
-    clearAttachments,
-    hasPendingUploads,
-  } = useAttachments();
+  } = useVercelChat({ 
+    id: chatId, 
+    initialMessages,
+    uploadedAttachments // Pass attachments to useVercelChat
+  });
+  
+  // When a message is sent successfully, clear the attachments
+  const handleSendMessageWithClear = async (event: React.FormEvent<HTMLFormElement>) => {
+    await handleSendMessage(event);
+    
+    // Clear attachments after sending
+    clearAttachments();
+  };
 
   // Create the context value object
   const contextValue: VercelChatContextType = {
@@ -81,7 +93,7 @@ export function VercelChatProvider({
     isLoading,
     hasError,
     isGeneratingResponse,
-    handleSendMessage,
+    handleSendMessage: handleSendMessageWithClear, // Use the wrapped version
     stop,
     setInput,
     input,

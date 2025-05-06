@@ -1,21 +1,49 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Attachment } from '@ai-sdk/ui-utils';
+
+// Global store to persist attachments between hook instances
+let globalAttachments: Attachment[] = [];
 
 /**
  * Hook for managing file attachments in chat
  * Handles file attachments state and pending uploads
  */
 const useAttachments = () => {
-    const [attachments, setAttachmentsState] = useState<Attachment[]>([]);
+    // Initialize state with global value
+    const [attachments, setAttachmentsState] = useState<Attachment[]>(globalAttachments);
+    const isInitialRender = useRef(true);
+    
+    // Sync state with global store on mount
+    useEffect(() => {
+        if (isInitialRender.current) {
+            setAttachmentsState(globalAttachments);
+            isInitialRender.current = false;
+        }
+    }, []);
+    
+    // Update global store when local state changes
+    useEffect(() => {
+        globalAttachments = attachments;
+    }, [attachments]);
     
     // Custom setter that handles both direct array updates and functional updates
     const setAttachments = (
         attachmentsOrFn: Attachment[] | ((prev: Attachment[]) => Attachment[])
     ) => {
         if (typeof attachmentsOrFn === 'function') {
-            setAttachmentsState(prev => attachmentsOrFn(prev));
+            setAttachmentsState(prev => {
+                const newState = attachmentsOrFn(prev);
+                
+                // Update global store immediately
+                globalAttachments = newState;
+                
+                return newState;
+            });
         } else {
             setAttachmentsState(attachmentsOrFn);
+            
+            // Update global store immediately
+            globalAttachments = attachmentsOrFn;
         }
     };
     
@@ -39,7 +67,14 @@ const useAttachments = () => {
             URL.revokeObjectURL(attachmentToRemove.url);
         }
         
-        setAttachmentsState(prev => prev.filter((_, index) => index !== indexToRemove));
+        setAttachmentsState(prev => {
+            const newState = prev.filter((_, index) => index !== indexToRemove);
+            
+            // Update global store immediately
+            globalAttachments = newState;
+            
+            return newState;
+        });
     };
     
     // Clear all attachments
@@ -52,6 +87,9 @@ const useAttachments = () => {
         });
         
         setAttachmentsState([]);
+        
+        // Update global store immediately
+        globalAttachments = [];
     };
 
     // Check if there are any pending uploads
