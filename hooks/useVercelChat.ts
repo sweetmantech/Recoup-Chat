@@ -9,6 +9,7 @@ import getEarliestFailedUserMessageId from "@/lib/messages/getEarliestFailedUser
 import { clientDeleteTrailingMessages } from "@/lib/messages/clientDeleteTrailingMessages";
 import { generateUUID } from "@/lib/generateUUID";
 import { usePrivy } from "@privy-io/react-auth";
+import useAttachments from "@/hooks/useAttachments"
 
 interface UseVercelChatProps {
   id: string;
@@ -28,6 +29,7 @@ export function useVercelChat({ id, initialMessages }: UseVercelChatProps) {
   const userId = userData?.id;
   const artistId = selectedArtist?.account_id;
   const [hasChatApiError, setHasChatApiError] = useState(false);
+  const { attachments, setAttachments } = useAttachments();
 
   const {
     messages,
@@ -134,6 +136,7 @@ export function useVercelChat({ id, initialMessages }: UseVercelChatProps) {
     isLoading,
     hasError,
     isGeneratingResponse,
+    attachments,
 
     // Actions
     handleSendMessage,
@@ -141,5 +144,6 @@ export function useVercelChat({ id, initialMessages }: UseVercelChatProps) {
     setMessages,
     stop,
     reload,
+    setAttachments,
   };
 }

@@ -1,6 +1,8 @@
 import React, { createContext, useContext, ReactNode } from "react";
 import { useVercelChat } from "@/hooks/useVercelChat";
 import { Message, UseChatHelpers } from "@ai-sdk/react";
+import useAttachments from "@/hooks/useAttachments";
+import { Attachment } from "@ai-sdk/ui-utils";
 
 // Interface for the context data
 interface VercelChatContextType {
@@ -16,6 +18,13 @@ interface VercelChatContextType {
   input: UseChatHelpers["input"];
   setMessages: UseChatHelpers["setMessages"];
   reload: UseChatHelpers["reload"];
+  attachments: Attachment[];
+  pendingAttachments: Attachment[];
+  uploadedAttachments: Attachment[];
+  setAttachments: (attachments: Attachment[] | ((prev: Attachment[]) => Attachment[])) => void;
+  removeAttachment: (index: number) => void;
+  clearAttachments: () => void;
+  hasPendingUploads: boolean;
 }
 
 // Create the context
@@ -53,6 +62,17 @@ export function VercelChatProvider({
     reload,
   } = useVercelChat({ id: chatId, initialMessages });
 
+  // Use the useAttachments hook to get attachment state and functions
+  const {
+    attachments,
+    pendingAttachments,
+    uploadedAttachments,
+    setAttachments,
+    removeAttachment,
+    clearAttachments,
+    hasPendingUploads,
+  } = useAttachments();
+
   // Create the context value object
   const contextValue: VercelChatContextType = {
     id: chatId,
@@ -67,6 +87,13 @@ export function VercelChatProvider({
     input,
     setMessages,
     reload,
+    attachments,
+    pendingAttachments,
+    uploadedAttachments,
+    setAttachments,
+    removeAttachment,
+    clearAttachments,
+    hasPendingUploads,
   };
 
   // Provide the context value to children
