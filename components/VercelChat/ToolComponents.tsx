@@ -13,8 +13,9 @@ import { DeleteArtistResult } from "@/lib/tools/deleteArtist";
 import GetSpotifySearchToolResult from "./tools/GetSpotifySearchToolResult";
 import { SpotifySearchResponse } from "@/types/spotify";
 import { ToolInvocation } from "ai";
-import { Loader, Database, Search, Users, Calendar, FileText } from "lucide-react";
+import { Loader } from "lucide-react";
 import { getDisplayToolName } from "@/lib/tools/get-tools-name";
+import { GenericToolResult } from "./GenericToolResult";
 
 /**
  * Interface for tool call props
@@ -42,81 +43,8 @@ interface ToolResultProps extends ToolCallProps {
 }
 
 /**
- * Get appropriate icon and message for a tool type
- */
-function getToolInfo(toolName: string): { icon: React.ReactNode; message: string } {
-  // Spotify related tools
-  if (toolName.includes('spotify')) {
-    return { 
-      icon: <Search className="h-4 w-4 text-green-500" />,
-      message: "Music data retrieved" 
-    };
-  }
-  // Artist data tools
-  else if (toolName === "get_artist_segments" || 
-      toolName === "get_artist_socials" || 
-      toolName === "create_new_artist" || 
-      toolName === "delete_artist") {
-    return { 
-      icon: <Users className="h-4 w-4 text-purple-500" />,
-      message: "Artist data processed" 
-    };
-  }
-  // Segment and fans tools
-  else if (toolName === "get_segment_fans") {
-    return { 
-      icon: <Users className="h-4 w-4 text-blue-500" />,
-      message: "Fan data analyzed" 
-    };
-  }
-  // Social media content tools
-  else if (toolName === "get_social_posts" || toolName === "get_post_comments") {
-    return { 
-      icon: <FileText className="h-4 w-4 text-orange-500" />,
-      message: "Social content analyzed" 
-    };
-  }
-  // Image generation
-  else if (toolName === "generate_image") {
-    return { 
-      icon: <Calendar className="h-4 w-4 text-green-500" />,
-      message: "Image generated" 
-    };
-  }
-  // Diagram generation
-  else if (toolName === "generate_mermaid_diagram") {
-    return { 
-      icon: <Calendar className="h-4 w-4 text-green-500" />,
-      message: "Diagram generated" 
-    };
-  }
-  // Contact team
-  else if (toolName === "contact_team") {
-    return { 
-      icon: <Users className="h-4 w-4 text-blue-500" />,
-      message: "Team contacted" 
-    };
-  }
-  // Perplexity
-  else if (toolName === "perplexity_ask") {
-    return { 
-      icon: <Search className="h-4 w-4 text-blue-500" />,
-      message: "Information retrieved" 
-    };
-  }
-  // Default for any other tool
-  else {
-    return { 
-      icon: <Database className="h-4 w-4 text-green-500" />,
-      message: "Data processed" 
-    };
-  }
-}
-
-/**
  * Helper function to get the appropriate UI component for a tool call
  */
-
 export function getToolCallComponent({ toolName, toolCallId }: ToolInvocation) {
   // Handle generate_image tool call
   if (toolName === "generate_image") {
@@ -151,23 +79,6 @@ export function getToolCallComponent({ toolName, toolCallId }: ToolInvocation) {
       <Loader className="h-4 w-4 animate-spin text-primary" />
       <div className="text-sm font-medium">
         Using {getDisplayToolName(toolName)}...
-      </div>
-    </div>
-  );
-}
-
-/**
- * Generic tool result component
- */
-export function GenericToolResult({ toolName, toolCallId }: ToolCallProps) {
-  const { icon, message } = getToolInfo(toolName);
-  
-  return (
-    <div key={toolCallId} className="flex items-center gap-2 p-3 bg-background border border-gray-100 dark:border-gray-800 rounded-md">
-      {icon}
-      <div className="flex flex-col">
-        <div className="text-sm font-medium">{getDisplayToolName(toolName)}</div>
-        <div className="text-xs text-gray-500">{message}</div>
       </div>
     </div>
   );
@@ -212,7 +123,7 @@ export function getToolResultComponent({
       </div>
     );
   }
-  
+
   // Default generic result for other tools
   return <GenericToolResult toolName={toolName} toolCallId={toolCallId} />;
 }
@@ -223,7 +134,6 @@ export function getToolResultComponent({
 export const ToolComponents = {
   getToolCallComponent,
   getToolResultComponent,
-  GenericToolResult,
 };
 
 export default ToolComponents;
