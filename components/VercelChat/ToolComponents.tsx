@@ -13,6 +13,8 @@ import { DeleteArtistResult } from "@/lib/tools/deleteArtist";
 import GetSpotifySearchToolResult from "./tools/GetSpotifySearchToolResult";
 import { SpotifySearchResponse } from "@/types/spotify";
 import { ToolInvocation } from "ai";
+import { Loader } from "lucide-react";
+import { getDisplayToolName } from "@/lib/tools/get-tools-name";
 
 /**
  * Interface for tool call props
@@ -73,8 +75,9 @@ export function getToolCallComponent({ toolName, toolCallId }: ToolInvocation) {
 
   // Default for other tools
   return (
-    <div key={toolCallId}>
-      <div className="text-sm text-gray-500">Using {toolName}...</div>
+    <div key={toolCallId} className="flex items-center gap-2 p-3 bg-background">
+      <Loader className="h-4 w-4 animate-spin text-primary" />
+      <div className="text-sm font-medium">{getDisplayToolName(toolName)}</div>
     </div>
   );
 }
