@@ -66,11 +66,11 @@ export function GenericToolResult({ toolName, toolCallId }: ToolCallProps) {
     const { icon, message } = getToolInfo(toolName);
 
     return (
-        <div key={toolCallId} className="flex items-center gap-2 p-3 bg-background border border-gray-100 dark:border-gray-800 rounded-md">
+        <div key={toolCallId} className="flex items-center gap-1 p-2 border rounded-md w-fit bg-primary/5">
             {icon}
             <div className="flex flex-col">
-                <div className="text-sm font-medium">{getDisplayToolName(toolName)}</div>
-                <div className="text-xs text-gray-500">{message}</div>
+                <div className="text-xs font-medium">{getDisplayToolName(toolName)}</div>
+                <div className="text-[10px] text-gray-500">{message}</div>
             </div>
         </div>
     );

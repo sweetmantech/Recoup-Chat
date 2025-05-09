@@ -75,11 +75,9 @@ export function getToolCallComponent({ toolName, toolCallId }: ToolInvocation) {
 
   // Default for other tools
   return (
-    <div key={toolCallId} className="flex items-center gap-2 p-3 bg-background">
-      <Loader className="h-4 w-4 animate-spin text-primary" />
-      <div className="text-sm font-medium">
-        Using {getDisplayToolName(toolName)}...
-      </div>
+    <div key={toolCallId} className="flex items-center gap-1 py-1 px-2 bg-primary/5 rounded-sm border w-fit text-xs">
+      <Loader className="h-3 w-3 animate-spin text-primary" />
+      <span>Using {getDisplayToolName(toolName)}</span>
     </div>
   );
 }
