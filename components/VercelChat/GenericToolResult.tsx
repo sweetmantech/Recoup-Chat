@@ -1,5 +1,4 @@
-import { getDisplayToolName } from "@/lib/tools/get-tools-name";
-import { Database, Search, Users, FileText } from "lucide-react";
+import { Database, Search, Users, FileText, CircleCheck } from "lucide-react";
 
 interface ToolCallProps {
     toolName: string;
@@ -63,15 +62,12 @@ function getToolInfo(toolName: string): { icon: React.ReactNode; message: string
 
 
 export function GenericToolResult({ toolName, toolCallId }: ToolCallProps) {
-    const { icon, message } = getToolInfo(toolName);
+    const { message } = getToolInfo(toolName);
 
     return (
-        <div key={toolCallId} className="flex items-center gap-1 p-2 border rounded-md w-fit bg-primary/5">
-            {icon}
-            <div className="flex flex-col">
-                <div className="text-xs font-medium">{getDisplayToolName(toolName)}</div>
-                <div className="text-[10px] text-gray-500">{message}</div>
-            </div>
+        <div key={toolCallId} className="flex items-center gap-1 py-1 px-2 bg-primary/5 rounded-sm border w-fit text-xs">
+            <CircleCheck className="h-3 w-3 animate-spin text-primary" />
+            <span>{message}</span>
         </div>
     );
 }
