@@ -2,9 +2,9 @@
 
 import { ChangeEventHandler, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import { Textarea as ShadCNTextarea } from "./ui/textarea";
+import { Textarea } from "../ui/textarea";
 
-interface ITextArea {
+interface IArtistInstructionTextArea {
   id?: string;
   name?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -19,7 +19,7 @@ interface ITextArea {
   rows?: number;
 }
 
-function TextArea({
+function ArtistInstructionTextArea({
   id,
   name,
   value,
@@ -30,7 +30,7 @@ function TextArea({
   clasNameError,
   rows = 1,
   placeholder,
-}: ITextArea) {
+}: IArtistInstructionTextArea) {
   const formContext = useFormContext();
   const isFullyHooked = name && hookToForm && formContext;
 
@@ -45,7 +45,7 @@ function TextArea({
   return (
     <div className="relative w-full ">
       <label className="text-sm">{label}</label>
-      <ShadCNTextarea
+      <Textarea
         {...(id && { id: id })}
         value={value}
         placeholder={placeholder}
@@ -72,9 +72,9 @@ function TextArea({
   );
 }
 
-TextArea.defaultProps = {
+ArtistInstructionTextArea.defaultProps = {
   hookToForm: false,
   type: "text",
 };
 
-export default TextArea;
+export default ArtistInstructionTextArea;
