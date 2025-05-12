@@ -1,18 +1,20 @@
-import { useChat } from "@ai-sdk/react";
+import { Message, useChat } from "@ai-sdk/react";
 import { useMessageLoader } from "./useMessageLoader";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useParams } from "next/navigation";
 import { toast } from "react-toastify";
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import getEarliestFailedUserMessageId from "@/lib/messages/getEarliestFailedUserMessageId";
 import { clientDeleteTrailingMessages } from "@/lib/messages/clientDeleteTrailingMessages";
 import { generateUUID } from "@/lib/generateUUID";
+import { usePrivy } from "@privy-io/react-auth";
 import { ChatMessage } from "@/types/ChatMessage";
 import { useConversationsProvider } from "@/providers/ConversationsProvider";
 
 interface UseVercelChatProps {
   id: string;
+  initialMessages?: Message[];
 }
 
 /**
@@ -20,7 +22,8 @@ interface UseVercelChatProps {
  * Combines useChat, and useMessageLoader
  * Accesses user and artist data directly from providers
  */
-export function useVercelChat({ id }: UseVercelChatProps) {
+export function useVercelChat({ id, initialMessages }: UseVercelChatProps) {
+  const { authenticated } = usePrivy();
   const { userData } = useUserProvider();
   const { selectedArtist } = useArtistProvider();
   const { roomId } = useParams();
@@ -39,6 +42,7 @@ export function useVercelChat({ id }: UseVercelChatProps) {
     setMessages,
     setInput,
     reload,
+    append,
   } = useChat({
     id,
     body: {
@@ -109,6 +113,10 @@ export function useVercelChat({ id }: UseVercelChatProps) {
     setHasChatApiError(false);
   };
 
+  const silentlyUpdateUrl = () => {
+    window.history.replaceState({}, "", `/chat/${id}`);
+  };
+
   const handleSendMessage = async () => {
     if (hasChatApiError) {
       await deleteTrailingMessages();
@@ -117,10 +125,24 @@ export function useVercelChat({ id }: UseVercelChatProps) {
     handleSubmit(undefined);
 
     if (!roomId) {
-      // Silently update the URL without affecting the UI or causing remount
-      window.history.replaceState({}, "", `/chat/${id}`);
+      silentlyUpdateUrl();
     }
   };
+
+  const handleSendQueryMessages = async (initialMessage: Message) => {
+    silentlyUpdateUrl();
+    append(initialMessage);
+  };
+
+  useEffect(() => {
+    const isFullyLoggedIn = authenticated && artistId && userId;
+    const isReady = status === "ready";
+    const hasMessages = messages.length > 1;
+    const hasInitialMessages = initialMessages && initialMessages.length > 0;
+    if (!hasInitialMessages || !isReady || hasMessages || !isFullyLoggedIn)
+      return;
+    handleSendQueryMessages(initialMessages[0]);
+  }, [initialMessages, status, authenticated, artistId, userId]);
 
   return {
     // States
@@ -137,5 +159,6 @@ export function useVercelChat({ id }: UseVercelChatProps) {
     setMessages,
     stop,
     reload,
+    append,
   };
 }

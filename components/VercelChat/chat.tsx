@@ -4,7 +4,6 @@ import cn from "classnames";
 import { Messages } from "./messages";
 import ChatInput from "./ChatInput";
 import ChatSkeleton from "../Chat/ChatSkeleton";
-import { useVercelChat } from "@/hooks/useVercelChat";
 import ChatGreeting from "../Chat/ChatGreeting";
 import ChatPrompt from "../Chat/ChatPrompt";
 import useVisibilityDelay from "@/hooks/useVisibilityDelay";
@@ -12,13 +11,28 @@ import { ChatReport } from "../Chat/ChatReport";
 import { useParams } from "next/navigation";
 import { useAutoLogin } from "@/hooks/useAutoLogin";
 import { useArtistFromRoom } from "@/hooks/useArtistFromRoom";
+import {
+  VercelChatProvider,
+  useVercelChatContext,
+} from "@/providers/VercelChatProvider";
+import { Message } from "ai";
 
 interface ChatProps {
   id: string;
   reportId?: string;
+  initialMessages?: Message[];
 }
 
-export function Chat({ id, reportId }: ChatProps) {
+export function Chat({ id, reportId, initialMessages }: ChatProps) {
+  return (
+    <VercelChatProvider chatId={id} initialMessages={initialMessages}>
+      <ChatContent reportId={reportId} id={id} />
+    </VercelChatProvider>
+  );
+}
+
+// Inner component that uses the context
+function ChatContent({ reportId, id }: { reportId?: string; id: string }) {
   const {
     messages,
     status,
@@ -31,14 +45,14 @@ export function Chat({ id, reportId }: ChatProps) {
     input,
     setMessages,
     reload,
-  } = useVercelChat({ id });
+  } = useVercelChatContext();
   const { roomId } = useParams();
   useAutoLogin();
   useArtistFromRoom(id);
-  
+
   const { isVisible } = useVisibilityDelay({
-    shouldBeVisible: messages.length === 0 && !reportId,
-    deps: [messages.length, reportId],
+    shouldBeVisible: messages.length === 0 && !reportId && status === "ready",
+    deps: [messages.length, reportId, status],
   });
 
   if (isLoading && roomId) {

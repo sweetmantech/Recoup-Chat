@@ -10,12 +10,13 @@ const useArtistAgents = () => {
   useEffect(() => {
     const getAgents = async () => {
       if (selectedArtist) {
-        const socialIds = selectedArtist.account_socials.map(
-          (social: SOCIAL) => social.id,
+        const socialIds = selectedArtist.account_socials?.map(
+          (social: SOCIAL) => social.id
         );
-        const queryString = socialIds.map((id) => `socialId=${id}`).join("&");
+        const queryString = socialIds?.map((id) => `socialId=${id}`).join("&");
         const response = await fetch(`/api/agents?${queryString}`);
         const data = await response.json();
+        if (data.error) return;
         setAgents(data);
       }
     };
