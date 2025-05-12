@@ -9,7 +9,6 @@ import getEarliestFailedUserMessageId from "@/lib/messages/getEarliestFailedUser
 import { clientDeleteTrailingMessages } from "@/lib/messages/clientDeleteTrailingMessages";
 import { generateUUID } from "@/lib/generateUUID";
 import { usePrivy } from "@privy-io/react-auth";
-import { ChatMessage } from "@/types/ChatMessage";
 import { useConversationsProvider } from "@/providers/ConversationsProvider";
 
 interface UseVercelChatProps {
@@ -30,7 +29,7 @@ export function useVercelChat({ id, initialMessages }: UseVercelChatProps) {
   const userId = userData?.id;
   const artistId = selectedArtist?.account_id;
   const [hasChatApiError, setHasChatApiError] = useState(false);
-  const messagesRef = useRef<ChatMessage[]>([]);
+  const messagesLengthRef = useRef<number>();
   const { fetchConversations } = useConversationsProvider();
 
   const {
@@ -66,14 +65,15 @@ export function useVercelChat({ id, initialMessages }: UseVercelChatProps) {
       // 2. Second just streamed message
       // When messages length is 2, it means second message has been streamed successfully and should also have been updated on backend
       // So we trigger the fetchConversations to update the conversation list
-      if (messagesRef.current.length === 2) {
+      
+      if (messagesLengthRef.current === 2) {
         fetchConversations()
       }
     }
   });
 
   // Keep messagesRef in sync with messages
-  messagesRef.current = messages;
+  messagesLengthRef.current = messages.length;
 
   const { isLoading: isMessagesLoading, hasError } = useMessageLoader(
     messages.length === 0 ? id : undefined,
