@@ -60,6 +60,7 @@ export function useVercelChat({ id, initialMessages }: UseVercelChatProps) {
       setHasChatApiError(true);
     },
     onFinish: () => {
+      console.log("onFinish triggered",messages);
       // As onFinish triggers when a message is streamed successfully.
       // On a new chat, usually there are 2 messages:
       // 1. First user message
