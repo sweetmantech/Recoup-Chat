@@ -15,20 +15,13 @@ export const PreviewAttachment = ({
       <div className="w-20 h-16 aspect-video bg-muted rounded-md relative flex flex-col items-center justify-center overflow-hidden">
         {contentType ? (
           contentType.startsWith('image') ? (
-            // Image preview
             <img
               key={url}
               src={url}
               alt={name ?? 'An image attachment'}
               className="rounded-md size-full object-cover"
             />
-          ) : contentType === 'application/pdf' ? (
-            // PDF icon
-            <div className="flex items-center justify-center text-zinc-500">
-              <FileIcon size={24} />
-              <span className="text-xs ml-1">.pdf</span>
-            </div>
-          ) : (
+          ): (
             // Generic file icon
             <div className="flex items-center justify-center text-zinc-500">
               <FileIcon size={24} />
