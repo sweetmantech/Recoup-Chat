@@ -56,7 +56,6 @@ export function useVercelChat({
       accountId: userId,
       email: userData?.email,
     },
-    // initialMessages,
     experimental_throttle: 100,
     sendExtraMessageFields: true,
     generateId: generateUUID,
