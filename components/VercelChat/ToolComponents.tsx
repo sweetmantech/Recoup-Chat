@@ -13,6 +13,12 @@ import { DeleteArtistResult } from "@/lib/tools/deleteArtist";
 import GetSpotifySearchToolResult from "./tools/GetSpotifySearchToolResult";
 import { SpotifySearchResponse } from "@/types/spotify";
 import { ToolInvocation } from "ai";
+import UpdateArtistInfoSuccess from "./tools/UpdateArtistInfoSuccess";
+import { UpdateAccountInfoResult } from "@/lib/tools/updateAccountInfo";
+import UpdateArtistSocialsSuccess from "./tools/UpdateArtistSocialsSuccess";
+import { UpdateArtistSocialsResult } from "@/lib/tools/updateArtistSocials";
+import { TxtFileResult } from "@/components/ui/TxtFileResult";
+import { TxtFileGenerationResult } from "@/lib/tools/createTxtFile";
 import { Loader } from "lucide-react";
 import { getDisplayToolName } from "@/lib/tools/get-tools-name";
 import { GenericToolResult } from "./GenericToolResult";
@@ -118,6 +124,26 @@ export function getToolResultComponent({
     return (
       <div key={toolCallId}>
         <GetSpotifySearchToolResult result={result as SpotifySearchResponse} />
+      </div>
+    );
+  } else if (toolName === "update_account_info") {
+    return (
+      <div key={toolCallId}>
+        <UpdateArtistInfoSuccess result={result as UpdateAccountInfoResult} />
+      </div>
+    );
+  } else if (toolName === "update_artist_socials") {
+    return (
+      <div key={toolCallId}>
+        <UpdateArtistSocialsSuccess
+          result={result as UpdateArtistSocialsResult}
+        />
+      </div>
+    );
+  } else if (toolName === "generate_txt_file") {
+    return (
+      <div key={toolCallId}>
+        <TxtFileResult result={result as TxtFileGenerationResult} />
       </div>
     );
   }
