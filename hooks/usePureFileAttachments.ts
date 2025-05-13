@@ -31,7 +31,7 @@ export function usePureFileAttachments() {
       const formData = new FormData();
       formData.append('file', file);
 
-      const response = await fetch('/api/files/upload', {
+      const response = await fetch('/api/upload', {
         method: 'POST',
         body: formData,
       });
@@ -53,7 +53,7 @@ export function usePureFileAttachments() {
           attachment.url === tempUrl
             ? {
                 name: data.fileName,
-                contentType: data.mimetype,
+                contentType: data.fileType,
                 url: data.url,
                 id: data.id, // Store the Arweave transaction ID
               }
