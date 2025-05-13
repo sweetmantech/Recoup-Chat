@@ -1,14 +1,15 @@
-import { useState, useEffect } from "react";
 import { Message, useChat } from "@ai-sdk/react";
 import { useMessageLoader } from "./useMessageLoader";
 import { useUserProvider } from "@/providers/UserProvder";
 import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useParams } from "next/navigation";
 import { toast } from "react-toastify";
+import { useEffect, useState, useRef } from "react";
 import getEarliestFailedUserMessageId from "@/lib/messages/getEarliestFailedUserMessageId";
 import { clientDeleteTrailingMessages } from "@/lib/messages/clientDeleteTrailingMessages";
 import { generateUUID } from "@/lib/generateUUID";
 import { usePrivy } from "@privy-io/react-auth";
+import { useConversationsProvider } from "@/providers/ConversationsProvider";
 import { Attachment } from "@ai-sdk/ui-utils";
 
 interface UseVercelChatProps {
@@ -34,6 +35,8 @@ export function useVercelChat({
   const userId = userData?.id;
   const artistId = selectedArtist?.account_id;
   const [hasChatApiError, setHasChatApiError] = useState(false);
+  const messagesLengthRef = useRef<number>();
+  const { fetchConversations } = useConversationsProvider();
 
   const {
     messages,
@@ -44,6 +47,7 @@ export function useVercelChat({
     setMessages,
     setInput,
     reload,
+    append,
   } = useChat({
     id,
     body: {
@@ -61,7 +65,22 @@ export function useVercelChat({
       toast.error("An error occurred, please try again!");
       setHasChatApiError(true);
     },
+    onFinish: () => {
+      // As onFinish triggers when a message is streamed successfully.
+      // On a new chat, usually there are 2 messages:
+      // 1. First user message
+      // 2. Second just streamed message
+      // When messages length is 2, it means second message has been streamed successfully and should also have been updated on backend
+      // So we trigger the fetchConversations to update the conversation list
+      
+      if (messagesLengthRef.current === 2) {
+        fetchConversations()
+      }
+    }
   });
+
+  // Keep messagesRef in sync with messages
+  messagesLengthRef.current = messages.length;
 
   const { isLoading: isMessagesLoading, hasError } = useMessageLoader(
     messages.length === 0 ? id : undefined,
@@ -125,9 +144,9 @@ export function useVercelChat({
     }
   };
 
-  const handleSendQueryMessages = async () => {
-    await reload();
+  const handleSendQueryMessages = async (initialMessage: Message) => {
     silentlyUpdateUrl();
+    append(initialMessage);
   };
 
   useEffect(() => {
@@ -137,7 +156,7 @@ export function useVercelChat({
     const hasInitialMessages = initialMessages && initialMessages.length > 0;
     if (!hasInitialMessages || !isReady || hasMessages || !isFullyLoggedIn)
       return;
-    handleSendQueryMessages();
+    handleSendQueryMessages(initialMessages[0]);
   }, [initialMessages, status, authenticated, artistId, userId]);
 
   return {
@@ -155,5 +174,6 @@ export function useVercelChat({
     setMessages,
     stop,
     reload,
+    append,
   };
 }

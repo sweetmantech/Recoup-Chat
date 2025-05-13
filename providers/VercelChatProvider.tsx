@@ -18,6 +18,7 @@ interface VercelChatContextType {
   input: UseChatHelpers["input"];
   setMessages: UseChatHelpers["setMessages"];
   reload: UseChatHelpers["reload"];
+  append: UseChatHelpers["append"];
   attachments: Attachment[];
   pendingAttachments: Attachment[];
   uploadedAttachments: Attachment[];
@@ -71,6 +72,7 @@ export function VercelChatProvider({
     input,
     setMessages,
     reload,
+    append,
   } = useVercelChat({ 
     id: chatId, 
     initialMessages,
@@ -99,6 +101,7 @@ export function VercelChatProvider({
     input,
     setMessages,
     reload,
+    append,
     attachments,
     pendingAttachments,
     uploadedAttachments,
