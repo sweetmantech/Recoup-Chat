@@ -31,6 +31,9 @@ export function ChatInput({
 
   // Create a form ref to submit the form programmatically
   const formRef = useRef<HTMLFormElement>(null);
+  
+  // Extracted the common disabled condition (for button)
+  const isButtonDisabled = isGeneratingResponse || input === "" || isDisabled || hasPendingUploads;
 
   const handleSend = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -72,10 +75,10 @@ export function ChatInput({
               "size-8 flex flex-row justify-center items-center dark:bg-zinc-100 bg-zinc-900 dark:text-zinc-900 text-zinc-100 p-1.5 rounded-full hover:bg-zinc-800 dark:hover:bg-zinc-300 hover:scale-105 active:scale-95 transition-all",
               {
                 "dark:bg-zinc-200 dark:text-zinc-500 cursor-not-allowed opacity-50":
-                  isGeneratingResponse || input === "" || isDisabled || hasPendingUploads,
+                  isButtonDisabled,
               }
             )}
-            disabled={isGeneratingResponse || input === "" || isDisabled || hasPendingUploads}
+            disabled={isButtonDisabled}
           >
             {isGeneratingResponse ? <StopIcon /> : <ArrowUpIcon />}
           </button>
