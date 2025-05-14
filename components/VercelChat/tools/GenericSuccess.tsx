@@ -9,7 +9,6 @@ const GenericSuccess = ({
   message: string;
   children?: React.ReactNode;
 }) => {
-  
   return (
     <div className="flex items-center space-x-3 p-2 rounded bg-gray-50 border border-gray-200 my-1 text-gray-800 w-fit md:rounded-xl">
       <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden shrink-0">
