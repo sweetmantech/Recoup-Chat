@@ -97,7 +97,6 @@ export function getToolResultComponent({
   toolCallId,
   result,
 }: ToolResultProps) {
-  console.log("tool result", result);
   if (toolName === "generate_image") {
     return (
       <div key={toolCallId}>
