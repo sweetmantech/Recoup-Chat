@@ -21,7 +21,8 @@ import { TxtFileResult } from "@/components/ui/TxtFileResult";
 import { TxtFileGenerationResult } from "@/lib/tools/createTxtFile";
 import { Loader } from "lucide-react";
 import { getDisplayToolName } from "@/lib/tools/get-tools-name";
-import { GenericToolResult } from "./GenericToolResult";
+import GenericSuccess from "./tools/GenericSuccess";
+import getToolInfo from "@/lib/utils/getToolsInfo";
 
 /**
  * Interface for tool call props
@@ -96,6 +97,7 @@ export function getToolResultComponent({
   toolCallId,
   result,
 }: ToolResultProps) {
+  console.log("tool result", result);
   if (toolName === "generate_image") {
     return (
       <div key={toolCallId}>
@@ -149,7 +151,7 @@ export function getToolResultComponent({
   }
 
   // Default generic result for other tools
-  return <GenericToolResult toolName={toolName} toolCallId={toolCallId} />;
+  return <GenericSuccess name={getDisplayToolName(toolName)} message={(result as { message?: string }).message ?? getToolInfo(toolName).message} />;
 }
 
 /**

@@ -1,10 +1,3 @@
-import { CircleCheck } from "lucide-react";
-
-interface ToolCallProps {
-    toolName: string;
-    toolCallId: string;
-}
-
 function getToolInfo(toolName: string): { message: string } {
     // Spotify related tools
     if (toolName.includes('spotify')) {
@@ -53,14 +46,4 @@ function getToolInfo(toolName: string): { message: string } {
     }
 }
 
-
-export function GenericToolResult({ toolName, toolCallId }: ToolCallProps) {
-    const { message } = getToolInfo(toolName);
-
-    return (
-        <div key={toolCallId} className="flex items-center gap-1 py-1 px-2 bg-primary/5 rounded-sm border w-fit text-xs">
-            <CircleCheck className="h-3 w-3 text-primary" />
-            <span>{message}</span>
-        </div>
-    );
-}
+export default getToolInfo;
