@@ -8,12 +8,34 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useState, useEffect } from "react";
 
 interface ImageResultProps {
   result: ImageGenerationResult;
 }
 
 export function ImageResult({ result }: ImageResultProps) {
+  const [imageBlob, setImageBlob] = useState<Blob | null>(null);
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  // Prefetch the image when component mounts
+  useEffect(() => {
+    if (result.success && result.arweaveUrl) {
+      const prefetchImage = async () => {
+        try {
+          // Use type assertion to tell TypeScript arweaveUrl is a string
+          const response = await fetch(result.arweaveUrl as string);
+          const blob = await response.blob();
+          setImageBlob(blob);
+        } catch (error) {
+          console.error("Error prefetching image:", error);
+        }
+      };
+      
+      prefetchImage();
+    }
+  }, [result.success, result.arweaveUrl]);
+
   if (!result.success) {
     return (
       <div className="w-full max-w-[28rem] mx-auto p-4 border border-red-200 rounded-md bg-red-50">
@@ -27,15 +49,31 @@ export function ImageResult({ result }: ImageResultProps) {
     );
   }
 
-  const handleDownload = () => {
-    if (result.arweaveUrl) {
+  const handleDownload = async () => {
+    if (!result.arweaveUrl) return;
+    
+    setIsDownloading(true);
+    
+    try {
+      // Use prefetched blob if available, otherwise fetch it
+      const blob = imageBlob || await (async () => {
+        // Use type assertion to tell TypeScript arweaveUrl is a string
+        const response = await fetch(result.arweaveUrl as string);
+        return response.blob();
+      })();
+      
+      const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
-      link.href = result.arweaveUrl;
-      link.target = "_blank";
-      link.download = "generated-image.png";
+      link.href = url;
+      link.download = `Recoup-Image-${new Date().toISOString().split('T')[0]}.png`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading image:", error);
+    } finally {
+      setIsDownloading(false);
     }
   };
 
@@ -63,13 +101,14 @@ export function ImageResult({ result }: ImageResultProps) {
                     size="icon"
                     className="absolute top-2 right-2 z-20 md:rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-gray-200/10"
                     onClick={handleDownload}
+                    disabled={isDownloading}
                     aria-label="Download image"
                   >
-                    <Download className="h-4 w-4 text-white" />
+                    <Download className={`h-4 w-4 text-white ${isDownloading ? 'animate-pulse' : ''}`} />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Download</p>
+                  <p>{imageBlob ? 'Download' : 'Preparing download...'}</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
