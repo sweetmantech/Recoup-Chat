@@ -26,7 +26,7 @@ export function ImageResult({ result }: ImageResultProps) {
 
   if (!result.success) {
     return (
-      <div className="w-full max-w-[28rem] mx-auto p-4 border border-red-200 rounded-md bg-red-50">
+      <div className="w-full max-w-md mx-auto p-4 border border-red-200 rounded-md bg-red-50">
         <p className="text-sm font-medium text-red-600">
           Error generating image
         </p>
@@ -92,7 +92,7 @@ export function ImageResult({ result }: ImageResultProps) {
           </div>
         </div>
       ) : (
-        <div className="p-4 border border-gray-200 rounded-md bg-gray-50 max-w-[28rem]">
+        <div className="p-4 border border-gray-200 rounded-md bg-gray-50 max-w-md">
           <p className="text-sm text-gray-500">
             {result.message || "Image generated but storage URL not available."}
           </p>
