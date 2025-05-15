@@ -42,7 +42,7 @@ export function ImageResult({ result }: ImageResultProps) {
   return (
     <div className="flex justify-center">
       {result.arweaveUrl ? (
-        <div className="border border-gray-200 md:rounded-2xl group cursor-pointer relative overflow-hidden" style={{ maxWidth: "28rem", maxHeight: "28rem" }}>
+        <div className="border border-gray-200 rounded-2xl group cursor-pointer relative overflow-hidden" style={{ maxWidth: "28rem", maxHeight: "28rem" }}>
           <div className="relative w-full h-full max-h-[28rem]">
             {/* Top gradient overlay */}
             <div className="absolute z-10 transition-opacity duration-300 opacity-0 group-hover:opacity-100 group-focus:opacity-100 focus-within:opacity-100 end-0 top-0 w-full">
