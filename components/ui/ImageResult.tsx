@@ -23,7 +23,6 @@ export function ImageResult({ result }: ImageResultProps) {
     if (result.success && result.arweaveUrl) {
       const prefetchImage = async () => {
         try {
-          // Use type assertion to tell TypeScript arweaveUrl is a string
           const response = await fetch(result.arweaveUrl as string);
           const blob = await response.blob();
           setImageBlob(blob);
@@ -57,7 +56,6 @@ export function ImageResult({ result }: ImageResultProps) {
     try {
       // Use prefetched blob if available, otherwise fetch it
       const blob = imageBlob || await (async () => {
-        // Use type assertion to tell TypeScript arweaveUrl is a string
         const response = await fetch(result.arweaveUrl as string);
         return response.blob();
       })();
@@ -65,7 +63,20 @@ export function ImageResult({ result }: ImageResultProps) {
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = `Recoup-Image-${new Date().toISOString().split('T')[0]}.png`;
+      // Format: "Recoup Image May 15, 2025, 09_59_47 PM"
+      const now = new Date();
+      const formattedDate = now.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric' 
+      });
+      const formattedTime = now.toLocaleTimeString('en-US', { 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit', 
+        hour12: true 
+      }).replace(/:/g, '_');
+      link.download = `Recoup Image ${formattedDate}, ${formattedTime}`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
