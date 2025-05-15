@@ -2,6 +2,12 @@ import Image from "next/image";
 import { ImageGenerationResult } from "@/lib/tools/generateImage";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface ImageResultProps {
   result: ImageGenerationResult;
@@ -34,19 +40,28 @@ export function ImageResult({ result }: ImageResultProps) {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto border border-gray-200 md:rounded-2xl">
+    <div className="w-full max-w-md mx-auto border border-gray-200 md:rounded-2xl group cursor-pointer">
       {result.arweaveUrl ? (
         <div className="space-y-4">
           <div className="relative aspect-square w-full overflow-hidden md:rounded-2xl">
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="absolute top-2 right-2 z-10 md:rounded-xl" 
-              onClick={handleDownload}
-              aria-label="Download image"
-            >
-              <Download className="h-4 w-4" />
-            </Button>
+            <TooltipProvider delayDuration={100}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="absolute top-2 right-2 z-10 md:rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" 
+                    onClick={handleDownload}
+                    aria-label="Download image"
+                  >
+                    <Download className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Download</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
             <Image
               src={result.arweaveUrl}
               alt="Generated image"
