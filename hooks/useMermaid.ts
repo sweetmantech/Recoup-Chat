@@ -138,7 +138,24 @@ export const useMermaid = ({
         // Create a temporary anchor element and trigger download
         const a = document.createElement('a');
         a.href = url;
-        a.download = `${uniqueId}.svg`;
+
+        // Format: "Recoup Diagram May 15, 2025, 09_59_47 PM"
+        const now = new Date();
+        const formattedDate = now.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        });
+        const formattedTime = now.toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true
+        }).replace(/:/g, '_');
+
+        const filename = `Recoup Diagram ${formattedDate}, ${formattedTime}`;
+
+        a.download = `${filename}.svg`;
         document.body.appendChild(a);
         a.click();
 
