@@ -1,10 +1,6 @@
-import { useCallback, RefObject } from "react";
+import { RefObject } from "react";
 
-export const useMermaidDownload = (
-  containerRef: RefObject<HTMLPreElement>,
-  uniqueId: string
-) => {
-  const handleDownload = useCallback(() => {
+const handleDownload = ({ containerRef }: { containerRef: RefObject<HTMLPreElement> }) => {
     if (!containerRef.current) return;
 
     const svgElement = containerRef.current.querySelector('svg');
@@ -58,7 +54,6 @@ export const useMermaidDownload = (
     // Clean up
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-  }, [containerRef, uniqueId]);
+  }
 
-  return { handleDownload };
-}; 
+export default handleDownload;

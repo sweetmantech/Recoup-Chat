@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Download } from 'lucide-react';
+import handleDownload from '@/lib/utils/download-mermaid-chart';
 
 // Define a type for the global mermaid object, or use any if types aren't installed
 declare global {
@@ -32,7 +33,7 @@ interface MermaidDiagramProps {
  * Dynamically imports the Mermaid library on mount.
  */
 const MermaidDiagramInternal: React.FC<MermaidDiagramProps> = ({ chart, id }) => {
-  const { isLibraryLoaded, hasError, containerRef, uniqueId, handleDownload } = useMermaid({
+  const { isLibraryLoaded, hasError, containerRef, uniqueId } = useMermaid({
     id,
     chart
   });
@@ -62,7 +63,7 @@ const MermaidDiagramInternal: React.FC<MermaidDiagramProps> = ({ chart, id }) =>
                 variant="ghost"
                 size="icon"
                 className="absolute top-2 right-2 z-20 md:rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-gray-200/50"
-                onClick={handleDownload}
+                onClick={() => handleDownload({ containerRef })}
                 aria-label="Download image"
               >
                 <Download className="h-4 w-4 text-gray-700" />

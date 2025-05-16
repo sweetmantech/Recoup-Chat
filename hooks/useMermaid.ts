@@ -1,6 +1,5 @@
 import { useEffect, useId, useRef, useState } from "react";
 import styles from '../components/Chat/markdown.module.css'; // Import the CSS module
-import { useMermaidDownload } from "./useMermaidDownload";
 
 type MermaidApi = {
     run: (options: { nodes: HTMLElement[] }) => void;
@@ -20,7 +19,6 @@ export const useMermaid = ({
     const mermaidRef = useRef<MermaidApi | null>(null);
     const [isLibraryLoaded, setIsLibraryLoaded] = useState(false);
     const [hasError, setHasError] = useState(false);
-    const { handleDownload } = useMermaidDownload(containerRef, uniqueId);
 
     useEffect(() => {
         let didCancel = false;
@@ -109,6 +107,6 @@ export const useMermaid = ({
         };
     }, [isLibraryLoaded, hasError, chart]); // Keep dependencies as they are working
 
-    return { isLibraryLoaded, hasError, uniqueId, containerRef, handleDownload };
+    return { isLibraryLoaded, hasError, uniqueId, containerRef };
 };
 
