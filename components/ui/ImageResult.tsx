@@ -1,14 +1,7 @@
 import Image from "next/image";
 import { ImageGenerationResult } from "@/lib/tools/generateImage";
-import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { useImageDownloader } from "@/hooks/useImageDownloader";
+import MessageMediaDownloadButton from "../Chat/MessageMediaDownloadButton";
 
 interface ImageResultProps {
   result: ImageGenerationResult;
@@ -52,26 +45,8 @@ export function ImageResult({ result }: ImageResultProps) {
               <div className="bg-gradient-to-b from-transparent to-black/30 h-20 w-full md:rounded-b-2xl" />
             </div>
             
-            {/* Download button with tooltip */}
-            <TooltipProvider delayDuration={100}>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="absolute top-2 right-2 z-20 md:rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-gray-200/10"
-                    onClick={handleDownload}
-                    disabled={isDownloading}
-                    aria-label="Download image"
-                  >
-                    <Download className={`h-4 w-4 text-white ${isDownloading ? 'animate-pulse' : ''}`} />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>{isReady ? 'Download' : 'Preparing download...'}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            {/* Download Image Button */}
+            <MessageMediaDownloadButton onClick={handleDownload} overrideButtonClassName="hover:bg-gray-200/10" overrideIconClassName="text-white" isReady={isReady} isDownloading={isDownloading} />
             
             <div className="w-full h-auto max-w-md max-h-md">
               <Image 
