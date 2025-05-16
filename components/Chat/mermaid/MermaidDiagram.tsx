@@ -117,9 +117,6 @@ const MermaidDiagramInternal: React.FC<MermaidDiagramProps> = ({ chart, id }) =>
       <div className="absolute z-10 transition-opacity duration-300 opacity-0 group-hover:opacity-100 group-focus:opacity-100 focus-within:opacity-100 end-0 top-0 w-full">
         <div className="bg-gradient-to-t from-transparent to-black/5 h-20 w-full md:rounded-t-2xl" />
       </div>
-      <div className="absolute z-10 transition-opacity duration-300 opacity-0 group-hover:opacity-100 group-focus:opacity-100 focus-within:opacity-100 end-0 bottom-0 w-full">
-        <div className="bg-gradient-to-b from-transparent to-black/5 h-20 w-full md:rounded-b-2xl" />
-      </div>
     </div>
   );
 };
