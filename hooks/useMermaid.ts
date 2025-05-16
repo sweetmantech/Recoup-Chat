@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import styles from '../components/Chat/markdown.module.css'; // Import the CSS module
+import { useMermaidDownload } from "./useMermaidDownload";
 
 type MermaidApi = {
     run: (options: { nodes: HTMLElement[] }) => void;
@@ -19,6 +20,7 @@ export const useMermaid = ({
     const mermaidRef = useRef<MermaidApi | null>(null);
     const [isLibraryLoaded, setIsLibraryLoaded] = useState(false);
     const [hasError, setHasError] = useState(false);
+    const { handleDownload } = useMermaidDownload(containerRef, uniqueId);
 
     useEffect(() => {
         let didCancel = false;
@@ -106,63 +108,6 @@ export const useMermaid = ({
             }
         };
     }, [isLibraryLoaded, hasError, chart]); // Keep dependencies as they are working
-
-    // Download handler
-    const handleDownload = useCallback(() => {
-        if (!containerRef.current) return;
-
-        const svgElement = containerRef.current.querySelector('svg');
-        if (!svgElement) {
-            console.error('Could not find SVG element to download.');
-            return;
-        }
-
-        // Serialize the SVG
-        const serializer = new XMLSerializer();
-        let svgString = serializer.serializeToString(svgElement);
-
-        // Add XML declaration and potentially namespace if missing
-        if (!svgString.startsWith('<?xml')) {
-            svgString = '<?xml version="1.0" standalone="no"?>\n' + svgString;
-        }
-        if (!svgString.includes('xmlns="http://www.w3.org/2000/svg"')) {
-            svgString = svgString.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
-        }
-
-        // Create a Blob
-        const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
-
-        // Create an object URL
-        const url = URL.createObjectURL(blob);
-
-        // Create a temporary anchor element and trigger download
-        const a = document.createElement('a');
-        a.href = url;
-
-        // Format: "Recoup Diagram May 15, 2025, 09_59_47 PM"
-        const now = new Date();
-        const formattedDate = now.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric'
-        });
-        const formattedTime = now.toLocaleTimeString('en-US', {
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: true
-        }).replace(/:/g, '_');
-
-        const filename = `Recoup Diagram ${formattedDate}, ${formattedTime}`;
-
-        a.download = `${filename}.svg`;
-        document.body.appendChild(a);
-        a.click();
-
-        // Clean up
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    }, [uniqueId]);
 
     return { isLibraryLoaded, hasError, uniqueId, containerRef, handleDownload };
 };
