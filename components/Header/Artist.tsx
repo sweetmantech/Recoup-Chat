@@ -91,7 +91,6 @@ const Artist = ({
           <ImageWithFallback src={artist?.image || ""} className="w-full h-full object-cover rounded-full" />
         </div>
       </div>
-
       {!isMini && (
         <>
           <div
