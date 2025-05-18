@@ -1,5 +1,6 @@
 import { uploadBase64ToArweave } from "@/lib/arweave/uploadBase64ToArweave";
 import createCollection from "@/app/api/in_process/createCollection";
+import { IS_PROD } from "./consts";
 
 export interface GeneratedTxtResponse {
   txt: {
@@ -7,6 +8,10 @@ export interface GeneratedTxtResponse {
     mimeType: string;
   };
   arweave?: {
+    id: string;
+    url: string;
+  } | null;
+  metadataArweave?: {
     id: string;
     url: string;
   } | null;
@@ -18,7 +23,7 @@ export interface GeneratedTxtResponse {
 }
 
 export async function generateAndStoreTxtFile(
-  contents: string
+  contents: string,
 ): Promise<GeneratedTxtResponse> {
   if (!contents) {
     throw new Error("Contents are required");
@@ -35,7 +40,7 @@ export async function generateAndStoreTxtFile(
     const arweaveResult = await uploadBase64ToArweave(
       base64Data,
       mimeType,
-      filename
+      filename,
     );
     arweaveData = {
       id: arweaveResult.id,
@@ -46,10 +51,34 @@ export async function generateAndStoreTxtFile(
     // Continue and return the TXT even if Arweave upload fails
   }
 
-  // Create a collection on the blockchain using the Arweave id
+  // Upload metadata JSON to Arweave
+  let metadataArweave = null;
+  try {
+    const metadata = {
+      external_url: `https://inprocess.fun/collect/${IS_PROD ? "base" : "bsep"}:[collectionAddress]`,
+      image: arweaveData ? `ar://${arweaveData.id}` : "",
+      name: contents,
+    };
+    const metadataBase64 = Buffer.from(JSON.stringify(metadata)).toString(
+      "base64",
+    );
+    const metadataResult = await uploadBase64ToArweave(
+      metadataBase64,
+      "application/json",
+      `metadata-${Date.now()}.json`,
+    );
+    metadataArweave = {
+      id: metadataResult.id,
+      url: metadataResult.url,
+    };
+  } catch (metadataError) {
+    console.error("Error uploading metadata to Arweave:", metadataError);
+  }
+
+  // Create a collection on the blockchain using the metadata id
   const result = await createCollection({
     collectionName: contents,
-    uri: arweaveData ? `ar://${arweaveData.id}` : "",
+    uri: metadataArweave ? `ar://${metadataArweave.id}` : "",
   });
   const transactionHash = result.transactionHash || null;
 
