@@ -1,5 +1,9 @@
 import { inProcessProtocolAbi } from "@/abi/inProcessProtocolAbi";
-import { IN_PROCESS_PROTOCOL_ADDRESS, IS_PROD } from "@/lib/consts";
+import {
+  IN_PROCESS_PROTOCOL_ADDRESS,
+  IS_PROD,
+  PAYMASTER_URL,
+} from "@/lib/consts";
 import { CdpClient } from "@coinbase/cdp-sdk";
 import { encodeFunctionData } from "viem";
 
@@ -49,7 +53,7 @@ async function createCollection({ collectionName, uri }: CreateCollectionParams)
   const sendResult = await cdp.evm.sendUserOperation({
     smartAccount,
     network: IS_PROD ? "base" : "base-sepolia", // supported networks: https://docs.cdp.coinbase.com/api/docs/networks#network-identifiers
-    paymasterUrl: process.env.CDP_PAYMASTER_URL,
+    paymasterUrl: PAYMASTER_URL,
     calls: [
       {
         to: IN_PROCESS_PROTOCOL_ADDRESS, // https://docs-in-process.vercel.app/protocol-deployments
