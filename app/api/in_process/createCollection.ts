@@ -36,9 +36,11 @@ async function createCollection({
   // Royalty configuration
   const royaltyConfig = {
     royaltyMintSchedule: 0,
-    royaltyBPS: 0, // 0% royalties (set to 1000 for 10%)
+    royaltyBPS: 500, // 5% royalties (set to 1000 for 10%)
     royaltyRecipient: smartAccount.address,
   };
+
+  const setupActions = [getSetupNewTokenCall({ uri })];
 
   // Encode the function call data
   const createContractData = encodeFunctionData({
@@ -49,7 +51,7 @@ async function createCollection({
       collectionName,
       royaltyConfig,
       smartAccount.address, // defaultAdmin
-      [getSetupNewTokenCall(uri, BigInt(0))], // setupActions
+      setupActions,
     ],
   });
 
