@@ -4,6 +4,7 @@ import {
 } from "@/lib/arweave/uploadBase64ToArweave";
 import createCollection from "@/app/api/in_process/createCollection";
 import { uploadMetadataJson } from "./arweave/uploadMetadataJson";
+import generateImage from "./ai/generateImage";
 
 export interface GeneratedTxtResponse {
   txt: {
@@ -31,19 +32,22 @@ export async function generateAndStoreTxtFile(
   const filename = `generated-text-${Date.now()}.txt`;
 
   // Upload the TXT file to Arweave
-  let arweaveData = null;
+  let txtFile = null;
   try {
-    arweaveData = await uploadBase64ToArweave(base64Data, mimeType, filename);
+    txtFile = await uploadBase64ToArweave(base64Data, mimeType, filename);
   } catch (arweaveError) {
     console.error("Error uploading TXT to Arweave:", arweaveError);
     // Continue and return the TXT even if Arweave upload fails
   }
 
+  const txtImage = await generateImage(contents);
+
   // Upload metadata JSON to Arweave
   let metadataArweave = null;
   try {
     metadataArweave = await uploadMetadataJson({
-      image: arweaveData,
+      image: txtImage,
+      animation_url: txtFile,
       name: contents,
     });
   } catch (metadataError) {
@@ -62,7 +66,7 @@ export async function generateAndStoreTxtFile(
       base64Data,
       mimeType,
     },
-    arweave: arweaveData,
+    arweave: txtFile,
     smartAccount: result.smartAccount,
     transactionHash,
   };
