@@ -1,6 +1,7 @@
 import { uploadBase64ToArweave } from "@/lib/arweave/uploadBase64ToArweave";
 import createCollection from "@/app/api/in_process/createCollection";
 import { IS_PROD } from "./consts";
+import { uploadMetadataJson } from "./arweave/uploadMetadataJson";
 
 export interface GeneratedTxtResponse {
   txt: {
@@ -8,10 +9,6 @@ export interface GeneratedTxtResponse {
     mimeType: string;
   };
   arweave?: {
-    id: string;
-    url: string;
-  } | null;
-  metadataArweave?: {
     id: string;
     url: string;
   } | null;
@@ -23,7 +20,7 @@ export interface GeneratedTxtResponse {
 }
 
 export async function generateAndStoreTxtFile(
-  contents: string,
+  contents: string
 ): Promise<GeneratedTxtResponse> {
   if (!contents) {
     throw new Error("Contents are required");
@@ -37,15 +34,7 @@ export async function generateAndStoreTxtFile(
   // Upload the TXT file to Arweave
   let arweaveData = null;
   try {
-    const arweaveResult = await uploadBase64ToArweave(
-      base64Data,
-      mimeType,
-      filename,
-    );
-    arweaveData = {
-      id: arweaveResult.id,
-      url: arweaveResult.url,
-    };
+    arweaveData = await uploadBase64ToArweave(base64Data, mimeType, filename);
   } catch (arweaveError) {
     console.error("Error uploading TXT to Arweave:", arweaveError);
     // Continue and return the TXT even if Arweave upload fails
@@ -54,23 +43,10 @@ export async function generateAndStoreTxtFile(
   // Upload metadata JSON to Arweave
   let metadataArweave = null;
   try {
-    const metadata = {
-      external_url: `https://inprocess.fun/collect/${IS_PROD ? "base" : "bsep"}:[collectionAddress]`,
-      image: arweaveData ? `ar://${arweaveData.id}` : "",
-      name: contents,
-    };
-    const metadataBase64 = Buffer.from(JSON.stringify(metadata)).toString(
-      "base64",
-    );
-    const metadataResult = await uploadBase64ToArweave(
-      metadataBase64,
-      "application/json",
-      `metadata-${Date.now()}.json`,
-    );
-    metadataArweave = {
-      id: metadataResult.id,
-      url: metadataResult.url,
-    };
+    metadataArweave = await uploadMetadataJson({
+      arweaveData,
+      prompt: contents,
+    });
   } catch (metadataError) {
     console.error("Error uploading metadata to Arweave:", metadataError);
   }
