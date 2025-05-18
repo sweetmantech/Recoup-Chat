@@ -1,7 +1,10 @@
-import { uploadBase64ToArweave } from "./uploadBase64ToArweave";
+import {
+  ArweaveUploadResult,
+  uploadBase64ToArweave,
+} from "./uploadBase64ToArweave";
 
 interface CreateMetadataArgs {
-  arweaveData?: { id: string } | null;
+  arweaveData?: ArweaveUploadResult;
   name: string;
 }
 
