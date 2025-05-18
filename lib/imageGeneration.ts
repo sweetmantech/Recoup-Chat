@@ -68,7 +68,10 @@ export async function generateAndProcessImage(
   }
 
   // Create a collection on the blockchain
-  const result = await createCollection(prompt);
+  const result = await createCollection({
+    collectionName: prompt,
+    uri: arweaveData?.url ?? "",
+  });
   const transactionHash = result.transactionHash || null;
 
   // Return complete response

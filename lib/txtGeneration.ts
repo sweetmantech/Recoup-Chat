@@ -47,7 +47,10 @@ export async function generateAndStoreTxtFile(
   }
 
   // Create a collection on the blockchain
-  const result = await createCollection(contents);
+  const result = await createCollection({
+    collectionName: contents,
+    uri: arweaveData?.url ?? "",
+  });
   const transactionHash = result.transactionHash || null;
 
   return {
