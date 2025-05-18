@@ -1,6 +1,7 @@
 import { experimental_generateImage as generateImage } from "ai";
 import { openai } from "@ai-sdk/openai";
 import { uploadBase64ToArweave } from "@/lib/arweave/uploadBase64ToArweave";
+import { uploadMetadataJson } from "@/lib/arweave/uploadMetadataJson";
 import createCollection from "@/app/api/in_process/createCollection";
 
 export interface GeneratedImageResponse {
@@ -11,6 +12,10 @@ export interface GeneratedImageResponse {
   arweave?: {
     id: string;
     url: string;
+    metadata?: {
+      id: string;
+      url: string;
+    } | null;
   } | null;
   smartAccount: {
     address: string;
@@ -20,11 +25,11 @@ export interface GeneratedImageResponse {
 }
 
 export async function generateAndProcessImage(
-  prompt: string
+  prompt: string,
 ): Promise<GeneratedImageResponse> {
   if (!process.env.OPENAI_API_KEY) {
     throw new Error(
-      "OpenAI API key is missing. Please add it to your environment variables."
+      "OpenAI API key is missing. Please add it to your environment variables.",
     );
   }
 
@@ -56,7 +61,7 @@ export async function generateAndProcessImage(
     const arweaveResult = await uploadBase64ToArweave(
       imageData.base64Data,
       imageData.mimeType,
-      `generated-image-${Date.now()}.png`
+      `generated-image-${Date.now()}.png`,
     );
     arweaveData = {
       id: arweaveResult.id,
@@ -67,17 +72,33 @@ export async function generateAndProcessImage(
     // We'll continue and return the image even if Arweave upload fails
   }
 
-  // Create a collection on the blockchain using the Arweave id
+  // Upload metadata JSON to Arweave
+  let metadataArweave = null;
+  try {
+    metadataArweave = await uploadMetadataJson({
+      name: prompt,
+      imageId: arweaveData?.id,
+    });
+  } catch (metadataError) {
+    console.error("Error uploading metadata to Arweave:", metadataError);
+  }
+
+  // Create a collection on the blockchain using the metadata id
   const result = await createCollection({
     collectionName: prompt,
-    uri: arweaveData ? `ar://${arweaveData.id}` : "",
+    uri: metadataArweave ? `ar://${metadataArweave.id}` : "",
   });
   const transactionHash = result.transactionHash || null;
 
   // Return complete response
+  const arweave =
+    arweaveData || metadataArweave
+      ? { ...(arweaveData ?? {}), metadata: metadataArweave }
+      : null;
+
   return {
     image: imageData,
-    arweave: arweaveData,
+    arweave,
     smartAccount: result.smartAccount,
     transactionHash,
   };
