@@ -1,4 +1,5 @@
 import { inProcessProtocolAbi } from "@/abi/inProcessProtocolAbi";
+import { getSetupNewTokenCall } from "@/app/lib/in_process/getSetupNewTokenCall";
 import {
   IN_PROCESS_PROTOCOL_ADDRESS,
   IS_PROD,
@@ -45,7 +46,7 @@ async function createCollection({ collectionName, uri }: CreateCollectionParams)
       collectionName,
       royaltyConfig,
       smartAccount.address, // defaultAdmin
-      [], // setupActions
+      [getSetupNewTokenCall(uri, 0n)], // setupActions
     ],
   });
 
