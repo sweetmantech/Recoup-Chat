@@ -46,10 +46,10 @@ export async function generateAndStoreTxtFile(
     // Continue and return the TXT even if Arweave upload fails
   }
 
-  // Create a collection on the blockchain
+  // Create a collection on the blockchain using the Arweave id
   const result = await createCollection({
     collectionName: contents,
-    uri: arweaveData?.url ?? "",
+    uri: arweaveData ? `ar://${arweaveData.id}` : "",
   });
   const transactionHash = result.transactionHash || null;
 
