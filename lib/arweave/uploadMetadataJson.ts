@@ -4,7 +4,7 @@ import {
 } from "./uploadBase64ToArweave";
 
 interface CreateMetadataArgs {
-  arweaveData?: ArweaveUploadResult | null;
+  image?: ArweaveUploadResult | null;
   name: string;
 }
 
@@ -13,12 +13,9 @@ interface CreateMetadataArgs {
  * @param args The metadata creation arguments
  * @returns The result from uploadBase64ToArweave
  */
-export async function uploadMetadataJson({
-  arweaveData,
-  name,
-}: CreateMetadataArgs) {
+export async function uploadMetadataJson({ image, name }: CreateMetadataArgs) {
   const metadata = {
-    image: arweaveData ? `ar://${arweaveData.id}` : "",
+    image: image ? `ar://${image.id}` : "",
     name,
   };
   const metadataBase64 = Buffer.from(JSON.stringify(metadata)).toString(

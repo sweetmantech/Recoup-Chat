@@ -43,7 +43,7 @@ export async function generateAndStoreTxtFile(
   let metadataArweave = null;
   try {
     metadataArweave = await uploadMetadataJson({
-      arweaveData,
+      image: arweaveData,
       name: contents,
     });
   } catch (metadataError) {
