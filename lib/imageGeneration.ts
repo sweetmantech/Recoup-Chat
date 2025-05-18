@@ -1,17 +1,18 @@
 import { experimental_generateImage as generateImage } from "ai";
 import { openai } from "@ai-sdk/openai";
-import { uploadBase64ToArweave } from "@/lib/arweave/uploadBase64ToArweave";
+import {
+  ArweaveUploadResult,
+  uploadBase64ToArweave,
+} from "@/lib/arweave/uploadBase64ToArweave";
 import createCollection from "@/app/api/in_process/createCollection";
+import { uploadMetadataJson } from "./arweave/uploadMetadataJson";
 
 export interface GeneratedImageResponse {
   image: {
     base64Data: string;
     mimeType: string;
   };
-  arweave?: {
-    id: string;
-    url: string;
-  } | null;
+  arweave?: ArweaveUploadResult | null;
   smartAccount: {
     address: string;
     [key: string]: unknown;
@@ -53,24 +54,31 @@ export async function generateAndProcessImage(
   // Upload the generated image to Arweave
   let arweaveData = null;
   try {
-    const arweaveResult = await uploadBase64ToArweave(
+    arweaveData = await uploadBase64ToArweave(
       imageData.base64Data,
       imageData.mimeType,
       `generated-image-${Date.now()}.png`
     );
-    arweaveData = {
-      id: arweaveResult.id,
-      url: arweaveResult.url,
-    };
   } catch (arweaveError) {
     console.error("Error uploading to Arweave:", arweaveError);
     // We'll continue and return the image even if Arweave upload fails
   }
 
-  // Create a collection on the blockchain using the Arweave id
+  // Upload metadata JSON to Arweave
+  let metadataArweave = null;
+  try {
+    metadataArweave = await uploadMetadataJson({
+      arweaveData,
+      name: prompt,
+    });
+  } catch (metadataError) {
+    console.error("Error uploading metadata to Arweave:", metadataError);
+  }
+
+  // Create a collection on the blockchain using the metadata id
   const result = await createCollection({
     collectionName: prompt,
-    uri: arweaveData ? `ar://${arweaveData.id}` : "",
+    uri: metadataArweave ? `ar://${metadataArweave.id}` : "",
   });
   const transactionHash = result.transactionHash || null;
 
