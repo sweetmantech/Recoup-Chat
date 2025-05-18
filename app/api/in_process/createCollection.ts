@@ -14,7 +14,10 @@ interface CreateCollectionParams {
   uri: string;
 }
 
-async function createCollection({ collectionName, uri }: CreateCollectionParams) {
+async function createCollection({
+  collectionName,
+  uri,
+}: CreateCollectionParams) {
   // Initialize CDP client with your credentials
   const cdp = new CdpClient({
     apiKeyId: process.env.CDP_API_KEY_ID,
@@ -46,7 +49,7 @@ async function createCollection({ collectionName, uri }: CreateCollectionParams)
       collectionName,
       royaltyConfig,
       smartAccount.address, // defaultAdmin
-      [getSetupNewTokenCall(uri, 0n)], // setupActions
+      [getSetupNewTokenCall(uri, BigInt(0))], // setupActions
     ],
   });
 
