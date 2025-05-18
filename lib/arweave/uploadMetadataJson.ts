@@ -4,7 +4,7 @@ import {
 } from "./uploadBase64ToArweave";
 
 interface CreateMetadataArgs {
-  arweaveData?: ArweaveUploadResult;
+  arweaveData?: ArweaveUploadResult | null;
   name: string;
 }
 
