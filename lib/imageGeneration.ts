@@ -67,8 +67,11 @@ export async function generateAndProcessImage(
     // We'll continue and return the image even if Arweave upload fails
   }
 
-  // Create a collection on the blockchain
-  const result = await createCollection(prompt);
+  // Create a collection on the blockchain using the Arweave id
+  const result = await createCollection({
+    collectionName: prompt,
+    uri: arweaveData ? `ar://${arweaveData.id}` : "",
+  });
   const transactionHash = result.transactionHash || null;
 
   // Return complete response

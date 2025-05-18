@@ -4,7 +4,12 @@ import { CdpClient } from "@coinbase/cdp-sdk";
 import { encodeFunctionData } from "viem";
 
 // Main function to create a collection
-async function createCollection(collectionName: string) {
+interface CreateCollectionParams {
+  collectionName: string;
+  uri: string;
+}
+
+async function createCollection({ collectionName, uri }: CreateCollectionParams) {
   // Initialize CDP client with your credentials
   const cdp = new CdpClient({
     apiKeyId: process.env.CDP_API_KEY_ID,
@@ -20,9 +25,6 @@ async function createCollection(collectionName: string) {
     owner: evmAccount,
   });
 
-  // Collection details
-  const contractUri = "ar://contractUri"; // Your contract metadata URI
-
   // Royalty configuration
   const royaltyConfig = {
     royaltyMintSchedule: 0,
@@ -35,7 +37,7 @@ async function createCollection(collectionName: string) {
     abi: inProcessProtocolAbi,
     functionName: "createContract",
     args: [
-      contractUri,
+      uri,
       collectionName,
       royaltyConfig,
       smartAccount.address, // defaultAdmin
