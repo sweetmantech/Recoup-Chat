@@ -1,6 +1,9 @@
 import { experimental_generateImage as generateImage } from "ai";
 import { openai } from "@ai-sdk/openai";
-import { uploadBase64ToArweave } from "@/lib/arweave/uploadBase64ToArweave";
+import {
+  ArweaveUploadResult,
+  uploadBase64ToArweave,
+} from "@/lib/arweave/uploadBase64ToArweave";
 import createCollection from "@/app/api/in_process/createCollection";
 import { uploadMetadataJson } from "./arweave/uploadMetadataJson";
 
@@ -9,10 +12,7 @@ export interface GeneratedImageResponse {
     base64Data: string;
     mimeType: string;
   };
-  arweave?: {
-    id: string;
-    url: string;
-  } | null;
+  arweave?: ArweaveUploadResult | null;
   smartAccount: {
     address: string;
     [key: string]: unknown;

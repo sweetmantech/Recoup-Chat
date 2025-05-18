@@ -1,6 +1,8 @@
-import { uploadBase64ToArweave } from "@/lib/arweave/uploadBase64ToArweave";
+import {
+  ArweaveUploadResult,
+  uploadBase64ToArweave,
+} from "@/lib/arweave/uploadBase64ToArweave";
 import createCollection from "@/app/api/in_process/createCollection";
-import { IS_PROD } from "./consts";
 import { uploadMetadataJson } from "./arweave/uploadMetadataJson";
 
 export interface GeneratedTxtResponse {
@@ -8,10 +10,7 @@ export interface GeneratedTxtResponse {
     base64Data: string;
     mimeType: string;
   };
-  arweave?: {
-    id: string;
-    url: string;
-  } | null;
+  arweave?: ArweaveUploadResult | null;
   smartAccount: {
     address: string;
     [key: string]: unknown;
