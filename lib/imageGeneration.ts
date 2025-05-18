@@ -69,7 +69,7 @@ export async function generateAndProcessImage(
   try {
     metadataArweave = await uploadMetadataJson({
       arweaveData,
-      prompt,
+      name: prompt,
     });
   } catch (metadataError) {
     console.error("Error uploading metadata to Arweave:", metadataError);

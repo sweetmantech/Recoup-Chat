@@ -45,7 +45,7 @@ export async function generateAndStoreTxtFile(
   try {
     metadataArweave = await uploadMetadataJson({
       arweaveData,
-      prompt: contents,
+      name: contents,
     });
   } catch (metadataError) {
     console.error("Error uploading metadata to Arweave:", metadataError);
