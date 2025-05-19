@@ -32,13 +32,13 @@ const getSpotifyDeepResearch = tool({
   Plan thoroughly before every tool call and reflect on the outcome after each tool call.
   `,
   parameters: z.object({
-    spotifyArtistId: z.string().describe("Spotify artist ID to research"),
+    artist_account_id: z.string().describe("Artist account ID to research"),
   }),
-  execute: async ({ spotifyArtistId }) => {
-    const data = await getArtistSocials(spotifyArtistId);
+  execute: async ({ artist_account_id }) => {
+    const data = await getArtistSocials(artist_account_id);
     return {
       artistSocials: data,
-      spotifyArtistId,
+      artist_account_id,
       success: true,
       nextSteps: TOOL_CHAIN_STEPS,
     };
