@@ -1,4 +1,5 @@
 import { inProcessProtocolAbi } from "@/abi/inProcessProtocolAbi";
+import { getSetupNewTokenCall } from "@/app/lib/in_process/getSetupNewTokenCall";
 import {
   IN_PROCESS_PROTOCOL_ADDRESS,
   IS_PROD,
@@ -13,7 +14,10 @@ interface CreateCollectionParams {
   uri: string;
 }
 
-async function createCollection({ collectionName, uri }: CreateCollectionParams) {
+async function createCollection({
+  collectionName,
+  uri,
+}: CreateCollectionParams) {
   // Initialize CDP client with your credentials
   const cdp = new CdpClient({
     apiKeyId: process.env.CDP_API_KEY_ID,
@@ -32,9 +36,11 @@ async function createCollection({ collectionName, uri }: CreateCollectionParams)
   // Royalty configuration
   const royaltyConfig = {
     royaltyMintSchedule: 0,
-    royaltyBPS: 0, // 0% royalties (set to 1000 for 10%)
+    royaltyBPS: 500, // 5% royalties (set to 1000 for 10%)
     royaltyRecipient: smartAccount.address,
   };
+
+  const setupActions = [getSetupNewTokenCall({ uri })];
 
   // Encode the function call data
   const createContractData = encodeFunctionData({
@@ -45,7 +51,7 @@ async function createCollection({ collectionName, uri }: CreateCollectionParams)
       collectionName,
       royaltyConfig,
       smartAccount.address, // defaultAdmin
-      [], // setupActions
+      setupActions,
     ],
   });
 
