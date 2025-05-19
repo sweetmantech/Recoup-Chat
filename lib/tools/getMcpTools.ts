@@ -11,6 +11,7 @@ import createArtist from "./createArtist";
 import deleteArtist from "./deleteArtist";
 import getSpotifySearch from "./getSpotifySearch";
 import getSpotifyArtistTopTracks from "./getSpotifyArtistTopTracks";
+import getSpotifyArtistAlbums from "./getSpotifyArtistAlbums";
 import updateAccountInfo from "./updateAccountInfo";
 import updateArtistSocialsTool from "./updateArtistSocials";
 import createTxtFile from "./createTxtFile";
@@ -38,6 +39,7 @@ export async function getMcpTools() {
     delete_artist: deleteArtist,
     get_spotify_search: getSpotifySearch,
     get_spotify_artist_top_tracks: getSpotifyArtistTopTracks,
+    get_spotify_artist_albums: getSpotifyArtistAlbums,
     update_account_info: updateAccountInfo,
     update_artist_socials: updateArtistSocialsTool,
     search_twitter: searchTwitter,
