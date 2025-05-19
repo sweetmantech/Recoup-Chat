@@ -14,10 +14,12 @@ const Message = ({
   message,
   setMessages,
   reload,
+  status,
 }: {
   message: UIMessage;
   setMessages: UseChatHelpers["setMessages"];
   reload: UseChatHelpers["reload"];
+  status: UseChatHelpers["status"];
 }) => {
   const [mode, setMode] = useState<"view" | "edit">("view");
 

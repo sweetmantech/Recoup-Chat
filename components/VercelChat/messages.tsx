@@ -51,6 +51,7 @@ export function Messages({
       {children || null}
       {messages.map((message) => (
         <Message
+          status={status}
           key={message.id}
           message={message}
           setMessages={setMessages}
