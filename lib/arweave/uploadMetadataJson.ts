@@ -1,12 +1,9 @@
-import {
-  ArweaveUploadResult,
-  uploadBase64ToArweave,
-} from "./uploadBase64ToArweave";
+import { uploadBase64ToArweave } from "./uploadBase64ToArweave";
 
 interface CreateMetadataArgs {
   name: string;
-  image?: ArweaveUploadResult | null;
-  animation_url?: ArweaveUploadResult | null;
+  image?: string;
+  animation_url?: string;
   description?: string;
   external_url?: string;
   content?: {

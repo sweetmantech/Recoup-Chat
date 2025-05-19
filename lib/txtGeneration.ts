@@ -4,7 +4,6 @@ import {
 } from "@/lib/arweave/uploadBase64ToArweave";
 import createCollection from "@/app/api/in_process/createCollection";
 import { uploadMetadataJson } from "./arweave/uploadMetadataJson";
-import generateImage from "./ai/generateImage";
 
 export interface GeneratedTxtResponse {
   txt: {
@@ -40,14 +39,19 @@ export async function generateAndStoreTxtFile(
     // Continue and return the TXT even if Arweave upload fails
   }
 
-  const txtImage = await generateImage(contents);
+  const image = "ar://EXwe2peizXKxjUMop6W-JPflC5sWyeQR1y0JiRDwUB0";
 
   // Upload metadata JSON to Arweave
   let metadataArweave = null;
   try {
     metadataArweave = await uploadMetadataJson({
-      image: txtImage,
-      animation_url: txtFile,
+      image,
+      animation_url: txtFile?.url,
+      content: {
+        mime: mimeType,
+        uri: txtFile?.url || "",
+      },
+      description: contents,
       name: contents,
     });
   } catch (metadataError) {
