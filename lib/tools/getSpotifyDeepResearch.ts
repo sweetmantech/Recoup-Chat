@@ -7,7 +7,8 @@ const TOOL_CHAIN_STEPS = [
   "get_spotify_artist_top_tracks - top tracks for artist",
   "get_spotify_artist_albums - albums for artist",
   "get_spotify_album - album from get_spotify_artist_albums. repeat this tool for each album.",
-  "generate_txt_file - generate a txt file with the research generated",
+  "<other tools to get engagement info or other missing required items>",
+  "generate_txt_file - generate a txt file with the research generated.",
 ];
 
 const getSpotifyDeepResearch = tool({
@@ -17,6 +18,18 @@ const getSpotifyDeepResearch = tool({
   <tool_loop>
   ${TOOL_CHAIN_STEPS.join("\n")}
   </tool_loop>
+
+  required items in deep research document:
+  - popularity info
+  - engagement info
+  - tracklist
+  - collaborators
+  - album art
+  - album name
+
+  Keep going until the job is completely solved before ending your turn.
+  If you're unsure, use your tools, don't guess.
+  Plan thoroughly before every tool call and reflect on the outcome after each tool call.
   `,
   parameters: z.object({
     spotifyArtistId: z.string().describe("Spotify artist ID to research"),
