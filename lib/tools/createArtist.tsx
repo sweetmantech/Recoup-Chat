@@ -18,8 +18,9 @@ export interface CreateArtistResult {
 const createArtist = tool({
   description: `
   Create a new artist account in the system and handles initial research.
-  Requires the artist name, the account ID of the user with admin access to the new artist account,
-  and the roomId to copy for this artist's first conversation.
+  Requires the artist name and the account ID of the user with admin access to the new artist account.
+  The active_conversation_id parameter is optional — when omitted, use the active_conversation_id from the system prompt
+  to copy the conversation. Never ask the user to provide a room ID.
   always follow this tool loop:
   <tool_loop>
     create_new_artist - create a new artist account in the system
@@ -44,16 +45,18 @@ IMPORTANT: After creating the artist, you MUST continue with these steps in orde
       .describe(
         "The account ID of the human with admin access to the new artist account"
       ),
-    roomId: z
+    active_conversation_id: z
       .string()
+      .optional()
       .describe(
-        "The ID of the room/conversation to copy for this artist's first conversation"
+        "The ID of the room/conversation to copy for this artist's first conversation. " +
+          "If not provided, use the active_conversation_id from the system prompt."
       ),
   }),
   execute: async ({
     name,
     account_id,
-    roomId,
+    active_conversation_id,
   }): Promise<CreateArtistResult> => {
     try {
       // Step 1: Create the artist account
@@ -65,8 +68,8 @@ IMPORTANT: After creating the artist, you MUST continue with these steps in orde
 
       // Step 2: Copy the conversation to the new artist
       let newRoomId = null;
-      if (roomId) {
-        newRoomId = await copyRoom(roomId, artist.account_id);
+      if (active_conversation_id) {
+        newRoomId = await copyRoom(active_conversation_id, artist.account_id);
       }
 
       return {
