@@ -45,12 +45,13 @@ export function Messages({
 
   return (
     <div
-      className="flex flex-col gap-8 overflow-y-scroll items-center w-full"
+      className="flex flex-col gap-8 overflow-y-scroll items-center w-full pt-6 pb-10 md:pt-8 md:pb-12"
       ref={messagesRef}
     >
       {children || null}
       {messages.map((message) => (
         <Message
+          status={status}
           key={message.id}
           message={message}
           setMessages={setMessages}
@@ -59,7 +60,7 @@ export function Messages({
       ))}
 
       {(status === "submitted" || status === "streaming") && (
-        <div className="text-zinc-500 mb-12 w-full flex items-center gap-2">
+        <div className="text-zinc-500 w-full flex items-center gap-2">
           Hmm...
           <div className="inline-block animate-spin">
             <SpinnerIcon />
