@@ -3,7 +3,7 @@ import { tool } from "ai";
 import { getArtistSocials } from "../api/artist/getArtistSocials";
 
 const TOOL_CHAIN_STEPS = [
-  "get_artist_socials - get the socials connected to the artist",
+  "spotify_deep_research - deep research the musician discography and popularity on spotify",
   "perplexity_ask - search for any missing social handles (twitter, instagram, spotify, tiktok)",
   "update_artist_socials - link the discovered socials to the artist",
   "get_spotify_search - get the spotify search results for the artist across all search types (tracks, albums, playlists)",
