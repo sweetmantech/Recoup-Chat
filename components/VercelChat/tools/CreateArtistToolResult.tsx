@@ -22,11 +22,7 @@ export function CreateArtistToolResult({
   const { isProcessing, error: processingError } = useCreateArtistTool(result);
 
   useEffect(() => {
-    if (result.artistAccountId) {
-      (async () => {
-        await getArtists(result.artistAccountId);
-      })();
-    }
+    getArtists(result.artistAccountId);
   }, [result.artistAccountId, getArtists]);
 
   // If there's an error or no artist data, show error state
