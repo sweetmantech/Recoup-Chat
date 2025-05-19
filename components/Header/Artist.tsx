@@ -3,7 +3,7 @@ import { ArtistRecord } from "@/types/Artist";
 import ImageWithFallback from "../ImageWithFallback";
 import { EllipsisVertical } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState, useRef } from "react";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 const Artist = ({
@@ -22,19 +22,23 @@ const Artist = ({
     toggleSettingModal,
   } = useArtistProvider();
   const [isHovered, setIsHovered] = useState(false);
-  const previousArtistIdRef = useRef<string | null>(null);
 
   const isSelectedArtist = selectedArtist?.account_id === artist?.account_id;
   const isAnyArtistSelected = !!selectedArtist;
   const shouldHighlight = !isAnyArtistSelected; // Highlight when no artist is selected
 
   const pathname = usePathname();
-  const {push, replace} = useRouter();
+  const { push, replace } = useRouter();
 
   const handleClick = () => {
     toggleDropDown();
     if (pathname.includes("/funnels") && selectedArtist) {
       if (selectedArtist.account_id !== artist?.account_id) push("/");
+    }
+    if (pathname.includes("/chat/") && selectedArtist) {
+      if (selectedArtist.account_id !== artist?.account_id) {
+        replace("/chat");
+      }
     }
     setSelectedArtist(artist);
   };
@@ -46,34 +50,21 @@ const Artist = ({
       : artist.name
     : "";
 
-  useEffect(() => {
-    if (selectedArtist?.account_id && pathname.includes('/chat/')) {
-      if (previousArtistIdRef.current && 
-          previousArtistIdRef.current !== selectedArtist.account_id) {
-        replace('/chat');
-      }
-    }
-
-    if (selectedArtist?.account_id) {
-      previousArtistIdRef.current = selectedArtist.account_id;
-    }
-  }, [selectedArtist?.account_id, pathname, replace]);
-
   return (
     <button
       className={cn(
         "py-2 w-full outline-none",
         isMini
           ? [
-            "flex justify-center items-center",
-            isSelectedArtist && "w-fit rounded-full"
-          ]
+              "flex justify-center items-center",
+              isSelectedArtist && "w-fit rounded-full",
+            ]
           : [
-            "flex gap-3 items-center px-2 text-sm rounded-md text-grey-dark",
-            isAnyArtistSelected && "hover:bg-grey-light-1",
-            isSelectedArtist && "!bg-primary/10"
-          ],
-        shouldHighlight && "z-50 relative"
+              "flex gap-3 items-center px-2 text-sm rounded-md text-grey-dark",
+              isAnyArtistSelected && "hover:bg-grey-light-1",
+              isSelectedArtist && "!bg-primary/10",
+            ],
+        shouldHighlight && "z-50 relative",
       )}
       type="button"
       onClick={handleClick}
@@ -84,11 +75,15 @@ const Artist = ({
         <div
           className={cn(
             "w-8 h-8 aspect-1/1 rounded-full overflow-hidden flex items-center justify-center p-0.5",
-            isSelectedArtist && "shadow-[1px_1px_1px_1px_#E6E6E6] min-w-8 min-h-8 border-2 border-primary box-content",
-            shouldHighlight && "brightness-110 shadow-md ring-1 ring-white/30"
+            isSelectedArtist &&
+              "shadow-[1px_1px_1px_1px_#E6E6E6] min-w-8 min-h-8 border-2 border-primary box-content",
+            shouldHighlight && "brightness-110 shadow-md ring-1 ring-white/30",
           )}
         >
-          <ImageWithFallback src={artist?.image || ""} className="w-full h-full object-cover rounded-full" />
+          <ImageWithFallback
+            src={artist?.image || ""}
+            className="w-full h-full object-cover rounded-full"
+          />
         </div>
       </div>
       {!isMini && (
@@ -97,7 +92,7 @@ const Artist = ({
             key={artist?.account_id}
             className={cn(
               "text-left grow text-grey-dark",
-              shouldHighlight && "font-medium"
+              shouldHighlight && "font-medium",
             )}
             title={artist?.name || ""}
           >
