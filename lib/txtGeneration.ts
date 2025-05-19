@@ -31,19 +31,27 @@ export async function generateAndStoreTxtFile(
   const filename = `generated-text-${Date.now()}.txt`;
 
   // Upload the TXT file to Arweave
-  let arweaveData = null;
+  let txtFile = null;
   try {
-    arweaveData = await uploadBase64ToArweave(base64Data, mimeType, filename);
+    txtFile = await uploadBase64ToArweave(base64Data, mimeType, filename);
   } catch (arweaveError) {
     console.error("Error uploading TXT to Arweave:", arweaveError);
     // Continue and return the TXT even if Arweave upload fails
   }
 
+  const image = "ar://EXwe2peizXKxjUMop6W-JPflC5sWyeQR1y0JiRDwUB0";
+
   // Upload metadata JSON to Arweave
   let metadataArweave = null;
   try {
     metadataArweave = await uploadMetadataJson({
-      arweaveData,
+      image,
+      animation_url: txtFile?.url,
+      content: {
+        mime: mimeType,
+        uri: txtFile?.url || "",
+      },
+      description: contents,
       name: contents,
     });
   } catch (metadataError) {
@@ -62,7 +70,7 @@ export async function generateAndStoreTxtFile(
       base64Data,
       mimeType,
     },
-    arweave: arweaveData,
+    arweave: txtFile,
     smartAccount: result.smartAccount,
     transactionHash,
   };
