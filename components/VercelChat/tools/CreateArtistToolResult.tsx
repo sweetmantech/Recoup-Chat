@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { CreateArtistResult } from "@/lib/tools/createArtist";
 import useCreateArtistTool from "@/hooks/useCreateArtistTool";
 import GenericSuccess from "./GenericSuccess";
+import { useArtistProvider } from "@/providers/ArtistProvider";
 
 /**
  * Props for the CreateArtistToolResult component
@@ -17,7 +18,12 @@ interface CreateArtistToolResultProps {
 export function CreateArtistToolResult({
   result,
 }: CreateArtistToolResultProps) {
+  const { getArtists } = useArtistProvider();
   const { isProcessing, error: processingError } = useCreateArtistTool(result);
+
+  useEffect(() => {
+    getArtists(result.artistAccountId);
+  }, [result.artistAccountId, getArtists]);
 
   // If there's an error or no artist data, show error state
   if (!result.artist) {
