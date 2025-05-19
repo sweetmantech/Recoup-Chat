@@ -8,8 +8,7 @@ const TOOL_CHAIN_STEPS = [
   "update_artist_socials - link the discovered socials to the artist",
   "get_spotify_search - get the spotify search results for the artist across all search types (tracks, albums, playlists)",
   "perplexity_ask - loop over this tool until you have all the info required below",
-  "generate_txt_file - of the deep research",
-  "update_account_info - add the txt as a knowledge base for the artist",
+  "create_knowledge_base - generate a research txt file and attach it to the artist",
 ];
 
 const artistDeepResearch = tool({
