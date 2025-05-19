@@ -6,6 +6,7 @@ const TOOL_CHAIN_STEPS = [
   "get_artist_socials - get spotify account",
   "get_spotify_artist_top_tracks - top tracks for artist",
   "get_spotify_artist_albums - albums for artist",
+  "get_spotify_album - album from get_spotify_artist_albums. repeat this tool for each album.",
   "generate_txt_file - generate a txt file with the research generated",
 ];
 
