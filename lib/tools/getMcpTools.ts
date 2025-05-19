@@ -22,6 +22,7 @@ import getApifyScraper from "./getApifyScraper";
 import scrapeInstagramComments from "./scrapeInstagramComments";
 import artistDeepResearch from "./artistDeepResearch";
 import getVideoGameCampaignPlays from "./getVideoGameCampaignPlays";
+import getSpotifyDeepResearch from "./getSpotifyDeepResearch";
 
 export async function getMcpTools() {
   const tools = {
@@ -48,6 +49,7 @@ export async function getMcpTools() {
     get_apify_scraper: getApifyScraper,
     scrape_instagram_comments: scrapeInstagramComments,
     artist_deep_research: artistDeepResearch,
+    spotify_deep_research: getSpotifyDeepResearch,
     get_video_game_campaign_plays: getVideoGameCampaignPlays,
   };
 
