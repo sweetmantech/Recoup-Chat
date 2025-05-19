@@ -8,7 +8,7 @@ const TOOL_CHAIN_STEPS = [
   "get_spotify_artist_albums - albums for artist",
   "get_spotify_album - album from get_spotify_artist_albums. repeat this tool for each album.",
   "<other tools to get engagement info or other missing required items>",
-  "generate_txt_file - generate a txt file with the research generated.",
+  "create_knowledge_base - generate a txt file with the research and attach it to the artist",
 ];
 
 const getSpotifyDeepResearch = tool({
