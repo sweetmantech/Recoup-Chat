@@ -67,7 +67,7 @@ export function VercelChatProvider({
     clearAttachments,
     hasPendingUploads,
   } = useAttachments();
-  const { setDisableArtistCreationButton } = useArtistProvider();
+  const { updateChatState } = useArtistProvider();
 
   // Use the useVercelChat hook to get the chat state and functions
   const {
@@ -88,7 +88,6 @@ export function VercelChatProvider({
     initialMessages,
     uploadedAttachments, // Pass attachments to useVercelChat
   });
-  const prevStatus = useRef(status);
 
   // When a message is sent successfully, clear the attachments
   const handleSendMessageWithClear = async (
@@ -124,20 +123,10 @@ export function VercelChatProvider({
     hasPendingUploads,
   };
 
+  // Send chat status and messages to ArtistProvider
   useEffect(() => {
-    if (messages.length <= 2) {
-      const firstMessage = messages[0]?.content;
-      if (firstMessage === "create a new artist") {
-        setDisableArtistCreationButton(
-          status === "submitted" || status === "streaming"
-        );
-      } else {
-        setDisableArtistCreationButton(false);
-      }
-    } else {
-      setDisableArtistCreationButton(false);
-    }
-  }, [status, setDisableArtistCreationButton, messages]);
+    updateChatState(status, messages);
+  }, [status, messages, updateChatState]);
 
   // Provide the context value to children
   return (

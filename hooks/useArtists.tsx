@@ -6,6 +6,7 @@ import { SETTING_MODE } from "@/types/Setting";
 import useArtistMode from "./useArtistMode";
 import saveArtist from "@/lib/saveArtist";
 import useInitialArtists from "./useInitialArtists";
+import { Message } from "@ai-sdk/react";
 
 // Helper function to sort artists alphabetically by name
 const sortArtistsAlphabetically = (artists: ArtistRecord[]): ArtistRecord[] => {
@@ -40,6 +41,35 @@ const useArtists = () => {
     (artist: ArtistRecord) => artist.account_id === selectedArtist?.account_id,
   );
   const [disableArtistCreationButton, setDisableArtistCreationButton] = useState(false);
+  
+  // Add chat monitoring state
+  const [chatStatus, setChatStatus] = useState<string | null>(null);
+  const [chatMessages, setChatMessages] = useState<Message[]>([]);
+
+  // Monitor chat for artist creation
+  useEffect(() => {
+    if (!chatMessages.length) return;
+    
+    if (chatMessages.length <= 2) {
+      const firstMessage = chatMessages[0]?.content;
+      const isCreatingArtist = firstMessage === "create a new artist";
+      
+      if (isCreatingArtist && chatStatus) {
+        const isInProgress = chatStatus === "submitted" || chatStatus === "streaming";
+        setDisableArtistCreationButton(isInProgress);
+      } else {
+        setDisableArtistCreationButton(false);
+      }
+    } else {
+      setDisableArtistCreationButton(false);
+    }
+  }, [chatStatus, chatMessages]);
+  
+  // Function to update chat state from VercelChatProvider
+  const updateChatState = useCallback((status: string, messages: Message[]) => {
+    setChatStatus(status);
+    setChatMessages(messages);
+  }, []);
 
   const sorted =
     selectedArtist && activeArtistIndex >= 0
@@ -137,6 +167,7 @@ const useArtists = () => {
     isLoading,
     disableArtistCreationButton,
     setDisableArtistCreationButton,
+    updateChatState,
   };
 };
 
