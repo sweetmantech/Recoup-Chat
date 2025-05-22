@@ -18,7 +18,10 @@ export async function getSystemPrompt({
 }): Promise<string> {
   const resolvedArtistId = artistId || (await getArtistIdForRoom(roomId || ""));
 
-  let systemPrompt = `${SYSTEM_PROMPT} 
+  let systemPrompt = `
+  Current date and time in UTC: ${new Date().toISOString()}
+  
+  ${SYSTEM_PROMPT} 
   The active artist_account_id is ${resolvedArtistId}. 
   The account_id is ${accountId || "Unknown"} use this to create / delete artists.
   The active_account_email is ${email || "Unknown"}. 
