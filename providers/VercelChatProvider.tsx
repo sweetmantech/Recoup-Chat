@@ -132,6 +132,8 @@ export function VercelChatProvider({
           status === "submitted" || status === "streaming"
         );
       }
+    } else {
+      setDisableArtistCreationButton(false);
     }
     prevStatus.current = status;
   }, [status, setDisableArtistCreationButton, messages]);
