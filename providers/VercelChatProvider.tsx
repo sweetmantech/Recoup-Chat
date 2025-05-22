@@ -131,11 +131,12 @@ export function VercelChatProvider({
         setDisableArtistCreationButton(
           status === "submitted" || status === "streaming"
         );
+      } else {
+        setDisableArtistCreationButton(false);
       }
     } else {
       setDisableArtistCreationButton(false);
     }
-    prevStatus.current = status;
   }, [status, setDisableArtistCreationButton, messages]);
 
   // Provide the context value to children
