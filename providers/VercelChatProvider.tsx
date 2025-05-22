@@ -1,8 +1,15 @@
-import React, { createContext, useContext, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  ReactNode,
+  useEffect,
+  useRef,
+} from "react";
 import { useVercelChat } from "@/hooks/useVercelChat";
 import { Message, UseChatHelpers } from "@ai-sdk/react";
 import useAttachments from "@/hooks/useAttachments";
 import { Attachment } from "@ai-sdk/ui-utils";
+import { useArtistProvider } from "./ArtistProvider";
 
 // Interface for the context data
 interface VercelChatContextType {
@@ -22,7 +29,9 @@ interface VercelChatContextType {
   attachments: Attachment[];
   pendingAttachments: Attachment[];
   uploadedAttachments: Attachment[];
-  setAttachments: (attachments: Attachment[] | ((prev: Attachment[]) => Attachment[])) => void;
+  setAttachments: (
+    attachments: Attachment[] | ((prev: Attachment[]) => Attachment[])
+  ) => void;
   removeAttachment: (index: number) => void;
   clearAttachments: () => void;
   hasPendingUploads: boolean;
@@ -58,7 +67,8 @@ export function VercelChatProvider({
     clearAttachments,
     hasPendingUploads,
   } = useAttachments();
-  
+  const { setDisableArtistCreationButton } = useArtistProvider();
+
   // Use the useVercelChat hook to get the chat state and functions
   const {
     messages,
@@ -73,16 +83,19 @@ export function VercelChatProvider({
     setMessages,
     reload,
     append,
-  } = useVercelChat({ 
-    id: chatId, 
+  } = useVercelChat({
+    id: chatId,
     initialMessages,
-    uploadedAttachments // Pass attachments to useVercelChat
+    uploadedAttachments, // Pass attachments to useVercelChat
   });
-  
+  const prevStatus = useRef(status);
+
   // When a message is sent successfully, clear the attachments
-  const handleSendMessageWithClear = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSendMessageWithClear = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
     await handleSendMessage(event);
-    
+
     // Clear attachments after sending
     clearAttachments();
   };
@@ -110,6 +123,18 @@ export function VercelChatProvider({
     clearAttachments,
     hasPendingUploads,
   };
+
+  useEffect(() => {
+    if (messages.length <= 2) {
+      const firstMessage = messages[0].content;
+      if (firstMessage === "create a new artist") {
+        setDisableArtistCreationButton(
+          status === "submitted" || status === "streaming"
+        );
+      }
+    }
+    prevStatus.current = status;
+  }, [status, setDisableArtistCreationButton, messages]);
 
   // Provide the context value to children
   return (
