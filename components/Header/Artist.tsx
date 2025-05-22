@@ -5,6 +5,7 @@ import { EllipsisVertical } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 const Artist = ({
   artist,
@@ -51,7 +52,9 @@ const Artist = ({
     : "";
 
   return (
-    <button
+    <motion.button
+      initial={isMini ? false : true}
+      layout="position"
       className={cn(
         "py-2 w-full outline-none",
         isMini
@@ -115,7 +118,7 @@ const Artist = ({
           )}
         </>
       )}
-    </button>
+    </motion.button>
   );
 };
 
