@@ -48,7 +48,10 @@ const useArtists = () => {
 
   // Monitor chat for artist creation
   useEffect(() => {
-    if (!chatMessages.length) return;
+    if (!chatMessages.length) {
+      setDisableArtistCreationButton(false);
+      return;
+    }
     
     if (chatMessages.length <= 2) {
       const firstMessage = chatMessages[0]?.content;
