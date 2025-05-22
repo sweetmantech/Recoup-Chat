@@ -126,7 +126,7 @@ export function VercelChatProvider({
 
   useEffect(() => {
     if (messages.length <= 2) {
-      const firstMessage = messages[0].content;
+      const firstMessage = messages[0]?.content;
       if (firstMessage === "create a new artist") {
         setDisableArtistCreationButton(
           status === "submitted" || status === "streaming"
