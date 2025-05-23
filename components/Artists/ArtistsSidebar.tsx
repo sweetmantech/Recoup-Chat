@@ -15,8 +15,8 @@ const ArtistsSidebar = () => {
     toggleCreation,
     sorted,
     selectedArtist,
-    disableArtistCreationButton,
-    setDisableArtistCreationButton,
+    isCreatingArtist,
+    setIsCreatingArtist,
   } = useArtistProvider();
   const { isPrepared, email } = useUserProvider();
   const { setIsExpanded } = useSidebarExpansion();
@@ -34,7 +34,7 @@ const ArtistsSidebar = () => {
 
   const handleCreate = () => {
     if (!isPrepared()) return;
-    setDisableArtistCreationButton(true);
+    setIsCreatingArtist(true);
     toggleCreation();
   };
 
@@ -64,12 +64,12 @@ const ArtistsSidebar = () => {
         className={`${menuExpanded ? "flex px-2 py-1 gap-2 text-sm items-center text-grey-dark-1" : "flex justify-center"} ${!isArtistSelected ? "relative z-50 brightness-125" : ""}`}
         onClick={handleCreate}
         type="button"
-        disabled={disableArtistCreationButton}
+        disabled={isCreatingArtist}
       >
         <div
           className={`w-8 flex justify-center ${!menuExpanded && "mx-auto"}`}
         >
-          {disableArtistCreationButton ? (
+          {isCreatingArtist ? (
             <Loader className="size-5 text-grey-dark-1 animate-spin" />
           ) : (
             <Plus className="size-5 text-grey-dark-1" />

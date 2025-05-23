@@ -40,7 +40,7 @@ const useArtists = () => {
   const activeArtistIndex = artists.findIndex(
     (artist: ArtistRecord) => artist.account_id === selectedArtist?.account_id,
   );
-  const { disableArtistCreationButton, setDisableArtistCreationButton, updateChatState } = useCreateArtists();
+  const { isCreatingArtist, setIsCreatingArtist, updateChatState } = useCreateArtists();
 
   const sorted =
     selectedArtist && activeArtistIndex >= 0
@@ -136,8 +136,8 @@ const useArtists = () => {
     menuVisibleArtistId,
     setIsLoading,
     isLoading,
-    disableArtistCreationButton,
-    setDisableArtistCreationButton,
+    isCreatingArtist,
+    setIsCreatingArtist,
     updateChatState,
   };
 };

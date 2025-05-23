@@ -2,7 +2,7 @@ import { Message } from "@ai-sdk/react";
 import { useCallback, useEffect, useState } from "react";
 
 const useCreateArtists = () => {
-  const [disableArtistCreationButton, setDisableArtistCreationButton] =
+  const [isCreatingArtist, setIsCreatingArtist] =
     useState(false);
 
   // Add chat monitoring state
@@ -12,7 +12,7 @@ const useCreateArtists = () => {
   // Monitor chat for artist creation
   useEffect(() => {
     if (!chatMessages.length) {
-      setDisableArtistCreationButton(false);
+      setIsCreatingArtist(false);
       return;
     }
 
@@ -23,12 +23,12 @@ const useCreateArtists = () => {
       if (isCreatingArtist && chatStatus) {
         const isInProgress =
           chatStatus === "submitted" || chatStatus === "streaming";
-        setDisableArtistCreationButton(isInProgress);
+        setIsCreatingArtist(isInProgress);
       } else {
-        setDisableArtistCreationButton(false);
+        setIsCreatingArtist(false);
       }
     } else {
-      setDisableArtistCreationButton(false);
+      setIsCreatingArtist(false);
     }
   }, [chatStatus, chatMessages]);
 
@@ -39,8 +39,8 @@ const useCreateArtists = () => {
   }, []);
 
   return {
-    setDisableArtistCreationButton,
-    disableArtistCreationButton,
+    setIsCreatingArtist,
+    isCreatingArtist,
     updateChatState,
   };
 };
