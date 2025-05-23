@@ -98,21 +98,21 @@ const Artist = ({
           >
             {displayName}
           </div>
-          {(isHovered || isSelectedArtist) && (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                if (artist) toggleUpdate(artist);
-                toggleSettingModal();
-              }}
-              className="ml-auto flex-shrink-0"
-              title="Edit artist settings"
-              aria-label="Edit artist settings"
-            >
-              <EllipsisVertical className="size-5 rotate-90" />
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              if (artist) toggleUpdate(artist);
+              toggleSettingModal();
+            }}
+            className={cn("ml-auto flex-shrink-0 opacity-0 pointer-events-none", {
+              "opacity-1 pointer-events-auto": isHovered || isSelectedArtist,
+            })}
+            title="Edit artist settings"
+            aria-label="Edit artist settings"
+          >
+            <EllipsisVertical className="size-5 rotate-90" />
+          </button>
         </>
       )}
     </button>
