@@ -1,0 +1,170 @@
+[
+  {
+    "title": "Fan Segmentation Analysis",
+    "description": "Get a 360° breakdown of your fanbase and audience segments.",
+    "prompt": "",
+    "tags": ["Recommended", "Wrapped", "Analysis"],
+    "status": "active",
+    "isActive": true
+  },
+  {
+    "title": "Fan Segment Analysis Pipeline",
+    "description": "Understand who your most valuable fans are and how to reach them.",
+    "prompt": "Analyze my artist's fan segments and tell me who our most valuable listeners are. What demographics do they represent, how do they engage with us, and how should we target them in our next campaign? Please provide a downloadable report with actionable recommendations.",
+    "tags": ["Recommended", "Growth", "Strategy"],
+    "status": "active",
+    "isActive": true
+  },
+  {
+    "title": "Social Media Health Check",
+    "description": "Get a full report on your artist's social media performance and engagement.",
+    "prompt": "Give me a complete health check of my artist's social media presence. Which posts are performing best, what are fans saying in the comments, and how does engagement vary across platforms? Could you create a diagram showing our social ecosystem with specific areas to improve?",
+    "tags": ["Recommended", "Social"],
+    "status": "active",
+    "isActive": true
+  },
+  {
+    "title": "Trending Topics Opportunity Finder",
+    "description": "Discover trending conversations your artist can join naturally.",
+    "prompt": "What topics are trending right now that my artist could naturally join the conversation about? Look at what's happening on Twitter, analyze if our fans are already discussing these trends, and suggest content ideas that would feel authentic for us to post. Can you create a document with the best opportunities?",
+    "tags": ["Growth", "Social", "Strategy"],
+    "status": "active",
+    "isActive": true
+  },
+  {
+    "title": "Spotify Identity Builder",
+    "description": "Audit and align your artist's Spotify profile with best practices.",
+    "prompt": "Help me build a complete and consistent artist profile starting with our Spotify information. Make sure our bio, image, and socials are synchronized across platforms, and suggest playlist strategies based on what's working for similar artists in our genre.",
+    "tags": ["Spotify", "Brand"],
+    "status": "active",
+    "isActive": true
+  },
+  {
+    "title": "Instagram Audience Intelligence",
+    "description": "Understand who follows your artist on Instagram and how to engage them better.",
+    "prompt": "Dive deep into my artist's Instagram audience. Who are they, what other content do they engage with, and what potential brand partnerships make sense? Could you create some visual content themes that would resonate with them based on your findings?",
+    "tags": ["Instagram", "Growth", "Creative"],
+    "status": "active",
+    "isActive": true
+  },
+  {
+    "title": "Fan Comment Sentiment Analysis",
+    "description": "Identify fan sentiment patterns across platforms.",
+    "prompt": "Analyze the comments on my artist's recent posts across all platforms. What are fans feeling about our latest release? Are there recurring themes or questions? Create a visual breakdown of the sentiment trends so we can adjust our messaging accordingly.",
+    "tags": ["Sentiment", "Strategy"],
+    "status": "active",
+    "isActive": true
+  },
+  {
+    "title": "Competitive Intelligence Dashboard",
+    "description": "Compare your artist with top competitors across platforms.",
+    "prompt": "Research our top 3 competitor artists across Spotify, Twitter, and Instagram. What strategies are working for them? Where do our audiences overlap? Create a detailed report with tactics we can adapt and opportunities to differentiate ourselves.",
+    "tags": ["Strategy", "Competitive"],
+    "status": "active",
+    "isActive": true
+  },
+  {
+    "title": "Cross-Platform Content Calendar",
+    "description": "Build a custom content calendar based on past success and audience behavior.",
+    "prompt": "Help me develop a strategic content calendar across all our platforms. Analyze what's worked best for us in the past, when our audience is most active, and incorporate relevant trending topics. Provide a comprehensive plan we can implement over the next month.",
+    "tags": ["Strategy", "Creative"],
+    "status": "active",
+    "isActive": true
+  },
+  {
+    "title": "Instagram Comment Response Strategy",
+    "description": "Plan smart responses to high-value fan interactions.",
+    "prompt": "Review all the comments on our recent Instagram posts and help me develop a response strategy. What questions keep coming up? Which fans should we prioritize engaging with? Create a playbook we can follow for authentic and effective fan interactions.",
+    "tags": ["Instagram", "Sentiment", "Strategy"],
+    "status": "active",
+    "isActive": true
+  },
+  {
+    "title": "Fan Growth Opportunity Map",
+    "description": "Find new audiences who should be fans but aren't yet.",
+    "prompt": "Identify untapped audience segments that should be fans of our music but aren't yet. Where are these potential fans having conversations online, what artists do they currently follow, and how can we reach them? Create a visual strategy map for acquiring these new listeners.",
+    "tags": ["Growth", "Strategy"],
+    "status": "active",
+    "isActive": true
+  },
+  {
+    "title": "Release Strategy Optimizer",
+    "description": "Get data-driven recommendations for your next song release timing, messaging, and platform focus.",
+    "prompt": "We're planning our next release. Analyze how our previous releases performed, what fans said about them, and current trends in our genre. Give me recommendations for the ideal release timing, messaging approach, and platform focus to maximize impact.",
+    "tags": ["Rollout", "Strategy", "Analytics"],
+    "status": "active",
+    "isActive": true
+  },
+  {
+    "title": "Artist Brand Evolution Roadmap",
+    "description": "Plan a brand refresh with actionable steps and visual mockups.",
+    "prompt": "My artist is ready for a brand refresh. Analyze our current perception across platforms, identify opportunities to evolve while staying authentic, and create visual mockups of what our refreshed identity could look like with implementation steps.",
+    "tags": ["Brand", "Strategy", "Creative"],
+    "status": "active",
+    "isActive": true
+  },
+  {
+    "title": "Superfan Monetization Blueprint",
+    "description": "Identify and monetize your most dedicated fans with exclusive offers.",
+    "prompt": "Identify my artist's most dedicated fans and create a superfan monetization strategy. What exclusive products, experiences, or content would they value most? How much would they be willing to pay? Give me a complete blueprint for turning fan love into sustainable revenue streams.",
+    "tags": ["Monetization", "Fans", "Revenue"],
+    "status": "active",
+    "isActive": true
+  },
+  {
+    "title": "Viral Content Opportunity Detector",
+    "description": "Find high-potential viral content ideas tailored to your artist.",
+    "prompt": "Based on my artist's style and what's currently going viral in our genre, suggest 5 authentic content ideas that have high viral potential. Analyze trending formats across TikTok, Instagram, and Twitter, but make sure the ideas stay true to our artistic identity. Include a strategy for each concept.",
+    "tags": ["Content", "Viral", "Strategy"],
+    "status": "active",
+    "isActive": true
+  },
+  {
+    "title": "Brand Partnership Matchmaker",
+    "description": "Find and rank the best brand partnership opportunities for your artist.",
+    "prompt": "Find the perfect brand partnership opportunities for my artist. Analyze our audience demographics, their purchasing habits, and identify brands that share our values. Rank potential partners by fit and revenue potential, with specific collaboration ideas for each.",
+    "tags": ["Brand", "Partnership", "Revenue"],
+    "status": "active",
+    "isActive": true
+  },
+  {
+    "title": "Merchandise Optimization Strategy",
+    "description": "Create a data-driven plan to maximize merch sales and fan delight.",
+    "prompt": "Analyze what merchandise is selling best for artists in our genre and with our audience demographics. What price points, designs, and limited-edition strategies are working? Create a data-driven merchandise plan that maximizes profit while delighting fans.",
+    "tags": ["Merch", "Revenue", "Strategy"],
+    "status": "active",
+    "isActive": true
+  },
+  {
+    "title": "Tour Revenue Maximizer",
+    "description": "Plan a tour to maximize attendance, revenue, and VIP experiences.",
+    "prompt": "We're planning a tour for next quarter. Based on our streaming data, social engagement, and fan locations, where should we perform to maximize attendance and revenue? What VIP experiences could we offer, and how should we price tickets across different markets?",
+    "tags": ["Tour", "Revenue", "Fans"],
+    "status": "active",
+    "isActive": true
+  },
+  {
+    "title": "Cross-Promotion Campaign Designer",
+    "description": "Design creative campaigns with compatible artists for mutual growth.",
+    "prompt": "Find compatible artists we could collaborate with for mutual audience growth. Identify where our fanbases overlap and differ, then suggest creative cross-promotion campaigns that would benefit both parties and feel authentic to our respective brands.",
+    "tags": ["Collaboration", "Growth", "Strategy"],
+    "status": "active",
+    "isActive": true
+  },
+  {
+    "title": "Content-to-Commerce Funnel",
+    "description": "Turn your social content into direct sales with a seamless funnel.",
+    "prompt": "Create a strategy that turns our social content into direct sales. Analyze which types of posts drive the most traffic to our shop, identify friction points in our current funnel, and design a seamless path from casual follower to paying customer.",
+    "tags": ["Content", "Commerce", "Revenue"],
+    "status": "active",
+    "isActive": true
+  },
+  {
+    "title": "Trend Hijacking Strategy",
+    "description": "Identify and authentically join trends to boost visibility.",
+    "prompt": "What current trends or challenges could my artist authentically participate in that would increase visibility? Don't just list trends—explain how we could put our unique spin on them, which platforms we should focus on, and how to time our participation for maximum impact.",
+    "tags": ["Trends", "Growth", "Content"],
+    "status": "active",
+    "isActive": true
+  }
+] 
