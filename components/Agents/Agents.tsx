@@ -4,7 +4,7 @@ import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useAgentsProvider } from "@/providers/AgentsProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
-// Define Agent type inline for type safety
+// Define Agent type for agent metadata loaded from agents.json
 interface Agent {
   title: string;
   description: string;
@@ -13,6 +13,18 @@ interface Agent {
   status?: string;
   isActive: boolean;
 }
+
+const CORE_TAGS = [
+  "Recommended",
+  "Brand",
+  "Growth",
+  "Revenue",
+  "Strategy",
+  "Social",
+  "Spotify",
+  "Sentiment",
+  "Creative"
+];
 
 const Agents = () => {
   const { push } = useRouter();
@@ -23,13 +35,17 @@ const Agents = () => {
   const { lookupProfiles } = useAgentsProvider();
   const { setIsLoading } = useFunnelAnalysisProvider();
   const [tags, setTags] = useState<string[]>(["Recommended"]);
+  const [showAllTags, setShowAllTags] = useState(false);
+
+  const coreTags = tags.filter(tag => CORE_TAGS.includes(tag));
+  const extraTags = tags.filter(tag => !CORE_TAGS.includes(tag));
 
   useEffect(() => {
     fetch("/agents.json")
       .then((res) => res.json())
       .then((data: Agent[]) => {
         setAgents(data);
-        // Extract unique tags from all agents
+        // Build a unique tag list from all agents, always including 'Recommended' first
         const uniqueTags = Array.from(
           new Set(
             data
@@ -37,23 +53,24 @@ const Agents = () => {
               .filter((tag: string) => !!tag)
           )
         );
-        setTags(["Recommended", ...uniqueTags]);
+        const allTags = ["Recommended", ...uniqueTags];
+        setTags(Array.from(new Set(allTags)));
         setLoading(false);
       });
   }, []);
 
-  // Find the Fan Segmentation Analysis (360 Wrapped) agent
+  // Find the special "Fan Segmentation Analysis" agent (always shown first if active)
   const funnelAgent = agents.find(
     (agent) => agent.title === "Fan Segmentation Analysis" && agent.isActive
   );
-  // Filter out Fan Segmentation Analysis from the main grid
+  // Get all active agents except the special card, filtered by the selected tag
   const filteredAgents = agents.filter(
     (agent) =>
       agent.isActive &&
       agent.title !== "Fan Segmentation Analysis" &&
       (selectedTag === "Recommended" ? true : agent.tags?.includes(selectedTag))
   );
-  // Prepare grid agents: Fan Segmentation Analysis first if active, then the rest
+  // Combine the special card (if present) with the filtered agents for display
   const gridAgents = [
     ...(funnelAgent ? [funnelAgent] : []),
     ...filteredAgents
@@ -84,8 +101,8 @@ const Agents = () => {
       <p className="text-base md:text-lg text-gray-400 text-center md:text-left mb-6 font-normal">
         Unlock the potential of your roster with intelligent, task-focused agents.
       </p>
-      <div className="flex flex-wrap gap-2 mb-8">
-        {tags.map((tag) => (
+      <div className="flex flex-wrap gap-2 mb-8 items-center">
+        {(showAllTags ? tags : coreTags).map((tag) => (
           <button
             key={tag}
             type="button"
@@ -99,10 +116,36 @@ const Agents = () => {
             {tag}
           </button>
         ))}
+        {extraTags.length > 0 && !showAllTags && (
+          <button
+            type="button"
+            onClick={() => setShowAllTags(true)}
+            className="ml-2 text-xs text-gray-500 hover:underline bg-transparent border-none shadow-none p-0 flex items-center"
+            style={{ background: 'none', border: 'none', fontWeight: 400 }}
+          >
+            More
+            <svg width="12" height="12" viewBox="0 0 20 20" fill="none" className="ml-1" title="Show more tags">
+              <path d="M6 8l4 4 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+        )}
+        {showAllTags && (
+          <button
+            type="button"
+            onClick={() => setShowAllTags(false)}
+            className="ml-2 text-xs text-gray-500 hover:underline bg-transparent border-none shadow-none p-0 flex items-center"
+            style={{ background: 'none', border: 'none', fontWeight: 400 }}
+          >
+            Show Less
+            <svg width="12" height="12" viewBox="0 0 20 20" fill="none" className="ml-1" style={{ transform: 'rotate(180deg)' }} title="Show fewer tags">
+              <path d="M6 8l4 4 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+        )}
       </div>
       <div className="border-b border-gray-100 mb-8" />
       <div className="mt-16" />
-      {/* Remove special 360 Wrapped card rendering */}
+      {/* Render agent cards: special card first, then filtered agents */}
       {loading ? (
         <div className="text-center text-gray-400">Loading agents...</div>
       ) : gridAgents.length === 0 ? (
