@@ -4,18 +4,6 @@ import { useArtistProvider } from "@/providers/ArtistProvider";
 import { useAgentsProvider } from "@/providers/AgentsProvider";
 import { useFunnelAnalysisProvider } from "@/providers/FunnelAnalysisProvider";
 
-const TAGS = [
-  "Recommended",
-  "Brand",
-  "Growth",
-  "Revenue",
-  "Strategy",
-  "Social",
-  "Spotify",
-  "Sentiment",
-  "Creative",
-];
-
 // Define Agent type inline for type safety
 interface Agent {
   title: string;
@@ -34,12 +22,22 @@ const Agents = () => {
   const { selectedArtist } = useArtistProvider();
   const { lookupProfiles } = useAgentsProvider();
   const { setIsLoading } = useFunnelAnalysisProvider();
+  const [tags, setTags] = useState<string[]>(["Recommended"]);
 
   useEffect(() => {
     fetch("/agents.json")
       .then((res) => res.json())
-      .then((data) => {
+      .then((data: Agent[]) => {
         setAgents(data);
+        // Extract unique tags from all agents
+        const uniqueTags = Array.from(
+          new Set(
+            data
+              .flatMap((agent: Agent) => agent.tags || [])
+              .filter((tag: string) => !!tag)
+          )
+        );
+        setTags(["Recommended", ...uniqueTags]);
         setLoading(false);
       });
   }, []);
@@ -87,7 +85,7 @@ const Agents = () => {
         Unlock the potential of your roster with intelligent, task-focused agents.
       </p>
       <div className="flex flex-wrap gap-2 mb-8">
-        {TAGS.map((tag) => (
+        {tags.map((tag) => (
           <button
             key={tag}
             type="button"
