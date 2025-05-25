@@ -124,7 +124,8 @@ const Agents = () => {
             style={{ background: 'none', border: 'none', fontWeight: 400 }}
           >
             More
-            <svg width="12" height="12" viewBox="0 0 20 20" fill="none" className="ml-1" title="Show more tags">
+            <svg width="12" height="12" viewBox="0 0 20 20" fill="none" className="ml-1">
+              <title>Show more tags</title>
               <path d="M6 8l4 4 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </button>
@@ -137,7 +138,8 @@ const Agents = () => {
             style={{ background: 'none', border: 'none', fontWeight: 400 }}
           >
             Show Less
-            <svg width="12" height="12" viewBox="0 0 20 20" fill="none" className="ml-1" style={{ transform: 'rotate(180deg)' }} title="Show fewer tags">
+            <svg width="12" height="12" viewBox="0 0 20 20" fill="none" className="ml-1" style={{ transform: 'rotate(180deg)' }}>
+              <title>Show fewer tags</title>
               <path d="M6 8l4 4 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </button>
