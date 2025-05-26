@@ -1,10 +1,11 @@
 import { z } from "zod";
 import { tool } from "ai";
 import { getArtistSocials } from "../api/artist/getArtistSocials";
+import { SPOTIFY_DEEP_RESEARCH_REQUIREMENTS } from "../consts";
 
 const TOOL_CHAIN_STEPS = [
   "get_artist_socials - get spotify account",
-  "get_spotify_artist_top_tracks - top tracks for artist",
+  "get_spotify_artist_top_tracks - get top tracks with popularity scores",
   "get_spotify_artist_albums - albums for artist",
   "get_spotify_album - album from get_spotify_artist_albums. repeat this tool for each album.",
   "<other tools to get engagement info or other missing required items>",
@@ -20,12 +21,7 @@ const getSpotifyDeepResearch = tool({
   </tool_loop>
 
   required items in deep research document:
-  - popularity info
-  - engagement info
-  - tracklist
-  - collaborators
-  - album art
-  - album name
+  ${SPOTIFY_DEEP_RESEARCH_REQUIREMENTS}
 
   Keep going until the job is completely solved before ending your turn.
   If you're unsure, use your tools, don't guess.
