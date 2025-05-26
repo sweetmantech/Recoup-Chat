@@ -2,6 +2,7 @@ import React from 'react';
 import CommentDetailsDialog from './CommentDetailsDialog';
 import { CommentsResultProps, MinimalCommentCardProps } from '@/types/Comment';
 import { useCommentsResult } from '@/components/hooks/useCommentsResult';
+import { MessageCircle, ChevronRight } from 'lucide-react';
 
 const MinimalCommentCard: React.FC<MinimalCommentCardProps> = ({ comment, onClick }) => {
   const initials = comment.username.slice(0, 2).toUpperCase();
@@ -55,9 +56,7 @@ const MinimalCommentCard: React.FC<MinimalCommentCardProps> = ({ comment, onClic
       
       {/* Click indicator */}
       <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
-        <svg className="h-3 w-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-        </svg>
+        <ChevronRight className="h-3 w-3 text-gray-400" />
       </div>
     </div>
   );
@@ -97,7 +96,7 @@ export const CommentsResult: React.FC<CommentsResultProps> = ({ result }) => {
     return (
       <div className="flex items-center space-x-3 p-2 rounded bg-gray-50 border border-gray-200 my-1 text-gray-800 w-fit md:rounded-xl">
         <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden shrink-0">
-          <span className="text-sm font-medium text-gray-600">💬</span>
+          <MessageCircle className="h-4 w-4 text-gray-600" />
         </div>
         <div className="flex-grow min-w-0">
           <p className="font-medium text-sm">No Comments Found</p>
@@ -116,7 +115,7 @@ export const CommentsResult: React.FC<CommentsResultProps> = ({ result }) => {
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center space-x-2">
             <div className="h-5 w-5 rounded-full bg-blue-100 flex items-center justify-center">
-              <span className="text-[10px] font-medium text-blue-600">💬</span>
+              <MessageCircle className="h-3 w-3 text-blue-600" />
             </div>
             <span className="font-medium text-sm text-gray-900">Comments</span>
             <span className="text-xs text-gray-500">
