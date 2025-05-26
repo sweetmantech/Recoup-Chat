@@ -1,23 +1,31 @@
-import React, { useState } from 'react';
-import CommentDetailsDialog from './CommentDetailsDialog';
-import { Comment, CommentsResultProps, MinimalCommentCardProps } from '@/types/Comment';
+import React, { useState } from "react";
+import CommentDetailsDialog from "./CommentDetailsDialog";
+import {
+  Comment,
+  CommentsResultProps,
+  MinimalCommentCardProps,
+} from "@/types/Comment";
 
-const MinimalCommentCard: React.FC<MinimalCommentCardProps> = ({ comment, onClick }) => {
+const MinimalCommentCard: React.FC<MinimalCommentCardProps> = ({
+  comment,
+  onClick,
+}) => {
   const initials = comment.username.slice(0, 2).toUpperCase();
-  
+
   // Truncate comment based on responsive layout (mobile gets more space)
-  const previewText = comment.comment.length > 45 
-    ? comment.comment.substring(0, 45) + '...' 
-    : comment.comment;
+  const previewText =
+    comment.comment.length > 45
+      ? comment.comment.substring(0, 45) + "..."
+      : comment.comment;
 
   return (
-    <div 
+    <div
       className="flex items-center space-x-2 p-2 bg-gray-50 rounded-xl border border-gray-100 hover:bg-gray-100 hover:border-gray-200 transition-all cursor-pointer group"
       onClick={onClick}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
+        if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
           onClick();
         }
@@ -26,13 +34,14 @@ const MinimalCommentCard: React.FC<MinimalCommentCardProps> = ({ comment, onClic
       {/* Tiny Avatar */}
       <div className="h-5 w-5 rounded-full overflow-hidden flex-shrink-0">
         {comment.avatar ? (
-          <img 
-            src={comment.avatar} 
-            alt={comment.username} 
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={comment.avatar}
+            alt={comment.username}
             className="h-full w-full object-cover"
             onError={(e) => {
-              e.currentTarget.style.display = 'none';
-              e.currentTarget.nextElementSibling?.classList.remove('hidden');
+              e.currentTarget.style.display = "none";
+              e.currentTarget.nextElementSibling?.classList.remove("hidden");
             }}
           />
         ) : (
@@ -41,21 +50,33 @@ const MinimalCommentCard: React.FC<MinimalCommentCardProps> = ({ comment, onClic
           </div>
         )}
       </div>
-      
+
       {/* Content - responsive text sizing */}
       <div className="flex-grow min-w-0">
         <div className="flex items-start space-x-1">
-          <span className="font-medium text-xs md:text-[11px] lg:text-xs text-gray-900 flex-shrink-0">@{comment.username}</span>
+          <span className="font-medium text-xs md:text-[11px] lg:text-xs text-gray-900 flex-shrink-0">
+            @{comment.username}
+          </span>
           <span className="text-xs md:text-[11px] lg:text-xs text-gray-600 truncate leading-tight">
             {previewText}
           </span>
         </div>
       </div>
-      
+
       {/* Click indicator */}
       <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
-        <svg className="h-3 w-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        <svg
+          className="h-3 w-3 text-gray-400"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M9 5l7 7-7 7"
+          />
         </svg>
       </div>
     </div>
@@ -67,27 +88,30 @@ export const CommentsResult: React.FC<CommentsResultProps> = ({ result }) => {
   const [selectedComment, setSelectedComment] = useState<Comment | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  
+
   // Handle comment click
   const handleCommentClick = (comment: Comment) => {
-    const index = result.comments.findIndex(c => c.id === comment.id);
+    const index = result.comments.findIndex((c) => c.id === comment.id);
     setCurrentIndex(index !== -1 ? index : 0);
     setSelectedComment(comment);
     setDialogOpen(true);
   };
-  
+
   // Handle dialog close
   const handleCloseDialog = () => {
     setDialogOpen(false);
   };
-  
+
   // Handle navigation
-  const handleNavigation = (direction: 'prev' | 'next') => {
-    if (direction === 'prev' && currentIndex > 0) {
+  const handleNavigation = (direction: "prev" | "next") => {
+    if (direction === "prev" && currentIndex > 0) {
       const newIndex = currentIndex - 1;
       setCurrentIndex(newIndex);
       setSelectedComment(result.comments[newIndex]);
-    } else if (direction === 'next' && currentIndex < result.comments.length - 1) {
+    } else if (
+      direction === "next" &&
+      currentIndex < result.comments.length - 1
+    ) {
       const newIndex = currentIndex + 1;
       setCurrentIndex(newIndex);
       setSelectedComment(result.comments[newIndex]);
@@ -95,7 +119,7 @@ export const CommentsResult: React.FC<CommentsResultProps> = ({ result }) => {
   };
 
   // Handle error state
-  if (!result.success || result.status === 'error') {
+  if (!result.success || result.status === "error") {
     return (
       <div className="flex items-center space-x-3 p-2 rounded bg-red-50 border border-red-200 my-1 text-red-800 w-fit md:rounded-xl">
         <div className="h-8 w-8 rounded-full bg-red-100 flex items-center justify-center overflow-hidden shrink-0">
@@ -104,7 +128,7 @@ export const CommentsResult: React.FC<CommentsResultProps> = ({ result }) => {
         <div className="flex-grow min-w-0">
           <p className="font-medium text-sm">Error Loading Comments</p>
           <p className="text-xs text-red-600 truncate">
-            {result.message || 'Failed to load comments'}
+            {result.message || "Failed to load comments"}
           </p>
         </div>
       </div>
@@ -143,21 +167,21 @@ export const CommentsResult: React.FC<CommentsResultProps> = ({ result }) => {
             </span>
           </div>
         </div>
-        
+
         {/* Responsive grid layout - mobile: 1 col, iPad: 2 cols, desktop: 3 cols */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1.5">
           {result.comments.map((comment) => (
-            <MinimalCommentCard 
-              key={comment.id} 
-              comment={comment} 
+            <MinimalCommentCard
+              key={comment.id}
+              comment={comment}
               onClick={() => handleCommentClick(comment)}
             />
           ))}
         </div>
       </div>
-      
+
       {/* Comment details dialog */}
-      <CommentDetailsDialog 
+      <CommentDetailsDialog
         comment={selectedComment}
         isOpen={dialogOpen}
         onClose={handleCloseDialog}
@@ -167,4 +191,4 @@ export const CommentsResult: React.FC<CommentsResultProps> = ({ result }) => {
       />
     </div>
   );
-}; 
+};

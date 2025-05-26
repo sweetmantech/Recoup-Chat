@@ -11,13 +11,17 @@ import {
 import { Button } from "@/components/ui/button";
 import { CommentDetailsDialogProps } from "@/types/Comment";
 import { toast } from "react-toastify";
-import { 
-  User, 
-  BarChart, 
-  Copy, 
-  ChevronLeft, 
-  ChevronRight 
+import {
+  User,
+  BarChart,
+  Copy,
+  ChevronLeft,
+  ChevronRight,
+  Heart,
+  MessageCircle,
+  Send,
 } from "lucide-react";
+import Link from "next/link";
 
 // Helper functions for formatting
 const formatFollowerCount = (count: number | null): string => {
@@ -72,6 +76,7 @@ const CommentDetailsDialog: React.FC<CommentDetailsDialogProps> = ({
             {/* Avatar with consistent fallback */}
             <div className="h-10 w-10 rounded-full overflow-hidden flex-shrink-0 border border-gray-100">
               {comment.avatar ? (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={comment.avatar}
                   alt={comment.username}
@@ -108,8 +113,8 @@ const CommentDetailsDialog: React.FC<CommentDetailsDialogProps> = ({
                     {formatFollowerCount(comment.follower_count)} followers
                   </span>
                 )}
-                <span className="text-gray-300">•</span>
-                <span>{formatTimestamp(comment.commented_at, true)}</span>
+                {/* <span className="text-gray-300">•</span>
+                <span>{formatTimestamp(comment.commented_at, true)}</span> */}
               </div>
             </div>
           </div>
@@ -120,23 +125,37 @@ const CommentDetailsDialog: React.FC<CommentDetailsDialogProps> = ({
           )}
 
           {/* Comment text - highlighted for focus */}
-          <div className="bg-blue-50 p-3 rounded-xl border border-blue-100">
-            <p className="text-gray-800 whitespace-pre-wrap text-sm font-medium">
+          <div className="rounded-xl border-blue-100">
+            <p className="p-3 pl-1 rounded-xl rounded-bl-none bg-gradient-to-br from-blue-100 to-blue-200 text-gray-800 font-normal whitespace-pre-wrap text-sm font-inter">
               {comment.comment}
             </p>
+            {/* Instagram-like engagement indicators */}
+            <div className="flex items-center gap-2 pt-2">
+              <div className="flex items-center gap-1 text-gray-500">
+                <Heart className="h-3 w-3" />
+              </div>
+              <div className="flex items-center gap-1 text-gray-500">
+                <MessageCircle className="h-3 w-3" />
+              </div>
+              <div className="flex items-center gap-1 text-gray-500">
+                <Send className="h-3 w-3" />
+              </div>
+              <div className="flex items-center gap-1 text-gray-500">
+                <span className="text-gray-300">•</span>
+                <span className="text-xs">{formatTimestamp(comment.commented_at, true)}</span>
+              </div>
+            </div>
           </div>
-
-          {/* Metadata - more compact */}
+          {/* 
           <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500 pt-1">
             <div className="flex items-center gap-1">
               <span className="text-gray-400">Posted:</span>
               <span>{format(new Date(comment.commented_at), "PPP")}</span>
             </div>
-          </div>
+          </div> */}
 
-          {/* Links - more compact */}
           <div className="pt-2 flex flex-wrap gap-2">
-            <a
+            <Link
               href={comment.profile_url}
               target="_blank"
               rel="noopener noreferrer"
@@ -144,8 +163,8 @@ const CommentDetailsDialog: React.FC<CommentDetailsDialogProps> = ({
             >
               <User className="h-3 w-3" />
               Profile
-            </a>
-            <a
+            </Link>
+            <Link
               href={comment.post_url}
               target="_blank"
               rel="noopener noreferrer"
@@ -153,7 +172,7 @@ const CommentDetailsDialog: React.FC<CommentDetailsDialogProps> = ({
             >
               <BarChart className="h-3 w-3" />
               Post
-            </a>
+            </Link>
             <button
               onClick={() => {
                 toast.success("Copied to clipboard");
