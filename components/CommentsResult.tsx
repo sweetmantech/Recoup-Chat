@@ -142,7 +142,6 @@ export const CommentsResult: React.FC<CommentsResultProps> = ({ result }) => {
               {result.comments.length} of {result.pagination.total_count}
             </span>
           </div>
-          <span className="text-[10px] text-gray-400">Click to view details</span>
         </div>
         
         {/* Responsive grid layout - mobile: 1 col, iPad: 2 cols, desktop: 3 cols */}
