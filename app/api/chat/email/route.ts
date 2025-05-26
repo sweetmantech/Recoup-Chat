@@ -4,10 +4,9 @@ import generateText from "@/lib/ai/generateText";
 
 // Type for AWS SNS POST payload
 interface SnsPayload {
-  Type: "SubscriptionConfirmation" | "Notification" | string;
-  SubscribeURL?: string;
   mail?: {
     source?: string;
+    subject?: string;
   };
   content?: string;
   [key: string]: unknown;
@@ -19,7 +18,8 @@ export async function POST(req: NextRequest) {
     console.log("Received SNS email notification:", body);
     const parsedMessage = body.mail ?? { source: "noreply@example.com" };
     const recipient = parsedMessage.source;
-    const subject = "Thank you for your email";
+    const subject =
+      parsedMessage.subject || "Recoup - Thank you for your email";
 
     // Decode the email body from base64 if present
     let decodedBody = "";
