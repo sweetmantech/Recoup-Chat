@@ -28,13 +28,13 @@ const MinimalCommentCard: React.FC<MinimalCommentCardProps> = ({ comment, onClic
       {/* Tiny Avatar */}
       <div className="h-5 w-5 rounded-full overflow-hidden flex-shrink-0">
         {comment.avatar ? (
+          // eslint-disable-next-line @next/next/no-img-element
           <img 
             src={comment.avatar} 
             alt={comment.username} 
             className="h-full w-full object-cover"
             onError={(e) => {
               e.currentTarget.style.display = 'none';
-              e.currentTarget.nextElementSibling?.classList.remove('hidden');
             }}
           />
         ) : (

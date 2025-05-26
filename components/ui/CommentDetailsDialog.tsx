@@ -83,9 +83,6 @@ const CommentDetailsDialog: React.FC<CommentDetailsDialogProps> = ({
                   className="h-full w-full object-cover"
                   onError={(e) => {
                     e.currentTarget.style.display = "none";
-                    e.currentTarget.nextElementSibling?.classList.remove(
-                      "hidden"
-                    );
                   }}
                 />
               ) : (
@@ -142,7 +139,9 @@ const CommentDetailsDialog: React.FC<CommentDetailsDialogProps> = ({
               </div>
               <div className="flex items-center gap-1 text-gray-500">
                 <span className="text-gray-300">•</span>
-                <span className="text-xs">{formatTimestamp(comment.commented_at, true)}</span>
+                <span className="text-xs">
+                  {formatTimestamp(comment.commented_at, true)}
+                </span>
               </div>
             </div>
           </div>
