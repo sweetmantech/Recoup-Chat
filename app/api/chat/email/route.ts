@@ -1,68 +1,92 @@
 import { NextRequest } from "next/server";
-import https from "https";
+import sendEmail from "@/lib/email/sendEmail";
+import generateText from "@/lib/ai/generateText";
 
 // Type for AWS SNS POST payload
 interface SnsPayload {
-  Type: "SubscriptionConfirmation" | "Notification" | string;
-  SubscribeURL?: string;
-  Message?: string;
+  mail?: {
+    source?: string;
+    messageId?: string;
+    commonHeaders?: {
+      subject?: string;
+    };
+  };
+  content?: string;
   [key: string]: unknown;
-}
-
-function confirmSnsSubscription(subscribeUrl: string): Promise<number> {
-  return new Promise((resolve, reject) => {
-    https
-      .get(subscribeUrl, (res) => {
-        resolve(res.statusCode || 0);
-      })
-      .on("error", (e) => {
-        reject(e);
-      });
-  });
 }
 
 export async function POST(req: NextRequest) {
   try {
     const body = (await req.json()) as SnsPayload;
+    console.log("Received SNS email notification:", body);
+    const parsedMessage = body.mail ?? { source: "noreply@example.com" };
+    const recipient = parsedMessage.source;
+    const messageId = parsedMessage.messageId;
+    const originalSubject = parsedMessage.commonHeaders?.subject;
+    const subject = originalSubject?.startsWith("Re:")
+      ? originalSubject
+      : `Re: ${originalSubject}`;
 
-    if (body.Type === "SubscriptionConfirmation" && body.SubscribeURL) {
+    // Decode the email body from base64 if present
+    let decodedBody = "";
+    if (body.content) {
       try {
-        const status = await confirmSnsSubscription(body.SubscribeURL);
-        const ok = status >= 200 && status < 300;
-        return new Response(
-          JSON.stringify({
-            message: ok
-              ? "Subscription confirmed"
-              : "Failed to confirm subscription",
-            status,
-          }),
-          {
-            status: ok ? 200 : 500,
-            headers: { "Content-Type": "application/json" },
-          }
-        );
+        decodedBody = Buffer.from(body.content, "base64").toString("utf-8");
       } catch (e) {
-        console.error("Error confirming SNS subscription:", e);
-        return new Response(
-          JSON.stringify({ error: e instanceof Error ? e.message : String(e) }),
-          { status: 500, headers: { "Content-Type": "application/json" } }
-        );
+        console.error("Failed to decode base64 email content:", e);
       }
     }
 
-    if (body.Type === "Notification") {
-      // TODO: Process the email data here
-      console.log("Received SNS email notification:", body.Message);
-      return new Response(
-        JSON.stringify({ message: "Notification received" }),
-        { status: 200, headers: { "Content-Type": "application/json" } }
-      );
+    // Generate the auto-reply text using generateText
+    const system = `write a simple auto response email for inbound musician management request. 
+    from the company Recoup. 
+    only include the email body. 
+    If there's an original email, be sure to reference it in the response to show that you've read it and understand the request.
+    no headers or subject`;
+
+    const prompt = decodedBody ? `original email: ${decodedBody}` : "hi";
+    let text;
+    try {
+      const generated = await generateText({
+        system,
+        prompt,
+      });
+      text = generated.text;
+      console.log("Text:", text);
+    } catch (e) {
+      console.error("Failed to generate auto-reply text:", e);
     }
-    // Fallback for other message types
-    return new Response(JSON.stringify({ message: "Message received" }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+
+    try {
+      const emailResponse = await sendEmail({
+        from: "Recoup <hi@recoupable.com>",
+        to: [recipient || ""],
+        subject,
+        text,
+        headers: {
+          "In-Reply-To": messageId || "",
+          References: messageId || "",
+        },
+      });
+      if (
+        emailResponse &&
+        typeof emailResponse !== "string" &&
+        "json" in emailResponse
+      ) {
+        console.log("Auto-reply sent:", await emailResponse.json());
+      } else {
+        console.log("Auto-reply sent (no response body)");
+      }
+    } catch (e) {
+      console.error("Failed to send auto-reply:", e);
+    }
+    return new Response(
+      JSON.stringify({
+        message: "Notification received, auto-reply sent",
+        text,
+      }),
+      { status: 200, headers: { "Content-Type": "application/json" } }
+    );
   } catch (error) {
     console.error("Error in /api/chat/email:", error);
     return new Response(
