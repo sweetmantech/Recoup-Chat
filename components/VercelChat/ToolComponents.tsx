@@ -27,6 +27,7 @@ import { GetSpotifyPlayButtonClickedResult } from "@/lib/supabase/getSpotifyPlay
 import GetVideoGameCampaignPlaysResultComponent from "./tools/GetVideoGameCampaignPlaysResult";
 import { CommentsResult } from "@/components/ui/CommentsResult";
 import { CommentsResultData } from "@/types/Comment";
+import CommentsResultSkeleton from "../ui/CommentsResultSkeleton";
 
 /**
  * Interface for tool call props
@@ -84,11 +85,20 @@ export function getToolCallComponent({ toolName, toolCallId }: ToolInvocation) {
         <DeleteArtistToolCall />
       </div>
     );
+  } else if (toolName === "get_post_comments") {
+    return (
+      <div key={toolCallId}>
+        <CommentsResultSkeleton />
+      </div>
+    );
   }
 
   // Default for other tools
   return (
-    <div key={toolCallId} className="flex items-center gap-1 py-1 px-2 bg-primary/5 rounded-sm border w-fit text-xs">
+    <div
+      key={toolCallId}
+      className="flex items-center gap-1 py-1 px-2 bg-primary/5 rounded-sm border w-fit text-xs"
+    >
       <Loader className="h-3 w-3 animate-spin text-primary" />
       <span>Using {getDisplayToolName(toolName)}</span>
     </div>
@@ -170,7 +180,15 @@ export function getToolResultComponent({
   }
 
   // Default generic result for other tools
-  return <GenericSuccess name={getDisplayToolName(toolName)} message={(result as { message?: string }).message ?? getToolInfo(toolName).message} />;
+  return (
+    <GenericSuccess
+      name={getDisplayToolName(toolName)}
+      message={
+        (result as { message?: string }).message ??
+        getToolInfo(toolName).message
+      }
+    />
+  );
 }
 
 /**
