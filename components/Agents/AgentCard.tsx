@@ -6,7 +6,6 @@ interface Agent {
   prompt: string;
   tags?: string[];
   status?: string;
-  isActive: boolean;
 }
 
 interface AgentCardProps {
