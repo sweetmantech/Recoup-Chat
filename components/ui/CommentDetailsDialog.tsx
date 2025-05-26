@@ -50,11 +50,8 @@ const CommentDetailsDialog: React.FC<CommentDetailsDialogProps> = ({
           </DialogDescription>
         </DialogHeader>
 
-        {/* Comment content - redesigned for clarity and focus */}
         <div className="space-y-3 my-1">
-          {/* User header - more compact */}
           <div className="flex items-center space-x-2">
-            {/* Avatar with consistent fallback */}
             <div className="h-10 w-10 rounded-full overflow-hidden flex-shrink-0 border border-gray-100">
               {comment.avatar ? (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -91,23 +88,18 @@ const CommentDetailsDialog: React.FC<CommentDetailsDialogProps> = ({
                     {formatFollowerCount(comment.follower_count)} followers
                   </span>
                 )}
-                {/* <span className="text-gray-300">•</span>
-                <span>{formatTimestamp(comment.commented_at, true)}</span> */}
               </div>
             </div>
           </div>
 
-          {/* Bio - condensed if present */}
           {comment.bio && (
             <p className="text-xs text-gray-500 italic">{comment.bio}</p>
           )}
 
-          {/* Comment text - highlighted for focus */}
           <div className="rounded-xl border-blue-100">
             <p className="p-3 pl-1 rounded-xl rounded-bl-none bg-gradient-to-br from-blue-100 to-blue-200 text-gray-800 font-normal whitespace-pre-wrap text-sm font-inter">
               {comment.comment}
             </p>
-            {/* Instagram-like engagement indicators */}
             <div className="flex items-center gap-2 pt-2">
               <div className="flex items-center gap-1 text-gray-500">
                 <Heart className="h-3 w-3" />
@@ -126,13 +118,6 @@ const CommentDetailsDialog: React.FC<CommentDetailsDialogProps> = ({
               </div>
             </div>
           </div>
-          {/* 
-          <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500 pt-1">
-            <div className="flex items-center gap-1">
-              <span className="text-gray-400">Posted:</span>
-              <span>{format(new Date(comment.commented_at), "PPP")}</span>
-            </div>
-          </div> */}
 
           <div className="pt-2 flex flex-wrap gap-2">
             <Link
@@ -166,7 +151,6 @@ const CommentDetailsDialog: React.FC<CommentDetailsDialogProps> = ({
           </div>
         </div>
 
-        {/* Navigation - more compact */}
         <div className="flex justify-between items-center border-t pt-3">
           <Button
             variant="outline"
