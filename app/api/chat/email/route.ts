@@ -22,10 +22,7 @@ export async function POST(req: NextRequest) {
     const parsedMessage = body.mail ?? { source: "noreply@example.com" };
     const recipient = parsedMessage.source;
     const messageId = parsedMessage.messageId;
-    const originalSubject = parsedMessage.commonHeaders?.subject;
-    const subject = originalSubject?.startsWith("Re:")
-      ? originalSubject
-      : `Re: ${originalSubject}`;
+    const subject = parsedMessage.commonHeaders?.subject || "";
 
     // Decode the email body from base64 if present
     let decodedBody = "";
