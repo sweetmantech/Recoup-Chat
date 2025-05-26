@@ -45,7 +45,8 @@ const Agents = () => {
         Agents
       </p>
       <p className="text-base md:text-lg text-gray-400 text-center md:text-left mb-4 font-light font-inter">
-        Unlock the potential of your roster with intelligent, task-focused agents.
+        <span className="sm:hidden">Smarter label teams, powered by agents.</span>
+        <span className="hidden sm:inline">Unlock the potential of your roster with intelligent, task-focused agents.</span>
       </p>
       <div className="mt-2">
         <AgentTags
@@ -70,9 +71,9 @@ const Agents = () => {
               key={agent.title}
               agent={agent}
               onClick={
-                agent.title === "Fan Segmentation Analysis"
+                agent.title === "Audience Segmentation"
                   ? () => handleClick("wrapped")
-                  : handleAgentClick
+                  : () => handleAgentClick(agent)
               }
             />
           ))}
