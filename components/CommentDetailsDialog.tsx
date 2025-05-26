@@ -11,6 +11,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { CommentDetailsDialogProps } from "@/types/Comment";
 import { toast } from "react-toastify";
+import { 
+  User, 
+  BarChart, 
+  Copy, 
+  ChevronLeft, 
+  ChevronRight 
+} from "lucide-react";
 
 // Helper functions for formatting
 const formatFollowerCount = (count: number | null): string => {
@@ -135,19 +142,7 @@ const CommentDetailsDialog: React.FC<CommentDetailsDialogProps> = ({
               rel="noopener noreferrer"
               className="text-xs bg-gray-50 hover:bg-gray-100 text-gray-700 px-2 py-1 rounded-xl inline-flex items-center gap-1 transition-colors border border-gray-200"
             >
-              <svg
-                className="h-3 w-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
-              </svg>
+              <User className="h-3 w-3" />
               Profile
             </a>
             <a
@@ -156,19 +151,7 @@ const CommentDetailsDialog: React.FC<CommentDetailsDialogProps> = ({
               rel="noopener noreferrer"
               className="text-xs bg-gray-50 hover:bg-gray-100 text-gray-700 px-2 py-1 rounded-xl inline-flex items-center gap-1 transition-colors border border-gray-200"
             >
-              <svg
-                className="h-3 w-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                />
-              </svg>
+              <BarChart className="h-3 w-3" />
               Post
             </a>
             <button
@@ -178,19 +161,7 @@ const CommentDetailsDialog: React.FC<CommentDetailsDialogProps> = ({
               }}
               className="text-xs bg-gray-50 hover:bg-gray-100 text-gray-700 px-2 py-1 rounded-xl inline-flex items-center gap-1 transition-colors border border-gray-200"
             >
-              <svg
-                className="h-3 w-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
-                />
-              </svg>
+              <Copy className="h-3 w-3" />
               Copy
             </button>
           </div>
@@ -205,7 +176,7 @@ const CommentDetailsDialog: React.FC<CommentDetailsDialogProps> = ({
             disabled={currentIndex === 0}
             className="rounded-xl text-xs h-8 px-2"
           >
-            ← Previous
+            <ChevronLeft className="h-3 w-3 mr-1" /> Previous
           </Button>
 
           <DialogClose asChild>
@@ -225,7 +196,7 @@ const CommentDetailsDialog: React.FC<CommentDetailsDialogProps> = ({
             disabled={currentIndex === totalComments - 1}
             className="rounded-xl text-xs h-8 px-2"
           >
-            Next →
+            Next <ChevronRight className="h-3 w-3 ml-1" />
           </Button>
         </div>
       </DialogContent>
