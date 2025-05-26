@@ -25,7 +25,7 @@ import GenericSuccess from "./tools/GenericSuccess";
 import getToolInfo from "@/lib/utils/getToolsInfo";
 import { GetSpotifyPlayButtonClickedResult } from "@/lib/supabase/getSpotifyPlayButtonClicked";
 import GetVideoGameCampaignPlaysResultComponent from "./tools/GetVideoGameCampaignPlaysResult";
-import { CommentsResult } from "@/components/CommentsResult";
+import { CommentsResult } from "@/components/ui/CommentsResult";
 import { CommentsResultData } from "@/types/Comment";
 
 /**
