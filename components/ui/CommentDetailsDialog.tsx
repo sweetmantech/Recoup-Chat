@@ -1,5 +1,4 @@
 import React from "react";
-import { formatDistanceToNow, format } from "date-fns";
 import {
   Dialog,
   DialogContent,
@@ -22,25 +21,7 @@ import {
   Send,
 } from "lucide-react";
 import Link from "next/link";
-
-// Helper functions for formatting
-const formatFollowerCount = (count: number | null): string => {
-  if (count === null) return "-";
-  if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
-  if (count >= 1000) return `${(count / 1000).toFixed(1)}K`;
-  return count.toString();
-};
-
-const formatTimestamp = (timestamp: string, short = false): string => {
-  try {
-    if (short) {
-      return formatDistanceToNow(new Date(timestamp), { addSuffix: true });
-    }
-    return `${formatDistanceToNow(new Date(timestamp), { addSuffix: true })} (${format(new Date(timestamp), "PPP")})`;
-  } catch {
-    return "Recently";
-  }
-};
+import { formatFollowerCount, formatTimestamp } from "@/lib/utils/formatters";
 
 const CommentDetailsDialog: React.FC<CommentDetailsDialogProps> = ({
   comment,
