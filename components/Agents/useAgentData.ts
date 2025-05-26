@@ -8,18 +8,6 @@ export interface Agent {
   tags?: string[];
 }
 
-const CORE_TAGS = [
-  "Recommended",
-  "Brand",
-  "Growth",
-  "Revenue",
-  "Strategy",
-  "Social",
-  "Spotify",
-  "Sentiment",
-  "Creative"
-];
-
 export function useAgentData() {
   const [agents, setAgents] = useState<Agent[]>([]);
   const [selectedTag, setSelectedTag] = useState("Recommended");
@@ -46,17 +34,14 @@ export function useAgentData() {
       });
   }, []);
 
-  const coreTags = tags.filter(tag => CORE_TAGS.includes(tag));
-  const extraTags = tags.filter(tag => !CORE_TAGS.includes(tag));
-
-  // Find the special "Fan Segmentation Analysis" agent (always shown first if present)
+  // Find the special "Audience Segmentation" agent (always shown first if present)
   const funnelAgent = agents.find(
-    (agent) => agent.title === "Fan Segmentation Analysis"
+    (agent) => agent.title === "Audience Segmentation"
   );
   // Get all agents except the special card, filtered by the selected tag
   const filteredAgents = agents.filter(
     (agent) =>
-      agent.title !== "Fan Segmentation Analysis" &&
+      agent.title !== "Audience Segmentation" &&
       (selectedTag === "Recommended" ? true : agent.tags?.includes(selectedTag))
   );
   // Combine the special card (if present) with the filtered agents for display
@@ -66,16 +51,12 @@ export function useAgentData() {
   ];
 
   return {
-    agents,
     tags,
     selectedTag,
     setSelectedTag,
     loading,
     showAllTags,
     setShowAllTags,
-    coreTags,
-    extraTags,
     gridAgents,
-    filteredAgents,
   };
 } 

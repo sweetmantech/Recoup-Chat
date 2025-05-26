@@ -21,7 +21,7 @@ const AgentCard: React.FC<AgentCardProps> = ({ agent, onClick }) => (
     onClick={() => onClick(agent)}
   >
     <div className="text-lg mb-1 font-medium">{agent.title}</div>
-    <div className="text-gray-400 text-sm">{agent.description}</div>
+    <div className="text-gray-400 text-sm font-normal font-inter">{agent.description}</div>
   </button>
 );
 

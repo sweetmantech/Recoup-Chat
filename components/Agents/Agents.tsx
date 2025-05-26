@@ -41,22 +41,23 @@ const Agents = () => {
 
   return (
     <div className="max-w-full md:max-w-[calc(100vw-200px)] grow py-6 px-2 md:px-10">
-      <p className="text-center md:text-left font-plus_jakarta_sans_bold text-3xl">
+      <p className="text-center md:text-left font-plus_jakarta_sans_bold text-3xl mb-3">
         Agents
       </p>
-      <p className="text-base md:text-lg text-gray-400 text-center md:text-left mb-6 font-normal">
+      <p className="text-base md:text-lg text-gray-400 text-center md:text-left mb-4 font-light font-inter">
         Unlock the potential of your roster with intelligent, task-focused agents.
       </p>
-      <AgentTags
-        tags={tags}
-        coreTags={coreTags}
-        extraTags={extraTags}
-        selectedTag={selectedTag}
-        setSelectedTag={setSelectedTag}
-        showAllTags={showAllTags}
-        setShowAllTags={setShowAllTags}
-      />
-      <div className="border-b border-gray-100 mb-8" />
+      <div className="mt-2">
+        <AgentTags
+          tags={tags}
+          coreTags={coreTags}
+          extraTags={extraTags}
+          selectedTag={selectedTag}
+          setSelectedTag={setSelectedTag}
+          showAllTags={showAllTags}
+          setShowAllTags={setShowAllTags}
+        />
+      </div>
       <div className="mt-16" />
       {loading ? (
         <div className="text-center text-gray-400">Loading agents...</div>
