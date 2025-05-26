@@ -25,6 +25,8 @@ import GenericSuccess from "./tools/GenericSuccess";
 import getToolInfo from "@/lib/utils/getToolsInfo";
 import { GetSpotifyPlayButtonClickedResult } from "@/lib/supabase/getSpotifyPlayButtonClicked";
 import GetVideoGameCampaignPlaysResultComponent from "./tools/GetVideoGameCampaignPlaysResult";
+import { CommentsResult } from "@/components/CommentsResult";
+import { CommentsResultData } from "@/types/Comment";
 
 /**
  * Interface for tool call props
@@ -43,6 +45,7 @@ type ToolResult =
   | CreateArtistResult
   | DeleteArtistResult
   | GetSpotifyPlayButtonClickedResult
+  | CommentsResultData
   | Record<string, unknown>;
 
 /**
@@ -156,6 +159,12 @@ export function getToolResultComponent({
         <GetVideoGameCampaignPlaysResultComponent
           result={result as GetSpotifyPlayButtonClickedResult}
         />
+      </div>
+    );
+  } else if (toolName === "get_post_comments") {
+    return (
+      <div key={toolCallId}>
+        <CommentsResult result={result as CommentsResultData} />
       </div>
     );
   }
