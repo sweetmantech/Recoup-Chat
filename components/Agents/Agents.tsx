@@ -14,8 +14,6 @@ const Agents = () => {
   const { setIsLoading } = useFunnelAnalysisProvider();
   const {
     tags,
-    coreTags,
-    extraTags,
     selectedTag,
     setSelectedTag,
     loading,
@@ -51,8 +49,6 @@ const Agents = () => {
       <div className="mt-2">
         <AgentTags
           tags={tags}
-          coreTags={coreTags}
-          extraTags={extraTags}
           selectedTag={selectedTag}
           setSelectedTag={setSelectedTag}
           showAllTags={showAllTags}
