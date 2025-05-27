@@ -1,5 +1,5 @@
-import { ImageSkeleton } from "@/components/ui/ImageSkeleton";
-import { ImageResult } from "@/components/ui/ImageResult";
+import { ImageSkeleton } from "@/components/VercelChat/tools/image/ImageSkeleton";
+import { ImageResult } from "@/components/VercelChat/tools/image/ImageResult";
 import { ImageGenerationResult } from "@/lib/tools/generateImage";
 import MermaidDiagram from "../Chat/mermaid/MermaidDiagram";
 import { GenerateMermaidDiagramResult } from "@/lib/tools/generateMermaidDiagram";
