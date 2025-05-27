@@ -8,7 +8,7 @@ import insertSocial from "@/lib/supabase/socials/insertSocial";
 import getSocialByProfileUrl from "@/lib/supabase/socials/getSocialByProfileUrl";
 import getAccountSocials, {
   AccountSocialWithSocial,
-} from "@/lib/supabase/socialPosts/getAccountSocials";
+} from "@/lib/supabase/accountSocials/getAccountSocials";
 import insertSocialPosts from "@/lib/supabase/socialPosts/insertSocialPosts";
 
 /**

@@ -2,7 +2,7 @@ import getSocialPlatformByLink from "../getSocialPlatformByLink";
 import getUserNameByProfileLink from "../getUserNameByProfileLink";
 import getAccountSocials, {
   AccountSocialWithSocial,
-} from "./socialPosts/getAccountSocials";
+} from "./accountSocials/getAccountSocials";
 import deleteAccountSocial from "./accountSocials/deleteAccountSocial";
 import insertAccountSocial from "./accountSocials/insertAccountSocial";
 import getSocialByProfileUrl from "./socials/getSocialByProfileUrl";
@@ -12,8 +12,9 @@ const updateArtistSocials = async (
   artistId: string,
   profileUrls: Record<string, string>
 ): Promise<AccountSocialWithSocial[]> => {
-  const account_socials: AccountSocialWithSocial[] =
-    await getAccountSocials({ accountId: artistId });
+  const account_socials: AccountSocialWithSocial[] = await getAccountSocials({
+    accountId: artistId,
+  });
 
   const profilePromises = Object.entries(profileUrls).map(
     async ([type, value]) => {
