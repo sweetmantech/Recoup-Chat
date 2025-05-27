@@ -6,7 +6,10 @@ import apifyPayloadSchema from "@/lib/apify/apifyPayloadSchema";
 import { z } from "zod";
 import insertSocial from "@/lib/supabase/socials/insertSocial";
 import getSocialByProfileUrl from "@/lib/supabase/socials/getSocialByProfileUrl";
-import getAccountSocials, { AccountSocialWithSocial } from "@/lib/supabase/socialPosts/getAccountSocials";
+import getAccountSocials, {
+  AccountSocialWithSocial,
+} from "@/lib/supabase/socialPosts/getAccountSocials";
+import insertSocialPosts from "@/lib/supabase/socialPosts/insertSocialPosts";
 
 /**
  * Handles the Apify webhook payload: fetches dataset, saves posts, saves socials, and returns results.
@@ -40,7 +43,17 @@ export default async function handleApifyWebhook(
           followingCount: firstResult.followsCount,
         });
         const social = await getSocialByProfileUrl(firstResult.url);
-        if (social) supabaseSocials.push(social);
+        if (social) {
+          supabaseSocials.push(social);
+          if (supabasePosts.length) {
+            const socialPostRows = supabasePosts.map((post) => ({
+              post_id: post.id,
+              updated_at: post.updated_at,
+              social_id: social.id,
+            }));
+            await insertSocialPosts(socialPostRows);
+          }
+        }
       }
     } catch (e) {
       console.error("Failed to handle Apify webhook:", e);
