@@ -1,6 +1,6 @@
 import React from 'react';
-import { Heart, MessageCircle, Send } from 'lucide-react';
-import { formatTimestamp } from '@/lib/utils/formatters';
+import { Heart, MessageCircle, Send } from "lucide-react";
+import formatTimestamp from "@/lib/utils/formatTimestamp";
 
 interface CommentSocialIndicatorsProps {
   timestamp: string;

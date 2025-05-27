@@ -1,15 +1,15 @@
 import React from "react";
 import { Comment } from "@/types/Comment";
-import { formatFollowerCount } from "@/lib/utils/formatters";
+import formatFollowerCount from "@/lib/utils/formatFollowerCount";
 import CommentSocialIndicators from "./CommentSocialIndicators";
 
 interface CommentDetailsDialogCommentProps {
   comment: Comment;
 }
 
-const CommentDetailsDialogComment: React.FC<CommentDetailsDialogCommentProps> = ({
-  comment,
-}) => {
+const CommentDetailsDialogComment: React.FC<
+  CommentDetailsDialogCommentProps
+> = ({ comment }) => {
   const initials = comment.username.slice(0, 2).toUpperCase();
 
   return (
@@ -68,7 +68,7 @@ const CommentDetailsDialogComment: React.FC<CommentDetailsDialogCommentProps> = 
         <p className="p-3 pl-1 rounded-xl rounded-bl-none bg-gradient-to-br from-blue-100 to-blue-200 text-gray-800 font-normal whitespace-pre-wrap text-sm font-inter">
           {comment.comment}
         </p>
-        
+
         {/* Social media indicators */}
         <CommentSocialIndicators timestamp={comment.commented_at} />
       </div>
@@ -76,4 +76,4 @@ const CommentDetailsDialogComment: React.FC<CommentDetailsDialogCommentProps> = 
   );
 };
 
-export default CommentDetailsDialogComment; 
+export default CommentDetailsDialogComment;
