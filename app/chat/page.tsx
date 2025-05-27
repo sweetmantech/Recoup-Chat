@@ -10,9 +10,7 @@ interface ChatPageProps {
 
 export default async function ChatPage({ searchParams }: ChatPageProps) {
   const id = generateUUID();
-  const params = await searchParams;
-  // Use only 'q' for the initial message, regardless of source (agent or user).
-  const initialMessage = params?.q as string;
+  const initialMessage = (await searchParams)?.q as string;
   const initialMessages = getMessages(initialMessage);
 
   return (
