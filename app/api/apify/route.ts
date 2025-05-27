@@ -1,17 +1,6 @@
 import { NextRequest } from "next/server";
-import { z } from "zod";
-import getDataset from "@/lib/apify/getDataset";
-
-// Payload schema for Apify webhook
-const apifyPayloadSchema = z.object({
-  userId: z.any(),
-  createdAt: z.any(),
-  eventType: z.any(),
-  eventData: z.any(),
-  resource: z.object({
-    defaultDatasetId: z.string(),
-  }),
-});
+import handleApifyWebhook from "@/lib/apify/handleApifyWebhook";
+import apifyPayloadSchema from "@/lib/apify/apifyPayloadSchema";
 
 /**
  * API endpoint for Apify webhooks.
@@ -23,21 +12,12 @@ export async function POST(req: NextRequest) {
     // Optionally validate the payload shape
     const parsed = apifyPayloadSchema.safeParse(body);
     console.log("Received Apify webhook:", parsed);
-    if (!parsed.success) {
-      // Optionally log or handle invalid payloads
-      // console.warn("Invalid Apify payload", parsed.error);
+
+    if (parsed.success) {
+      const result = await handleApifyWebhook(parsed.data);
+      console.log("handleApifyWebhook result:", result);
     }
-    // If datasetId is present, call getDataset
-    const datasetId = parsed.data?.resource?.defaultDatasetId;
-    let dataset = null;
-    if (datasetId) {
-      try {
-        dataset = await getDataset(datasetId);
-        console.log("Fetched dataset from Apify:", dataset);
-      } catch (e) {
-        console.error("Failed to fetch dataset from Apify:", e);
-      }
-    }
+
     return new Response(JSON.stringify({ message: "Apify webhook received" }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
