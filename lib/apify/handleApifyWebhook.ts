@@ -44,6 +44,7 @@ export default async function handleApifyWebhook(
           if (supabasePosts.length) {
             const socialPostRows = supabasePosts.map((post) => ({
               post_id: post.id,
+              updated_at: post.updated_at,
               social_id: social.id,
             }));
             await insertSocialPosts(socialPostRows);
