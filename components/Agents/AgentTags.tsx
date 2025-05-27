@@ -2,8 +2,6 @@ import type React from "react";
 
 interface AgentTagsProps {
   tags: string[];
-  coreTags: string[];
-  extraTags: string[];
   selectedTag: string;
   setSelectedTag: (tag: string) => void;
   showAllTags: boolean;
