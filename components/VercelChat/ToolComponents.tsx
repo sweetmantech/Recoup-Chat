@@ -25,9 +25,9 @@ import GenericSuccess from "./tools/GenericSuccess";
 import getToolInfo from "@/lib/utils/getToolsInfo";
 import { GetSpotifyPlayButtonClickedResult } from "@/lib/supabase/getSpotifyPlayButtonClicked";
 import GetVideoGameCampaignPlaysResultComponent from "./tools/GetVideoGameCampaignPlaysResult";
-import { CommentsResult } from "@/components/ui/CommentsResult";
+import { CommentsResult } from "@/components/Chat/comments/CommentsResult";
 import { CommentsResultData } from "@/types/Comment";
-import CommentsResultSkeleton from "../ui/CommentsResultSkeleton";
+import CommentsResultSkeleton from "@/components/Chat/comments/CommentsResultSkeleton";
 
 /**
  * Interface for tool call props
